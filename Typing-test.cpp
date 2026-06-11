@@ -10,6 +10,8 @@
 #include <chrono>
 #include <ctime>
 
+using namespace std;
+
 // ─── Constants ───────────────────────────────────────────────────────────────
 const int MAX_NAME      = 30;
 const int MAX_WORDS     = 200;
@@ -233,7 +235,7 @@ void evaluate_input(
 //   username,gross_wpm,net_wpm,accuracy,time_mode
 // Returns number of entries parsed.
 int load_leaderboard(PlayerSession* entries, int max_entries) {
-    std::ifstream fin("leaderboard.txt");
+    ifstream fin("leaderboard.txt");
     if (!fin.is_open()) return 0;
 
     int count = 0;
@@ -285,9 +287,9 @@ int load_leaderboard(PlayerSession* entries, int max_entries) {
 
 // ─── Write Leaderboard ────────────────────────────────────────────────────────
 void save_leaderboard(const PlayerSession* entries, int count) {
-    std::ofstream fout("leaderboard.txt");
+    ofstream fout("leaderboard.txt");
     if (!fout.is_open()) {
-        std::cout << "[Warning] Could not write leaderboard.txt\n";
+        cout << "[Warning] Could not write leaderboard.txt\n";
         return;
     }
     char buf[50];
@@ -330,12 +332,12 @@ int personal_best(const PlayerSession* entries, int count, const char* username)
 
 // ─── Display Top-10 Leaderboard ───────────────────────────────────────────────
 void display_leaderboard(const PlayerSession* entries, int count, const char* highlight) {
-    std::cout << "\n";
-    std::cout << "  ╔══════════════════════════════════════════════════════════╗\n";
-    std::cout << "  ║              🏆  GLOBAL LEADERBOARD  🏆                  ║\n";
-    std::cout << "  ╠══════╦══════════════════════╦══════╦════════╦══════════╣\n";
-    std::cout << "  ║ Rank ║ Username             ║ NWPM ║   Acc  ║ Time     ║\n";
-    std::cout << "  ╠══════╬══════════════════════╬══════╬════════╬══════════╣\n";
+    cout << "\n";
+    cout << "  ╔══════════════════════════════════════════════════════════╗\n";
+    cout << "  ║              🏆  GLOBAL LEADERBOARD  🏆                  ║\n";
+    cout << "  ╠══════╦══════════════════════╦══════╦════════╦══════════╣\n";
+    cout << "  ║ Rank ║ Username             ║ NWPM ║   Acc  ║ Time     ║\n";
+    cout << "  ╠══════╬══════════════════════╬══════╬════════╬══════════╣\n";
 
     int top = count < 10 ? count : 10;
     for (int i = 0; i < top; i++) {
@@ -358,39 +360,39 @@ void display_leaderboard(const PlayerSession* entries, int count, const char* hi
         while (k < 20) { uname[k++] = ' '; }
         uname[20] = '\0';
 
-        if (is_current) std::cout << "  ║";
-        else            std::cout << "  ║";
+        if (is_current) cout << "  ║";
+        else            cout << "  ║";
 
         // rank (4 chars)
-        std::cout << "  " << (i < 9 ? " " : "") << rank_buf << "  ║ ";
-        std::cout << uname << " ║ ";
+        cout << "  " << (i < 9 ? " " : "") << rank_buf << "  ║ ";
+        cout << uname << " ║ ";
         // wpm (4 chars right-aligned)
         int wl = ptr_len(wpm_buf);
-        while (wl++ < 4) std::cout << ' ';
-        std::cout << wpm_buf << " ║ ";
+        while (wl++ < 4) cout << ' ';
+        cout << wpm_buf << " ║ ";
         // acc (6 chars)
         int al = ptr_len(acc_buf);
-        while (al++ < 6) std::cout << ' ';
-        std::cout << acc_buf << " ║ ";
+        while (al++ < 6) cout << ' ';
+        cout << acc_buf << " ║ ";
         // time
-        std::cout << time_buf << "s      ║";
+        cout << time_buf << "s      ║";
 
-        if (is_current) std::cout << " ◄ YOU";
-        std::cout << "\n";
+        if (is_current) cout << " ◄ YOU";
+        cout << "\n";
     }
-    std::cout << "  ╚══════╩══════════════════════╩══════╩════════╩══════════╝\n";
+    cout << "  ╚══════╩══════════════════════╩══════╩════════╩══════════╝\n";
 }
 
 // ─── Clear terminal (portable-ish) ───────────────────────────────────────────
 void clear_screen() {
     // ANSI escape — works on Linux, macOS, Windows Terminal
-    std::cout << "\033[2J\033[H";
+    cout << "\033[2J\033[H";
 }
 
 // ─── Draw ASCII banner ────────────────────────────────────────────────────────
 void draw_banner() {
-    std::cout << "\033[1;36m"; // bold cyan
-    std::cout << R"(
+    cout << "\033[1;36m"; // bold cyan
+    cout << R"(
   ████████╗██╗   ██╗██████╗ ███████╗███╗   ███╗ █████╗ ███████╗████████╗███████╗██████╗
      ██╔══╝╚██╗ ██╔╝██╔══██╗██╔════╝████╗ ████║██╔══██╗██╔════╝╚══██╔══╝██╔════╝██╔══██╗
      ██║    ╚████╔╝ ██████╔╝█████╗  ██╔████╔██║███████║███████╗   ██║   █████╗  ██████╔╝
@@ -403,26 +405,26 @@ void draw_banner() {
 
 // ─── Print coloured paragraph preview (first 200 chars) ──────────────────────
 void preview_text(const char* text) {
-    std::cout << "\033[0;37m  ┌─────────────────────────────────────────────────────────────────┐\n  │ ";
+    cout << "\033[0;37m  ┌─────────────────────────────────────────────────────────────────┐\n  │ ";
     int i = 0;
     while (text[i] != '\0' && i < 200) {
-        std::cout << text[i];
+        cout << text[i];
         i++;
     }
-    if (text[i] != '\0') std::cout << "...";
-    std::cout << "\n  └─────────────────────────────────────────────────────────────────┘\033[0m\n";
+    if (text[i] != '\0') cout << "...";
+    cout << "\n  └─────────────────────────────────────────────────────────────────┘\033[0m\n";
 }
 
 // ─── Countdown display ────────────────────────────────────────────────────────
 void countdown(int secs) {
     for (int i = secs; i >= 1; i--) {
-        std::cout << "\r  \033[1;33mStarting in " << i << "...\033[0m  " << std::flush;
+        cout << "\r  \033[1;33mStarting in " << i << "...\033[0m  " << flush;
         // busy-wait 1 second
-        auto t0 = std::chrono::steady_clock::now();
-        while (std::chrono::duration_cast<std::chrono::seconds>(
-            std::chrono::steady_clock::now() - t0).count() < 1) {}
+        auto t0 = chrono::steady_clock::now();
+        while (chrono::duration_cast<chrono::seconds>(
+            chrono::steady_clock::now() - t0).count() < 1) {}
     }
-    std::cout << "\r  \033[1;32mGO! Start typing now.          \033[0m\n\n";
+    cout << "\r  \033[1;32mGO! Start typing now.          \033[0m\n\n";
 }
 
 // ─── Main Game Loop ───────────────────────────────────────────────────────────
@@ -430,33 +432,33 @@ PlayerSession run_game(const char* username, int mode_idx, int time_limit) {
     clear_screen();
     const char* source = TEXT_ASSETS[mode_idx];
 
-    std::cout << "\033[1;35m\n  ══ " << MODE_NAMES[mode_idx] << " Mode │ "
+    cout << "\033[1;35m\n  ══ " << MODE_NAMES[mode_idx] << " Mode │ "
               << time_limit << "s ══\033[0m\n\n";
-    std::cout << "  Type the following text as accurately and quickly as you can.\n"
+    cout << "  Type the following text as accurately and quickly as you can.\n"
               << "  When time is up, press ENTER to submit.\n\n";
     preview_text(source);
-    std::cout << "\n  Press ENTER when you are ready...\n";
+    cout << "\n  Press ENTER when you are ready...\n";
 
     // Flush any lingering input then wait for ENTER
-    std::cin.ignore(1000, '\n');
+    cin.ignore(1000, '\n');
 
     countdown(3);
 
-    std::cout << "  \033[1;37m▶  ";
+    cout << "  \033[1;37m▶  ";
 
     // ── Record start time ────
-    auto start = std::chrono::steady_clock::now();
+    auto start = chrono::steady_clock::now();
 
     // ── Capture input ────────
     // We use a fixed-size raw char buffer; cin.getline does the heavy lifting.
     char input_buf[INPUT_BUF];
     for (int i = 0; i < INPUT_BUF; i++) input_buf[i] = '\0';
 
-    std::cin.getline(input_buf, INPUT_BUF);
+    cin.getline(input_buf, INPUT_BUF);
 
     // ── Record end time ──────
-    auto end = std::chrono::steady_clock::now();
-    float elapsed_seconds = std::chrono::duration<float>(end - start).count();
+    auto end = chrono::steady_clock::now();
+    float elapsed_seconds = chrono::duration<float>(end - start).count();
     if (elapsed_seconds < 0.1f) elapsed_seconds = 0.1f; // guard against divide-by-zero
 
     // Clamp elapsed to time_limit
@@ -489,26 +491,26 @@ PlayerSession run_game(const char* username, int mode_idx, int time_limit) {
     // ── Display results ───────
     clear_screen();
     char buf[30];
-    std::cout << "\033[1;36m\n  ══════════════════════════════════\n";
-    std::cout << "        SESSION RESULTS\n";
-    std::cout << "  ══════════════════════════════════\033[0m\n\n";
+    cout << "\033[1;36m\n  ══════════════════════════════════\n";
+    cout << "        SESSION RESULTS\n";
+    cout << "  ══════════════════════════════════\033[0m\n\n";
 
-    std::cout << "  Player    : \033[1;33m" << username << "\033[0m\n";
-    std::cout << "  Mode      : " << MODE_NAMES[mode_idx] << " | " << time_limit << "s\n";
+    cout << "  Player    : \033[1;33m" << username << "\033[0m\n";
+    cout << "  Mode      : " << MODE_NAMES[mode_idx] << " | " << time_limit << "s\n";
 
     float_to_buf(elapsed_seconds, buf, 30);
-    std::cout << "  Time Used : " << buf << "s\n\n";
+    cout << "  Time Used : " << buf << "s\n\n";
 
     int_to_buf(s.gross_wpm, buf, 20);
-    std::cout << "  Gross WPM : \033[1;32m" << buf << "\033[0m\n";
+    cout << "  Gross WPM : \033[1;32m" << buf << "\033[0m\n";
     int_to_buf(s.net_wpm, buf, 20);
-    std::cout << "  Net WPM   : \033[1;32m" << buf << "\033[0m\n";
+    cout << "  Net WPM   : \033[1;32m" << buf << "\033[0m\n";
     float_to_buf(s.accuracy, buf, 20);
-    std::cout << "  Accuracy  : \033[1;32m" << buf << "%\033[0m\n";
+    cout << "  Accuracy  : \033[1;32m" << buf << "%\033[0m\n";
     int_to_buf(uncorrected_errors, buf, 20);
-    std::cout << "  Errors    : " << buf << "\n";
+    cout << "  Errors    : " << buf << "\n";
     int_to_buf(total_typed, buf, 20);
-    std::cout << "  Chars     : " << buf << "\n\n";
+    cout << "  Chars     : " << buf << "\n\n";
 
     return s;
 }
@@ -520,8 +522,8 @@ int main() {
 
     // ── Username Entry ───────────────────────────────────────────────────────
     char username[MAX_NAME];
-    std::cout << "  Enter your username (max 29 chars): ";
-    std::cin.getline(username, MAX_NAME);
+    cout << "  Enter your username (max 29 chars): ";
+    cin.getline(username, MAX_NAME);
 
     // Sanitise: replace commas with underscores (CSV delimiter conflict)
     char* p = username;
@@ -537,27 +539,27 @@ int main() {
     while (!quit) {
         clear_screen();
         draw_banner();
-        std::cout << "  Welcome, \033[1;33m" << username << "\033[0m\n\n";
+        cout << "  Welcome, \033[1;33m" << username << "\033[0m\n\n";
 
         // ── Mode Selection ───────────────────────────────────────────────────
-        std::cout << "  ┌─────────────────────────────────┐\n";
-        std::cout << "  │   SELECT A MODE                 │\n";
-        std::cout << "  ├─────────────────────────────────┤\n";
-        std::cout << "  │  1. Standard  (a-z / A-Z only)  │\n";
-        std::cout << "  │  2. Punctuation                 │\n";
-        std::cout << "  │  3. Numbers                     │\n";
-        std::cout << "  │  4. Quotes                      │\n";
-        std::cout << "  │  5. View Leaderboard            │\n";
-        std::cout << "  │  6. Quit                        │\n";
-        std::cout << "  └─────────────────────────────────┘\n";
-        std::cout << "  Choice: ";
+        cout << "  ┌─────────────────────────────────┐\n";
+        cout << "  │   SELECT A MODE                 │\n";
+        cout << "  ├─────────────────────────────────┤\n";
+        cout << "  │  1. Standard  (a-z / A-Z only)  │\n";
+        cout << "  │  2. Punctuation                 │\n";
+        cout << "  │  3. Numbers                     │\n";
+        cout << "  │  4. Quotes                      │\n";
+        cout << "  │  5. View Leaderboard            │\n";
+        cout << "  │  6. Quit                        │\n";
+        cout << "  └─────────────────────────────────┘\n";
+        cout << "  Choice: ";
 
         char choice_buf[10];
-        std::cin.getline(choice_buf, 10);
+        cin.getline(choice_buf, 10);
         int choice = ptr_atoi(choice_buf);
 
         if (choice == 6) {
-            std::cout << "\n  \033[1;36mThanks for playing TypeMaster CLI. Goodbye!\033[0m\n\n";
+            cout << "\n  \033[1;36mThanks for playing TypeMaster CLI. Goodbye!\033[0m\n\n";
             break;
         }
 
@@ -568,24 +570,24 @@ int main() {
             sort_leaderboard(entries, count);
 
             if (count == 0) {
-                std::cout << "\n  No scores yet. Play a game to appear on the board!\n";
+                cout << "\n  No scores yet. Play a game to appear on the board!\n";
             } else {
                 display_leaderboard(entries, count, username);
                 int pb = personal_best(entries, count, username);
                 if (pb >= 0) {
                     char pb_buf[20];
                     int_to_buf(pb, pb_buf, 20);
-                    std::cout << "\n  Your personal best Net WPM: \033[1;33m" << pb_buf << "\033[0m\n";
+                    cout << "\n  Your personal best Net WPM: \033[1;33m" << pb_buf << "\033[0m\n";
                 }
             }
-            std::cout << "\n  Press ENTER to return to menu...";
-            std::cin.ignore(1000, '\n');
+            cout << "\n  Press ENTER to return to menu...";
+            cin.ignore(1000, '\n');
             continue;
         }
 
         if (choice < 1 || choice > 4) {
-            std::cout << "\n  Invalid choice. Press ENTER to try again.";
-            std::cin.ignore(1000, '\n');
+            cout << "\n  Invalid choice. Press ENTER to try again.";
+            cin.ignore(1000, '\n');
             continue;
         }
 
@@ -593,20 +595,20 @@ int main() {
 
         // ── Time Selection ───────────────────────────────────────────────────
         clear_screen();
-        std::cout << "\n  \033[1;35m── TIME LIMIT ──\033[0m\n\n";
-        std::cout << "  1.  30 seconds  (Sprint)\n";
-        std::cout << "  2.  60 seconds  (Standard Blitz)\n";
-        std::cout << "  3. 120 seconds  (Endurance)\n\n";
-        std::cout << "  Choice: ";
+        cout << "\n  \033[1;35m── TIME LIMIT ──\033[0m\n\n";
+        cout << "  1.  30 seconds  (Sprint)\n";
+        cout << "  2.  60 seconds  (Standard Blitz)\n";
+        cout << "  3. 120 seconds  (Endurance)\n\n";
+        cout << "  Choice: ";
 
         char time_buf[10];
-        std::cin.getline(time_buf, 10);
+        cin.getline(time_buf, 10);
         int tc = ptr_atoi(time_buf);
 
         int time_limits[3] = {30, 60, 120};
         if (tc < 1 || tc > 3) {
-            std::cout << "\n  Invalid choice. Press ENTER to return to menu.";
-            std::cin.ignore(1000, '\n');
+            cout << "\n  Invalid choice. Press ENTER to return to menu.";
+            cin.ignore(1000, '\n');
             continue;
         }
         int time_limit = time_limits[tc - 1];
@@ -642,17 +644,17 @@ int main() {
         char rank_buf[20];
         if (rank > 0) {
             int_to_buf(rank, rank_buf, 20);
-            std::cout << "\n  \033[1;33mYour global rank: #" << rank_buf << "\033[0m\n";
+            cout << "\n  \033[1;33mYour global rank: #" << rank_buf << "\033[0m\n";
         }
 
         int pb = personal_best(entries, count, username);
         if (pb >= 0) {
             int_to_buf(pb, rank_buf, 20);
-            std::cout << "  Personal best Net WPM: \033[1;33m" << rank_buf << "\033[0m\n";
+            cout << "  Personal best Net WPM: \033[1;33m" << rank_buf << "\033[0m\n";
         }
 
-        std::cout << "\n  Press ENTER to return to menu...";
-        std::cin.ignore(1000, '\n');
+        cout << "\n  Press ENTER to return to menu...";
+        cin.ignore(1000, '\n');
     }
 
     return 0;
