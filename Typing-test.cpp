@@ -9,6 +9,7 @@
 #include <iostream>
 #include <fstream>
 
+
 using namespace std;
 
 // --- Constants ---------------------------------------------------------------
@@ -469,6 +470,8 @@ int main() {
         display_leaderboard(entries, count, username);
 
         char rank_buf[20];
+
+        
         if (rank > 0) {
             int_to_buf(rank, rank_buf, 20);
             cout << "\n  " << YLW << "Your global rank: #" << rank_buf << RST << "\n";
@@ -478,6 +481,8 @@ int main() {
             int_to_buf(pb, rank_buf, 20);
             cout << "  Personal best Net WPM: " << YLW << rank_buf << RST << "\n";
         }
+
+        
 
         cout << "\n  Press ENTER to return to menu...";
         cin.ignore(1000, '\n');
