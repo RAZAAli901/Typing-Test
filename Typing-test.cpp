@@ -25,6 +25,8 @@ struct PlayerSession {
     int   time_taken;   // seconds entered by user
 };
 
+
+
 // --- Text Assets (3 modes) ---------------------------------------------------
 const char STANDARD_TEXT[] =
     "The old clock on the wall ticked softly as the afternoon light faded "
@@ -46,15 +48,15 @@ const char STANDARD_TEXT[] =
 
 const char NUMBERS_TEXT[] =
     "The engineering report dated 2019-04-17 identified 3 critical faults in "
-    "sector 7B. Ambient temperature had reached 42.6 degrees Celsius during "
+    "Sector 7 B. Ambient temperature had reached 42.6 degrees Celsius during "
     "the test cycle, exceeding the rated threshold of 38.0 by 4.6 degrees. "
-    "Component batch A-2204 showed a failure rate of 0.78%, well above the "
-    "acceptable ceiling of 0.25%. Total runtime logged was 1440 hours across "
+    "Component batch A-2204 showed a failure rate of 0.78%, well above the."
+    "acceptable ceiling of 0.25%. Total runtime logged was 1440 hours across."
     "60 test units, and 11 units failed before reaching the 500-hour mark. "
     "Budget allocation for Q3 was 1.2 million, yet actual expenditure hit "
     "1.47 million, a 22.5% overrun. Serial codes F-00812 through F-00819 "
     "were quarantined pending review. The next inspection window opens on "
-    "2024-09-01 and must be completed within 14 days. Replacement parts carry "
+    "2024-09-01 and must be completed within 14 days. Replacement parts carry."
     "part numbers 77-3310-A and 77-3311-B, each priced at 349.99 per unit "
     "with a minimum order quantity of 50. Lead time is 21 business days from "
     "the date of purchase order issuance. Voltage tolerance is rated at plus "
