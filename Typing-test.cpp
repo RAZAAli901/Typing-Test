@@ -63,15 +63,25 @@ const char QUOTES_TEXT[] =
     "said Franklin Roosevelt. Always remember that you are absolutely unique "
     "just like everyone else said Margaret Mead.";
 
+
 const char* TEXT_ASSETS[3] = { STANDARD_TEXT, NUMBERS_TEXT, QUOTES_TEXT };
+
 const char* MODE_NAMES[3]  = { "Standard", "Numbers", "Quotes" };
 
 // --- Utilities ---------------------------------------------------------------
-int ptr_len(const char* s) {
+int ptr_len(const char* s)
+
+{
+    
     int n = 0; while (*s++) n++; return n;
+    
 }
 
-void ptr_copy(char* dst, const char* src, int max_len) {
+void ptr_copy(char* dst, const char* src, int max_len) 
+
+{
+
+    
     int i = 0;
     while (src[i] != '\0' && i < max_len - 1) { dst[i] = src[i]; i++; }
     dst[i] = '\0';
