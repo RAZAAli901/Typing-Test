@@ -89,3 +89,54 @@ float ptr_atof(const char* s) {
     }
     return neg ? -r : r;
 }
+
+// --- Leaderboard I/O ---------------------------------------------------------
+int load_leaderboard(PlayerSession* entries, int max_entries) {
+    ifstream fin("leaderboard_v2.txt");
+    if (!fin.is_open()) return 0;
+    int count = 0;
+    char line[256];
+    while (count < max_entries && fin.getline(line, 256)) {
+        if (line[0] == '\0') continue;
+        char* p = line;
+        
+        // username
+        char* fs = p; while (*p && *p != ',') p++;
+        int flen = (int)(p - fs); if (flen >= MAX_NAME) flen = MAX_NAME - 1;
+        int j = 0; while (j < flen) { entries[count].username[j] = fs[j]; j++; }
+        entries[count].username[j] = '\0';
+        if (*p == ',') p++;
+        
+        // gross_wpm
+        fs = p; while (*p && *p != ',') p++; *p = '\0'; entries[count].gross_wpm = ptr_atoi(fs); p++;
+        
+        // net_wpm
+        fs = p; while (*p && *p != ',') p++; *p = '\0'; entries[count].net_wpm = ptr_atoi(fs); p++;
+        
+        // accuracy
+        fs = p; while (*p && *p != ',') p++; *p = '\0'; entries[count].accuracy = ptr_atof(fs); p++;
+        
+        // time_taken
+        fs = p; while (*p && *p != ',') p++; *p = '\0'; entries[count].time_taken = ptr_atof(fs); p++;
+        
+        // mistakes
+        entries[count].mistakes = ptr_atoi(p);
+        count++;
+    }
+    fin.close();
+    return count;
+}
+
+void save_leaderboard(const PlayerSession* entries, int count) {
+    ofstream fout("leaderboard_v2.txt");
+    if (!fout.is_open()) { cout << "[Warning] Could not write leaderboard_v2.txt\n"; return; }
+    for (int i = 0; i < count; i++) {
+        fout << entries[i].username << ','
+             << entries[i].gross_wpm << ','
+             << entries[i].net_wpm << ','
+             << entries[i].accuracy << ','
+             << entries[i].time_taken << ','
+             << entries[i].mistakes << '\n';
+    }
+    fout.close();
+}
