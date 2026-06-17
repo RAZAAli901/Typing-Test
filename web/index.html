@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeMaster Live - Modern Web Typing Test</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-cyberpunk">
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="app-container">
+        <!-- Header Section -->
+        <header>
+            <div class="logo-area">
+                <span class="logo-icon">⚡</span>
+                <h1>TypeMaster <span class="accent-text">Live v1.0</span></h1>
+            </div>
+            <div class="settings-bar">
+                <button id="sound-btn" class="icon-btn" title="Toggle Sound">
+                    <span class="btn-icon">🔊</span>
+                </button>
+                <div class="theme-picker-container">
+                    <button id="theme-btn" class="icon-btn" title="Change Theme">
+                        <span class="btn-icon">🎨</span>
+                    </button>
+                    <div class="theme-dropdown" id="theme-dropdown">
+                        <button class="theme-opt" data-theme="cyberpunk">Cyberpunk Neon</button>
+                        <button class="theme-opt" data-theme="dark-console">Dark Console</button>
+                        <button class="theme-opt" data-theme="ocean">Ocean Breeze</button>
+                        <button class="theme-opt" data-theme="sakura">Sakura Bloom</button>
+                    </div>
+                </div>
+            </div>
+        </header>
