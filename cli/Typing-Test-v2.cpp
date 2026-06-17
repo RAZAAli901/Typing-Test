@@ -398,3 +398,109 @@ PlayerSession run_game(const char* username, int mode_idx) {
 
     return s;
 }
+
+// --- Main Loop ---------------------------------------------------------------
+int main() {
+    enable_ansi();
+    clear_screen();
+    draw_banner();
+
+    char username[MAX_NAME];
+    cout << "  Enter your username (max 29 chars): ";
+    cin.getline(username, MAX_NAME);
+
+    char* p = username;
+    while (*p) { if (*p == ',') *p = '_'; p++; }
+    if (ptr_len(username) == 0) ptr_copy(username, "Anonymous", MAX_NAME);
+
+    while (true) {
+        clear_screen();
+        draw_banner();
+        cout << "  Welcome, " << username << "\n\n";
+
+        set_color("\033[36m");
+        cout << "  +-----------------------------+\n";
+        cout << "  |      SELECT A MODE (v2.0)   |\n";
+        cout << "  +-----------------------------+\n";
+        reset_color();
+        cout << "  |  1. Standard                |\n";
+        cout << "  |  2. Numbers                 |\n";
+        cout << "  |  3. Quotes                  |\n";
+        cout << "  |  4. View Leaderboard        |\n";
+        cout << "  |  5. Quit                    |\n";
+        set_color("\033[36m");
+        cout << "  +-----------------------------+\n";
+        reset_color();
+        cout << "  Choice: ";
+
+        char choice_buf[10];
+        cin.getline(choice_buf, 10);
+        int choice = ptr_atoi(choice_buf);
+
+        if (choice == 5) {
+            cout << "\n  Thanks for playing Live Typing Test CLI. Goodbye!\n\n";
+            break;
+        }
+
+        if (choice == 4) {
+            PlayerSession entries[MAX_ENTRIES];
+            int count = load_leaderboard(entries, MAX_ENTRIES);
+            sort_leaderboard(entries, count);
+            if (count == 0) {
+                cout << "\n  No scores yet. Play a game to appear on the board!\n";
+            } else {
+                display_leaderboard(entries, count, username);
+                int pb = personal_best(entries, count, username);
+                if (pb >= 0) {
+                    cout << "\n  Your personal best Net WPM: " << pb << "\n";
+                }
+            }
+            cout << "\n  Press ENTER to return to menu...";
+            cin.ignore(1000, '\n');
+            continue;
+        }
+
+        if (choice < 1 || choice > 3) {
+            cout << "\n  Invalid choice. Press ENTER to try again.";
+            cin.ignore(1000, '\n');
+            continue;
+        }
+
+        PlayerSession session = run_game(username, choice - 1);
+        if (ptr_len(session.username) == 0) {
+            cout << "  Game aborted. Press ENTER to return to menu...";
+            cin.ignore(1000, '\n');
+            continue;
+        }
+
+        PlayerSession entries[MAX_ENTRIES];
+        int count = load_leaderboard(entries, MAX_ENTRIES - 1);
+        if (count < MAX_ENTRIES) entries[count++] = session;
+        sort_leaderboard(entries, count);
+        save_leaderboard(entries, count);
+
+        int rank = -1;
+        for (int i = 0; i < count; i++) {
+            if (ptr_cmp(entries[i].username, username) == 0
+                && entries[i].net_wpm    == session.net_wpm
+                && entries[i].time_taken == session.time_taken) {
+                rank = i + 1; break;
+            }
+        }
+
+        display_leaderboard(entries, count, username);
+
+        if (rank > 0) {
+            cout << "\n  Your global rank: #" << rank << "\n";
+        }
+        int pb = personal_best(entries, count, username);
+        if (pb >= 0) {
+            cout << "  Personal best Net WPM: " << pb << "\n";
+        }
+
+        cout << "\n  Press ENTER to return to menu...";
+        cin.ignore(1000, '\n');
+    }
+
+    return 0;
+}
