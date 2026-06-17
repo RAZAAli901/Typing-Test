@@ -266,3 +266,135 @@ void display_leaderboard(const PlayerSession* entries, int count, const char* hi
     cout << "  +------+----------------------+------+--------+----------+----------+\n";
     reset_color();
 }
+
+// --- Live Typing Engine ------------------------------------------------------
+PlayerSession run_game(const char* username, int mode_idx) {
+    clear_screen();
+    draw_banner();
+
+    const char* source = TEXT_ASSETS[mode_idx];
+    int source_len = ptr_len(source);
+
+    cout << "\n\n\n\n";
+
+    set_color("\033[90m");
+    cout << "  PROMPT:\n";
+    cout << "  +-----------------------------------------------------------------+\n";
+    
+    int col = 0;
+    cout << "  | ";
+    for (int i = 0; i < source_len; i++) {
+        cout << source[i];
+        col++;
+        if (col >= 64 && source[i] == ' ') {
+            cout << "\n  | ";
+            col = 0;
+        }
+    }
+    cout << "\n  +-----------------------------------------------------------------+\n";
+    reset_color();
+
+    cout << "\n  Press any key to start typing...\n";
+    _getch();
+
+    cout << "\033[A\033[2K\r";
+    cout << "  TYPE HERE:\n  > ";
+    cout.flush();
+
+    auto start_time = chrono::high_resolution_clock::now();
+
+    int typed_count = 0;
+    int mistakes = 0;
+    int correct = 0;
+    char typed_buf[MAX_TEXT_LEN];
+    for (int i = 0; i < MAX_TEXT_LEN; i++) typed_buf[i] = '\0';
+
+    auto last_stat_update = chrono::high_resolution_clock::now();
+
+    while (typed_count < source_len) {
+        auto now = chrono::high_resolution_clock::now();
+        float elapsed = chrono::duration<float>(now - start_time).count();
+        if (chrono::duration_cast<chrono::milliseconds>(now - last_stat_update).count() > 200) {
+            draw_stats(elapsed, typed_count, mistakes, correct);
+            last_stat_update = now;
+        }
+
+        if (_kbhit()) {
+            int ch = _getch();
+
+            if (ch == 27) {
+                PlayerSession empty_session = { "", 0, 0, 0.0f, 0.0f, 0 };
+                return empty_session;
+            }
+
+            if (ch == 8) {
+                if (typed_count > 0) {
+                    typed_count--;
+                    cout << "\b \b";
+                    cout.flush();
+                    if (typed_buf[typed_count] == source[typed_count]) {
+                        correct--;
+                    }
+                }
+                continue;
+            }
+
+            if (ch >= 32 && ch <= 126) {
+                typed_buf[typed_count] = (char)ch;
+                
+                if (ch == source[typed_count]) {
+                    set_color("\033[32m");
+                    cout << (char)ch;
+                    correct++;
+                } else {
+                    set_color("\033[41;37m");
+                    cout << (char)ch;
+                    mistakes++;
+                }
+                reset_color();
+                cout.flush();
+                typed_count++;
+            }
+        }
+        
+        Sleep(5);
+    }
+
+    auto end_time = chrono::high_resolution_clock::now();
+    float total_seconds = chrono::duration<float>(end_time - start_time).count();
+    if (total_seconds < 0.1f) total_seconds = 0.1f;
+
+    draw_stats(total_seconds, typed_count, mistakes, correct);
+
+    float final_minutes = total_seconds / 60.0f;
+    float gross_wpm = (typed_count / 5.0f) / final_minutes;
+    float net_wpm = gross_wpm - (mistakes / final_minutes);
+    if (net_wpm < 0.0f) net_wpm = 0.0f;
+
+    float accuracy = typed_count > 0 ? ((float)correct / typed_count) * 100.0f : 100.0f;
+
+    PlayerSession s;
+    ptr_copy(s.username, username, MAX_NAME);
+    s.gross_wpm = (int)gross_wpm;
+    s.net_wpm = (int)net_wpm;
+    s.accuracy = accuracy;
+    s.time_taken = total_seconds;
+    s.mistakes = mistakes;
+
+    cout << "\n\n";
+    set_color("\033[32m\033[1m");
+    cout << "  ==================================\n";
+    cout << "        SESSION RESULTS (v2.0)      \n";
+    cout << "  ==================================\n\n";
+    reset_color();
+    printf("  Player    : %s\n", username);
+    printf("  Mode      : %s\n", MODE_NAMES[mode_idx]);
+    printf("  Time      : %.1fs\n", total_seconds);
+    printf("  Gross WPM : %d\n", s.gross_wpm);
+    printf("  Net WPM   : %d\n", s.net_wpm);
+    printf("  Accuracy  : %.1f%%\n", s.accuracy);
+    printf("  Mistakes  : %d\n", s.mistakes);
+    printf("  Characters: %d\n\n", typed_count);
+
+    return s;
+}
