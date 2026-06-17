@@ -172,3 +172,102 @@ function playSuccessSound() {
     playNote(523.25, 0.0, 0.25); // C5
     playNote(659.25, 0.12, 0.35); // E5
 }
+
+// ==========================================================================
+// Canvas Neon Particles Background System
+// ==========================================================================
+let particles = [];
+const particleCtx = elements.particleCanvas.getContext("2d");
+
+function resizeCanvas() {
+    elements.particleCanvas.width = window.innerWidth;
+    elements.particleCanvas.height = window.innerHeight;
+}
+
+class Particle {
+    constructor(x, y, spawnFromKey = false) {
+        this.x = x || Math.random() * elements.particleCanvas.width;
+        this.y = y || Math.random() * elements.particleCanvas.height;
+        this.size = Math.random() * (spawnFromKey ? 4 : 2) + 1;
+        this.speedX = spawnFromKey ? (Math.random() - 0.5) * 6 : (Math.random() - 0.5) * 0.8;
+        this.speedY = spawnFromKey ? -Math.random() * 4 - 1 : (Math.random() - 0.5) * 0.8;
+        this.color = getThemeParticleColor();
+        this.alpha = 1;
+        this.fade = spawnFromKey ? 0.03 : 0;
+    }
+    
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.fade > 0) {
+            this.alpha -= this.fade;
+        }
+    }
+    
+    draw() {
+        particleCtx.save();
+        particleCtx.globalAlpha = this.alpha;
+        particleCtx.shadowBlur = 8;
+        particleCtx.shadowColor = this.color;
+        particleCtx.fillStyle = this.color;
+        particleCtx.beginPath();
+        particleCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        particleCtx.fill();
+        particleCtx.restore();
+    }
+}
+
+function getThemeParticleColor() {
+    switch (state.activeTheme) {
+        case "cyberpunk": return "#00f2fe";
+        case "dark-console": return "#00ff66";
+        case "ocean": return "#38bdf8";
+        case "sakura": return "#fda4af";
+        default: return "#00f2fe";
+    }
+}
+
+function initParticles() {
+    particles = [];
+    for (let i = 0; i < 40; i++) {
+        particles.push(new Particle());
+    }
+}
+
+function triggerKeyParticles() {
+    const activeCharSpan = document.querySelector(".current-char");
+    if (!activeCharSpan) return;
+    
+    const rect = activeCharSpan.getBoundingClientRect();
+    const x = rect.left + window.scrollX + rect.width / 2;
+    const y = rect.top + window.scrollY + rect.height;
+    
+    for (let i = 0; i < 6; i++) {
+        particles.push(new Particle(x, y, true));
+    }
+}
+
+function animateParticles() {
+    particleCtx.clearRect(0, 0, elements.particleCanvas.width, elements.particleCanvas.height);
+    
+    for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        
+        if (particles[i].alpha <= 0) {
+            particles.splice(i, 1);
+            i--;
+            continue;
+        }
+        
+        if (particles[i].fade === 0) {
+            if (particles[i].x < 0 || particles[i].x > elements.particleCanvas.width ||
+                particles[i].y < 0 || particles[i].y > elements.particleCanvas.height) {
+                particles[i].x = Math.random() * elements.particleCanvas.width;
+                particles[i].y = Math.random() * elements.particleCanvas.height;
+            }
+        }
+    }
+    
+    requestAnimationFrame(animateParticles);
+}
