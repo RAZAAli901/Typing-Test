@@ -28,3 +28,27 @@ struct PlayerSession {
     float time_taken;
     int mistakes;
 };
+
+// --- ANSI Escape Code Utilities ----------------------------------------------
+void enable_ansi() {
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hOut != INVALID_HANDLE_VALUE) {
+        DWORD dwMode = 0;
+        if (GetConsoleMode(hOut, &dwMode)) {
+            dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+            SetConsoleMode(hOut, dwMode);
+        }
+    }
+}
+
+void clear_screen() {
+    cout << "\033[2J\033[H";
+}
+
+void set_color(const char* ansi_code) {
+    cout << ansi_code;
+}
+
+void reset_color() {
+    cout << "\033[0m";
+}
