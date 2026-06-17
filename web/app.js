@@ -271,3 +271,124 @@ function animateParticles() {
     
     requestAnimationFrame(animateParticles);
 }
+
+// ==========================================================================
+// Typing Core Engine & Calculations
+// ==========================================================================
+function selectPrompt() {
+    if (state.activeMode === "custom") {
+        state.activePrompt = state.customText || "Paste your custom text in the box above to begin.";
+    } else {
+        state.activePrompt = TEXT_ASSETS[state.activeMode];
+    }
+    resetGame();
+}
+
+function renderPrompt() {
+    elements.wordsContainer.innerHTML = "";
+    const letters = state.activePrompt.split("");
+    
+    letters.forEach((char, idx) => {
+        const span = document.createElement("span");
+        span.innerText = char;
+        if (idx === 0) {
+            span.className = "current-char";
+        }
+        elements.wordsContainer.appendChild(span);
+    });
+}
+
+function focusInput() {
+    if (!state.isFinished) {
+        elements.hiddenInput.focus();
+    }
+}
+
+function startTimer() {
+    state.isRunning = true;
+    state.startTime = new Date();
+    elements.startOverlay.style.opacity = "0";
+    setTimeout(() => elements.startOverlay.classList.add("hidden"), 300);
+    
+    state.timerInterval = setInterval(() => {
+        const elapsed = (new Date() - state.startTime) / 1000;
+        updateStats(elapsed);
+    }, 500);
+}
+
+function updateStats(elapsed) {
+    if (elapsed <= 0) return;
+    const minutes = elapsed / 60;
+    const grossWpm = Math.round((state.totalTyped / 5) / minutes);
+    const netWpm = Math.max(0, Math.round(grossWpm - (state.mistakes / minutes)));
+    const accuracy = state.totalTyped > 0 
+        ? Math.round((state.correctCount / state.totalTyped) * 100) 
+        : 100;
+        
+    elements.statWpm.innerText = String(netWpm).padStart(2, '0');
+    elements.statWpmSub.innerText = `gross: ${grossWpm}`;
+    elements.statAccuracy.innerText = `${accuracy}%`;
+    elements.statAccuracySub.innerText = `${state.mistakes} mistakes`;
+    elements.statTime.innerText = `${Math.round(elapsed)}s`;
+    
+    if (Math.round(elapsed) > 0 && Math.round(elapsed) % 2 === 0) {
+        const roundedTime = Math.round(elapsed);
+        if (!state.timelineData.some(d => d.time === roundedTime)) {
+            state.timelineData.push({
+                time: roundedTime,
+                wpm: netWpm,
+                acc: accuracy
+            });
+        }
+    }
+}
+
+function processTyping(e) {
+    const inputVal = elements.hiddenInput.value;
+    const promptLen = state.activePrompt.length;
+    
+    if (!state.isRunning && !state.isFinished && inputVal.length > 0) {
+        startTimer();
+    }
+    
+    const letterSpans = elements.wordsContainer.querySelectorAll("span");
+    const inputLen = inputVal.length;
+    
+    if (inputLen < state.charIndex) {
+        for (let i = inputLen; i < state.charIndex; i++) {
+            letterSpans[i].className = "";
+        }
+        state.charIndex = inputLen;
+        letterSpans[state.charIndex].className = "current-char";
+        playKeySound(true);
+        return;
+    }
+    
+    while (state.charIndex < inputLen && state.charIndex < promptLen) {
+        const typedChar = inputVal[state.charIndex];
+        const targetChar = state.activePrompt[state.charIndex];
+        state.totalTyped++;
+        
+        if (typedChar === targetChar) {
+            letterSpans[state.charIndex].className = "correct";
+            state.correctCount++;
+            playKeySound(true);
+            triggerKeyParticles();
+        } else {
+            letterSpans[state.charIndex].className = "incorrect";
+            state.mistakes++;
+            playKeySound(false);
+            elements.wordsContainer.classList.add("shake");
+            setTimeout(() => elements.wordsContainer.classList.remove("shake"), 250);
+        }
+        
+        state.charIndex++;
+        if (state.charIndex < promptLen) {
+            letterSpans[state.charIndex].className = "current-char";
+        }
+    }
+    
+    if (state.charIndex >= promptLen) {
+        finishGame();
+    }
+}
