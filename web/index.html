@@ -37,3 +37,54 @@
                 </div>
             </div>
         </header>
+
+        <!-- Main Dashboard -->
+        <main>
+            <!-- Player Setup / Profile Card -->
+            <section class="profile-section card glass">
+                <div class="profile-info">
+                    <span class="avatar">👤</span>
+                    <div>
+                        <h2 id="display-username">Anonymous</h2>
+                        <p class="subtitle">Ready to test your fingers?</p>
+                    </div>
+                </div>
+                <button id="change-user-btn" class="btn secondary-btn">Change Username</button>
+            </section>
+
+            <!-- Typing Modes Selector -->
+            <section class="modes-section">
+                <button class="mode-tab active" data-mode="standard">Standard</button>
+                <button class="mode-tab" data-mode="numbers">Numbers</button>
+                <button class="mode-tab" data-mode="quotes">Quotes</button>
+                <button class="mode-tab" data-mode="custom">Custom Text</button>
+            </section>
+
+            <!-- Custom Text Input Modal Content -->
+            <div id="custom-text-panel" class="custom-text-panel card glass hidden">
+                <h3>Enter Custom Prompt Text</h3>
+                <textarea id="custom-text-input" placeholder="Paste your custom paragraph here to practice typing it..."></textarea>
+                <div class="custom-panel-actions">
+                    <button id="apply-custom-btn" class="btn primary-btn">Apply Prompt</button>
+                    <button id="cancel-custom-btn" class="btn text-btn">Cancel</button>
+                </div>
+            </div>
+
+            <!-- Stats Bar -->
+            <section class="stats-grid">
+                <div class="stat-card card glass">
+                    <div class="stat-label">Net WPM</div>
+                    <div class="stat-val" id="stat-wpm">00</div>
+                    <div class="stat-delta" id="stat-wpm-sub">gross: 00</div>
+                </div>
+                <div class="stat-card card glass">
+                    <div class="stat-label">Accuracy</div>
+                    <div class="stat-val" id="stat-accuracy">100%</div>
+                    <div class="stat-delta" id="stat-accuracy-sub">0 mistakes</div>
+                </div>
+                <div class="stat-card card glass">
+                    <div class="stat-label">Time Remaining</div>
+                    <div class="stat-val" id="stat-time">30s</div>
+                    <div class="stat-delta" id="stat-time-sub">stopwatch active</div>
+                </div>
+            </section>
