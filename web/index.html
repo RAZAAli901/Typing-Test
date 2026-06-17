@@ -88,3 +88,115 @@
                     <div class="stat-delta" id="stat-time-sub">stopwatch active</div>
                 </div>
             </section>
+
+            <!-- Typing Arena -->
+            <section class="arena-section card glass">
+                <div class="instructions-overlay" id="start-overlay">
+                    <p>Press any key inside this box to start typing</p>
+                </div>
+                <div class="words-container" id="words-container" tabindex="0">
+                    <!-- Text characters populated dynamically -->
+                </div>
+                <input type="text" id="hidden-input" autocomplete="off" autofocus class="hidden-input">
+            </section>
+
+            <!-- Results Modal / Screen -->
+            <section id="results-panel" class="results-panel card glass hidden">
+                <div class="results-header">
+                    <h2>🎉 Session Finished!</h2>
+                    <p class="subtitle" id="result-timestamp">Just now</p>
+                </div>
+                
+                <div class="results-summary-grid">
+                    <div class="result-metric">
+                        <span class="metric-label">Net Speed</span>
+                        <span class="metric-value highlight-text" id="res-net-wpm">0</span>
+                        <span class="metric-unit">WPM</span>
+                    </div>
+                    <div class="result-metric">
+                        <span class="metric-label">Accuracy</span>
+                        <span class="metric-value" id="res-accuracy">0%</span>
+                        <span class="metric-unit">correct keys</span>
+                    </div>
+                    <div class="result-metric">
+                        <span class="metric-label">Time Taken</span>
+                        <span class="metric-value" id="res-time">0s</span>
+                        <span class="metric-unit">seconds</span>
+                    </div>
+                    <div class="result-metric">
+                        <span class="metric-label">Mistakes</span>
+                        <span class="metric-value error-text" id="res-mistakes">0</span>
+                        <span class="metric-unit">total errors</span>
+                    </div>
+                </div>
+
+                <!-- Live Performance Graph Container (SVG-based) -->
+                <div class="chart-container">
+                    <h4>WPM and Accuracy Timeline</h4>
+                    <div class="svg-chart-wrapper">
+                        <svg id="timeline-chart" viewBox="0 0 500 150">
+                            <!-- Paths drawn dynamically -->
+                        </svg>
+                        <div class="chart-legend">
+                            <span class="legend-item"><span class="legend-color wpm-color"></span>WPM</span>
+                            <span class="legend-item"><span class="legend-color acc-color"></span>Accuracy (%)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-actions">
+                    <button id="retry-btn" class="btn primary-btn">Retry Test</button>
+                    <button id="next-test-btn" class="btn secondary-btn">Next Test</button>
+                </div>
+            </section>
+
+            <!-- Global Leaderboard Table -->
+            <section class="leaderboard-section card glass">
+                <div class="leaderboard-header">
+                    <h3>🏆 Global Leaderboard (LocalStorage)</h3>
+                    <button id="clear-leaderboard-btn" class="btn text-btn error-text">Clear Scores</button>
+                </div>
+                <div class="table-wrapper">
+                    <table id="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Username</th>
+                                <th>Net WPM</th>
+                                <th>Accuracy</th>
+                                <th>Duration</th>
+                                <th>Mistakes</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Leaderboard records inserted dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>TypeMaster Suite v1.0 | Created with Passion & Precision</p>
+        </footer>
+    </div>
+
+    <!-- Username Selection Modal -->
+    <div id="username-modal" class="modal-backdrop hidden">
+        <div class="modal card glass">
+            <h2>Welcome to TypeMaster Live</h2>
+            <p>Please enter a username to track your scores on the local leaderboard.</p>
+            <div class="input-group">
+                <input type="text" id="username-input" placeholder="Type your username..." max="20" autofocus>
+            </div>
+            <div class="modal-actions">
+                <button id="save-username-btn" class="btn primary-btn">Let's Type!</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
