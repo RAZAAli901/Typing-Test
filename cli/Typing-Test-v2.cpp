@@ -52,3 +52,40 @@ void set_color(const char* ansi_code) {
 void reset_color() {
     cout << "\033[0m";
 }
+
+// --- Custom String Utilities -------------------------------------------------
+int ptr_len(const char* s) {
+    int n = 0; while (*s++) n++; return n;
+}
+
+void ptr_copy(char* dst, const char* src, int max_len) {
+    int i = 0;
+    while (src[i] != '\0' && i < max_len - 1) { dst[i] = src[i]; i++; }
+    dst[i] = '\0';
+}
+
+int ptr_cmp(const char* a, const char* b) {
+    while (*a && *b && *a == *b) { a++; b++; }
+    return (unsigned char)*a - (unsigned char)*b;
+}
+
+int ptr_atoi(const char* s) {
+    int r = 0; bool neg = false;
+    while (*s == ' ' || *s == '\t') s++;
+    if (*s == '-') { neg = true; s++; }
+    else if (*s == '+') s++;
+    while (*s >= '0' && *s <= '9') { r = r * 10 + (*s - '0'); s++; }
+    return neg ? -r : r;
+}
+
+float ptr_atof(const char* s) {
+    while (*s == ' ' || *s == '\t') s++;
+    float r = 0.0f; bool neg = false;
+    if (*s == '-') { neg = true; s++; }
+    while (*s >= '0' && *s <= '9') { r = r * 10 + (*s - '0'); s++; }
+    if (*s == '.') {
+        s++; float f = 0.1f;
+        while (*s >= '0' && *s <= '9') { r += (*s - '0') * f; f *= 0.1f; s++; }
+    }
+    return neg ? -r : r;
+}
