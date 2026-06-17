@@ -140,3 +140,25 @@ void save_leaderboard(const PlayerSession* entries, int count) {
     }
     fout.close();
 }
+
+void sort_leaderboard(PlayerSession* entries, int count) {
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = 0; j < count - 1 - i; j++) {
+            if (entries[j].net_wpm < entries[j + 1].net_wpm) {
+                PlayerSession tmp = entries[j];
+                entries[j] = entries[j + 1];
+                entries[j + 1] = tmp;
+            }
+        }
+    }
+}
+
+int personal_best(const PlayerSession* entries, int count, const char* username) {
+    int best = -1;
+    for (int i = 0; i < count; i++) {
+        if (ptr_cmp(entries[i].username, username) == 0 && entries[i].net_wpm > best) {
+            best = entries[i].net_wpm;
+        }
+    }
+    return best;
+}
