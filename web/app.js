@@ -392,3 +392,353 @@ function processTyping(e) {
         finishGame();
     }
 }
+
+function finishGame() {
+    clearInterval(state.timerInterval);
+    state.isFinished = true;
+    state.isRunning = false;
+    elements.hiddenInput.blur();
+    
+    const elapsed = Math.max(0.1, (new Date() - state.startTime) / 1000);
+    const minutes = elapsed / 60;
+    
+    const grossWpm = Math.round((state.totalTyped / 5) / minutes);
+    const netWpm = Math.max(0, Math.round(grossWpm - (state.mistakes / minutes)));
+    const accuracy = state.totalTyped > 0 
+        ? Math.round((state.correctCount / state.totalTyped) * 100) 
+        : 100;
+        
+    playSuccessSound();
+    saveSession(state.username, netWpm, accuracy, elapsed, state.mistakes);
+    
+    elements.resNetWpm.innerText = netWpm;
+    elements.resAccuracy.innerText = `${accuracy}%`;
+    elements.resTime.innerText = elapsed.toFixed(1);
+    elements.resMistakes.innerText = state.mistakes;
+    elements.resTimestamp.innerText = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    
+    elements.resultsPanel.classList.remove("hidden");
+    
+    if (state.timelineData.length === 0 || state.timelineData[state.timelineData.length - 1].time !== Math.round(elapsed)) {
+        state.timelineData.push({
+            time: Math.round(elapsed),
+            wpm: netWpm,
+            acc: accuracy
+        });
+    }
+    drawChart(state.timelineData);
+}
+
+function resetGame() {
+    clearInterval(state.timerInterval);
+    state.isRunning = false;
+    state.isFinished = false;
+    state.charIndex = 0;
+    state.mistakes = 0;
+    state.correctCount = 0;
+    state.totalTyped = 0;
+    state.timelineData = [];
+    
+    elements.hiddenInput.value = "";
+    elements.startOverlay.style.opacity = "1";
+    elements.startOverlay.classList.remove("hidden");
+    elements.resultsPanel.classList.add("hidden");
+    
+    elements.statWpm.innerText = "00";
+    elements.statWpmSub.innerText = "gross: 00";
+    elements.statAccuracy.innerText = "100%";
+    elements.statAccuracySub.innerText = "0 mistakes";
+    elements.statTime.innerText = "0s";
+    
+    renderPrompt();
+}
+
+// ==========================================================================
+// Performance Chart Drawer (Pure Dynamic SVG)
+// ==========================================================================
+function drawChart(dataPoints) {
+    const svg = elements.timelineChart;
+    svg.innerHTML = "";
+    
+    if (dataPoints.length === 0) return;
+    
+    const width = 500;
+    const height = 150;
+    const padding = 20;
+    
+    const maxTime = Math.max(...dataPoints.map(d => d.time));
+    const maxWpm = Math.max(60, ...dataPoints.map(d => d.wpm));
+    
+    const getX = (t) => padding + ((t / maxTime) * (width - 2 * padding));
+    const getY_wpm = (w) => (height - padding) - ((w / maxWpm) * (height - 2 * padding));
+    const getY_acc = (a) => (height - padding) - ((a / 100) * (height - 2 * padding));
+    
+    for (let i = 1; i <= 3; i++) {
+        const y = padding + (i * (height - 2 * padding) / 4);
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("x1", padding);
+        line.setAttribute("y1", y);
+        line.setAttribute("x2", width - padding);
+        line.setAttribute("y2", y);
+        line.setAttribute("stroke", "rgba(255,255,255,0.06)");
+        line.setAttribute("stroke-dasharray", "4,4");
+        svg.appendChild(line);
+    }
+    
+    let wpmPath = `M ${getX(0)} ${getY_wpm(0)}`;
+    let accPath = `M ${getX(0)} ${getY_acc(100)}`;
+    
+    dataPoints.forEach(pt => {
+        wpmPath += ` L ${getX(pt.time)} ${getY_wpm(pt.wpm)}`;
+        accPath += ` L ${getX(pt.time)} ${getY_acc(pt.acc)}`;
+    });
+    
+    const wpmPolyline = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    wpmPolyline.setAttribute("d", wpmPath);
+    wpmPolyline.setAttribute("fill", "none");
+    wpmPolyline.setAttribute("stroke", getThemeParticleColor());
+    wpmPolyline.setAttribute("stroke-width", "3");
+    wpmPolyline.setAttribute("stroke-linecap", "round");
+    wpmPolyline.setAttribute("stroke-linejoin", "round");
+    svg.appendChild(wpmPolyline);
+    
+    const accPolyline = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    accPolyline.setAttribute("d", accPath);
+    accPolyline.setAttribute("fill", "none");
+    accPolyline.setAttribute("stroke", "var(--accent-color)");
+    accPolyline.setAttribute("stroke-width", "2");
+    accPolyline.setAttribute("stroke-dasharray", "2,2");
+    accPolyline.setAttribute("stroke-linecap", "round");
+    accPolyline.setAttribute("stroke-linejoin", "round");
+    svg.appendChild(accPolyline);
+    
+    dataPoints.forEach(pt => {
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("cx", getX(pt.time));
+        circle.setAttribute("cy", getY_wpm(pt.wpm));
+        circle.setAttribute("r", "4");
+        circle.setAttribute("fill", "#0b071e");
+        circle.setAttribute("stroke", getThemeParticleColor());
+        circle.setAttribute("stroke-width", "2");
+        svg.appendChild(circle);
+    });
+}
+
+// ==========================================================================
+// Leaderboard Management (Local Storage)
+// ==========================================================================
+function saveSession(username, netWpm, accuracy, timeTaken, mistakes) {
+    const scores = JSON.parse(localStorage.getItem("typemaster_scores") || "[]");
+    const entry = {
+        username,
+        netWpm,
+        accuracy,
+        timeTaken: parseFloat(timeTaken.toFixed(1)),
+        mistakes,
+        date: new Date().toLocaleDateString()
+    };
+    
+    scores.push(entry);
+    scores.sort((a, b) => b.netWpm - a.netWpm || a.mistakes - b.mistakes);
+    const topScores = scores.slice(0, 10);
+    localStorage.setItem("typemaster_scores", JSON.stringify(topScores));
+    renderLeaderboard();
+}
+
+function renderLeaderboard() {
+    elements.leaderboardTable.innerHTML = "";
+    const scores = JSON.parse(localStorage.getItem("typemaster_scores") || "[]");
+    
+    if (scores.length === 0) {
+        elements.leaderboardTable.innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align: center; color: var(--text-muted);">
+                    No scores logged yet. Be the first to type!
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    
+    scores.forEach((score, index) => {
+        const tr = document.createElement("tr");
+        if (score.username === state.username) {
+            tr.className = "highlighted";
+        }
+        
+        tr.innerHTML = `
+            <td>#${index + 1}</td>
+            <td>${score.username}</td>
+            <td><strong>${score.netWpm}</strong></td>
+            <td>${score.accuracy}%</td>
+            <td>${score.timeTaken}s</td>
+            <td>${score.mistakes}</td>
+            <td>${score.date}</td>
+        `;
+        elements.leaderboardTable.appendChild(tr);
+    });
+}
+
+// ==========================================================================
+// Configuration & UI Event Bindings
+// ==========================================================================
+function loadSettings() {
+    const savedTheme = localStorage.getItem("typemaster_theme") || "cyberpunk";
+    const savedUser = localStorage.getItem("typemaster_user");
+    const savedSound = localStorage.getItem("typemaster_sound");
+    
+    if (savedTheme) {
+        state.activeTheme = savedTheme;
+        applyTheme(savedTheme);
+    }
+    
+    if (savedSound !== null) {
+        state.soundEnabled = savedSound === "true";
+        updateSoundBtnUI();
+    }
+    
+    if (savedUser) {
+        state.username = savedUser;
+        elements.displayUsername.innerText = savedUser;
+    } else {
+        elements.usernameModal.classList.remove("hidden");
+    }
+}
+
+function applyTheme(themeName) {
+    elements.body.className = "";
+    elements.body.classList.add(`theme-${themeName}`);
+    state.activeTheme = themeName;
+    localStorage.setItem("typemaster_theme", themeName);
+}
+
+function updateSoundBtnUI() {
+    elements.soundBtn.querySelector(".btn-icon").innerText = state.soundEnabled ? "🔊" : "🔇";
+    elements.soundBtn.setAttribute("title", state.soundEnabled ? "Sound Enabled" : "Sound Muted");
+}
+
+function registerEventListeners() {
+    window.addEventListener("resize", resizeCanvas);
+    elements.wordsContainer.addEventListener("click", focusInput);
+    elements.startOverlay.addEventListener("click", focusInput);
+    elements.hiddenInput.addEventListener("input", processTyping);
+    
+    elements.soundBtn.addEventListener("click", () => {
+        state.soundEnabled = !state.soundEnabled;
+        localStorage.setItem("typemaster_sound", state.soundEnabled);
+        updateSoundBtnUI();
+        initAudio();
+        playKeySound(true);
+    });
+    
+    elements.themeBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        elements.themeDropdown.classList.toggle("show");
+    });
+    
+    document.addEventListener("click", () => {
+        elements.themeDropdown.classList.remove("show");
+    });
+    
+    elements.themeDropdown.querySelectorAll(".theme-opt").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            const theme = e.target.dataset.theme;
+            applyTheme(theme);
+        });
+    });
+    
+    elements.changeUserBtn.addEventListener("click", () => {
+        elements.usernameInput.value = state.username;
+        elements.usernameModal.classList.remove("hidden");
+    });
+    
+    elements.saveUsernameBtn.addEventListener("click", () => {
+        const nameInput = elements.usernameInput.value.trim();
+        if (nameInput.length > 0) {
+            state.username = nameInput;
+            localStorage.setItem("typemaster_user", nameInput);
+            elements.displayUsername.innerText = nameInput;
+            elements.usernameModal.classList.add("hidden");
+            renderLeaderboard();
+            focusInput();
+        }
+    });
+    
+    elements.usernameInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            elements.saveUsernameBtn.click();
+        }
+    });
+    
+    document.querySelectorAll(".mode-tab").forEach(tab => {
+        tab.addEventListener("click", (e) => {
+            document.querySelectorAll(".mode-tab").forEach(t => t.classList.remove("active"));
+            e.target.classList.add("active");
+            
+            const mode = e.target.dataset.mode;
+            state.activeMode = mode;
+            
+            if (mode === "custom") {
+                elements.customTextPanel.classList.remove("hidden");
+                elements.customTextInput.focus();
+            } else {
+                elements.customTextPanel.classList.add("hidden");
+                selectPrompt();
+            }
+        });
+    });
+    
+    elements.applyCustomBtn.addEventListener("click", () => {
+        const customVal = elements.customTextInput.value.trim();
+        if (customVal.length > 0) {
+            state.customText = customVal;
+            elements.customTextPanel.classList.add("hidden");
+            selectPrompt();
+        }
+    });
+    
+    elements.cancelCustomBtn.addEventListener("click", () => {
+        elements.customTextPanel.classList.add("hidden");
+        document.querySelectorAll(".mode-tab").forEach(t => {
+            if (t.dataset.mode === "standard") t.click();
+        });
+    });
+    
+    elements.retryBtn.addEventListener("click", () => {
+        resetGame();
+        focusInput();
+    });
+    
+    elements.nextTestBtn.addEventListener("click", () => {
+        const modeCycle = ["standard", "numbers", "quotes"];
+        let nextIdx = (modeCycle.indexOf(state.activeMode) + 1) % modeCycle.length;
+        if (nextIdx < 0) nextIdx = 0;
+        
+        const targetMode = modeCycle[nextIdx];
+        document.querySelectorAll(".mode-tab").forEach(tab => {
+            if (tab.dataset.mode === targetMode) {
+                tab.click();
+            }
+        });
+    });
+    
+    elements.clearLeaderboardBtn.addEventListener("click", () => {
+        if (confirm("Are you sure you want to delete all scores?")) {
+            localStorage.removeItem("typemaster_scores");
+            renderLeaderboard();
+        }
+    });
+}
+
+// ==========================================================================
+// Initialization Point
+// ==========================================================================
+window.addEventListener("DOMContentLoaded", () => {
+    resizeCanvas();
+    initParticles();
+    animateParticles();
+    loadSettings();
+    registerEventListeners();
+    selectPrompt();
+    renderLeaderboard();
+});
