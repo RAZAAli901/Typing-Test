@@ -162,3 +162,107 @@ int personal_best(const PlayerSession* entries, int count, const char* username)
     }
     return best;
 }
+
+// --- Text Assets -------------------------------------------------------------
+const char STANDARD_TEXT[] =
+    "The old clock on the wall ticked softly as the afternoon light faded "
+    "across the wooden floor. Sarah sat at the desk and opened her notebook "
+    "to a fresh page. She had been working on the same chapter for three weeks "
+    "and still could not find the right ending. Outside the window the maple "
+    "tree swayed in the breeze and a single red leaf broke free and spiralled "
+    "down to the ground. She watched it fall and felt something shift inside "
+    "her. Sometimes an ending was not a conclusion but simply a pause before "
+    "the next beginning.";
+
+const char NUMBERS_TEXT[] =
+    "The engineering report dated 2019-04-17 identified 3 critical faults in "
+    "sector 7B. Ambient temperature had reached 42.6 degrees Celsius during "
+    "the test cycle, exceeding the rated threshold of 38.0 by 4.6 degrees. "
+    "Component batch A-2204 showed a failure rate of 0.78%, well above the "
+    "acceptable ceiling of 0.25%. Total runtime logged was 1440 hours across "
+    "60 test units, and 11 units failed before reaching the 500-hour mark.";
+
+const char QUOTES_TEXT[] =
+    "In the middle of every difficulty lies opportunity said Albert Einstein. "
+    "It does not matter how slowly you go as long as you do not stop said "
+    "Confucius. You have power over your mind not outside events realize this "
+    "and you will find strength said Marcus Aurelius. The only way to do great "
+    "work is to love what you do said Steve Jobs. Life is what happens when "
+    "you are busy making other plans said John Lennon.";
+
+const char* TEXT_ASSETS[3] = { STANDARD_TEXT, NUMBERS_TEXT, QUOTES_TEXT };
+const char* MODE_NAMES[3]  = { "Standard", "Numbers", "Quotes" };
+
+// --- Visual Elements ---------------------------------------------------------
+void draw_banner() {
+    set_color("\033[36m"); // Cyan
+    cout << "  ===================================================================\n";
+    cout << "  *       __    _            _____                 _  _   ___       *\n";
+    cout << "  *      / /   (_)__  __ ___|_   _|__  ___  ___  _| |/ | / _ \\      *\n";
+    cout << "  *     / /__ / / _ \\/ // / -_) | |/ -_)(_-</ _ \\(_     || (_) |     *\n";
+    cout << "  *    /____//_/[_  /\\_,_/\\___| |_|\\___//___/ .__//_/|_| \\___/      *\n";
+    cout << "  *             [___/                       |_|                     *\n";
+    cout << "  *                     L I V E   C L I  -  v 2.0                   *\n";
+    cout << "  ===================================================================\n";
+    reset_color();
+    cout << "\n";
+}
+
+void draw_stats(float elapsed, int typed, int mistakes, int correct) {
+    float minutes = elapsed > 0 ? (elapsed / 60.0f) : 0.0167f;
+    float gross_wpm = (typed / 5.0f) / minutes;
+    float net_wpm = gross_wpm - (mistakes / minutes);
+    if (net_wpm < 0.0f) net_wpm = 0.0f;
+    float accuracy = typed > 0 ? ((float)correct / typed) * 100.0f : 100.0f;
+
+    cout << "\033[s"; // Save cursor position
+    cout << "\033[5;1H"; // Move cursor to Row 5, Column 1 (below banner)
+    
+    set_color("\033[33m"); // Yellow
+    cout << "  +-----------------------------------------------------------------+\n";
+    printf("  | Time: %5.1fs  |  WPM: %3.0f  |  Accuracy: %5.1f%%  |  Mistakes: %2d  |\n", 
+           elapsed, net_wpm, accuracy, mistakes);
+    cout << "  +-----------------------------------------------------------------+\n";
+    reset_color();
+    
+    cout << "\033[u"; // Restore cursor position
+    cout.flush();
+}
+
+void display_leaderboard(const PlayerSession* entries, int count, const char* highlight) {
+    cout << "\n";
+    set_color("\033[36m");
+    cout << "  +------+----------------------+------+--------+----------+----------+\n";
+    cout << "  |                     *** GLOBAL LEADERBOARD ***                    |\n";
+    cout << "  +------+----------------------+------+--------+----------+----------+\n";
+    cout << "  | Rank | Username             | NWPM |  Acc   | Time (s) | Mistakes |\n";
+    cout << "  +------+----------------------+------+--------+----------+----------+\n";
+    reset_color();
+
+    int top = count < 10 ? count : 10;
+    for (int i = 0; i < top; i++) {
+        bool me = (ptr_cmp(entries[i].username, highlight) == 0);
+        if (me) {
+            set_color("\033[32m\033[1m"); // Bold Green
+        }
+        
+        char rank_str[10]; sprintf(rank_str, "#%d", i + 1);
+        char uname[22];
+        ptr_copy(uname, entries[i].username, 21);
+        int spaces = 20 - ptr_len(uname);
+        
+        printf("  | %-4s | %s", rank_str, uname);
+        for (int s = 0; s < spaces; s++) cout << " ";
+        printf(" | %4d | %5.1f%% | %8.1fs | %8d |", 
+               entries[i].net_wpm, entries[i].accuracy, entries[i].time_taken, entries[i].mistakes);
+        
+        if (me) {
+            cout << " << YOU";
+            reset_color();
+        }
+        cout << "\n";
+    }
+    set_color("\033[36m");
+    cout << "  +------+----------------------+------+--------+----------+----------+\n";
+    reset_color();
+}
