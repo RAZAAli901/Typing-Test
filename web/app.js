@@ -352,6 +352,11 @@ function updateStats(elapsed) {
     const remaining = Math.max(0, state.testDuration - elapsed);
     elements.statTime.innerText = `${Math.ceil(remaining)}s`;
     
+    if (remaining <= 0) {
+        finishGame();
+        return;
+    }
+    
     if (Math.round(elapsed) > 0 && Math.round(elapsed) % 2 === 0) {
         const roundedTime = Math.round(elapsed);
         if (!state.timelineData.some(d => d.time === roundedTime)) {
@@ -469,7 +474,7 @@ function resetGame() {
     elements.statWpmSub.innerText = "gross: 00";
     elements.statAccuracy.innerText = "100%";
     elements.statAccuracySub.innerText = "0 mistakes";
-    elements.statTime.innerText = "0s";
+    elements.statTime.innerText = `${state.testDuration}s`;
     
     renderPrompt();
 }
