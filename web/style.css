@@ -474,9 +474,7 @@ header h1 {
     line-height: 2rem;
     letter-spacing: 0.5px;
     user-select: none;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
+    display: block;
     height: 120px;
     overflow: hidden;
     position: relative;
