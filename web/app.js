@@ -89,7 +89,18 @@ const elements = {
     
     // Canvas & SVG
     particleCanvas: document.getElementById("particle-canvas"),
-    timelineChart: document.getElementById("timeline-chart")
+    timelineChart: document.getElementById("timeline-chart"),
+    
+    // Ranking Modal Elements
+    rankModal: document.getElementById("rank-modal"),
+    rankNumberLoader: document.getElementById("rank-number-loader"),
+    rankBadgeContainer: document.getElementById("rank-badge-container"),
+    rankEmoji: document.getElementById("rank-emoji"),
+    rankBadgeText: document.getElementById("rank-badge-text"),
+    rankDetailName: document.getElementById("rank-detail-name"),
+    rankDetailWpm: document.getElementById("rank-detail-wpm"),
+    rankDetailPlaced: document.getElementById("rank-detail-placed"),
+    rankContinueBtn: document.getElementById("rank-continue-btn")
 };
 
 // ==========================================================================
