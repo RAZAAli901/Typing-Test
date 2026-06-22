@@ -23,6 +23,7 @@ let state = {
     isFinished: false,
     startTime: null,
     timerInterval: null,
+    testDuration: 30,
     
     // Keystroke analysis variables
     charIndex: 0,
