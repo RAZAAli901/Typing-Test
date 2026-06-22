@@ -325,6 +325,7 @@ function focusInput() {
 function startTimer() {
     state.isRunning = true;
     state.startTime = new Date();
+    elements.statTime.innerText = `${state.testDuration}s`;
     elements.startOverlay.style.opacity = "0";
     setTimeout(() => elements.startOverlay.classList.add("hidden"), 300);
     
