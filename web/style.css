@@ -495,6 +495,7 @@ header h1 {
     position: relative;
     border-bottom: 2px solid transparent;
     transition: color 0.1s, background-color 0.1s;
+    display: inline-block;
 }
 
 .words-container span.correct {
@@ -522,12 +523,12 @@ header h1 {
     content: '';
     position: absolute;
     left: 0;
-    bottom: -1px;
-    width: 100%;
-    height: 3px;
+    top: 15%;
+    width: 2.5px;
+    height: 70%;
     background-color: var(--primary-color);
     animation: caret-blink 0.9s infinite;
-    box-shadow: 0 0 6px var(--primary-color);
+    box-shadow: 0 0 8px var(--primary-color);
 }
 
 /* Hidden virtual text input field */
