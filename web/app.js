@@ -676,10 +676,10 @@ function saveSession(username, netWpm, accuracy, timeTaken, mistakes) {
     scores.sort((a, b) => b.netWpm - a.netWpm || a.mistakes - b.mistakes);
     const topScores = scores.slice(0, 10);
     localStorage.setItem("typemaster_scores", JSON.stringify(topScores));
-    renderLeaderboard();
+    renderLeaderboard(entry);
 }
 
-function renderLeaderboard() {
+function renderLeaderboard(newEntry = null) {
     elements.leaderboardTable.innerHTML = "";
     const scores = JSON.parse(localStorage.getItem("typemaster_scores") || "[]");
     
@@ -696,7 +696,17 @@ function renderLeaderboard() {
     
     scores.forEach((score, index) => {
         const tr = document.createElement("tr");
-        if (score.username === state.username) {
+        const isNewScore = newEntry && 
+                           score.username === newEntry.username && 
+                           score.netWpm === newEntry.netWpm && 
+                           score.accuracy === newEntry.accuracy &&
+                           score.timeTaken === newEntry.timeTaken &&
+                           score.mistakes === newEntry.mistakes;
+                           
+        if (isNewScore) {
+            tr.className = "highlighted leaderboard-row-glow";
+            tr.id = "new-score-row";
+        } else if (score.username === state.username) {
             tr.className = "highlighted";
         }
         
@@ -873,6 +883,11 @@ function registerEventListeners() {
     elements.rankContinueBtn.addEventListener("click", () => {
         elements.rankModal.classList.add("hidden");
         elements.resultsPanel.classList.remove("hidden");
+        
+        const newRow = document.getElementById("new-score-row");
+        if (newRow) {
+            newRow.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
     });
 }
 
