@@ -869,6 +869,11 @@ function registerEventListeners() {
             renderLeaderboard();
         }
     });
+    
+    elements.rankContinueBtn.addEventListener("click", () => {
+        elements.rankModal.classList.add("hidden");
+        elements.resultsPanel.classList.remove("hidden");
+    });
 }
 
 // ==========================================================================
