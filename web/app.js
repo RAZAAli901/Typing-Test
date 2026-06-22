@@ -454,8 +454,6 @@ function finishGame() {
     elements.resMistakes.innerText = state.mistakes;
     elements.resTimestamp.innerText = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
     
-    elements.resultsPanel.classList.remove("hidden");
-    
     if (state.timelineData.length === 0 || state.timelineData[state.timelineData.length - 1].time !== Math.round(elapsed)) {
         state.timelineData.push({
             time: Math.round(elapsed),
@@ -464,6 +462,29 @@ function finishGame() {
         });
     }
     drawChart(state.timelineData);
+    
+    // Calculate ranking position from saved scores
+    const scores = JSON.parse(localStorage.getItem("typemaster_scores") || "[]");
+    let currentRank = 11; // default to unranked if not in top 10
+    const matchedIndex = scores.findIndex(s => s.netWpm === netWpm && s.accuracy === accuracy && s.mistakes === state.mistakes);
+    if (matchedIndex !== -1) {
+        currentRank = matchedIndex + 1;
+    }
+    
+    showRankingAnimation(currentRank, netWpm);
+}
+
+function showRankingAnimation(rank, wpm) {
+    elements.rankModal.classList.remove("hidden");
+    elements.rankNumberLoader.classList.remove("hidden");
+    elements.rankBadgeContainer.classList.add("hidden");
+    elements.rankContinueBtn.classList.add("hidden");
+    
+    elements.rankDetailName.innerText = state.username;
+    elements.rankDetailWpm.innerText = `${wpm} WPM`;
+    elements.rankDetailPlaced.innerText = "Calculating...";
+    
+    console.log("Ranking animation skeleton triggered for rank:", rank);
 }
 
 function resetGame() {
