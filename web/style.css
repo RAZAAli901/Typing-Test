@@ -988,3 +988,27 @@ footer {
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
+
+/* Tier: Elite (Bronze) */
+.tier-elite .rank-badge-text {
+    background: linear-gradient(90deg, #edbb99, #d35400, #edbb99);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 12px rgba(211, 84, 0, 0.4);
+    animation: bronze-shine 3s linear infinite;
+}
+
+.tier-elite {
+    border: 1px solid rgba(211, 84, 0, 0.5);
+    background: rgba(211, 84, 0, 0.05);
+    padding: 12px 24px;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(211, 84, 0, 0.15);
+}
+
+@keyframes bronze-shine {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
