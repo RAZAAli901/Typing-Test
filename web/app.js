@@ -476,6 +476,13 @@ function finishGame() {
 
 function showRankingAnimation(rank, wpm) {
     elements.rankModal.classList.remove("hidden");
+    
+    const scanLine = elements.rankModal.querySelector(".rank-scan-line");
+    if (scanLine) {
+        scanLine.style.display = "block";
+        scanLine.style.opacity = "1";
+    }
+    
     elements.rankNumberLoader.classList.remove("hidden");
     elements.rankBadgeContainer.classList.add("hidden");
     elements.rankContinueBtn.classList.add("hidden");
@@ -483,8 +490,6 @@ function showRankingAnimation(rank, wpm) {
     elements.rankDetailName.innerText = state.username;
     elements.rankDetailWpm.innerText = `${wpm} WPM`;
     elements.rankDetailPlaced.innerText = "Calculating...";
-    
-    console.log("Ranking animation skeleton triggered for rank:", rank);
 }
 
 function resetGame() {
