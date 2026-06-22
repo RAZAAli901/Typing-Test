@@ -869,3 +869,72 @@ footer {
     border: 2px solid var(--border-color);
     box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
 }
+
+.rank-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+    letter-spacing: -0.5px;
+}
+
+.rank-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+}
+
+.rank-display-area {
+    min-height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.rank-number-loader {
+    font-size: 4rem;
+    font-weight: 800;
+    font-family: var(--font-mono);
+    color: var(--primary-color);
+    text-shadow: var(--glow-shadow);
+}
+
+.rank-badge-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.rank-emoji {
+    font-size: 3.5rem;
+    animation: float 2.5s ease-in-out infinite;
+}
+
+.rank-badge-text {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.rank-details {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+}
+
+.rank-detail-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+}
+
+.rank-detail-row span {
+    color: var(--text-muted);
+}
