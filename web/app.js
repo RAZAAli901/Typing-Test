@@ -348,7 +348,9 @@ function updateStats(elapsed) {
     elements.statWpmSub.innerText = `gross: ${grossWpm}`;
     elements.statAccuracy.innerText = `${accuracy}%`;
     elements.statAccuracySub.innerText = `${state.mistakes} mistakes`;
-    elements.statTime.innerText = `${Math.round(elapsed)}s`;
+    
+    const remaining = Math.max(0, state.testDuration - elapsed);
+    elements.statTime.innerText = `${Math.ceil(remaining)}s`;
     
     if (Math.round(elapsed) > 0 && Math.round(elapsed) % 2 === 0) {
         const roundedTime = Math.round(elapsed);
