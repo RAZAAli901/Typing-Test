@@ -343,6 +343,18 @@ function renderPrompt() {
     });
 }
 
+function alignWordsScroll() {
+    const activeChar = elements.wordsContainer.querySelector(".current-char");
+    if (!activeChar) return;
+    
+    const charTop = activeChar.offsetTop;
+    if (charTop > 40) {
+        elements.wordsContainer.scrollTop = charTop - 40;
+    } else {
+        elements.wordsContainer.scrollTop = 0;
+    }
+}
+
 function focusInput() {
     if (!state.isFinished) {
         elements.hiddenInput.focus();
@@ -414,6 +426,7 @@ function processTyping(e) {
         state.charIndex = inputLen;
         letterSpans[state.charIndex].className = "current-char";
         playKeySound(true);
+        alignWordsScroll();
         return;
     }
     
@@ -440,6 +453,8 @@ function processTyping(e) {
             letterSpans[state.charIndex].className = "current-char";
         }
     }
+    
+    alignWordsScroll();
     
     if (state.charIndex >= promptLen) {
         finishGame();
@@ -600,6 +615,7 @@ function resetGame() {
     elements.statAccuracySub.innerText = "0 mistakes";
     elements.statTime.innerText = `${state.testDuration}s`;
     
+    elements.wordsContainer.scrollTop = 0;
     renderPrompt();
 }
 
