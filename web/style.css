@@ -1060,3 +1060,24 @@ footer {
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
+
+/* Scan Line Animation and Styling */
+.rank-scan-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+    box-shadow: 0 0 12px var(--primary-color);
+    opacity: 0.8;
+    z-index: 10;
+    pointer-events: none;
+    animation: scan-move 2.5s linear infinite;
+}
+
+@keyframes scan-move {
+    0% { top: 0%; }
+    50% { top: 100%; }
+    100% { top: 0%; }
+}
