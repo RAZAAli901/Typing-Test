@@ -857,3 +857,15 @@ footer {
         height: 110px;
     }
 }
+
+/* --- Ranking Placement Animation Modal Styling --- */
+.rank-modal-content {
+    max-width: 460px;
+    width: 92%;
+    position: relative;
+    overflow: hidden;
+    padding: 36px 28px;
+    border-radius: 20px;
+    border: 2px solid var(--border-color);
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
+}
