@@ -286,15 +286,32 @@ function selectPrompt() {
 
 function renderPrompt() {
     elements.wordsContainer.innerHTML = "";
-    const letters = state.activePrompt.split("");
     
-    letters.forEach((char, idx) => {
+    let currentWordDiv = null;
+    let globalIdx = 0;
+    const chars = state.activePrompt.split("");
+    
+    chars.forEach((char) => {
         const span = document.createElement("span");
         span.innerText = char;
-        if (idx === 0) {
+        if (globalIdx === 0) {
             span.className = "current-char";
         }
-        elements.wordsContainer.appendChild(span);
+        
+        if (char === " ") {
+            span.classList.add("space-char");
+            elements.wordsContainer.appendChild(span);
+            currentWordDiv = null;
+        } else {
+            if (!currentWordDiv) {
+                currentWordDiv = document.createElement("div");
+                currentWordDiv.className = "word";
+                elements.wordsContainer.appendChild(currentWordDiv);
+            }
+            span.classList.add("char");
+            currentWordDiv.appendChild(span);
+        }
+        globalIdx++;
     });
 }
 
