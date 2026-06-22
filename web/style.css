@@ -938,3 +938,29 @@ footer {
 .rank-detail-row span {
     color: var(--text-muted);
 }
+
+/* --- Ranking Tiers Styling --- */
+
+/* Tier: Grandmaster (Gold) */
+.tier-grandmaster .rank-badge-text {
+    background: linear-gradient(90deg, #ffe066, #f5b041, #ffe066);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(245, 176, 65, 0.4);
+    animation: gold-shine 3s linear infinite;
+}
+
+.tier-grandmaster {
+    border: 1px solid rgba(245, 176, 65, 0.5);
+    background: rgba(245, 176, 65, 0.05);
+    padding: 12px 24px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(245, 176, 65, 0.15);
+}
+
+@keyframes gold-shine {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
