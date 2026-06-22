@@ -156,13 +156,12 @@ function playKeySound(isCorrect = true) {
     }
 }
 
-function playSuccessSound() {
+function playSuccessSound(tier = 'apprentice') {
     if (!state.soundEnabled) return;
     initAudio();
     const ctx = state.audioCtx;
     const now = ctx.currentTime;
     
-    // Retro chime: C5 and E5 notes sequentially
     const playNote = (freq, delay, duration) => {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
@@ -181,8 +180,25 @@ function playSuccessSound() {
         osc.stop(now + delay + duration + 0.05);
     };
     
-    playNote(523.25, 0.0, 0.25); // C5
-    playNote(659.25, 0.12, 0.35); // E5
+    if (tier === 'grandmaster') {
+        playNote(523.25, 0.0, 0.2);
+        playNote(659.25, 0.08, 0.2);
+        playNote(783.99, 0.16, 0.2);
+        playNote(1046.50, 0.24, 0.4);
+    } else if (tier === 'master') {
+        playNote(523.25, 0.0, 0.2);
+        playNote(698.46, 0.08, 0.2);
+        playNote(880.00, 0.16, 0.2);
+        playNote(1046.50, 0.24, 0.4);
+    } else if (tier === 'elite') {
+        playNote(523.25, 0.0, 0.25);
+        playNote(783.99, 0.12, 0.35);
+    } else if (tier === 'pro') {
+        playNote(523.25, 0.0, 0.25);
+        playNote(659.25, 0.12, 0.35);
+    } else {
+        playNote(523.25, 0.0, 0.3);
+    }
 }
 
 // ==========================================================================
@@ -553,7 +569,7 @@ function revealFinalRank(rank) {
     elements.rankContinueBtn.classList.remove("hidden");
     
     // Play success chime
-    playSuccessSound();
+    playSuccessSound(tierClass.replace('tier-', ''));
     
     // Confetti particles explosion if top 3 placement
     if (rank <= 3) {
