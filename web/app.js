@@ -508,7 +508,59 @@ function showRankingAnimation(rank, wpm) {
 }
 
 function revealFinalRank(rank) {
-    console.log("Final rank reveal placeholder for rank:", rank);
+    const scanLine = elements.rankModal.querySelector(".rank-scan-line");
+    if (scanLine) {
+        scanLine.style.opacity = "0";
+        setTimeout(() => scanLine.style.display = "none", 400);
+    }
+    
+    elements.rankNumberLoader.classList.add("hidden");
+    elements.rankBadgeContainer.className = "rank-badge-container rank-badge-reveal";
+    
+    let emoji = "📋";
+    let tierText = "APPRENTICE";
+    let tierClass = "tier-apprentice";
+    let placementText = "Unranked (Out of Top 10)";
+    
+    if (rank === 1) {
+        emoji = "🏆";
+        tierText = "GRANDMASTER";
+        tierClass = "tier-grandmaster";
+        placementText = "Rank #1 (Leader!)";
+    } else if (rank === 2) {
+        emoji = "🥈";
+        tierText = "MASTER";
+        tierClass = "tier-master";
+        placementText = "Rank #2";
+    } else if (rank === 3) {
+        emoji = "🥉";
+        tierText = "ELITE";
+        tierClass = "tier-elite";
+        placementText = "Rank #3";
+    } else if (rank >= 4 && rank <= 10) {
+        emoji = "🎖️";
+        tierText = "PRO";
+        tierClass = "tier-pro";
+        placementText = `Rank #${rank}`;
+    }
+    
+    elements.rankEmoji.innerText = emoji;
+    elements.rankBadgeText.innerText = tierText;
+    elements.rankBadgeContainer.classList.add(tierClass);
+    elements.rankDetailPlaced.innerText = placementText;
+    
+    elements.rankBadgeContainer.classList.remove("hidden");
+    elements.rankContinueBtn.classList.remove("hidden");
+    
+    // Play success chime
+    playSuccessSound();
+    
+    // Confetti particles explosion if top 3 placement
+    if (rank <= 3) {
+        for (let i = 0; i < 40; i++) {
+            particles.push(new Particle(window.innerWidth / 2, window.innerHeight / 2, true));
+        }
+    }
 }
 
 function resetGame() {
