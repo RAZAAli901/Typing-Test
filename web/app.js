@@ -639,6 +639,13 @@ function registerEventListeners() {
     elements.wordsContainer.addEventListener("click", focusInput);
     elements.startOverlay.addEventListener("click", focusInput);
     elements.hiddenInput.addEventListener("input", processTyping);
+    elements.hiddenInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            if (state.isRunning) {
+                finishGame();
+            }
+        }
+    });
     
     elements.soundBtn.addEventListener("click", () => {
         state.soundEnabled = !state.soundEnabled;
