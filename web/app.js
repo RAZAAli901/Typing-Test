@@ -486,10 +486,29 @@ function showRankingAnimation(rank, wpm) {
     elements.rankNumberLoader.classList.remove("hidden");
     elements.rankBadgeContainer.classList.add("hidden");
     elements.rankContinueBtn.classList.add("hidden");
+    elements.rankNumberLoader.innerText = "#10";
     
     elements.rankDetailName.innerText = state.username;
     elements.rankDetailWpm.innerText = `${wpm} WPM`;
     elements.rankDetailPlaced.innerText = "Calculating...";
+    
+    let currentTicker = 10;
+    const isRanked = rank <= 10;
+    
+    const tickerInterval = setInterval(() => {
+        if (currentTicker > 1 && (isRanked ? currentTicker > rank : currentTicker > 1)) {
+            currentTicker--;
+            elements.rankNumberLoader.innerText = `#${currentTicker}`;
+            playKeySound(true);
+        } else {
+            clearInterval(tickerInterval);
+            revealFinalRank(rank);
+        }
+    }, 180);
+}
+
+function revealFinalRank(rank) {
+    console.log("Final rank reveal placeholder for rank:", rank);
 }
 
 function resetGame() {
