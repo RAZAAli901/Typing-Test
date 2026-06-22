@@ -1036,3 +1036,27 @@ footer {
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
+
+/* Tier: Apprentice (Slate) */
+.tier-apprentice .rank-badge-text {
+    background: linear-gradient(90deg, #94a3b8, #475569, #94a3b8);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 8px rgba(71, 85, 105, 0.3);
+    animation: slate-shine 3s linear infinite;
+}
+
+.tier-apprentice {
+    border: 1px solid rgba(71, 85, 105, 0.4);
+    background: rgba(71, 85, 105, 0.05);
+    padding: 12px 24px;
+    border-radius: 12px;
+    box-shadow: 0 0 8px rgba(71, 85, 105, 0.15);
+}
+
+@keyframes slate-shine {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
