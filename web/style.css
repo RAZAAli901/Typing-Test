@@ -499,13 +499,18 @@ header h1 {
 
 .words-container span.correct {
     color: var(--correct-color);
-    text-shadow: 0 0 4px rgba(0, 255, 204, 0.3);
+    text-shadow: 0 0 5px var(--correct-color);
 }
 
 .words-container span.incorrect {
     color: var(--error-color);
-    background-color: rgba(255, 51, 102, 0.15);
+    background-color: rgba(255, 51, 102, 0.18);
     border-bottom: 2px solid var(--error-color);
+    border-radius: 2px;
+}
+
+.words-container span.incorrect.space-char {
+    background-color: rgba(255, 51, 102, 0.3);
 }
 
 /* Caret/Cursor indicator */
