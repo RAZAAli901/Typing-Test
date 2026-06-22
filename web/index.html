@@ -197,6 +197,42 @@
         </div>
     </div>
 
+    <!-- Ranking Placement Animation Modal -->
+    <div id="rank-modal" class="modal-backdrop hidden">
+        <div class="modal card glass rank-modal-content">
+            <div class="rank-scan-line"></div>
+            <h2 class="rank-title">Leaderboard Placement</h2>
+            <p class="rank-subtitle">Analyzing your typing keystrokes...</p>
+            
+            <div class="rank-display-area">
+                <div class="rank-number-loader" id="rank-number-loader">#10</div>
+                <div class="rank-badge-container hidden" id="rank-badge-container">
+                    <span class="rank-emoji" id="rank-emoji">🏆</span>
+                    <div class="rank-badge-text" id="rank-badge-text">GRANDMASTER</div>
+                </div>
+            </div>
+            
+            <div class="rank-details">
+                <div class="rank-detail-row">
+                    <span>Player:</span>
+                    <strong id="rank-detail-name">Anonymous</strong>
+                </div>
+                <div class="rank-detail-row">
+                    <span>Net Speed:</span>
+                    <strong id="rank-detail-wpm">0 WPM</strong>
+                </div>
+                <div class="rank-detail-row">
+                    <span>Rank Achieved:</span>
+                    <strong id="rank-detail-placed" class="accent-text">Calculating...</strong>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button id="rank-continue-btn" class="btn primary-btn hidden">View Full Leaderboard</button>
+            </div>
+        </div>
+    </div>
+
     <script src="app.js"></script>
 </body>
 </html>
