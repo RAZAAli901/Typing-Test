@@ -480,6 +480,15 @@ header h1 {
     position: relative;
 }
 
+.words-container .word {
+    display: inline-block;
+}
+
+.words-container .space-char {
+    display: inline-block;
+    white-space: pre;
+}
+
 /* Highlight character status */
 .words-container span {
     color: var(--inactive-char);
