@@ -78,13 +78,15 @@ export default function TypingArea({ text, isFinished, onKeyStroke }: TypingArea
             <div key={wordIdx} className="flex">
               {word.split("").map((char, charIdx) => {
                 const globalIdx = wordStartIdx + charIdx;
-                let charClass = "char text-slate-500";
+                let charClass = "char text-slate-500 transition-colors duration-100";
 
                 if (globalIdx < charIndex) {
                   const isCorrect = typedText[globalIdx] === text[globalIdx];
-                  charClass = isCorrect ? "char correct" : "char incorrect";
+                  charClass = isCorrect
+                    ? "char text-emerald-400 font-bold drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]"
+                    : "char text-rose-500 bg-rose-500/15 border-b-2 border-rose-500 drop-shadow-[0_0_8px_rgba(244,63,94,0.5)] animate-shake";
                 } else if (globalIdx === charIndex) {
-                  charClass = "char current-char";
+                  charClass = "char text-cyan-400 bg-cyan-400/10 border-b-2 border-cyan-400 animate-pulse";
                 }
 
                 return (
@@ -96,13 +98,15 @@ export default function TypingArea({ text, isFinished, onKeyStroke }: TypingArea
               {/* Render space character after each word except the last one */}
               {wordIdx < text.split(" ").length - 1 && (() => {
                 const spaceGlobalIdx = wordStartIdx + word.length;
-                let spaceClass = "space-char text-slate-500";
+                let spaceClass = "space-char text-slate-500 transition-colors duration-100";
 
                 if (spaceGlobalIdx < charIndex) {
                   const isCorrect = typedText[spaceGlobalIdx] === text[spaceGlobalIdx];
-                  spaceClass = isCorrect ? "space-char correct" : "space-char incorrect";
+                  spaceClass = isCorrect
+                    ? "space-char text-emerald-400/50"
+                    : "space-char bg-rose-500/30 border-b-2 border-rose-500";
                 } else if (spaceGlobalIdx === charIndex) {
-                  spaceClass = "space-char current-char";
+                  spaceClass = "space-char bg-cyan-400/15 border-b-2 border-cyan-400 animate-pulse";
                 }
 
                 return (
