@@ -146,6 +146,12 @@ export default function PlayPage() {
         <TypingArea text={text} isFinished={isFinished} onKeyStroke={handleKeyStroke} />
       </div>
 
+      {isFinished && (
+        <div className="text-center animate-bounce py-2 px-4 rounded-full bg-emerald-950/40 border border-emerald-800/30 text-emerald-400 text-sm font-semibold">
+          🎉 Passage completed! View your final metrics in the stats HUD above.
+        </div>
+      )}
+
       {/* Reset Action */}
       <button
         onClick={handleReset}
