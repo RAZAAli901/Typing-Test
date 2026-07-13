@@ -85,3 +85,20 @@ You can toggle between different layouts instantly using the theme palette butto
 4. **Sakura Bloom:** Peaceful blossom cherry pink tones combined with dark plum gradients.
 
 Enjoy typing!
+
+---
+
+## 🗄️ Database & Vercel Integration
+
+To run this application locally and sync with the global leaderboard, you need to connect it to a Postgres database. We use **Prisma ORM** for schema modeling.
+
+### Linking Vercel Postgres
+
+1. **Create database**: In your Vercel Dashboard, navigate to **Storage**, select **Create Database**, and choose **Postgres**.
+2. **Pull env variables**: Copy the variables from Vercel's database integration tab into your local `.env` file (refer to `.env.example` for details):
+   - `POSTGRES_PRISMA_URL` (with connection pooling)
+   - `POSTGRES_URL_NON_POOLING` (without connection pooling)
+3. **Deploy migrations**:
+   ```bash
+   npx prisma migrate deploy
+   ```
