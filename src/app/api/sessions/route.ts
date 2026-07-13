@@ -9,8 +9,8 @@ interface RateLimitInfo {
 }
 
 const rateLimitMap = new Map<string, RateLimitInfo>();
-const WINDOW_LIMIT = 10; // Max 10 requests
-const WINDOW_DURATION = 60 * 1000; // 1 minute window
+const WINDOW_LIMIT = 10;
+const WINDOW_DURATION = 60 * 1000;
 
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
@@ -29,6 +29,17 @@ function isRateLimited(ip: string): boolean {
 
   info.count += 1;
   return info.count > WINDOW_LIMIT;
+}
+
+// Basic profanity and reserved keyword filter
+const BLOCKED_USERNAMES = [
+  "admin", "moderator", "root", "system", "support",
+  "fuck", "shit", "ass", "bitch", "cunt", "nigger", "retard", "bastard", "dick", "pussy"
+];
+
+function isProfane(username: string): boolean {
+  const lower = username.toLowerCase();
+  return BLOCKED_USERNAMES.some((bad) => lower.includes(bad));
 }
 
 // Basic Zod Schema validation with sanity bounds
@@ -60,7 +71,7 @@ export async function POST(request: Request) {
     const result = SessionPostSchema.safeParse(body);
     if (!result.success) {
       return NextResponse.json(
-        { error: "Invalid session data", details: result.error.format() },
+        { error: "Invalid session data", details: body.username ? result.error.format() : "Username must be 3-20 characters long and contain only alphanumeric characters, dashes, or underscores." },
         { status: 400 }
       );
     }
@@ -75,6 +86,14 @@ export async function POST(request: Request) {
       charsTyped = 0,
       mistakes = 0,
     } = result.data;
+
+    // 3. Profanity and reserved word check
+    if (isProfane(username)) {
+      return NextResponse.json(
+        { error: "Username contains blocked or inappropriate words." },
+        { status: 400 }
+      );
+    }
 
     // Ensure the User exists in the database
     await db.user.upsert({
