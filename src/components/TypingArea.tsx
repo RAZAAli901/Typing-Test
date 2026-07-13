@@ -39,6 +39,20 @@ export default function TypingArea({ text, isFinished, onKeyStroke }: TypingArea
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Prevent navigating cursor away from the end of the text
+    if (
+      e.key === "ArrowLeft" ||
+      e.key === "ArrowRight" ||
+      e.key === "ArrowUp" ||
+      e.key === "ArrowDown" ||
+      e.key === "Home" ||
+      e.key === "End"
+    ) {
+      e.preventDefault();
+    }
+  };
+
   // Reset typed text when prompt changes
   useEffect(() => {
     setTypedText("");
@@ -58,6 +72,7 @@ export default function TypingArea({ text, isFinished, onKeyStroke }: TypingArea
         type="text"
         value={typedText}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
         disabled={isFinished}
         className="absolute inset-0 w-full h-full opacity-0 cursor-text z-0"
         autoComplete="off"
