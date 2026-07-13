@@ -3,9 +3,16 @@
 import { useEffect, useRef, useState } from "react";
 import TypingArea from "@/components/TypingArea";
 import StatsHUD from "@/components/StatsHUD";
+import ResultsScreen from "@/components/ResultsScreen";
 
 const STANDARD_TEXT =
   "The old clock on the wall ticked softly as the afternoon light faded across the wooden floor. Sarah sat at the desk and opened her notebook to a fresh page. She had been working on the same chapter for three weeks and still could not find the right ending. Outside the window the maple tree swayed in the breeze and a single red leaf broke free and spiralled down to the ground. She watched it fall and felt something shift inside her. Sometimes an ending was not a conclusion but simply a pause before the next beginning.";
+
+interface TimelineDataPoint {
+  time: number;
+  wpm: number;
+  acc: number;
+}
 
 export default function PlayPage() {
   const [text, setText] = useState(STANDARD_TEXT);
@@ -17,10 +24,27 @@ export default function PlayPage() {
   const [typedText, setTypedText] = useState("");
   const [totalTyped, setTotalTyped] = useState(0);
   const [mistakes, setMistakes] = useState(0);
+  const [timelineData, setTimelineData] = useState<TimelineDataPoint[]>([]);
 
   const startTimeRef = useRef<number | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const prevTypedLengthRef = useRef(0);
+
+  // Keep refs of live metrics to access inside timer interval closure safely
+  const totalTypedRef = useRef(0);
+  const mistakesRef = useRef(0);
+  const correctCountRef = useRef(0);
+
+  // Update refs on state changes
+  const correctCount = typedText.split("").reduce((acc, char, idx) => {
+    return char === text[idx] ? acc + 1 : acc;
+  }, 0);
+
+  useEffect(() => {
+    totalTypedRef.current = totalTyped;
+    mistakesRef.current = mistakes;
+    correctCountRef.current = correctCount;
+  }, [totalTyped, mistakes, correctCount]);
 
   // Clear timer on unmount
   useEffect(() => {
@@ -44,6 +68,27 @@ export default function PlayPage() {
           const now = performance.now();
           const elapsed = (now - startTimeRef.current) / 1000;
           setElapsedTime(elapsed);
+
+          // Save timeline data every 2 seconds
+          const roundedSeconds = Math.round(elapsed);
+          if (roundedSeconds > 0 && roundedSeconds % 2 === 0) {
+            setTimelineData((prev) => {
+              if (prev.some((pt) => pt.time === roundedSeconds)) return prev;
+
+              const minutes = elapsed / 60;
+              const liveGross = Math.round((totalTypedRef.current / 5) / minutes);
+              const liveNet = Math.max(
+                0,
+                Math.round(liveGross - mistakesRef.current / minutes)
+              );
+              const liveAcc =
+                totalTypedRef.current > 0
+                  ? (correctCountRef.current / totalTypedRef.current) * 100
+                  : 100;
+
+              return [...prev, { time: roundedSeconds, wpm: liveNet, acc: liveAcc }];
+            });
+          }
         }
       }, 100);
     }
@@ -51,7 +96,6 @@ export default function PlayPage() {
     // Process keystroke metrics on additions
     const prevLength = prevTypedLengthRef.current;
     if (typed.length > prevLength) {
-      // User typed a new character
       const addedChar = typed[typed.length - 1];
       const targetChar = text[typed.length - 1];
 
@@ -80,6 +124,24 @@ export default function PlayPage() {
       const now = performance.now();
       const finalElapsed = (now - startTimeRef.current) / 1000;
       setElapsedTime(finalElapsed);
+
+      // Add final data point to timeline
+      const finalMinutes = finalElapsed / 60;
+      const finalGross = Math.round((totalTypedRef.current / 5) / finalMinutes);
+      const finalNet = Math.max(
+        0,
+        Math.round(finalGross - mistakesRef.current / finalMinutes)
+      );
+      const finalAcc =
+        totalTypedRef.current > 0
+          ? (correctCountRef.current / totalTypedRef.current) * 100
+          : 100;
+
+      setTimelineData((prev) => {
+        const roundedSeconds = Math.round(finalElapsed);
+        if (prev.some((pt) => pt.time === roundedSeconds)) return prev;
+        return [...prev, { time: roundedSeconds, wpm: finalNet, acc: finalAcc }];
+      });
     }
   };
 
@@ -93,6 +155,7 @@ export default function PlayPage() {
     setTypedText("");
     setTotalTyped(0);
     setMistakes(0);
+    setTimelineData([]);
     startTimeRef.current = null;
     prevTypedLengthRef.current = 0;
     setText(STANDARD_TEXT);
@@ -101,18 +164,6 @@ export default function PlayPage() {
   // Live calculation of metrics
   const elapsedMinutes = elapsedTime / 60;
   
-  // Track currently mistyped indices live
-  const mistypedIndices = typedText.split("").reduce<number[]>((acc, char, idx) => {
-    if (char !== text[idx]) {
-      acc.push(idx);
-    }
-    return acc;
-  }, []);
-
-  const correctCount = typedText.split("").reduce((acc, char, idx) => {
-    return char === text[idx] ? acc + 1 : acc;
-  }, 0);
-
   const grossWpm =
     elapsedTime > 0 ? Math.round((totalTyped / 5) / elapsedMinutes) : 0;
   
@@ -125,40 +176,48 @@ export default function PlayPage() {
 
   return (
     <div className="flex flex-col items-center justify-center space-y-8 py-6 max-w-4xl mx-auto w-full">
-      <div className="text-center space-y-2">
-        <h1 className="text-3xl font-extrabold text-white">⚡ Practice Arena</h1>
-        <p className="text-sm text-slate-400 font-light">
-          Type the text below. The timer and metrics will update live.
-        </p>
-      </div>
+      {!isFinished ? (
+        <>
+          <div className="text-center space-y-2">
+            <h1 className="text-3xl font-extrabold text-white">⚡ Practice Arena</h1>
+            <p className="text-sm text-slate-400 font-light">
+              Type the text below. The timer and metrics will update live.
+            </p>
+          </div>
 
-      {/* Live Stats HUD */}
-      <StatsHUD
-        grossWpm={grossWpm}
-        netWpm={netWpm}
-        accuracy={accuracy}
-        mistakes={mistakes}
-        elapsedTime={elapsedTime}
-      />
+          {/* Live Stats HUD */}
+          <StatsHUD
+            grossWpm={grossWpm}
+            netWpm={netWpm}
+            accuracy={accuracy}
+            mistakes={mistakes}
+            elapsedTime={elapsedTime}
+          />
 
-      {/* Typing Area */}
-      <div className="w-full">
-        <TypingArea text={text} isFinished={isFinished} onKeyStroke={handleKeyStroke} />
-      </div>
+          {/* Typing Area */}
+          <div className="w-full">
+            <TypingArea text={text} isFinished={isFinished} onKeyStroke={handleKeyStroke} />
+          </div>
 
-      {isFinished && (
-        <div className="text-center animate-bounce py-2 px-4 rounded-full bg-emerald-950/40 border border-emerald-800/30 text-emerald-400 text-sm font-semibold">
-          🎉 Passage completed! View your final metrics in the stats HUD above.
-        </div>
+          {/* Reset Action */}
+          <button
+            onClick={handleReset}
+            className="px-6 py-2.5 rounded-lg bg-white/5 border border-white/10 text-sm font-semibold text-white hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer"
+          >
+            Reset Test 🔄
+          </button>
+        </>
+      ) : (
+        <ResultsScreen
+          grossWpm={grossWpm}
+          netWpm={netWpm}
+          accuracy={accuracy}
+          mistakes={mistakes}
+          elapsedTime={elapsedTime}
+          timelineData={timelineData}
+          onRetry={handleReset}
+        />
       )}
-
-      {/* Reset Action */}
-      <button
-        onClick={handleReset}
-        className="px-6 py-2.5 rounded-lg bg-white/5 border border-white/10 text-sm font-semibold text-white hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer"
-      >
-        Reset Test 🔄
-      </button>
     </div>
   );
 }
