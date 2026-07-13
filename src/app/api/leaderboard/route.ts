@@ -14,17 +14,21 @@ export async function GET(request: Request) {
       );
     }
 
-    // Retrieve top-N sessions for that mode ordered by netWpm descending
+    const sort = searchParams.get("sort") || "netWpm";
+    const orderBy =
+      sort === "accuracy"
+        ? [{ accuracy: "desc" as const }, { netWpm: "desc" as const }]
+        : [{ netWpm: "desc" as const }, { accuracy: "desc" as const }];
+
+    // Retrieve top-N sessions for that mode ordered by chosen parameter
     const sessions = await db.session.findMany({
       where: {
         mode: mode,
       },
-      orderBy: {
-        netWpm: "desc",
-      },
+      orderBy: orderBy,
       take: limit,
       include: {
-        user: true, // Optional: includes user created details
+        user: true,
       },
     });
 
