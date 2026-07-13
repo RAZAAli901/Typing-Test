@@ -232,9 +232,45 @@ export default function StatsPage() {
           </div>
 
           {isLoading ? (
-            <div className="flex flex-col items-center justify-center py-20 space-y-4">
-              <div className="w-10 h-10 border-4 border-cyan-500/25 border-t-cyan-400 rounded-full animate-spin" />
-              <p className="text-sm text-slate-400 animate-pulse">Loading profile data...</p>
+            <div className="space-y-8 animate-pulse">
+              {/* Aggregated Stats Cards Skeleton */}
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                {[...Array(5)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="glass-panel p-5 rounded-2xl border border-white/5 bg-slate-950/20 h-24 flex flex-col justify-center items-center space-y-2"
+                  >
+                    <div className="h-3 bg-slate-900 rounded w-12" />
+                    <div className="h-6 bg-slate-900 rounded w-8" />
+                    <div className="h-2 bg-slate-900 rounded w-16" />
+                  </div>
+                ))}
+              </div>
+
+              {/* Personal Bests Skeleton */}
+              <div className="space-y-4">
+                <div className="h-5 bg-slate-900 rounded w-36" />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {[...Array(6)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="glass-panel p-5 rounded-2xl border border-white/5 bg-slate-950/10 h-20 flex justify-between items-center"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-slate-900 rounded-lg" />
+                        <div className="space-y-2">
+                          <div className="h-3.5 bg-slate-900 rounded w-20" />
+                          <div className="h-2.5 bg-slate-900 rounded w-16" />
+                        </div>
+                      </div>
+                      <div className="space-y-2 text-right">
+                        <div className="h-4 bg-slate-900 rounded w-12 ml-auto" />
+                        <div className="h-2.5 bg-slate-900 rounded w-10 ml-auto" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           ) : error ? (
             <div className="text-center py-16 text-rose-400 text-sm font-semibold">

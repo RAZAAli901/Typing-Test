@@ -132,9 +132,31 @@ export default function LeaderboardPage() {
       {/* Leaderboard Table Container */}
       <div className="glass-panel border border-white/10 rounded-2xl overflow-hidden shadow-xl bg-slate-950/20 backdrop-blur-md">
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center py-16 space-y-4">
-            <div className="w-10 h-10 border-4 border-cyan-500/25 border-t-cyan-400 rounded-full animate-spin" />
-            <p className="text-sm text-slate-400 animate-pulse">Loading rankings...</p>
+          <div className="overflow-x-auto animate-pulse">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b border-white/5 bg-white/2 text-slate-500 text-xs uppercase tracking-wider">
+                  <th className="py-4 px-6 text-center w-16"><div className="h-3 bg-slate-800 rounded w-6 mx-auto" /></th>
+                  <th className="py-4 px-6"><div className="h-3 bg-slate-800 rounded w-16" /></th>
+                  <th className="py-4 px-6 text-center"><div className="h-3 bg-slate-800 rounded w-12 mx-auto" /></th>
+                  <th className="py-4 px-6 text-center"><div className="h-3 bg-slate-800 rounded w-16 mx-auto" /></th>
+                  <th className="py-4 px-6 text-center"><div className="h-3 bg-slate-800 rounded w-12 mx-auto" /></th>
+                  <th className="py-4 px-6 text-center hidden md:table-cell"><div className="h-3 bg-slate-800 rounded w-10 mx-auto" /></th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5 text-sm">
+                {[...Array(5)].map((_, i) => (
+                  <tr key={i} className="h-16">
+                    <td className="py-4 px-6 text-center"><div className="h-4 bg-slate-900 rounded w-5 mx-auto" /></td>
+                    <td className="py-4 px-6"><div className="h-4 bg-slate-900 rounded w-32" /></td>
+                    <td className="py-4 px-6 text-center"><div className="h-4 bg-slate-900 rounded w-8 mx-auto" /></td>
+                    <td className="py-4 px-6 text-center"><div className="h-4 bg-slate-900 rounded w-10 mx-auto" /></td>
+                    <td className="py-4 px-6 text-center"><div className="h-4 bg-slate-900 rounded w-8 mx-auto" /></td>
+                    <td className="py-4 px-6 text-center hidden md:table-cell"><div className="h-3 bg-slate-900 rounded w-16 mx-auto" /></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         ) : error ? (
           <div className="text-center py-16 text-rose-400 text-sm font-semibold">
