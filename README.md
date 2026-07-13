@@ -88,17 +88,61 @@ Enjoy typing!
 
 ---
 
-## 🗄️ Database & Vercel Integration
+## 🗄️ Next.js Web App Rebuild (TypeMaster Web v2.0)
 
-To run this application locally and sync with the global leaderboard, you need to connect it to a Postgres database. We use **Prisma ORM** for schema modeling.
+This repository has been upgraded with a high-fidelity **Next.js 14+ (App Router)** web rebuild, designed for deployment on Vercel with a global PostgreSQL-backed leaderboard.
 
-### Linking Vercel Postgres
+### Key Features
+* **Advanced Typing Engine:** Captures keystrokes with high-resolution timers (`performance.now()`), handles mistake highlights with pure CSS key-shakes, and provides full backspace support.
+* **8 Practice Modes:** Standard, Numbers, Quotes, Code Snippet, Punctuation, Random Words (crypto-shuffled), Daily Challenge (UTC-seeded deterministic prompt), and Custom Text.
+* **Passage Length Adjuster:** Trim or repeat prompts to match **Short** (~15 words), **Medium** (~30 words), or **Long** (~60 words) parameters.
+* **SVG Timeline Curves:** Self-calculating, responsive charts tracing speed and accuracy throughout typing sessions.
+* **Global Leaderboards:** Dynamically filters rankings per mode, sorts by speed or accuracy, and highlights your active session.
+* **User Profile Statistics:** Displays total sessions completed, lifetime averages (speed/accuracy), top WPM speed records, and cumulative practice minutes.
+* **API Security & Resiliency:** Integrated in-memory IP-based rate limiting, offensive username filters, custom 404 pages, and global client-side error boundaries.
 
-1. **Create database**: In your Vercel Dashboard, navigate to **Storage**, select **Create Database**, and choose **Postgres**.
-2. **Pull env variables**: Copy the variables from Vercel's database integration tab into your local `.env` file (refer to `.env.example` for details):
-   - `POSTGRES_PRISMA_URL` (with connection pooling)
-   - `POSTGRES_URL_NON_POOLING` (without connection pooling)
-3. **Deploy migrations**:
-   ```bash
-   npx prisma migrate deploy
-   ```
+---
+
+### 🛠️ Local Development & Scaffolding
+
+#### 1. Install Dependencies
+Ensure you have Node.js 18+ installed, then install all project packages:
+```bash
+npm install
+```
+
+#### 2. Configure Database Environment
+Create a `.env` file in the root directory (based on `.env.example`) with your PostgreSQL connection strings:
+```env
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/typemaster?schema=public"
+POSTGRES_PRISMA_URL="postgresql://postgres:postgres@localhost:5432/typemaster?schema=public"
+```
+
+#### 3. Database Migration & Scaffolding (Prisma 7)
+Prisma 7 removes datasource URLs from `schema.prisma`. Connections are managed dynamically at runtime via pg driver adapters inside `src/lib/db.ts` and for CLI operations via `prisma.config.ts`.
+* Generate the Prisma Client wrapper:
+  ```bash
+  npx prisma generate
+  ```
+* Apply migrations to setup tables:
+  ```bash
+  npx prisma db push
+  ```
+* Seed the database with 16 demo sessions for local testing:
+  ```bash
+  npm run seed
+  ```
+
+#### 4. Run Scripts
+* **Dev Server:** `npm run dev` (starts on `http://localhost:3000`)
+* **Production Build:** `npm run build`
+* **Prisma Studio (Db Inspector):** `npx prisma studio`
+
+---
+
+### 🚀 Deploying to Vercel
+
+1. Push your repository changes to GitHub.
+2. In your Vercel Dashboard, select **Add New Project** and import your repository.
+3. Add a **Postgres Storage** database to your project via the Vercel dashboard's **Storage** tab. This will automatically inject the database connection environment variables (`POSTGRES_PRISMA_URL`, etc.).
+4. Vercel will automatically build and deploy the Next.js production server. Your global leaderboard is now live!
