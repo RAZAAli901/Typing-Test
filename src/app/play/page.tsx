@@ -101,6 +101,14 @@ export default function PlayPage() {
   // Live calculation of metrics
   const elapsedMinutes = elapsedTime / 60;
   
+  // Track currently mistyped indices live
+  const mistypedIndices = typedText.split("").reduce<number[]>((acc, char, idx) => {
+    if (char !== text[idx]) {
+      acc.push(idx);
+    }
+    return acc;
+  }, []);
+
   const correctCount = typedText.split("").reduce((acc, char, idx) => {
     return char === text[idx] ? acc + 1 : acc;
   }, 0);
