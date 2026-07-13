@@ -50,9 +50,38 @@ export default function PlayPage() {
   const mistakesRef = useRef(0);
   const correctCountRef = useRef(0);
 
-  // Load initial standard text on mount
+  // Load initial settings from localStorage on mount (hydration safe)
   useEffect(() => {
-    setText(adjustPassageLength(TEXT_ASSETS.standard, "medium"));
+    const savedMode = localStorage.getItem("typemaster_mode") as ExtendedModeType | null;
+    const savedLength = localStorage.getItem("typemaster_length") as LengthType | null;
+
+    const mode = savedMode || "standard";
+    const len = savedLength || "medium";
+
+    setActiveMode(mode);
+    setActiveLength(len);
+
+    if (mode === "custom") {
+      setIsEditingCustom(true);
+      setText("");
+    } else {
+      let rawText = "";
+      if (mode === "random-words") {
+        let wordCount = 30;
+        if (len === "short") wordCount = 15;
+        if (len === "long") wordCount = 60;
+        rawText = generateRandomWords(wordCount);
+      } else if (mode === "daily-challenge") {
+        const seed = getDailyChallengeSeed();
+        let wordCount = 30;
+        if (len === "short") wordCount = 15;
+        if (len === "long") wordCount = 60;
+        rawText = generateDeterministicRandomWords(wordCount, seed);
+      } else {
+        rawText = TEXT_ASSETS[mode as keyof typeof TEXT_ASSETS] || TEXT_ASSETS.standard;
+      }
+      setText(adjustPassageLength(rawText, len));
+    }
   }, []);
 
   // Update refs on state changes
@@ -186,8 +215,14 @@ export default function PlayPage() {
     const targetMode = newMode || activeMode;
     const targetLength = newLength || activeLength;
 
-    if (newMode) setActiveMode(newMode);
-    if (newLength) setActiveLength(newLength);
+    if (newMode) {
+      setActiveMode(newMode);
+      localStorage.setItem("typemaster_mode", newMode);
+    }
+    if (newLength) {
+      setActiveLength(newLength);
+      localStorage.setItem("typemaster_length", newLength);
+    }
 
     if (targetMode === "custom") {
       setIsEditingCustom(true);
@@ -221,7 +256,6 @@ export default function PlayPage() {
     if (!customInputText.trim()) return;
     setIsEditingCustom(false);
     
-    // Apply length filter to custom text as well
     const finalPassage = adjustPassageLength(customInputText.trim(), activeLength);
     setText(finalPassage);
   };
