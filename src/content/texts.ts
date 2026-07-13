@@ -16,6 +16,7 @@ export const TEXT_ASSETS = {
 };
 
 export type ModeType = keyof typeof TEXT_ASSETS | "random-words" | "daily-challenge";
+export type LengthType = "short" | "medium" | "long";
 
 export const WORD_BANK = [
   "the", "be", "to", "of", "and", "a", "in", "that", "have", "i",
@@ -52,7 +53,6 @@ export function generateDeterministicRandomWords(count: number = 30, seed: numbe
   const result: string[] = [];
   let seedVal = seed;
   
-  // Mulberry32 LCG-like RNG
   const nextRand = () => {
     let t = (seedVal += 0x6d2b79f5);
     t = Math.imul(t ^ (t >>> 15), t | 1);
@@ -70,7 +70,24 @@ export function generateDeterministicRandomWords(count: number = 30, seed: numbe
 export function getDailyChallengeSeed(): number {
   const now = new Date();
   const year = now.getUTCFullYear();
-  const month = now.getUTCMonth(); // 0-11
-  const date = now.getUTCDate(); // 1-31
-  return year * 10000 + (month + 1) * 100 + date; // YYYYMMDD
+  const month = now.getUTCMonth();
+  const date = now.getUTCDate();
+  return year * 10000 + (month + 1) * 100 + date;
+}
+
+export function adjustPassageLength(text: string, lengthType: LengthType): string {
+  const words = text.split(" ");
+  let targetCount = 30;
+  if (lengthType === "short") targetCount = 15;
+  if (lengthType === "long") targetCount = 60;
+
+  if (words.length >= targetCount) {
+    return words.slice(0, targetCount).join(" ");
+  } else {
+    const resultWords = [...words];
+    while (resultWords.length < targetCount) {
+      resultWords.push(...words);
+    }
+    return resultWords.slice(0, targetCount).join(" ");
+  }
 }

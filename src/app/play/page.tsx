@@ -4,7 +4,15 @@ import { useEffect, useRef, useState } from "react";
 import TypingArea from "@/components/TypingArea";
 import StatsHUD from "@/components/StatsHUD";
 import ResultsScreen from "@/components/ResultsScreen";
-import { TEXT_ASSETS, generateRandomWords, generateDeterministicRandomWords, getDailyChallengeSeed, ModeType } from "@/content/texts";
+import {
+  TEXT_ASSETS,
+  generateRandomWords,
+  generateDeterministicRandomWords,
+  getDailyChallengeSeed,
+  adjustPassageLength,
+  ModeType,
+  LengthType,
+} from "@/content/texts";
 
 interface TimelineDataPoint {
   time: number;
@@ -14,6 +22,7 @@ interface TimelineDataPoint {
 
 export default function PlayPage() {
   const [activeMode, setActiveMode] = useState<ModeType>("standard");
+  const [activeLength, setActiveLength] = useState<LengthType>("medium");
   const [text, setText] = useState("");
   const [isStarted, setIsStarted] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
@@ -36,7 +45,7 @@ export default function PlayPage() {
 
   // Load initial standard text on mount
   useEffect(() => {
-    setText(TEXT_ASSETS.standard);
+    setText(adjustPassageLength(TEXT_ASSETS.standard, "medium"));
   }, []);
 
   // Update refs on state changes
@@ -153,7 +162,7 @@ export default function PlayPage() {
     }
   };
 
-  const handleReset = (newMode?: ModeType) => {
+  const handleReset = (newMode?: ModeType, newLength?: LengthType) => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
     }
@@ -168,18 +177,29 @@ export default function PlayPage() {
     prevTypedLengthRef.current = 0;
     
     const targetMode = newMode || activeMode;
-    if (newMode) {
-      setActiveMode(newMode);
-    }
+    const targetLength = newLength || activeLength;
 
+    if (newMode) setActiveMode(newMode);
+    if (newLength) setActiveLength(newLength);
+
+    let rawText = "";
     if (targetMode === "random-words") {
-      setText(generateRandomWords(30));
+      let wordCount = 30;
+      if (targetLength === "short") wordCount = 15;
+      if (targetLength === "long") wordCount = 60;
+      rawText = generateRandomWords(wordCount);
     } else if (targetMode === "daily-challenge") {
       const seed = getDailyChallengeSeed();
-      setText(generateDeterministicRandomWords(30, seed));
+      let wordCount = 30;
+      if (targetLength === "short") wordCount = 15;
+      if (targetLength === "long") wordCount = 60;
+      rawText = generateDeterministicRandomWords(wordCount, seed);
     } else {
-      setText(TEXT_ASSETS[targetMode as keyof typeof TEXT_ASSETS] || TEXT_ASSETS.standard);
+      rawText = TEXT_ASSETS[targetMode as keyof typeof TEXT_ASSETS] || TEXT_ASSETS.standard;
     }
+
+    const finalPassage = adjustPassageLength(rawText, targetLength);
+    setText(finalPassage);
   };
 
   // Live calculation of metrics
@@ -213,7 +233,7 @@ export default function PlayPage() {
           <div className="text-center space-y-2">
             <h1 className="text-3xl font-extrabold text-white">⚡ Practice Arena</h1>
             <p className="text-sm text-slate-400 font-light">
-              Select a typing mode below to challenge your speed.
+              Select a typing mode and challenge your speed.
             </p>
           </div>
 
@@ -224,7 +244,7 @@ export default function PlayPage() {
               return (
                 <button
                   key={m.id}
-                  onClick={() => handleReset(m.id)}
+                  onClick={() => handleReset(m.id, activeLength)}
                   className={`flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-xl transition-all duration-300 cursor-pointer ${
                     isActive
                       ? "bg-gradient-to-r from-cyan-500/20 to-purple-500/20 text-cyan-400 border border-cyan-500/40 shadow-sm shadow-cyan-500/10"
@@ -236,6 +256,26 @@ export default function PlayPage() {
                 </button>
               );
             })}
+          </div>
+
+          {/* Length Selector */}
+          <div className="flex gap-3 items-center text-sm font-semibold text-slate-400">
+            <span>Length:</span>
+            <div className="flex bg-slate-950/40 p-1 rounded-xl border border-white/5">
+              {(["short", "medium", "long"] as LengthType[]).map((len) => (
+                <button
+                  key={len}
+                  onClick={() => handleReset(activeMode, len)}
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold capitalize cursor-pointer transition-all duration-200 ${
+                    activeLength === len
+                      ? "bg-cyan-500/20 text-cyan-400 shadow-sm shadow-cyan-500/10"
+                      : "text-slate-500 hover:text-slate-300 hover:bg-white/5"
+                  }`}
+                >
+                  {len}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Live Stats HUD */}
@@ -256,7 +296,7 @@ export default function PlayPage() {
 
           {/* Reset Action */}
           <button
-            onClick={() => handleReset(activeMode)}
+            onClick={() => handleReset(activeMode, activeLength)}
             className="px-6 py-2.5 rounded-lg bg-white/5 border border-white/10 text-sm font-semibold text-white hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer"
           >
             Reset Test 🔄
@@ -270,7 +310,7 @@ export default function PlayPage() {
           mistakes={mistakes}
           elapsedTime={elapsedTime}
           timelineData={timelineData}
-          onRetry={() => handleReset(activeMode)}
+          onRetry={() => handleReset(activeMode, activeLength)}
         />
       )}
     </div>
