@@ -1,0 +1,30 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  username  String    @id @db.VarChar(50)
+  createdAt DateTime  @default(now())
+  sessions  Session[]
+}
+
+model Session {
+  id                String   @id @default(uuid())
+  username          String
+  user              User     @relation(fields: [username], references: [username], onDelete: Cascade)
+  mode              String
+  grossWpm          Int
+  netWpm            Int
+  accuracy          Float
+  timeTakenSeconds  Float
+  charsTyped        Int      @default(0)
+  mistakes          Int      @default(0)
+  createdAt         DateTime @default(now())
+
+  @@index([username])
+  @@index([mode])
+}
