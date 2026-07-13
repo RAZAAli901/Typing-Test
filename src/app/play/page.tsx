@@ -273,15 +273,55 @@ export default function PlayPage() {
 
   const accuracy = totalTyped > 0 ? (correctCount / totalTyped) * 100 : 100;
 
-  const modesList: { id: ExtendedModeType; label: string; icon: string }[] = [
-    { id: "standard", label: "Standard", icon: "📝" },
-    { id: "numbers", label: "Numbers", icon: "🔢" },
-    { id: "quotes", label: "Quotes", icon: "💬" },
-    { id: "code-snippet", label: "Code", icon: "💻" },
-    { id: "punctuation", label: "Punctuation", icon: "🔣" },
-    { id: "random-words", label: "Random", icon: "🔀" },
-    { id: "daily-challenge", label: "Daily Challenge", icon: "📅" },
-    { id: "custom", label: "Custom Text", icon: "⚙️" },
+  const modesList: { id: ExtendedModeType; label: string; icon: string; desc: string }[] = [
+    {
+      id: "standard",
+      label: "Standard",
+      icon: "📝",
+      desc: "Standard — practice classic prose with balanced sentences to find your baseline rhythm.",
+    },
+    {
+      id: "numbers",
+      label: "Numbers",
+      icon: "🔢",
+      desc: "Numbers — practice reports, figures, decimal coordinates, and technical data entry.",
+    },
+    {
+      id: "quotes",
+      label: "Quotes",
+      icon: "💬",
+      desc: "Quotes — type famous quotes and philosophy from historic writers.",
+    },
+    {
+      id: "code-snippet",
+      label: "Code",
+      icon: "💻",
+      desc: "Code Snippet — practice programming structures, braces, syntax, and semicolons.",
+    },
+    {
+      id: "punctuation",
+      label: "Punctuation",
+      icon: "🔣",
+      desc: "Punctuation — challenge yourself with brackets, dashes, quotes, and symbols.",
+    },
+    {
+      id: "random-words",
+      label: "Random",
+      icon: "🔀",
+      desc: "Random Words — type shuffled common words to train visual reflex and speed.",
+    },
+    {
+      id: "daily-challenge",
+      label: "Daily Challenge",
+      icon: "📅",
+      desc: "Daily Challenge — a seed-driven challenge shared by all visitors globally, refreshed daily.",
+    },
+    {
+      id: "custom",
+      label: "Custom Text",
+      icon: "⚙️",
+      desc: "Custom Text — practice with paragraphs pasted directly from your clipboard.",
+    },
   ];
 
   return (
@@ -315,6 +355,11 @@ export default function PlayPage() {
                 </button>
               );
             })}
+          </div>
+
+          {/* Mode Selector Description */}
+          <div className="text-center text-xs text-slate-400 font-light max-w-lg leading-relaxed bg-white/5 border border-white/5 px-4 py-2.5 rounded-xl">
+            {modesList.find((m) => m.id === activeMode)?.desc}
           </div>
 
           {/* Length Selector */}
