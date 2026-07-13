@@ -4,9 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import TypingArea from "@/components/TypingArea";
 import StatsHUD from "@/components/StatsHUD";
 import ResultsScreen from "@/components/ResultsScreen";
-
-const STANDARD_TEXT =
-  "The old clock on the wall ticked softly as the afternoon light faded across the wooden floor. Sarah sat at the desk and opened her notebook to a fresh page. She had been working on the same chapter for three weeks and still could not find the right ending. Outside the window the maple tree swayed in the breeze and a single red leaf broke free and spiralled down to the ground. She watched it fall and felt something shift inside her. Sometimes an ending was not a conclusion but simply a pause before the next beginning.";
+import { TEXT_ASSETS, generateRandomWords, ModeType } from "@/content/texts";
 
 interface TimelineDataPoint {
   time: number;
@@ -14,18 +12,9 @@ interface TimelineDataPoint {
   acc: number;
 }
 
-type ModeType =
-  | "standard"
-  | "numbers"
-  | "quotes"
-  | "code-snippet"
-  | "punctuation"
-  | "random-words"
-  | "daily-challenge";
-
 export default function PlayPage() {
   const [activeMode, setActiveMode] = useState<ModeType>("standard");
-  const [text, setText] = useState(STANDARD_TEXT);
+  const [text, setText] = useState("");
   const [isStarted, setIsStarted] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -44,6 +33,11 @@ export default function PlayPage() {
   const totalTypedRef = useRef(0);
   const mistakesRef = useRef(0);
   const correctCountRef = useRef(0);
+
+  // Load initial standard text on mount
+  useEffect(() => {
+    setText(TEXT_ASSETS.standard);
+  }, []);
 
   // Update refs on state changes
   const correctCount = typedText.split("").reduce((acc, char, idx) => {
@@ -115,12 +109,16 @@ export default function PlayPage() {
         setMistakes((prev) => prev + 1);
       }
     }
-    prevTypedLengthRef.current = typed.length;
+    prevLengthRefUpdate(typed.length);
 
     // Check if fully typed
-    if (typed.length === text.length) {
+    if (typed.length === text.length && text.length > 0) {
       finishTest(typed);
     }
+  };
+
+  const prevLengthRefUpdate = (len: number) => {
+    prevTypedLengthRef.current = len;
   };
 
   const finishTest = (finalTyped: string) => {
@@ -169,22 +167,17 @@ export default function PlayPage() {
     startTimeRef.current = null;
     prevTypedLengthRef.current = 0;
     
+    const targetMode = newMode || activeMode;
     if (newMode) {
       setActiveMode(newMode);
-      // Temporary placeholder texts until Step 16 content module is created
-      if (newMode === "numbers") {
-        setText("123 456 789 0.12 34.56 78-90 2026 07 13 42.6");
-      } else if (newMode === "quotes") {
-        setText("In the middle of every difficulty lies opportunity said Albert Einstein.");
-      } else if (newMode === "code-snippet") {
-        setText("const x = () => { return 42; }; console.log(x());");
-      } else if (newMode === "punctuation") {
-        setText("Hello, world! Can you type: symbols (like @, #, $, and %)? Yes!");
-      } else {
-        setText(STANDARD_TEXT);
-      }
+    }
+
+    if (targetMode === "random-words") {
+      setText(generateRandomWords(30));
+    } else if (targetMode === "daily-challenge") {
+      setText("Daily challenge placeholder text."); // Will implement deterministic dated seed in step 18
     } else {
-      setText(STANDARD_TEXT);
+      setText(TEXT_ASSETS[targetMode as keyof typeof TEXT_ASSETS] || TEXT_ASSETS.standard);
     }
   };
 
@@ -255,7 +248,9 @@ export default function PlayPage() {
 
           {/* Typing Area */}
           <div className="w-full">
-            <TypingArea text={text} isFinished={isFinished} onKeyStroke={handleKeyStroke} />
+            {text && (
+              <TypingArea text={text} isFinished={isFinished} onKeyStroke={handleKeyStroke} />
+            )}
           </div>
 
           {/* Reset Action */}

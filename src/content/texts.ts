@@ -15,4 +15,36 @@ export const TEXT_ASSETS = {
     "Stop! Who goes there? Under the glowing moon, she asked: 'Is this the path?' Yes, indeed it was! (Although, some travelers claimed it was a trap; others, a shortcut.) With 100% confidence, she pressed forward - hoping for the best!",
 };
 
-export type ModeType = keyof typeof TEXT_ASSETS;
+export type ModeType = keyof typeof TEXT_ASSETS | "random-words" | "daily-challenge";
+
+export const WORD_BANK = [
+  "the", "be", "to", "of", "and", "a", "in", "that", "have", "i",
+  "it", "for", "not", "on", "with", "he", "as", "you", "do", "at",
+  "this", "but", "his", "by", "from", "they", "we", "say", "her", "she",
+  "or", "an", "will", "my", "one", "all", "would", "there", "their", "what",
+  "so", "up", "out", "if", "about", "who", "get", "which", "go", "me",
+  "when", "make", "can", "like", "time", "no", "just", "him", "know", "take",
+  "people", "into", "year", "your", "good", "some", "could", "them", "see", "other",
+  "than", "then", "now", "look", "only", "come", "its", "over", "think", "also",
+  "back", "after", "use", "two", "how", "our", "work", "first", "well", "way",
+  "even", "new", "want", "because", "any", "these", "give", "day", "most", "us"
+];
+
+export function generateRandomWords(count: number = 30): string {
+  const result: string[] = [];
+  // Use crypto.getRandomValues if available, fallback to Math.random
+  const array = new Uint32Array(count);
+  if (typeof window !== "undefined" && window.crypto) {
+    window.crypto.getRandomValues(array);
+  } else {
+    for (let i = 0; i < count; i++) {
+      array[i] = Math.floor(Math.random() * 1000000);
+    }
+  }
+
+  for (let i = 0; i < count; i++) {
+    const randomIndex = array[i] % WORD_BANK.length;
+    result.push(WORD_BANK[randomIndex]);
+  }
+  return result.join(" ");
+}
