@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import TypingArea from "@/components/TypingArea";
 import StatsHUD from "@/components/StatsHUD";
 import ResultsScreen from "@/components/ResultsScreen";
-import { TEXT_ASSETS, generateRandomWords, ModeType } from "@/content/texts";
+import { TEXT_ASSETS, generateRandomWords, generateDeterministicRandomWords, getDailyChallengeSeed, ModeType } from "@/content/texts";
 
 interface TimelineDataPoint {
   time: number;
@@ -175,7 +175,8 @@ export default function PlayPage() {
     if (targetMode === "random-words") {
       setText(generateRandomWords(30));
     } else if (targetMode === "daily-challenge") {
-      setText("Daily challenge placeholder text."); // Will implement deterministic dated seed in step 18
+      const seed = getDailyChallengeSeed();
+      setText(generateDeterministicRandomWords(30, seed));
     } else {
       setText(TEXT_ASSETS[targetMode as keyof typeof TEXT_ASSETS] || TEXT_ASSETS.standard);
     }

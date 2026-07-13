@@ -32,7 +32,6 @@ export const WORD_BANK = [
 
 export function generateRandomWords(count: number = 30): string {
   const result: string[] = [];
-  // Use crypto.getRandomValues if available, fallback to Math.random
   const array = new Uint32Array(count);
   if (typeof window !== "undefined" && window.crypto) {
     window.crypto.getRandomValues(array);
@@ -47,4 +46,31 @@ export function generateRandomWords(count: number = 30): string {
     result.push(WORD_BANK[randomIndex]);
   }
   return result.join(" ");
+}
+
+export function generateDeterministicRandomWords(count: number = 30, seed: number): string {
+  const result: string[] = [];
+  let seedVal = seed;
+  
+  // Mulberry32 LCG-like RNG
+  const nextRand = () => {
+    let t = (seedVal += 0x6d2b79f5);
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+
+  for (let i = 0; i < count; i++) {
+    const randomIndex = Math.floor(nextRand() * WORD_BANK.length);
+    result.push(WORD_BANK[randomIndex]);
+  }
+  return result.join(" ");
+}
+
+export function getDailyChallengeSeed(): number {
+  const now = new Date();
+  const year = now.getUTCFullYear();
+  const month = now.getUTCMonth(); // 0-11
+  const date = now.getUTCDate(); // 1-31
+  return year * 10000 + (month + 1) * 100 + date; // YYYYMMDD
 }
