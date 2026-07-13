@@ -14,6 +14,9 @@ import {
   LengthType,
 } from "@/content/texts";
 
+// Extend ModeType to support "custom"
+type ExtendedModeType = ModeType | "custom";
+
 interface TimelineDataPoint {
   time: number;
   wpm: number;
@@ -21,12 +24,16 @@ interface TimelineDataPoint {
 }
 
 export default function PlayPage() {
-  const [activeMode, setActiveMode] = useState<ModeType>("standard");
+  const [activeMode, setActiveMode] = useState<ExtendedModeType>("standard");
   const [activeLength, setActiveLength] = useState<LengthType>("medium");
   const [text, setText] = useState("");
   const [isStarted, setIsStarted] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
+
+  // Custom Text States
+  const [customInputText, setCustomInputText] = useState("");
+  const [isEditingCustom, setIsEditingCustom] = useState(false);
 
   // Live Metrics States
   const [typedText, setTypedText] = useState("");
@@ -162,7 +169,7 @@ export default function PlayPage() {
     }
   };
 
-  const handleReset = (newMode?: ModeType, newLength?: LengthType) => {
+  const handleReset = (newMode?: ExtendedModeType, newLength?: LengthType) => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
     }
@@ -181,6 +188,14 @@ export default function PlayPage() {
 
     if (newMode) setActiveMode(newMode);
     if (newLength) setActiveLength(newLength);
+
+    if (targetMode === "custom") {
+      setIsEditingCustom(true);
+      setText("");
+      return;
+    } else {
+      setIsEditingCustom(false);
+    }
 
     let rawText = "";
     if (targetMode === "random-words") {
@@ -202,6 +217,15 @@ export default function PlayPage() {
     setText(finalPassage);
   };
 
+  const handleApplyCustomText = () => {
+    if (!customInputText.trim()) return;
+    setIsEditingCustom(false);
+    
+    // Apply length filter to custom text as well
+    const finalPassage = adjustPassageLength(customInputText.trim(), activeLength);
+    setText(finalPassage);
+  };
+
   // Live calculation of metrics
   const elapsedMinutes = elapsedTime / 60;
   
@@ -215,14 +239,15 @@ export default function PlayPage() {
 
   const accuracy = totalTyped > 0 ? (correctCount / totalTyped) * 100 : 100;
 
-  const modesList: { id: ModeType; label: string; icon: string }[] = [
+  const modesList: { id: ExtendedModeType; label: string; icon: string }[] = [
     { id: "standard", label: "Standard", icon: "📝" },
     { id: "numbers", label: "Numbers", icon: "🔢" },
     { id: "quotes", label: "Quotes", icon: "💬" },
     { id: "code-snippet", label: "Code", icon: "💻" },
     { id: "punctuation", label: "Punctuation", icon: "🔣" },
-    { id: "random-words", label: "Random Words", icon: "🔀" },
+    { id: "random-words", label: "Random", icon: "🔀" },
     { id: "daily-challenge", label: "Daily Challenge", icon: "📅" },
+    { id: "custom", label: "Custom Text", icon: "⚙️" },
   ];
 
   return (
@@ -278,29 +303,59 @@ export default function PlayPage() {
             </div>
           </div>
 
-          {/* Live Stats HUD */}
-          <StatsHUD
-            grossWpm={grossWpm}
-            netWpm={netWpm}
-            accuracy={accuracy}
-            mistakes={mistakes}
-            elapsedTime={elapsedTime}
-          />
+          {/* Custom Text Editing Area */}
+          {activeMode === "custom" && isEditingCustom ? (
+            <div className="w-full glass-panel rounded-2xl p-6 md:p-8 flex flex-col space-y-4 border border-white/10 shadow-lg">
+              <h3 className="text-base font-bold text-white">Enter Custom Prompt Text</h3>
+              <textarea
+                value={customInputText}
+                onChange={(e) => setCustomInputText(e.target.value)}
+                placeholder="Paste your custom paragraph here to practice typing it..."
+                className="w-full min-h-[120px] bg-slate-950/60 border border-white/10 rounded-xl p-4 font-mono text-sm text-slate-300 focus:outline-none focus:border-cyan-500/50 resize-y"
+              />
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={handleApplyCustomText}
+                  disabled={!customInputText.trim()}
+                  className="px-6 py-2.5 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-sm cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                >
+                  Apply Prompt ⚡
+                </button>
+                <button
+                  onClick={() => handleReset("standard", activeLength)}
+                  className="px-6 py-2.5 rounded-lg bg-white/5 border border-white/10 text-slate-400 hover:text-white font-semibold text-sm cursor-pointer hover:bg-white/10 transition-all"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* Live Stats HUD */}
+              <StatsHUD
+                grossWpm={grossWpm}
+                netWpm={netWpm}
+                accuracy={accuracy}
+                mistakes={mistakes}
+                elapsedTime={elapsedTime}
+              />
 
-          {/* Typing Area */}
-          <div className="w-full">
-            {text && (
-              <TypingArea text={text} isFinished={isFinished} onKeyStroke={handleKeyStroke} />
-            )}
-          </div>
+              {/* Typing Area */}
+              <div className="w-full">
+                {text && (
+                  <TypingArea text={text} isFinished={isFinished} onKeyStroke={handleKeyStroke} />
+                )}
+              </div>
 
-          {/* Reset Action */}
-          <button
-            onClick={() => handleReset(activeMode, activeLength)}
-            className="px-6 py-2.5 rounded-lg bg-white/5 border border-white/10 text-sm font-semibold text-white hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer"
-          >
-            Reset Test 🔄
-          </button>
+              {/* Reset Action */}
+              <button
+                onClick={() => handleReset(activeMode, activeLength)}
+                className="px-6 py-2.5 rounded-lg bg-white/5 border border-white/10 text-sm font-semibold text-white hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer"
+              >
+                Reset Test 🔄
+              </button>
+            </>
+          )}
         </>
       ) : (
         <ResultsScreen
