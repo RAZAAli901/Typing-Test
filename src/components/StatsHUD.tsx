@@ -16,7 +16,7 @@ export default function StatsHUD({
   elapsedTime,
 }: StatsHUDProps) {
   return (
-    <div className="grid grid-cols-3 gap-4 w-full max-w-4xl">
+    <div className="grid grid-cols-3 gap-2.5 md:gap-4 w-full max-w-4xl">
       {/* WPM Card */}
       <div className="glass-panel rounded-xl p-4 flex flex-col items-center justify-center border border-white/5 shadow-md transition-all duration-300">
         <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
