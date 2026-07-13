@@ -14,7 +14,17 @@ interface TimelineDataPoint {
   acc: number;
 }
 
+type ModeType =
+  | "standard"
+  | "numbers"
+  | "quotes"
+  | "code-snippet"
+  | "punctuation"
+  | "random-words"
+  | "daily-challenge";
+
 export default function PlayPage() {
+  const [activeMode, setActiveMode] = useState<ModeType>("standard");
   const [text, setText] = useState(STANDARD_TEXT);
   const [isStarted, setIsStarted] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
@@ -145,7 +155,7 @@ export default function PlayPage() {
     }
   };
 
-  const handleReset = () => {
+  const handleReset = (newMode?: ModeType) => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
     }
@@ -158,7 +168,24 @@ export default function PlayPage() {
     setTimelineData([]);
     startTimeRef.current = null;
     prevTypedLengthRef.current = 0;
-    setText(STANDARD_TEXT);
+    
+    if (newMode) {
+      setActiveMode(newMode);
+      // Temporary placeholder texts until Step 16 content module is created
+      if (newMode === "numbers") {
+        setText("123 456 789 0.12 34.56 78-90 2026 07 13 42.6");
+      } else if (newMode === "quotes") {
+        setText("In the middle of every difficulty lies opportunity said Albert Einstein.");
+      } else if (newMode === "code-snippet") {
+        setText("const x = () => { return 42; }; console.log(x());");
+      } else if (newMode === "punctuation") {
+        setText("Hello, world! Can you type: symbols (like @, #, $, and %)? Yes!");
+      } else {
+        setText(STANDARD_TEXT);
+      }
+    } else {
+      setText(STANDARD_TEXT);
+    }
   };
 
   // Live calculation of metrics
@@ -174,15 +201,47 @@ export default function PlayPage() {
 
   const accuracy = totalTyped > 0 ? (correctCount / totalTyped) * 100 : 100;
 
+  const modesList: { id: ModeType; label: string; icon: string }[] = [
+    { id: "standard", label: "Standard", icon: "📝" },
+    { id: "numbers", label: "Numbers", icon: "🔢" },
+    { id: "quotes", label: "Quotes", icon: "💬" },
+    { id: "code-snippet", label: "Code", icon: "💻" },
+    { id: "punctuation", label: "Punctuation", icon: "🔣" },
+    { id: "random-words", label: "Random Words", icon: "🔀" },
+    { id: "daily-challenge", label: "Daily Challenge", icon: "📅" },
+  ];
+
   return (
     <div className="flex flex-col items-center justify-center space-y-8 py-6 max-w-4xl mx-auto w-full">
       {!isFinished ? (
         <>
+          {/* Header Title */}
           <div className="text-center space-y-2">
             <h1 className="text-3xl font-extrabold text-white">⚡ Practice Arena</h1>
             <p className="text-sm text-slate-400 font-light">
-              Type the text below. The timer and metrics will update live.
+              Select a typing mode below to challenge your speed.
             </p>
+          </div>
+
+          {/* Mode Selector Tabs */}
+          <div className="w-full flex flex-wrap gap-2 justify-center bg-slate-950/40 p-2 rounded-2xl border border-white/5 backdrop-blur-sm">
+            {modesList.map((m) => {
+              const isActive = activeMode === m.id;
+              return (
+                <button
+                  key={m.id}
+                  onClick={() => handleReset(m.id)}
+                  className={`flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-xl transition-all duration-300 cursor-pointer ${
+                    isActive
+                      ? "bg-gradient-to-r from-cyan-500/20 to-purple-500/20 text-cyan-400 border border-cyan-500/40 shadow-sm shadow-cyan-500/10"
+                      : "text-slate-400 hover:text-white bg-white/0 hover:bg-white/5 border border-transparent"
+                  }`}
+                >
+                  <span>{m.icon}</span>
+                  <span>{m.label}</span>
+                </button>
+              );
+            })}
           </div>
 
           {/* Live Stats HUD */}
@@ -201,7 +260,7 @@ export default function PlayPage() {
 
           {/* Reset Action */}
           <button
-            onClick={handleReset}
+            onClick={() => handleReset(activeMode)}
             className="px-6 py-2.5 rounded-lg bg-white/5 border border-white/10 text-sm font-semibold text-white hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer"
           >
             Reset Test 🔄
@@ -215,7 +274,7 @@ export default function PlayPage() {
           mistakes={mistakes}
           elapsedTime={elapsedTime}
           timelineData={timelineData}
-          onRetry={handleReset}
+          onRetry={() => handleReset(activeMode)}
         />
       )}
     </div>
