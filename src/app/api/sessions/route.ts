@@ -2,16 +2,16 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
 
-// Basic Zod Schema validation for session results
+// Basic Zod Schema validation with sanity bounds
 const SessionPostSchema = z.object({
-  username: z.string().min(3).max(20),
+  username: z.string().min(3).max(20).regex(/^[a-zA-Z0-9_-]+$/),
   mode: z.string(),
-  grossWpm: z.number().int(),
-  netWpm: z.number().int(),
-  accuracy: z.number(),
-  timeTakenSeconds: z.number(),
-  charsTyped: z.number().int().optional(),
-  mistakes: z.number().int().optional(),
+  grossWpm: z.number().int().min(0).max(400),
+  netWpm: z.number().int().min(0).max(400),
+  accuracy: z.number().min(0).max(100),
+  timeTakenSeconds: z.number().gt(0).max(3600),
+  charsTyped: z.number().int().min(0).max(50000).optional(),
+  mistakes: z.number().int().min(0).max(5000).optional(),
 });
 
 export async function POST(request: Request) {
