@@ -154,3 +154,7 @@ body {
   0% { transform: translateY(0); }
   100% { transform: translateY(100vh); }
 }
+
+.crt-aberration {
+  text-shadow: 1.5px 0 0.5px rgba(255, 0, 0, 0.35), -1.5px 0 0.5px rgba(0, 255, 255, 0.35);
+}
