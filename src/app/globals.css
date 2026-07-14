@@ -251,3 +251,40 @@ body {
 .crt-tooltip:hover::after {
   opacity: 1;
 }
+
+/* Print Stylesheet Overrides */
+@media print {
+  body, html, main, :root {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-family: monospace !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  /* Strip all CRT overlays, scanlines, frames, and glows */
+  .fixed, 
+  .absolute,
+  [class*="ScanlineOverlay"], 
+  [class*="CurvedVignette"], 
+  [class*="StaticNoiseLines"],
+  .crt-flicker, 
+  .crt-glitch {
+    display: none !important;
+    opacity: 0 !important;
+    animation: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+  }
+
+  /* Make containers print friendly */
+  .border-crt-dim, .border-2 {
+    border-color: #000000 !important;
+    box-shadow: none !important;
+  }
+
+  /* Remove navbar/footer when printing results */
+  header, footer, button {
+    display: none !important;
+  }
+}
