@@ -85,7 +85,7 @@ export default function RetroBootScreen({ onComplete }: RetroBootScreenProps) {
     const filledBlocks = Math.round((progress / 100) * totalBlocks);
     const emptyBlocks = totalBlocks - filledBlocks;
     const bar = "█".repeat(filledBlocks) + "░".repeat(emptyBlocks);
-    return `[${bar}] ${progress}%`;
+    return `┌──────────────────────┐\n│ ${bar} ${String(progress).padStart(3)}% │\n└──────────────────────┘`;
   };
 
   let animClass = "";
@@ -108,8 +108,8 @@ export default function RetroBootScreen({ onComplete }: RetroBootScreenProps) {
 
           {progress > 0 && (
             <div className="flex flex-col space-y-1 pt-2 w-full max-w-md">
-              <div>LOADING SYSTEM CORE FILE RESOURCE BANK:</div>
-              <div className="font-bold tracking-wider">{getProgressBar()}</div>
+              <div className="text-[10px] text-crt-dim font-bold">LOADING SYSTEM CORE FILE RESOURCE BANK:</div>
+              <pre className="font-bold tracking-wider leading-normal text-crt-primary whitespace-pre">{getProgressBar()}</pre>
             </div>
           )}
 
