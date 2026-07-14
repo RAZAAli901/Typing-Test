@@ -83,7 +83,7 @@ export default function ResultsScreen({
           );
         })}
 
-        {/* Accuracy Path (Dashed accent line) */}
+        {/* Accuracy Path (Dashed accent line colored dynamically to match CRT dim color) */}
         <path
           d={accPath}
           fill="none"
