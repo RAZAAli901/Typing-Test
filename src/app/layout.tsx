@@ -34,8 +34,11 @@ const pressStart2P = Press_Start_2P({
 });
 
 export const metadata: Metadata = {
-  title: "TypeMaster Web - Speed Typing Platform",
+  title: "TYPEMASTER_v1 ▮",
   description: "Test, analyze, and master your typing speed and accuracy with global live leaderboards and analytics.",
+  icons: {
+    icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23060606%22/><text y=%2270%22 font-size=%2280%22 font-family=%22monospace%22 fill=%22%2339ff14%22 font-weight=%22bold%22>▮</text></svg>",
+  }
 };
 
 export default function RootLayout({

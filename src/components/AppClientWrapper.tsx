@@ -18,6 +18,17 @@ export default function AppClientWrapper({ children }: AppClientWrapperProps) {
     }
   }, []);
 
+  useEffect(() => {
+    // Blinking tab title cursor: "TYPEMASTER_v1 ▮"
+    let cursorActive = true;
+    const titleInterval = setInterval(() => {
+      document.title = `TYPEMASTER_v1 ${cursorActive ? "▮" : " "}`;
+      cursorActive = !cursorActive;
+    }, 850);
+
+    return () => clearInterval(titleInterval);
+  }, []);
+
   const handleBootComplete = () => {
     sessionStorage.setItem("typemaster_booted", "true");
     setBooting(false);
