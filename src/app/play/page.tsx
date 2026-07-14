@@ -335,7 +335,12 @@ export default function PlayPage() {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center space-y-8 py-6 max-w-4xl mx-auto w-full">
+    <div className="flex flex-col items-center justify-center space-y-8 py-6 max-w-4xl mx-auto w-full relative">
+      {/* Decorative CRT Channel Indicator overlay */}
+      <div className="absolute top-2 right-4 bg-[#070707] border border-crt-dim/50 px-2 py-0.5 rounded text-[10px] font-bold text-crt-primary tracking-widest uppercase shadow-[0_0_8px_rgba(57,255,20,0.1)] select-none z-10">
+        CH 04 — {activeMode.replace("-", " ")}
+      </div>
+
       {!isFinished ? (
         <>
           {/* Header Title */}
