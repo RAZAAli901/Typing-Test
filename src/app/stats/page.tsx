@@ -170,41 +170,41 @@ export default function StatsPage() {
     <div className="max-w-4xl mx-auto py-8 px-4 space-y-8">
       {!username ? (
         /* Claim Username Flow Screen */
-        <div className="max-w-md mx-auto py-12">
-          <div className="glass-panel border border-white/10 rounded-3xl p-8 space-y-6 shadow-2xl bg-slate-950/40 text-center">
-            <div className="text-4xl">👑</div>
+        <div className="max-w-md mx-auto py-12 font-vt323 text-lg text-crt-dim">
+          <div className="bg-[#080808] border-2 border-crt-dim/40 rounded p-8 space-y-6 shadow-[0_0_20px_rgba(0,0,0,0.9)] text-center">
+            <div className="text-4xl animate-pulse">👑</div>
             <div className="space-y-2">
-              <h2 className="text-2xl font-bold text-white">Claim Username</h2>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <h2 className="text-2xl font-black text-crt-primary uppercase drop-shadow-[0_0_4px_var(--color-crt-primary)]">CLAIM COMPETITOR ID</h2>
+              <p className="text-sm text-crt-dim leading-relaxed uppercase">
                 Choose a unique identity to save your scores to the global leaderboard and track your personal statistics.
               </p>
             </div>
 
             <form onSubmit={handleClaimUsername} className="space-y-4">
               <div className="space-y-1 text-left">
-                <label className="text-xs font-semibold text-slate-400 ml-1">Username</label>
+                <label className="text-sm font-bold text-crt-dim uppercase tracking-wider ml-1">Competitor Name</label>
                 <input
                   type="text"
                   value={claimInput}
                   onChange={(e) => setClaimInput(e.target.value)}
-                  placeholder="e.g. SpeedTyper_42"
-                  className="w-full bg-slate-950/60 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500/50"
+                  placeholder="E.G. SPEED_TYPER"
+                  className="w-full bg-[#070707] border-2 border-crt-dim/40 rounded px-4 py-2.5 text-crt-primary focus:outline-none focus:border-crt-primary/80 shadow-[inset_0_0_10px_rgba(0,0,0,0.9)] placeholder:text-crt-dim/30 font-bold uppercase tracking-widest"
                   maxLength={20}
                 />
               </div>
 
               {claimError && (
-                <div className="text-rose-400 text-xs font-semibold text-left ml-1 bg-rose-500/10 border border-rose-500/20 px-3 py-2 rounded-lg">
-                  ⚠️ {claimError}
+                <div className="text-red-500 text-sm font-bold text-left ml-1 bg-red-950/20 border border-red-500/30 px-3 py-2 rounded">
+                  ⚠️ [ERROR: {claimError.toUpperCase()}]
                 </div>
               )}
 
               <button
                 type="submit"
                 disabled={isSubmittingClaim || !claimInput.trim()}
-                className="w-full py-3 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-sm transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shadow-md shadow-cyan-400/15"
+                className="w-full py-2.5 bg-zinc-900 hover:bg-zinc-800 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold rounded shadow-[4px_4px_0px_var(--color-crt-dim)] active:translate-x-1 active:translate-y-1 active:shadow-none transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider"
               >
-                {isSubmittingClaim ? "Validating..." : "Claim Identity 🚀"}
+                {isSubmittingClaim ? "VALIDATING PROFILE..." : "Claim Identity 🚀"}
               </button>
             </form>
           </div>
