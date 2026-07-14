@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { CrtSettingsProvider } from "@/lib/CrtSettingsContext";
 import RetroFrame from "@/components/RetroFrame";
+import AppClientWrapper from "@/components/AppClientWrapper";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -49,13 +50,15 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col font-sans selection:bg-crt-primary/30 selection:text-crt-primary p-2 sm:p-4 md:p-6 bg-zinc-950">
         <CrtSettingsProvider>
-          <RetroFrame>
-            <Navbar />
-            <main className="flex-grow flex flex-col w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-              {children}
-            </main>
-            <Footer />
-          </RetroFrame>
+          <AppClientWrapper>
+            <RetroFrame>
+              <Navbar />
+              <main className="flex-grow flex flex-col w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                {children}
+              </main>
+              <Footer />
+            </RetroFrame>
+          </AppClientWrapper>
         </CrtSettingsProvider>
       </body>
     </html>
