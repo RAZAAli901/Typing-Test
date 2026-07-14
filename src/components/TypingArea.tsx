@@ -64,7 +64,7 @@ export default function TypingArea({ text, isFinished, onKeyStroke }: TypingArea
     <div
       ref={containerRef}
       onClick={handleContainerClick}
-      className="relative w-full glass-panel rounded-2xl p-6 md:p-8 min-h-[180px] cursor-text flex items-center justify-center font-mono text-lg md:text-xl select-none focus-within:ring-2 focus-within:ring-cyan-500/30 transition-all"
+      className="relative w-full bg-[#070707] border-2 border-crt-dim/40 rounded-lg p-6 md:p-8 min-h-[180px] cursor-text flex items-center justify-center font-vt323 text-2xl md:text-3xl select-none focus-within:border-crt-primary/60 shadow-[inset_0_0_15px_rgba(0,0,0,0.9)] transition-all"
     >
       {/* Hidden input to capture keystrokes */}
       <input
@@ -80,30 +80,30 @@ export default function TypingArea({ text, isFinished, onKeyStroke }: TypingArea
         autoCorrect="off"
         spellCheck="false"
       />
-
+ 
       {/* Target text display */}
-      <div className="relative z-10 w-full max-w-4xl leading-relaxed tracking-wide text-slate-400 text-justify flex flex-wrap gap-x-1.5 gap-y-3">
+      <div className="relative z-10 w-full max-w-4xl leading-relaxed tracking-wide text-crt-dim/50 text-justify flex flex-wrap gap-x-1.5 gap-y-3">
         {text.split(" ").map((word, wordIdx) => {
           // Calculate start and end indices of the word in the original text
           // to render cursor and highlight states correctly.
           const prevWords = text.split(" ").slice(0, wordIdx).join(" ");
           const wordStartIdx = prevWords ? prevWords.length + 1 : 0;
-
+ 
           return (
             <div key={wordIdx} className="flex">
               {word.split("").map((char, charIdx) => {
                 const globalIdx = wordStartIdx + charIdx;
-                let charClass = "char text-slate-500 transition-colors duration-100";
-
+                let charClass = "char text-crt-dim/50 transition-colors duration-100";
+ 
                 if (globalIdx < charIndex) {
                   const isCorrect = typedText[globalIdx] === text[globalIdx];
                   charClass = isCorrect
-                    ? "char text-emerald-400 font-bold drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]"
-                    : "char text-rose-500 bg-rose-500/15 border-b-2 border-rose-500 drop-shadow-[0_0_8px_rgba(244,63,94,0.5)] animate-shake";
+                    ? "char text-crt-primary font-bold drop-shadow-[0_0_8px_var(--color-crt-primary)]"
+                    : "char text-red-500 bg-red-950/20 border border-red-500/30 drop-shadow-[0_0_8px_rgba(239,68,68,0.7)] animate-shake font-bold";
                 } else if (globalIdx === charIndex) {
-                  charClass = "char text-cyan-400 bg-cyan-400/10 border-b-2 border-cyan-400 animate-pulse";
+                  charClass = "char crt-block-cursor";
                 }
-
+ 
                 return (
                   <span key={charIdx} className={charClass}>
                     {char}
@@ -113,17 +113,17 @@ export default function TypingArea({ text, isFinished, onKeyStroke }: TypingArea
               {/* Render space character after each word except the last one */}
               {wordIdx < text.split(" ").length - 1 && (() => {
                 const spaceGlobalIdx = wordStartIdx + word.length;
-                let spaceClass = "space-char text-slate-500 transition-colors duration-100";
-
+                let spaceClass = "space-char text-crt-dim/30 transition-colors duration-100";
+ 
                 if (spaceGlobalIdx < charIndex) {
                   const isCorrect = typedText[spaceGlobalIdx] === text[spaceGlobalIdx];
                   spaceClass = isCorrect
-                    ? "space-char text-emerald-400/50"
-                    : "space-char bg-rose-500/30 border-b-2 border-rose-500";
+                    ? "space-char text-crt-primary/40"
+                    : "space-char bg-red-950/30 border border-red-500/40";
                 } else if (spaceGlobalIdx === charIndex) {
-                  spaceClass = "space-char bg-cyan-400/15 border-b-2 border-cyan-400 animate-pulse";
+                  spaceClass = "space-char bg-crt-primary/20 crt-block-cursor";
                 }
-
+ 
                 return (
                   <span className={spaceClass}>
                     &nbsp;
@@ -134,10 +134,10 @@ export default function TypingArea({ text, isFinished, onKeyStroke }: TypingArea
           );
         })}
       </div>
-
+ 
       {/* Click placeholder instruction if not active */}
       {!isFinished && charIndex === 0 && (
-        <div className="absolute bottom-3 right-4 text-xs text-slate-600 pointer-events-none animate-pulse">
+        <div className="absolute bottom-3 right-4 text-xs text-crt-dim/50 pointer-events-none animate-pulse">
           Click box & start typing to begin...
         </div>
       )}
