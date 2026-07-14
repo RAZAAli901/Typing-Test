@@ -2,6 +2,9 @@
 
 import React from "react";
 import { useCrtSettings } from "@/lib/CrtSettingsContext";
+import ScanlineOverlay from "./ScanlineOverlay";
+import CurvedVignette from "./CurvedVignette";
+import StaticNoiseLines from "./StaticNoiseLines";
 
 interface RetroFrameProps {
   children: React.ReactNode;
@@ -13,7 +16,13 @@ export default function RetroFrame({ children }: RetroFrameProps) {
   return (
     <div className="flex-grow flex flex-col relative w-full h-full bg-[#1e1e1e] border-[16px] md:border-[24px] border-[#2d2d2d] rounded-[32px] md:rounded-[48px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9),inset_0_4px_16px_rgba(255,255,255,0.08),inset_0_-6px_20px_rgba(0,0,0,0.7)] p-4 md:p-6 select-none">
       {/* Inner Bezel shadow boundary */}
-      <div className="flex-grow flex flex-col relative bg-[#060606] rounded-[16px] md:rounded-[24px] border-4 md:border-8 border-[#151515] shadow-[inset_0_0_80px_rgba(0,0,0,1)] overflow-hidden">
+      <div className={`flex-grow flex flex-col relative bg-[#060606] rounded-[16px] md:rounded-[24px] border-4 md:border-8 border-[#151515] shadow-[inset_0_0_80px_rgba(0,0,0,1)] overflow-hidden ${
+        settings.effectsEnabled ? "crt-flicker" : ""
+      }`}>
+        {/* CRT overlays */}
+        <ScanlineOverlay />
+        <CurvedVignette />
+        <StaticNoiseLines />
         {/* Screen glass glossy shine overlay */}
         <div className="absolute inset-0 pointer-events-none z-30 opacity-5 bg-gradient-to-tr from-transparent via-white/10 to-white/40"></div>
 
