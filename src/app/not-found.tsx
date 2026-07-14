@@ -4,35 +4,29 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="min-h-[70vh] flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 text-center space-y-6">
+    <div className="min-h-[60vh] flex flex-col items-center justify-center px-4 text-center space-y-8 font-vt323 select-none">
       {/* Visual Glitch Header */}
-      <div className="space-y-2">
-        <h1 className="text-8xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-tr from-cyan-400 via-purple-500 to-pink-500 animate-pulse select-none">
-          404
+      <div className="space-y-4">
+        <h1 className="text-6xl md:text-8xl font-black text-red-500 drop-shadow-[0_0_8px_rgba(239,68,68,0.7)] animate-pulse uppercase tracking-wider">
+          ⚠️ SIGNAL LOST
         </h1>
-        <h2 className="text-xl md:text-2xl font-bold text-white tracking-wide">
-          Lost in Space 🚀
+        <h2 className="text-2xl md:text-3xl font-bold text-crt-primary tracking-widest uppercase drop-shadow-[0_0_4px_var(--color-crt-primary)]">
+          ERROR 404: ADDR NOT FOUND
         </h2>
       </div>
 
-      {/* Glassmorphic Panel Description */}
-      <div className="glass-panel border border-white/10 rounded-2xl p-6 max-w-md bg-slate-950/20 backdrop-blur-md shadow-xl text-xs md:text-sm text-slate-400 leading-relaxed font-light">
-        The page you are looking for has drifted into deep space or never existed. Check the URL spelling, or head back to the arena to test your typing reflexes.
+      {/* Terminal details block */}
+      <div className="bg-[#080808] border-2 border-dashed border-crt-dim/40 rounded p-6 max-w-md text-base md:text-lg text-crt-dim leading-relaxed tracking-wider shadow-[0_0_15px_rgba(0,0,0,0.8)]">
+        THE REQUESTED MEMORY ADDRESS OR PAGE PATH HAS DRIFTED OUTSIDE CURRENT SYSTEM SCANNING BOUNDS. CHECK SYSTEM LINK AND RESET MODEM.
       </div>
 
       {/* Back to Home Button */}
-      <div className="flex gap-4">
-        <Link
-          href="/play"
-          className="px-6 py-3 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-sm tracking-wide transition-all shadow-md shadow-cyan-400/10 cursor-pointer"
-        >
-          Go to Arena ⚡
-        </Link>
+      <div>
         <Link
           href="/"
-          className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-slate-400 hover:text-white font-semibold text-sm transition-all hover:bg-white/10 cursor-pointer"
+          className="inline-block px-8 py-3 bg-zinc-900 hover:bg-zinc-800 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold text-lg rounded shadow-[4px_4px_0px_var(--color-crt-dim)] active:translate-x-1 active:translate-y-1 active:shadow-none transition-all cursor-pointer uppercase tracking-widest"
         >
-          Return Home
+          RECONNECT ⚡
         </Link>
       </div>
     </div>
