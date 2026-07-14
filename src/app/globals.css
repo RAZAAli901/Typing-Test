@@ -9,13 +9,39 @@
   
   --font-sans: var(--font-outfit), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), monospace;
+  
+  --font-press-start: var(--font-press-start-2p), monospace;
+  --font-vt323: var(--font-vt323), monospace;
+  
+  --color-crt-bg: var(--crt-bg);
+  --color-crt-primary: var(--color-crt-primary);
+  --color-crt-dim: var(--color-crt-dim);
+  --color-crt-green: var(--crt-green);
+  --color-crt-amber: var(--crt-amber);
 }
 
 :root {
   --font-outfit: "Outfit", sans-serif;
   --font-jetbrains-mono: "JetBrains Mono", monospace;
-  background-color: #030014;
-  color: #e2e8f0;
+  
+  --crt-bg: #060606;
+  --crt-green: #39ff14;
+  --crt-green-dim: #0a5f00;
+  --crt-amber: #ffb000;
+  
+  /* Dynamic CRT active color theme tokens */
+  --color-crt-primary: #39ff14;
+  --color-crt-dim: #0a5f00;
+  --color-crt-glow-rgb: 57, 255, 20;
+  
+  background-color: var(--crt-bg);
+  color: var(--color-crt-primary);
+}
+
+.theme-amber {
+  --color-crt-primary: #ffb000;
+  --color-crt-dim: #5f3f00;
+  --color-crt-glow-rgb: 255, 176, 0;
 }
 
 body {
