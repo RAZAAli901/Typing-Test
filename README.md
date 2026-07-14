@@ -103,6 +103,24 @@ This repository has been upgraded with a high-fidelity **Next.js 14+ (App Router
 
 ---
 
+## 📺 Retro CRT TV UI Overhaul (Web v2.0)
+
+The entire user interface of TypeMaster Web has been overhauled to emulate typing on an old phosphor-glow CRT computer terminal / television screen:
+
+* **Phosphor Display Aesthetics:** Curved glass screen curvature, scanline overlays, moving static lines, low-frequency screen flicker, and faint RGB chromatic aberration.
+* **Chunky Monitor Bezel Casing:** A heavy plastic monitor casing wrapping the screen, complete with PAL system badges, a red power LED, and functional dial knobs.
+* **Hardware Bezel Dials:**
+  * `COLOR (GRN/AMB)`: Dynamically swaps the screen phosphor between classic green-on-black and retro amber-on-black.
+  * `EFFECTS (ON/OFF)`: Toggles scanlines, curvature vignette, tracking static, and screen flicker on/off.
+  * `AUDIO (ON/OFF)`: Toggles synthesized key-click sounds and mistake buzzer sound effects.
+* **Web Audio Synthesis:** zero asset downloads! Click and buzzer sounds are synthesized dynamically on-the-fly using the HTML5 Web Audio API.
+* **Accessibility / Reduced Motion:** Rolling static lines, screen flicker, and randomized scanline roll glitching automatically disable if the browser/OS has `prefers-reduced-motion: reduce` enabled, or if disabled via the settings toggle.
+* **Print Stylesheet Overrides:** Media print queries completely strip background gradients, CRT overlay classes, glow text shadows, and headers/footers to produce clean black-on-white text for printing.
+
+---
+
+---
+
 ### 🛠️ Local Development & Scaffolding
 
 #### 1. Install Dependencies
