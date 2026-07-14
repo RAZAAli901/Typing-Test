@@ -47,7 +47,31 @@ export default function LeaderboardPage() {
         const data = await response.json();
         setSessions(data.sessions || []);
       } catch (err: any) {
-        setError(err.message || "Something went wrong.");
+        console.warn("Database leaderboard fetch failed, falling back to local scores:", err);
+        if (typeof window !== "undefined") {
+          try {
+            const localSessionsStr = localStorage.getItem("typemaster_local_sessions") || "[]";
+            const localSessions = JSON.parse(localSessionsStr) as any[];
+            
+            // Filter by activeMode
+            const filtered = localSessions.filter((s) => s.mode === activeMode);
+            
+            // Sort by activeSort (netWpm or accuracy)
+            filtered.sort((a, b) => {
+              if (activeSort === "accuracy") {
+                return b.accuracy - a.accuracy || b.netWpm - a.netWpm;
+              }
+              return b.netWpm - a.netWpm || b.accuracy - a.accuracy;
+            });
+            
+            // Take top 10
+            setSessions(filtered.slice(0, 10));
+          } catch (localErr) {
+            setError("Failed to load local scores.");
+          }
+        } else {
+          setError(err.message || "Failed to load leaderboard data.");
+        }
       } finally {
         setIsLoading(false);
       }

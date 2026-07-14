@@ -104,7 +104,76 @@ export default function StatsPage() {
         });
         setPersonalBests(pbMap);
       } catch (err: any) {
-        setError(err.message || "Failed to load profile data.");
+        console.warn("Database stats fetch failed, calculating from local scores:", err);
+        if (typeof window !== "undefined") {
+          try {
+            const localSessionsStr = localStorage.getItem("typemaster_local_sessions") || "[]";
+            const localSessions = JSON.parse(localSessionsStr) as any[];
+            
+            // Filter user sessions
+            const userSessions = localSessions.filter(
+              (s) => s.username.toLowerCase() === currentUsername.toLowerCase()
+            );
+
+            if (userSessions.length === 0) {
+              setStats({
+                username: currentUsername,
+                totalSessions: 0,
+                averageWpm: 0,
+                averageAccuracy: 0,
+                topWpm: 0,
+                totalDurationMinutes: 0,
+              });
+              setPersonalBests({});
+              return;
+            }
+
+            const totalSessionsCount = userSessions.length;
+            const avgWpm = Math.round(
+              userSessions.reduce((acc, s) => acc + s.netWpm, 0) / totalSessionsCount
+            );
+            const avgAccuracy = Number(
+              (userSessions.reduce((acc, s) => acc + s.accuracy, 0) / totalSessionsCount).toFixed(1)
+            );
+            const topWpmScore = Math.max(...userSessions.map((s) => s.netWpm));
+            const totalDurationMins = Number(
+              (userSessions.reduce((acc, s) => acc + s.timeTakenSeconds, 0) / 60).toFixed(2)
+            );
+
+            setStats({
+              username: currentUsername,
+              totalSessions: totalSessionsCount,
+              averageWpm: avgWpm,
+              averageAccuracy: avgAccuracy,
+              topWpm: topWpmScore,
+              totalDurationMinutes: totalDurationMins,
+            });
+
+            // Calculate personal bests per mode
+            const pbMap: Record<string, PBData | null> = {};
+            MODES.forEach((mode) => {
+              const modeSessions = userSessions.filter((s) => s.mode === mode.id);
+              if (modeSessions.length > 0) {
+                // Sort by netWpm descending, then accuracy descending
+                modeSessions.sort((a, b) => b.netWpm - a.netWpm || b.accuracy - a.accuracy);
+                const best = modeSessions[0];
+                pbMap[mode.id] = {
+                  mode: mode.id,
+                  netWpm: best.netWpm,
+                  accuracy: best.accuracy,
+                  createdAt: best.createdAt,
+                };
+              } else {
+                pbMap[mode.id] = null;
+              }
+            });
+            setPersonalBests(pbMap);
+          } catch (localErr) {
+            setError("Failed to compile local statistics.");
+          }
+        } else {
+          setError(err.message || "Failed to load profile data.");
+        }
       } finally {
         setIsLoading(false);
       }
