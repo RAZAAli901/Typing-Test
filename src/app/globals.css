@@ -206,3 +206,20 @@ body {
 .crt-glitch {
   animation: crt-glitch 25s infinite;
 }
+
+/* Custom Scrollbars to match CRT Phosphor Theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #060606;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-crt-dim);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-crt-primary);
+  box-shadow: 0 0 6px var(--color-crt-primary);
+}
