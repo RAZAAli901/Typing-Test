@@ -16,43 +16,46 @@ export default function StatsHUD({
   elapsedTime,
 }: StatsHUDProps) {
   return (
-    <div className="grid grid-cols-3 gap-2.5 md:gap-4 w-full max-w-4xl">
+    <div className="grid grid-cols-3 gap-2.5 md:gap-4 w-full max-w-4xl font-vt323 select-none">
       {/* WPM Card */}
-      <div className="glass-panel rounded-xl p-4 flex flex-col items-center justify-center border border-white/5 shadow-md transition-all duration-300">
-        <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-          Net Speed
+      <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 flex flex-col items-center justify-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden group">
+        <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
+        <span className="text-xs font-bold text-crt-dim uppercase tracking-wider">
+          NET SPEED
         </span>
-        <span className="text-3xl md:text-4xl font-mono font-extrabold text-cyan-400 mt-1">
-          {netWpm}
+        <span className="text-4xl md:text-5xl font-black text-crt-primary drop-shadow-[0_0_6px_var(--color-crt-primary)] mt-1 animate-pulse">
+          {netWpm} <span className="text-xs font-bold text-crt-dim">WPM</span>
         </span>
-        <span className="text-[10px] text-slate-400 mt-1 font-light">
-          gross: {grossWpm} WPM
+        <span className="text-xs text-crt-dim mt-1 font-medium tracking-wide">
+          GROSS: {grossWpm}
         </span>
       </div>
 
       {/* Accuracy Card */}
-      <div className="glass-panel rounded-xl p-4 flex flex-col items-center justify-center border border-white/5 shadow-md transition-all duration-300">
-        <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-          Accuracy
+      <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 flex flex-col items-center justify-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden group">
+        <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
+        <span className="text-xs font-bold text-crt-dim uppercase tracking-wider">
+          ACCURACY
         </span>
-        <span className="text-3xl md:text-4xl font-mono font-extrabold text-purple-400 mt-1">
-          {accuracy.toFixed(1)}%
+        <span className="text-4xl md:text-5xl font-black text-crt-primary drop-shadow-[0_0_6px_var(--color-crt-primary)] mt-1">
+          {accuracy.toFixed(1)}<span className="text-xs font-bold text-crt-dim">%</span>
         </span>
-        <span className="text-[10px] text-slate-400 mt-1 font-light">
-          {mistakes} mistakes
+        <span className="text-xs text-crt-dim mt-1 font-medium tracking-wide">
+          TYPOS: {mistakes}
         </span>
       </div>
 
       {/* Time Card */}
-      <div className="glass-panel rounded-xl p-4 flex flex-col items-center justify-center border border-white/5 shadow-md transition-all duration-300">
-        <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-          Elapsed Time
+      <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 flex flex-col items-center justify-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden group">
+        <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
+        <span className="text-xs font-bold text-crt-dim uppercase tracking-wider">
+          ELAPSED TIME
         </span>
-        <span className="text-3xl md:text-4xl font-mono font-extrabold text-pink-500 mt-1">
-          {elapsedTime.toFixed(1)}s
+        <span className="text-4xl md:text-5xl font-black text-crt-primary drop-shadow-[0_0_6px_var(--color-crt-primary)] mt-1">
+          {elapsedTime.toFixed(1)}<span className="text-xs font-bold text-crt-dim">S</span>
         </span>
-        <span className="text-[10px] text-slate-400 mt-1 font-light">
-          stopwatch active
+        <span className="text-xs text-crt-dim mt-1 font-medium tracking-wide">
+          STOPWATCH
         </span>
       </div>
     </div>
