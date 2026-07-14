@@ -185,3 +185,24 @@ body {
   55% { transform: scaleY(0.005) scaleX(1); filter: brightness(3); }
   100% { transform: scaleY(0.005) scaleX(0); filter: brightness(5); }
 }
+
+@keyframes crt-cursor-blink {
+  0%, 49% { background-color: var(--color-crt-primary); color: #000; }
+  50%, 100% { background-color: transparent; color: inherit; }
+}
+
+.crt-block-cursor {
+  animation: crt-cursor-blink 1s infinite;
+}
+
+@keyframes crt-glitch {
+  0% { transform: translateY(0) skewX(0); filter: brightness(1); }
+  0.4% { transform: translateY(2px) skewX(3deg); filter: brightness(1.2) contrast(1.1); }
+  0.8% { transform: translateY(-2px) skewX(-2deg); filter: brightness(0.9); }
+  1.2% { transform: translateY(0) skewX(0); filter: brightness(1); }
+  100% { transform: translateY(0) skewX(0); filter: brightness(1); }
+}
+
+.crt-glitch {
+  animation: crt-glitch 25s infinite;
+}
