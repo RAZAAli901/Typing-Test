@@ -66,19 +66,21 @@ export default function RetroBootScreen({ onComplete }: RetroBootScreenProps) {
       }
     }, 3600);
 
-    const exitTimer = setTimeout(() => {
-      if (!settings.reducedMotion) {
-        onComplete();
-      }
-    }, 4100);
-
     return () => {
       timers.forEach(clearTimeout);
       clearInterval(progressTimer);
       clearTimeout(completeTimer);
-      clearTimeout(exitTimer);
     };
   }, [phase, settings.reducedMotion, onComplete]);
+
+  useEffect(() => {
+    if (phase === "off-anim") {
+      const exitTimer = setTimeout(() => {
+        onComplete();
+      }, 550);
+      return () => clearTimeout(exitTimer);
+    }
+  }, [phase, onComplete]);
 
   const getProgressBar = () => {
     const totalBlocks = 20;
