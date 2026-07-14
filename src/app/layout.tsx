@@ -3,6 +3,7 @@ import { Outfit, JetBrains_Mono, VT323, Press_Start_2P } from "next/font/google"
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { CrtSettingsProvider } from "@/lib/CrtSettingsContext";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -45,12 +46,14 @@ export default function RootLayout({
       lang="en"
       className={`${outfit.variable} ${jetbrainsMono.variable} ${vt323.variable} ${pressStart2P.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans selection:bg-cyan-500/30 selection:text-cyan-200">
-        <Navbar />
-        <main className="flex-grow flex flex-col w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {children}
-        </main>
-        <Footer />
+      <body className="min-h-full flex flex-col font-sans selection:bg-crt-primary/30 selection:text-crt-primary">
+        <CrtSettingsProvider>
+          <Navbar />
+          <main className="flex-grow flex flex-col w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            {children}
+          </main>
+          <Footer />
+        </CrtSettingsProvider>
       </body>
     </html>
   );
