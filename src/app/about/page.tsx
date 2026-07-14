@@ -66,22 +66,22 @@ const MODES = [
 
 export default function AboutPage() {
   return (
-    <div className="max-w-4xl mx-auto py-8 px-4 space-y-12">
+    <div className="max-w-4xl mx-auto py-8 px-4 space-y-12 font-vt323 text-lg text-crt-dim select-none">
       {/* Title Header */}
       <div className="text-center space-y-2">
-        <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
-          ℹ️ About TypeMaster
+        <h1 className="text-4xl md:text-5xl font-black text-crt-primary tracking-widest uppercase drop-shadow-[0_0_5px_var(--color-crt-primary)]">
+          ℹ️ ABOUT TYPEMASTER
         </h1>
-        <p className="text-sm md:text-base text-slate-400 font-light max-w-lg mx-auto">
+        <p className="text-sm md:text-base text-crt-dim font-bold tracking-widest uppercase">
           Learn how your typing metrics are measured and explore the skills tested by each practice mode.
         </p>
       </div>
 
       {/* Calculations & Formulas Section */}
       <div className="space-y-6">
-        <div className="border-b border-white/5 pb-2">
-          <h2 className="text-xl font-bold text-white flex items-center gap-2">
-            🧮 How We Calculate Your Speed
+        <div className="border-b border-crt-dim/30 pb-2">
+          <h2 className="text-2xl font-bold text-crt-primary uppercase tracking-wider flex items-center gap-2">
+            🧮 speed calculation metrics
           </h2>
         </div>
 
@@ -89,16 +89,16 @@ export default function AboutPage() {
           {METRICS.map((metric, idx) => (
             <div
               key={idx}
-              className="glass-panel p-6 rounded-2xl border border-white/5 bg-slate-950/20 space-y-4 hover:border-cyan-500/10 transition-all duration-300"
+              className="bg-[#070707] border-2 border-crt-dim/40 p-6 rounded shadow-[inset_0_0_10px_rgba(0,0,0,0.9)] space-y-4 hover:border-crt-primary/60 transition-all duration-300"
             >
               <div className="flex items-center gap-3">
                 <span className="text-2xl">{metric.icon}</span>
-                <h3 className="text-base font-bold text-white">{metric.name}</h3>
+                <h3 className="text-xl font-bold text-crt-primary drop-shadow-[0_0_3px_var(--color-crt-primary)]">{metric.name.toUpperCase()}</h3>
               </div>
-              <div className="bg-slate-950/80 border border-white/5 p-3.5 rounded-xl font-mono text-xs text-cyan-400 select-all text-center md:text-left">
+              <div className="bg-[#0a0a0a] border border-crt-dim/20 p-3.5 rounded font-mono text-xs md:text-sm text-crt-primary select-all text-center md:text-left shadow-inner">
                 {metric.formula}
               </div>
-              <p className="text-xs text-slate-400 leading-relaxed font-light">
+              <p className="text-base text-crt-dim/80 leading-relaxed font-medium uppercase">
                 {metric.desc}
               </p>
             </div>
@@ -108,8 +108,8 @@ export default function AboutPage() {
 
       {/* Game Modes Legend Section */}
       <div className="space-y-6">
-        <div className="border-b border-white/5 pb-2">
-          <h2 className="text-xl font-bold text-white flex items-center gap-2">
+        <div className="border-b border-crt-dim/30 pb-2">
+          <h2 className="text-2xl font-bold text-crt-primary uppercase tracking-wider flex items-center gap-2">
             🎮 Typing Challenge Modes
           </h2>
         </div>
@@ -118,12 +118,12 @@ export default function AboutPage() {
           {MODES.map((mode, idx) => (
             <div
               key={idx}
-              className="glass-panel p-5 rounded-2xl border border-white/5 bg-slate-950/10 flex gap-4 hover:border-purple-500/10 transition-all duration-300"
+              className="bg-[#080808] border border-crt-dim/30 p-5 rounded flex gap-4 hover:border-crt-primary/45 transition-all duration-300 shadow-sm"
             >
               <span className="text-3xl self-start mt-1">{mode.icon}</span>
               <div className="space-y-1">
-                <h4 className="text-sm font-bold text-white">{mode.name}</h4>
-                <p className="text-xs text-slate-400 font-light leading-relaxed">
+                <h4 className="text-base font-bold text-crt-primary uppercase">{mode.name.toUpperCase()}</h4>
+                <p className="text-sm text-crt-dim/75 font-medium leading-relaxed uppercase">
                   {mode.desc}
                 </p>
               </div>
@@ -133,9 +133,9 @@ export default function AboutPage() {
       </div>
 
       {/* Origin Note Callout */}
-      <div className="glass-panel p-6 rounded-2xl border border-white/10 bg-gradient-to-r from-cyan-950/10 to-purple-950/10 text-center space-y-2">
-        <h4 className="text-sm font-bold text-white">✨ Rebuilt for the Modern Web</h4>
-        <p className="text-xs text-slate-400 font-light leading-relaxed max-w-xl mx-auto">
+      <div className="bg-[#070707] border-2 border-dashed border-crt-dim/40 p-6 rounded text-center space-y-2 shadow-inner">
+        <h4 className="text-lg font-black text-crt-primary uppercase drop-shadow-[0_0_3px_var(--color-crt-primary)]">*** REBUILT FOR THE MODERN WEB ***</h4>
+        <p className="text-sm text-crt-dim font-medium leading-relaxed max-w-xl mx-auto uppercase">
           TypeMaster Web is a complete Next.js port of the original TypeMaster C++ CLI. While the terminal game had to calculate limits without standard string or time containers, the web version introduces high-precision web APIs, client-side persistence, and a global PostgreSQL-backed leaderboard.
         </p>
       </div>
