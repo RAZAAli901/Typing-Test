@@ -337,43 +337,43 @@ export default function PlayPage() {
           </div>
 
           {/* Mode Selector Tabs */}
-          <div className="w-full flex flex-wrap gap-2 justify-center bg-slate-950/40 p-2 rounded-2xl border border-white/5 backdrop-blur-sm">
+          <div className="w-full flex flex-wrap gap-2 justify-center bg-[#070707] p-2 rounded border border-crt-dim/30 shadow-md font-vt323 text-base">
             {modesList.map((m) => {
               const isActive = activeMode === m.id;
               return (
                 <button
                   key={m.id}
                   onClick={() => handleReset(m.id, activeLength)}
-                  className={`flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-xl transition-all duration-300 cursor-pointer ${
+                  className={`flex items-center gap-1.5 px-4 py-1.5 font-bold rounded transition-all duration-200 cursor-pointer ${
                     isActive
-                      ? "bg-gradient-to-r from-cyan-500/20 to-purple-500/20 text-cyan-400 border border-cyan-500/40 shadow-sm shadow-cyan-500/10"
-                      : "text-slate-400 hover:text-white bg-white/0 hover:bg-white/5 border border-transparent"
+                      ? "bg-crt-primary/20 text-crt-primary border border-crt-primary/40 shadow-[0_0_8px_rgba(57,255,20,0.15)]"
+                      : "text-crt-dim hover:text-white bg-transparent border border-transparent"
                   }`}
                 >
                   <span>{m.icon}</span>
-                  <span>{m.label}</span>
+                  <span>{m.label.toUpperCase()}</span>
                 </button>
               );
             })}
           </div>
 
           {/* Mode Selector Description */}
-          <div className="text-center text-xs text-slate-400 font-light max-w-lg leading-relaxed bg-white/5 border border-white/5 px-4 py-2.5 rounded-xl">
-            {modesList.find((m) => m.id === activeMode)?.desc}
+          <div className="text-center text-sm text-crt-dim font-bold tracking-wider uppercase max-w-lg leading-relaxed bg-zinc-950/40 border border-crt-dim/20 px-4 py-2.5 rounded font-vt323">
+            {modesList.find((m) => m.id === activeMode)?.desc.toUpperCase()}
           </div>
 
           {/* Length Selector */}
-          <div className="flex gap-3 items-center text-sm font-semibold text-slate-400">
-            <span>Length:</span>
-            <div className="flex bg-slate-950/40 p-1 rounded-xl border border-white/5">
+          <div className="flex gap-3 items-center text-sm font-bold text-crt-dim uppercase tracking-wider font-vt323">
+            <span>SELECT LENGTH:</span>
+            <div className="flex bg-[#070707] p-0.5 rounded border border-crt-dim/20">
               {(["short", "medium", "long"] as LengthType[]).map((len) => (
                 <button
                   key={len}
                   onClick={() => handleReset(activeMode, len)}
-                  className={`px-3 py-1 rounded-lg text-xs font-semibold capitalize cursor-pointer transition-all duration-200 ${
+                  className={`px-3 py-1 rounded text-xs font-bold uppercase cursor-pointer transition-all duration-200 ${
                     activeLength === len
-                      ? "bg-cyan-500/20 text-cyan-400 shadow-sm shadow-cyan-500/10"
-                      : "text-slate-500 hover:text-slate-300 hover:bg-white/5"
+                      ? "bg-crt-primary/20 text-crt-primary shadow-sm"
+                      : "text-crt-dim hover:text-slate-200"
                   }`}
                 >
                   {len}
@@ -384,25 +384,25 @@ export default function PlayPage() {
 
           {/* Custom Text Editing Area */}
           {activeMode === "custom" && isEditingCustom ? (
-            <div className="w-full glass-panel rounded-2xl p-6 md:p-8 flex flex-col space-y-4 border border-white/10 shadow-lg">
-              <h3 className="text-base font-bold text-white">Enter Custom Prompt Text</h3>
+            <div className="w-full bg-[#080808] border-2 border-crt-dim/40 rounded p-6 md:p-8 flex flex-col space-y-4 shadow-[0_0_20px_rgba(0,0,0,0.9)] font-vt323 text-lg text-crt-dim">
+              <h3 className="text-xl font-black text-crt-primary uppercase">ENTER CUSTOM PROMPT TEXT</h3>
               <textarea
                 value={customInputText}
                 onChange={(e) => setCustomInputText(e.target.value)}
-                placeholder="Paste your custom paragraph here to practice typing it..."
-                className="w-full min-h-[120px] bg-slate-950/60 border border-white/10 rounded-xl p-4 font-mono text-sm text-slate-300 focus:outline-none focus:border-cyan-500/50 resize-y"
+                placeholder="PASTE YOUR CUSTOM PARAGRAPH HERE TO PRACTICE TYPING IT..."
+                className="w-full min-h-[120px] bg-[#070707] border-2 border-crt-dim/30 rounded p-4 font-vt323 text-lg text-crt-primary focus:outline-none focus:border-crt-primary/80 shadow-[inset_0_0_10px_rgba(0,0,0,0.9)] resize-y placeholder:text-crt-dim/30"
               />
               <div className="flex items-center gap-3">
                 <button
                   onClick={handleApplyCustomText}
                   disabled={!customInputText.trim()}
-                  className="px-6 py-2.5 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-sm cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  className="px-6 py-2 bg-zinc-900 border-2 border-crt-dim text-crt-primary disabled:opacity-50 disabled:cursor-not-allowed hover:text-white hover:border-crt-primary font-bold rounded shadow-[3px_3px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase tracking-wider"
                 >
                   Apply Prompt ⚡
                 </button>
                 <button
                   onClick={() => handleReset("standard", activeLength)}
-                  className="px-6 py-2.5 rounded-lg bg-white/5 border border-white/10 text-slate-400 hover:text-white font-semibold text-sm cursor-pointer hover:bg-white/10 transition-all"
+                  className="px-6 py-2 bg-transparent border border-crt-dim/50 text-crt-dim hover:text-white hover:border-white font-bold rounded transition-all cursor-pointer uppercase tracking-wider"
                 >
                   Cancel
                 </button>
@@ -429,7 +429,7 @@ export default function PlayPage() {
               {/* Reset Action */}
               <button
                 onClick={() => handleReset(activeMode, activeLength)}
-                className="px-6 py-2.5 rounded-lg bg-white/5 border border-white/10 text-sm font-semibold text-white hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer"
+                className="px-6 py-2 bg-zinc-900 hover:bg-zinc-800 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold rounded shadow-[3px_3px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase font-vt323 tracking-wider"
               >
                 Reset Test 🔄
               </button>
