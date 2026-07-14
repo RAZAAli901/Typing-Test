@@ -102,6 +102,7 @@ export default function TypingArea({ text, isFinished, onKeyStroke }: TypingArea
                     ? "char text-crt-primary font-bold drop-shadow-[0_0_8px_var(--color-crt-primary)]"
                     : "char text-red-500 bg-red-950/20 border border-red-500/30 drop-shadow-[0_0_8px_rgba(239,68,68,0.7)] animate-shake font-bold";
                 } else if (globalIdx === charIndex) {
+                  // Apply retro blinking solid block cursor
                   charClass = "char crt-block-cursor";
                 }
  
