@@ -31,66 +31,68 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { href: "/play", label: "Play", icon: "⚡" },
-    { href: "/leaderboard", label: "Leaderboard", icon: "🏆" },
-    { href: "/stats", label: "Stats", icon: "📊" },
-    { href: "/about", label: "About", icon: "ℹ️" },
+    { href: "/play", label: "PLAY", icon: "⚡" },
+    { href: "/leaderboard", label: "LEADERBOARD", icon: "🏆" },
+    { href: "/stats", label: "STATS", icon: "📊" },
+    { href: "/about", label: "ABOUT", icon: "ℹ️" },
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-slate-950/80 backdrop-blur-md">
+    <header className="sticky top-0 z-40 w-full border-b border-crt-dim/40 bg-[#060606]/90 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo Area */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <span className="text-2xl animate-pulse">⚡</span>
-          <span className="text-xl font-extrabold tracking-tight text-white group-hover:text-cyan-400 transition-colors">
-            TypeMaster <span className="text-cyan-400 font-light">Web</span>
+        <Link href="/" className="flex items-center gap-2 group font-press-start text-[10px] md:text-[12px]">
+          <span className="text-crt-primary drop-shadow-[0_0_4px_var(--color-crt-primary)] animate-pulse">⚡</span>
+          <span className="tracking-tight text-white group-hover:text-crt-primary group-hover:drop-shadow-[0_0_5px_var(--color-crt-primary)] transition-all">
+            TYPEMASTER <span className="text-crt-primary font-black">v1.0</span>
           </span>
         </Link>
 
         {/* Navigation Links */}
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden md:flex items-center gap-6 font-vt323 text-lg md:text-xl">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
+                className={`flex items-center gap-1.5 px-2 py-1 transition-all duration-200 relative ${
                   isActive
-                    ? "text-cyan-400 bg-cyan-950/30 border border-cyan-800/30"
-                    : "text-slate-300 hover:text-white hover:bg-white/5"
+                    ? "text-crt-primary drop-shadow-[0_0_4px_var(--color-crt-primary)] font-bold"
+                    : "text-crt-dim hover:text-crt-primary hover:drop-shadow-[0_0_4px_var(--color-crt-primary)]"
                 }`}
               >
                 <span>{link.icon}</span>
                 <span>{link.label}</span>
+                {isActive && (
+                  <span className="absolute bottom-0 left-2 right-2 h-[2px] bg-crt-primary shadow-[0_0_6px_var(--color-crt-primary)] animate-[blink_0.8s_infinite]" />
+                )}
               </Link>
             );
           })}
         </nav>
 
         {/* User Identity HUD */}
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 bg-slate-900 border border-white/5 rounded-full py-1.5 px-4">
+        <div className="flex items-center gap-4 font-vt323 text-lg md:text-xl">
+          <div className="flex items-center gap-2 bg-[#0a0a0a] border border-crt-dim/50 rounded px-3 py-1 shadow-[inset_0_0_8px_rgba(0,0,0,0.8)]">
             <span className="text-sm">👤</span>
-            <span className="text-xs font-semibold text-slate-300 max-w-[120px] truncate" title={username}>
+            <span className="font-bold text-crt-primary tracking-wide max-w-[120px] truncate" title={username}>
               {username}
             </span>
           </div>
-          {/* Mobile menu trigger button or toggle could go here if needed */}
         </div>
       </div>
 
-      {/* Mobile Nav Link List (always render, stacked design, visible on small screen) */}
-      <div className="md:hidden flex justify-around border-t border-white/5 bg-slate-950/95 py-2">
+      {/* Mobile Nav Link List */}
+      <div className="md:hidden flex justify-around border-t border-crt-dim/30 bg-[#060606]/95 py-2 font-vt323 text-base">
         {navLinks.map((link) => {
           const isActive = pathname === link.href;
           return (
             <Link
               key={link.href}
               href={link.href}
-              className={`flex flex-col items-center gap-0.5 px-2 py-1 text-xs font-medium rounded transition-all duration-200 ${
-                isActive ? "text-cyan-400" : "text-slate-400 hover:text-white"
+              className={`flex flex-col items-center gap-0.5 px-2 py-0.5 transition-all duration-200 ${
+                isActive ? "text-crt-primary drop-shadow-[0_0_4px_var(--color-crt-primary)]" : "text-crt-dim hover:text-crt-primary"
               }`}
             >
               <span className="text-base">{link.icon}</span>
