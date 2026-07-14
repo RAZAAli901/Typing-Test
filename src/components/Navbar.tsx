@@ -41,6 +41,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-40 w-full border-b border-crt-dim/40 bg-[#060606]/90 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo Area */}
+        {/* CRT Phosphor styling with glow effects */}
         <Link href="/" className="flex items-center gap-2 group font-press-start text-[10px] md:text-[12px]">
           <span className="text-crt-primary drop-shadow-[0_0_4px_var(--color-crt-primary)] animate-pulse">⚡</span>
           <span className="tracking-tight text-white group-hover:text-crt-primary group-hover:drop-shadow-[0_0_5px_var(--color-crt-primary)] transition-all">
