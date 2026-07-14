@@ -64,168 +64,171 @@ export default function LeaderboardPage() {
     }
   }, []);
 
+  const getOrdinalRank = (n: number) => {
+    const s = ["TH", "ST", "ND", "RD"];
+    const v = n % 100;
+    const suffix = s[(v - 20) % 10] || s[v] || s[0];
+    return `${String(n).padStart(2, "0")}${suffix}`;
+  };
+
   return (
-    <div className="max-w-4xl mx-auto py-8 px-4 space-y-8">
+    <div className="max-w-4xl mx-auto py-8 px-4 space-y-8 font-vt323 text-lg">
       {/* Title Header */}
       <div className="text-center space-y-2">
-        <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
-          🏆 Global Leaderboard
+        <h1 className="text-4xl md:text-5xl font-black text-crt-primary tracking-widest uppercase drop-shadow-[0_0_5px_var(--color-crt-primary)]">
+          🏆 GLOBAL HIGHSCORES
         </h1>
-        <p className="text-sm md:text-base text-slate-400 font-light">
+        <p className="text-sm md:text-base text-crt-dim font-bold tracking-widest uppercase">
           Compare typing performance against players worldwide.
         </p>
       </div>
 
       {/* Mode Selector Tabs */}
-      <div className="w-full flex flex-wrap gap-2 justify-center bg-slate-950/40 p-2 rounded-2xl border border-white/5 backdrop-blur-sm">
+      <div className="w-full flex flex-wrap gap-2 justify-center bg-[#070707] p-2 rounded border border-crt-dim/30 shadow-md">
         {modesList.map((m) => {
           const isActive = activeMode === m.id;
           return (
             <button
               key={m.id}
               onClick={() => setActiveMode(m.id)}
-              className={`flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-xl transition-all duration-300 cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-sm font-bold rounded transition-all duration-200 cursor-pointer ${
                 isActive
-                  ? "bg-gradient-to-r from-cyan-500/20 to-purple-500/20 text-cyan-400 border border-cyan-500/40 shadow-sm shadow-cyan-500/10"
-                  : "text-slate-400 hover:text-white bg-white/0 hover:bg-white/5 border border-transparent"
+                  ? "bg-crt-primary/20 text-crt-primary border border-crt-primary/40 shadow-[0_0_8px_rgba(57,255,20,0.15)]"
+                  : "text-crt-dim hover:text-white bg-transparent border border-transparent"
               }`}
             >
               <span>{m.icon}</span>
-              <span>{m.label}</span>
+              <span>{m.label.toUpperCase()}</span>
             </button>
           );
         })}
       </div>
 
       {/* Sort Toggles */}
-      <div className="flex justify-between items-center bg-slate-950/20 p-4 rounded-xl border border-white/5">
-        <div className="text-xs text-slate-400 font-medium">
-          Showing Top 10 results for <span className="text-cyan-400 capitalize">{activeMode}</span>
+      <div className="flex justify-between items-center bg-[#070707] p-4 rounded border border-crt-dim/30">
+        <div className="text-xs md:text-sm text-crt-dim font-bold tracking-widest uppercase">
+          TOP 10 SCORES: <span className="text-crt-primary font-black uppercase">{activeMode}</span>
         </div>
-        <div className="flex gap-2 items-center text-xs text-slate-400">
+        <div className="flex gap-2 items-center text-xs md:text-sm text-crt-dim font-bold uppercase">
           <span>Sort by:</span>
-          <div className="flex bg-slate-950/60 p-1 rounded-lg border border-white/5">
+          <div className="flex bg-[#0a0a0a] p-0.5 rounded border border-crt-dim/20">
             <button
               onClick={() => setActiveSort("netWpm")}
-              className={`px-3 py-1.5 rounded-md font-semibold transition-all cursor-pointer ${
+              className={`px-3 py-1 rounded transition-all cursor-pointer font-bold ${
                 activeSort === "netWpm"
-                  ? "bg-cyan-500/20 text-cyan-400 shadow-sm"
-                  : "text-slate-500 hover:text-slate-300"
+                  ? "bg-crt-primary/20 text-crt-primary shadow-sm"
+                  : "text-crt-dim hover:text-slate-300"
               }`}
             >
-              Net WPM
+              NET WPM
             </button>
             <button
               onClick={() => setActiveSort("accuracy")}
-              className={`px-3 py-1.5 rounded-md font-semibold transition-all cursor-pointer ${
+              className={`px-3 py-1 rounded transition-all cursor-pointer font-bold ${
                 activeSort === "accuracy"
-                  ? "bg-cyan-500/20 text-cyan-400 shadow-sm"
-                  : "text-slate-500 hover:text-slate-300"
+                  ? "bg-crt-primary/20 text-crt-primary shadow-sm"
+                  : "text-crt-dim hover:text-slate-300"
               }`}
             >
-              Accuracy
+              ACCURACY
             </button>
           </div>
         </div>
       </div>
 
       {/* Leaderboard Table Container */}
-      <div className="glass-panel border border-white/10 rounded-2xl overflow-hidden shadow-xl bg-slate-950/20 backdrop-blur-md">
+      <div className="bg-[#070707] border-2 border-crt-dim/40 rounded shadow-[0_0_20px_rgba(0,0,0,0.9)] overflow-hidden">
         {isLoading ? (
           <div className="overflow-x-auto animate-pulse">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-white/5 bg-white/2 text-slate-500 text-xs uppercase tracking-wider">
-                  <th className="py-4 px-6 text-center w-16"><div className="h-3 bg-slate-800 rounded w-6 mx-auto" /></th>
-                  <th className="py-4 px-6"><div className="h-3 bg-slate-800 rounded w-16" /></th>
-                  <th className="py-4 px-6 text-center"><div className="h-3 bg-slate-800 rounded w-12 mx-auto" /></th>
-                  <th className="py-4 px-6 text-center"><div className="h-3 bg-slate-800 rounded w-16 mx-auto" /></th>
-                  <th className="py-4 px-6 text-center"><div className="h-3 bg-slate-800 rounded w-12 mx-auto" /></th>
-                  <th className="py-4 px-6 text-center hidden md:table-cell"><div className="h-3 bg-slate-800 rounded w-10 mx-auto" /></th>
+                <tr className="border-b border-crt-dim/20 bg-zinc-950/60 text-crt-dim text-xs uppercase tracking-wider">
+                  <th className="py-4 px-6 text-center w-20"><div className="h-3 bg-zinc-900 rounded w-10 mx-auto" /></th>
+                  <th className="py-4 px-6"><div className="h-3 bg-zinc-900 rounded w-20" /></th>
+                  <th className="py-4 px-6 text-center"><div className="h-3 bg-zinc-900 rounded w-16 mx-auto" /></th>
+                  <th className="py-4 px-6 text-center"><div className="h-3 bg-zinc-900 rounded w-16 mx-auto" /></th>
+                  <th className="py-4 px-6 text-center"><div className="h-3 bg-zinc-900 rounded w-16 mx-auto" /></th>
+                  <th className="py-4 px-6 text-center hidden md:table-cell"><div className="h-3 bg-zinc-900 rounded w-24 mx-auto" /></th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5 text-sm">
+              <tbody className="divide-y divide-crt-dim/10 text-sm">
                 {[...Array(5)].map((_, i) => (
                   <tr key={i} className="h-16">
-                    <td className="py-4 px-6 text-center"><div className="h-4 bg-slate-900 rounded w-5 mx-auto" /></td>
-                    <td className="py-4 px-6"><div className="h-4 bg-slate-900 rounded w-32" /></td>
-                    <td className="py-4 px-6 text-center"><div className="h-4 bg-slate-900 rounded w-8 mx-auto" /></td>
-                    <td className="py-4 px-6 text-center"><div className="h-4 bg-slate-900 rounded w-10 mx-auto" /></td>
-                    <td className="py-4 px-6 text-center"><div className="h-4 bg-slate-900 rounded w-8 mx-auto" /></td>
-                    <td className="py-4 px-6 text-center hidden md:table-cell"><div className="h-3 bg-slate-900 rounded w-16 mx-auto" /></td>
+                    <td className="py-4 px-6 text-center"><div className="h-4 bg-zinc-900 rounded w-8 mx-auto" /></td>
+                    <td className="py-4 px-6"><div className="h-4 bg-zinc-900 rounded w-28" /></td>
+                    <td className="py-4 px-6 text-center"><div className="h-4 bg-zinc-900 rounded w-10 mx-auto" /></td>
+                    <td className="py-4 px-6 text-center"><div className="h-4 bg-zinc-900 rounded w-12 mx-auto" /></td>
+                    <td className="py-4 px-6 text-center"><div className="h-4 bg-zinc-900 rounded w-10 mx-auto" /></td>
+                    <td className="py-4 px-6 text-center hidden md:table-cell"><div className="h-3 bg-zinc-900 rounded w-20 mx-auto" /></td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
         ) : error ? (
-          <div className="text-center py-16 text-rose-400 text-sm font-semibold">
-            ❌ {error}
+          <div className="text-center py-16 text-red-500 font-bold tracking-widest uppercase">
+            [ERROR: {error}]
           </div>
         ) : sessions.length === 0 ? (
           <div className="text-center py-16 space-y-2">
-            <div className="text-4xl">🏜️</div>
-            <h4 className="text-base font-bold text-white">No records found</h4>
-            <p className="text-xs text-slate-400 max-w-xs mx-auto">
-              Be the first to set a score for <span className="capitalize">{activeMode}</span> mode!
+            <div className="text-4xl animate-pulse">🏜️</div>
+            <h4 className="text-lg font-bold text-crt-primary">NO HIGH SCORES RECORDED</h4>
+            <p className="text-xs text-crt-dim uppercase tracking-wider">
+              Be the first to set a score in <span className="text-white font-bold">{activeMode}</span> mode!
             </p>
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-center border-collapse">
               <thead>
-                <tr className="border-b border-white/5 bg-white/2 text-slate-400 font-bold text-xs uppercase tracking-wider">
-                  <th className="py-4 px-6 text-center w-16">Rank</th>
-                  <th className="py-4 px-6">User</th>
-                  <th className="py-4 px-6 text-center">Net WPM</th>
-                  <th className="py-4 px-6 text-center">Accuracy</th>
-                  <th className="py-4 px-6 text-center">Duration</th>
-                  <th className="py-4 px-6 text-center hidden md:table-cell">Date</th>
+                <tr className="border-b border-crt-dim/30 bg-zinc-950/80 text-crt-dim font-bold text-xs uppercase tracking-widest">
+                  <th className="py-4 px-6 w-24">Rank</th>
+                  <th className="py-4 px-6 text-left">Competitor</th>
+                  <th className="py-4 px-6">Net WPM</th>
+                  <th className="py-4 px-6">Accuracy</th>
+                  <th className="py-4 px-6">Duration</th>
+                  <th className="py-4 px-6 hidden md:table-cell">Date Logged</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5 text-sm text-slate-200">
+              <tbody className="divide-y divide-crt-dim/15 text-slate-200">
                 {sessions.map((session, idx) => {
                   const rank = idx + 1;
                   const isCurUser = claimedUsername && session.username.toLowerCase() === claimedUsername.toLowerCase();
                   
-                  // Rank styling icons for podium finishes
-                  let rankDisplay: React.ReactNode = rank;
-                  if (rank === 1) rankDisplay = "🥇";
-                  else if (rank === 2) rankDisplay = "🥈";
-                  else if (rank === 3) rankDisplay = "🥉";
+                  const rankStr = getOrdinalRank(rank);
 
                   return (
                     <tr
                       key={session.id}
-                      className={`transition-colors hover:bg-white/2 ${
+                      className={`transition-colors hover:bg-crt-primary/[0.04] ${
                         isCurUser
-                          ? "bg-cyan-500/5 border-l-4 border-l-cyan-400"
-                          : ""
+                          ? "bg-crt-primary/10 border-l-4 border-l-crt-primary"
+                          : idx % 2 === 0
+                          ? "bg-[#070707]"
+                          : "bg-[#0e0e0e]/50"
                       }`}
                     >
-                      <td className="py-4 px-6 text-center font-bold text-sm">
-                        {rankDisplay}
+                      <td className="py-4 px-6 font-bold text-crt-primary drop-shadow-[0_0_3px_var(--color-crt-primary)] tracking-wide">
+                        {rankStr}
                       </td>
-                      <td className="py-4 px-6 font-semibold">
-                        <span className={isCurUser ? "text-cyan-300 font-bold" : "text-white"}>
-                          {session.username}
-                        </span>
+                      <td className="py-4 px-6 text-left font-bold text-white tracking-wide">
+                        {session.username}
                         {isCurUser && (
-                          <span className="ml-2 text-[10px] px-2 py-0.5 rounded-full bg-cyan-400/20 text-cyan-300 border border-cyan-400/30">
-                            You
+                          <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded bg-crt-primary/20 text-crt-primary border border-crt-primary/30">
+                            YOU
                           </span>
                         )}
                       </td>
-                      <td className="py-4 px-6 text-center font-bold text-white">
+                      <td className="py-4 px-6 font-black text-white text-xl drop-shadow-[0_0_2px_rgba(255,255,255,0.2)]">
                         {session.netWpm}
                       </td>
-                      <td className="py-4 px-6 text-center font-semibold text-emerald-400">
+                      <td className="py-4 px-6 font-bold text-crt-primary">
                         {session.accuracy.toFixed(1)}%
                       </td>
-                      <td className="py-4 px-6 text-center text-slate-400 font-light">
+                      <td className="py-4 px-6 text-crt-dim font-medium">
                         {session.timeTakenSeconds.toFixed(1)}s
                       </td>
-                      <td className="py-4 px-6 text-center text-slate-400 font-light text-xs hidden md:table-cell">
+                      <td className="py-4 px-6 text-crt-dim text-xs font-light hidden md:table-cell">
                         {new Date(session.createdAt).toLocaleDateString(undefined, {
                           month: "short",
                           day: "numeric",
