@@ -176,7 +176,7 @@ export default function PlayPage() {
     prevTypedLengthRef.current = len;
   };
 
-  const finishTest = (finalTyped: string) => {
+  const finishTest = async (finalTyped: string) => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
     }
@@ -205,6 +205,33 @@ export default function PlayPage() {
         if (prev.some((pt) => pt.time === roundedSeconds)) return prev;
         return [...prev, { time: roundedSeconds, wpm: finalNet, acc: finalAcc }];
       });
+
+      // Post results to database leaderboard if username is claimed
+      if (typeof window !== "undefined") {
+        const savedUsername = localStorage.getItem("typemaster_username");
+        if (savedUsername && savedUsername.trim().length >= 3) {
+          try {
+            await fetch("/api/sessions", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                username: savedUsername.trim(),
+                mode: activeMode,
+                grossWpm: Math.round(finalGross),
+                netWpm: Math.round(finalNet),
+                accuracy: Number(finalAcc.toFixed(1)),
+                timeTakenSeconds: Number(finalElapsed.toFixed(1)),
+                charsTyped: totalTypedRef.current,
+                mistakes: mistakesRef.current,
+              }),
+            });
+          } catch (err) {
+            console.error("Error saving typing session to leaderboard:", err);
+          }
+        }
+      }
     }
   };
 
