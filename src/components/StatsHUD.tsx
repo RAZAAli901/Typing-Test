@@ -15,6 +15,7 @@ export default function StatsHUD({
   mistakes,
   elapsedTime,
 }: StatsHUDProps) {
+  // Segmented digit LED/VFD readout panel styling
   return (
     <div className="grid grid-cols-3 gap-2.5 md:gap-4 w-full max-w-4xl font-vt323 select-none">
       {/* WPM Card */}
