@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import TypingArea from "@/components/TypingArea";
 import StatsHUD from "@/components/StatsHUD";
 import ResultsScreen from "@/components/ResultsScreen";
+import { useCrtSettings } from "@/lib/CrtSettingsContext";
+import { playKeystrokeClick, playErrorBuzz } from "@/lib/audio";
 import {
   TEXT_ASSETS,
   generateRandomWords,
@@ -24,6 +26,7 @@ interface TimelineDataPoint {
 }
 
 export default function PlayPage() {
+  const { settings } = useCrtSettings();
   const [activeMode, setActiveMode] = useState<ExtendedModeType>("standard");
   const [activeLength, setActiveLength] = useState<LengthType>("medium");
   const [text, setText] = useState("");
@@ -152,6 +155,13 @@ export default function PlayPage() {
 
       if (addedChar !== targetChar) {
         setMistakes((prev) => prev + 1);
+        if (settings.soundEnabled) {
+          playErrorBuzz();
+        }
+      } else {
+        if (settings.soundEnabled) {
+          playKeystrokeClick();
+        }
       }
     }
     prevLengthRefUpdate(typed.length);
