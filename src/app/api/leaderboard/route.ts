@@ -35,8 +35,27 @@ export async function GET(request: Request) {
     return NextResponse.json({ sessions });
   } catch (error: any) {
     console.error("Error fetching leaderboard:", error);
+    
+    let errorMessage = "Internal server error";
+    
+    // Classify database errors
+    if (error.code === "P2021") {
+      errorMessage = "Database tables are not initialized. Please run migrations.";
+    } else if (error.code === "P2002") {
+      errorMessage = "Database unique constraint violation.";
+    } else if (
+      error.message &&
+      (error.message.includes("ECONNREFUSED") || error.message.includes("Can't reach database"))
+    ) {
+      errorMessage = "Database connection refused. Please check if PostgreSQL is running and environment variables are configured.";
+    } else if (error.name === "PrismaClientInitializationError") {
+      errorMessage = "Failed to initialize database client. Check environment variables and network access.";
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: errorMessage },
       { status: 500 }
     );
   }
