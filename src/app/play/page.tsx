@@ -206,10 +206,32 @@ export default function PlayPage() {
         return [...prev, { time: roundedSeconds, wpm: finalNet, acc: finalAcc }];
       });
 
-      // Post results to database leaderboard if username is claimed
+      // Save results locally to localStorage as a fallback / local history
       if (typeof window !== "undefined") {
-        const savedUsername = localStorage.getItem("typemaster_username");
-        if (savedUsername && savedUsername.trim().length >= 3) {
+        const savedUsername = localStorage.getItem("typemaster_username") || "Anonymous";
+        try {
+          const localSessionsStr = localStorage.getItem("typemaster_local_sessions") || "[]";
+          const localSessions = JSON.parse(localSessionsStr);
+          const newSession = {
+            id: Math.random().toString(36).substring(2, 9),
+            username: savedUsername,
+            mode: activeMode,
+            grossWpm: Math.round(finalGross),
+            netWpm: Math.round(finalNet),
+            accuracy: Number(finalAcc.toFixed(1)),
+            timeTakenSeconds: Number(finalElapsed.toFixed(1)),
+            charsTyped: totalTypedRef.current,
+            mistakes: mistakesRef.current,
+            createdAt: new Date().toISOString(),
+          };
+          localSessions.push(newSession);
+          localStorage.setItem("typemaster_local_sessions", JSON.stringify(localSessions));
+        } catch (e) {
+          console.error("Error saving local session:", e);
+        }
+
+        // Post results to database leaderboard if username is claimed
+        if (savedUsername && savedUsername !== "Anonymous" && savedUsername.trim().length >= 3) {
           try {
             await fetch("/api/sessions", {
               method: "POST",
