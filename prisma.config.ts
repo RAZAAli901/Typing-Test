@@ -6,8 +6,8 @@ const defaultUrl = "postgresql://postgres:postgres@localhost:5432/typemaster?sch
 export default defineConfig({
   schema: "prisma/schema.prisma",
   datasource: {
-    url: process.env.POSTGRES_PRISMA_URL || defaultUrl,
+    url: process.env.DATABASE_URL || defaultUrl,
     // @ts-ignore: directUrl is currently missing from PrismaConfig types
-    directUrl: process.env.POSTGRES_URL_NON_POOLING || defaultUrl,
+    directUrl: process.env.DIRECT_URL || process.env.DATABASE_URL || defaultUrl,
   },
 } as any);
