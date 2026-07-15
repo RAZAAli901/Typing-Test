@@ -42,12 +42,33 @@ export default function LeaderboardPage() {
           `/api/leaderboard?mode=${activeMode}&sort=${activeSort}&limit=10`
         );
         if (!response.ok) {
-          throw new Error("Failed to load leaderboard data.");
+          let errorMsg = "Failed to load leaderboard data.";
+          try {
+            const data = await response.json();
+            if (data && data.error) {
+              errorMsg = data.error;
+            }
+          } catch (e) {
+            errorMsg = `Server error (Status ${response.status})`;
+          }
+          throw new Error(errorMsg);
         }
         const data = await response.json();
         setSessions(data.sessions || []);
       } catch (err: any) {
         console.warn("Database leaderboard fetch failed, falling back to local scores:", err);
+        
+        const isNetworkError = err.message && (
+          err.message.includes("fetch") || 
+          err.message.includes("Network") || 
+          err.message.includes("Failed to fetch")
+        );
+        const displayError = isNetworkError
+          ? "Failed to connect to the server (Network Error). Please check your connection."
+          : (err.message || "Failed to load leaderboard data.");
+        
+        setError(displayError);
+
         if (typeof window !== "undefined") {
           try {
             const localSessionsStr = localStorage.getItem("typemaster_local_sessions") || "[]";
@@ -67,10 +88,8 @@ export default function LeaderboardPage() {
             // Take top 10
             setSessions(filtered.slice(0, 10));
           } catch (localErr) {
-            setError("Failed to load local scores.");
+            console.error("Failed to load local scores fallback:", localErr);
           }
-        } else {
-          setError(err.message || "Failed to load leaderboard data.");
         }
       } finally {
         setIsLoading(false);
