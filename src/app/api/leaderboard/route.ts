@@ -44,14 +44,18 @@ export async function GET(request: Request) {
     } else if (error.code === "P2002") {
       errorMessage = "Database unique constraint violation.";
     } else if (
-      error.message &&
-      (error.message.includes("ECONNREFUSED") || error.message.includes("Can't reach database"))
+      error.code === "ECONNREFUSED" ||
+      (error.message && (error.message.includes("ECONNREFUSED") || error.message.includes("Can't reach database")))
     ) {
       errorMessage = "Database connection refused. Please check if PostgreSQL is running and environment variables are configured.";
     } else if (error.name === "PrismaClientInitializationError") {
       errorMessage = "Failed to initialize database client. Check environment variables and network access.";
     } else if (error.message) {
-      errorMessage = error.message;
+      if (error.message.includes("invocation in") || error.message.includes("PrismaClient")) {
+        errorMessage = "Database connection or query failed. Please verify database schema and connection.";
+      } else {
+        errorMessage = error.message;
+      }
     }
 
     return NextResponse.json(
