@@ -4,25 +4,26 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Icon, { IconName } from "@/components/Icon";
+import { useSession, signOut } from "next-auth/react";
+import DefaultAvatar from "@/components/DefaultAvatar";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { data: session, status } = useSession();
   const [username, setUsername] = useState<string>("Anonymous");
 
-  // Fetch username from localStorage client-side
+  // Fetch username from localStorage client-side as fallback for guests
   useEffect(() => {
     const stored = localStorage.getItem("typemaster_username");
     if (stored) {
       setUsername(stored);
     }
 
-    // Set up a listener for storage changes so the username stays in sync
     const handleStorage = () => {
       const u = localStorage.getItem("typemaster_username");
       if (u) setUsername(u);
     };
     window.addEventListener("storage", handleStorage);
-    // Also support custom event for local updates
     window.addEventListener("usernameChanged", handleStorage);
 
     return () => {
@@ -76,12 +77,43 @@ export default function Navbar() {
 
         {/* User Identity HUD */}
         <div className="flex items-center gap-4 font-vt323 text-lg md:text-xl">
-          <div className="flex items-center gap-2 bg-[#0a0a0a] border border-crt-dim/50 rounded px-3 py-1 shadow-[inset_0_0_8px_rgba(0,0,0,0.8)]">
-            <Icon name="user" size={16} className="text-crt-primary" />
-            <span className="font-bold text-crt-primary tracking-wide max-w-[120px] truncate" title={username}>
-              {username}
-            </span>
-          </div>
+          {status === "authenticated" && session?.user ? (
+            <div className="flex items-center gap-3">
+              <Link href="/profile" className="flex items-center gap-2 bg-[#0a0a0a] border border-crt-dim/50 rounded px-3 py-1 shadow-[inset_0_0_8px_rgba(0,0,0,0.8)] hover:border-crt-primary transition-colors group">
+                <div className="w-5 h-5 rounded overflow-hidden flex items-center justify-center bg-zinc-950">
+                  {session.user.image ? (
+                    <img src={session.user.image} alt="Avatar" className="w-full h-full object-cover" />
+                  ) : (
+                    <DefaultAvatar className="w-4 h-4 text-crt-primary" />
+                  )}
+                </div>
+                <span className="font-bold text-crt-primary group-hover:text-white tracking-wide max-w-[100px] truncate" title={session.user.name || ""}>
+                  {session.user.name}
+                </span>
+              </Link>
+              <button
+                onClick={() => signOut({ callbackUrl: "/" })}
+                className="px-2.5 py-1 bg-transparent border border-crt-dim/40 text-crt-dim hover:text-white hover:border-white rounded text-xs font-bold uppercase transition-all cursor-pointer"
+              >
+                LOGOUT
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              {/* Fallback anonymous indicator */}
+              <div className="hidden sm:flex items-center gap-1.5 bg-[#0a0a0a] border border-crt-dim/30 rounded px-2.5 py-0.5 text-xs text-crt-dim/80">
+                <Icon name="user" size={12} className="text-crt-dim/50" />
+                <span className="max-w-[70px] truncate">{username}</span>
+              </div>
+              <Link
+                href="/login"
+                className="inline-flex items-center gap-1.5 px-3 py-1 bg-zinc-900 border border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold rounded shadow-[2px_2px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase tracking-wider text-xs"
+              >
+                <Icon name="user" size={12} />
+                <span>LOGIN</span>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
 
