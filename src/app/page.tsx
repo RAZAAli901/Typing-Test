@@ -131,8 +131,11 @@ export default function Home() {
                   {m.desc}
                 </p>
               </div>
-              <div className="mt-4 flex items-center justify-between text-[11px] font-semibold text-slate-500">
-                <span>Leaderboard Active</span>
+              <div className="mt-4 flex items-center justify-between text-xs font-bold uppercase tracking-wider font-vt323 text-crt-dim">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-crt-primary animate-pulse shadow-[0_0_4px_var(--color-crt-primary)]"></span>
+                  <span>[LDR ACTIVE]</span>
+                </div>
                 <Link
                   href={`/play?mode=${m.name.toLowerCase().replace(" ", "-")}`}
                   className="text-cyan-400 hover:text-cyan-300 flex items-center gap-0.5"
