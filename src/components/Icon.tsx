@@ -71,5 +71,5 @@ export default function Icon({ name, className = "", size = 24 }: IconProps) {
 
   if (!IconComponent) return null;
 
-  return <IconComponent className={className} style={{ width: size, height: size }} />;
+  return <IconComponent className={`${className} pixel-icon-glow`} style={{ width: size, height: size }} />;
 }
