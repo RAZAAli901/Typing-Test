@@ -274,9 +274,9 @@ export default function ProfilePage() {
             
             {/* Size or upload errors */}
             {uploadError && (
-              <p className="text-xs text-red-500 font-bold uppercase tracking-wider animate-pulse pt-1">
+              <div className="inline-block text-xs bg-red-950/40 border border-red-500 text-red-500 font-bold uppercase tracking-wider px-2 py-1 rounded animate-pulse mt-1">
                 [ALERT: {uploadError}]
-              </p>
+              </div>
             )}
             
             {!previewUrl && !uploadError && (
