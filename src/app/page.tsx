@@ -53,13 +53,10 @@ export default function Home() {
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/40 border border-cyan-800/40 text-cyan-400 text-xs font-semibold tracking-wider uppercase animate-pulse">
           <span>⚡</span> Rebuilt from CLI to Next.js
         </div>
-        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
-          Master Your Typing Speed on{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-500 drop-shadow-[0_0_15px_rgba(6,182,212,0.3)]">
-            TypeMaster Web
-          </span>
+        <h1 className="text-4xl md:text-6xl font-black tracking-widest text-crt-primary drop-shadow-[0_0_6px_var(--color-crt-primary)] uppercase leading-tight font-vt323">
+          Master Your Typing Speed on TypeMaster Web
         </h1>
-        <p className="text-lg text-slate-400 leading-relaxed font-light">
+        <p className="text-lg md:text-xl text-crt-dim font-bold tracking-wider uppercase font-vt323">
           Experience real-time keystroke scanning, character color-coding, in-app synthesized audio feedback, and detailed performance curves linked to our global Vercel Postgres leaderboard.
         </p>
 
