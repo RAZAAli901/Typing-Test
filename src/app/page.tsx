@@ -6,48 +6,48 @@ export default function Home() {
       name: "Standard",
       desc: "Classic practice text with balanced sentences to find your baseline rhythm.",
       icon: "📝",
-      color: "from-cyan-500/20 to-blue-500/20 border-cyan-500/30",
+      borderColor: "border-cyan-500/30",
     },
     {
       name: "Numbers",
       desc: "Practice entering report data, temperatures, ratios, and percentages quickly.",
       icon: "🔢",
-      color: "from-purple-500/20 to-indigo-500/20 border-purple-500/30",
+      borderColor: "border-purple-500/30",
     },
     {
       name: "Quotes",
       desc: "Type famous inspirational quotes and philosophical thoughts from history.",
       icon: "💬",
-      color: "from-pink-500/20 to-rose-500/20 border-pink-500/30",
+      borderColor: "border-pink-500/30",
     },
     {
       name: "Code Snippet",
       desc: "Practice programming syntax, brackets, semicolons, and indentation rules.",
       icon: "💻",
-      color: "from-emerald-500/20 to-teal-500/20 border-emerald-500/30",
+      borderColor: "border-emerald-500/30",
     },
     {
       name: "Punctuation",
       desc: "Type paragraphs loaded with symbols, exclamation marks, and complex punctuation.",
       icon: "🔣",
-      color: "from-amber-500/20 to-orange-500/20 border-amber-500/30",
+      borderColor: "border-amber-500/30",
     },
     {
       name: "Random Words",
       desc: "Endless combinations of words selected from our local dictionary database.",
       icon: "🔀",
-      color: "from-indigo-500/20 to-blue-500/20 border-indigo-500/30",
+      borderColor: "border-indigo-500/30",
     },
     {
       name: "Daily Challenge",
       desc: "A single identical prompt refreshed daily for all players globally.",
       icon: "📅",
-      color: "from-violet-500/20 to-fuchsia-500/20 border-violet-500/30",
+      borderColor: "border-violet-500/30",
     },
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center space-y-16 py-8 md:py-12">
+    <div className="flex flex-col items-center justify-center space-y-16 py-8 md:py-12 font-vt323 text-lg text-crt-dim select-none">
       {/* Hero Section */}
       <section className="text-center max-w-3xl space-y-6">
         <div className="inline-flex items-center gap-2 text-crt-dim text-xs font-bold tracking-widest uppercase font-mono">
@@ -106,10 +106,10 @@ export default function Home() {
       </section>
 
       {/* Typing Modes Showcase */}
-      <section className="w-full max-w-6xl space-y-8">
+      <section className="w-full max-w-6xl space-y-8 font-vt323 text-lg">
         <div className="text-center space-y-2">
-          <h2 className="text-2xl md:text-3xl font-bold text-white">7 Specialized Typing Modes</h2>
-          <p className="text-slate-400 text-sm md:text-base font-light">
+          <h2 className="text-3xl font-black text-crt-primary uppercase drop-shadow-[0_0_5px_var(--color-crt-primary)]">7 Specialized Typing Modes</h2>
+          <p className="text-crt-dim font-bold tracking-widest uppercase text-sm md:text-base">
             Tailor your practice session by choosing from any of our diverse standard or algorithmic typing challenges.
           </p>
         </div>
@@ -118,16 +118,16 @@ export default function Home() {
           {modes.map((m, idx) => (
             <div
               key={idx}
-              className={`bg-gradient-to-br ${m.color} border rounded-2xl p-6 flex flex-col justify-between hover:scale-[1.02] hover:shadow-md transition-all duration-300 group`}
+              className={`bg-[#070707] border-2 ${m.borderColor} p-6 rounded flex flex-col justify-between hover:border-crt-primary hover:scale-[1.02] transition-all duration-300 shadow-[inset_0_0_10px_rgba(0,0,0,0.8)] group`}
             >
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">{m.icon}</span>
-                  <h4 className="text-base font-bold text-white group-hover:text-cyan-400 transition-colors">
+                  <h4 className="text-lg font-bold text-crt-primary group-hover:text-white transition-colors uppercase">
                     {m.name}
                   </h4>
                 </div>
-                <p className="text-xs text-slate-400 leading-relaxed font-light">
+                <p className="text-sm text-crt-dim/75 leading-relaxed uppercase">
                   {m.desc}
                 </p>
               </div>
