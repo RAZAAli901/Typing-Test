@@ -1,21 +1,21 @@
 import React from "react";
-import Article from "pixelarticons/react/Article";
-import Hash from "pixelarticons/react/Hash";
-import Message from "pixelarticons/react/Message";
-import Terminal from "pixelarticons/react/Terminal";
-import Ampersand from "pixelarticons/react/Ampersand";
-import Shuffle from "pixelarticons/react/Shuffle";
-import Calendar from "pixelarticons/react/Calendar";
-import Settings2 from "pixelarticons/react/Settings2";
-import Trophy from "pixelarticons/react/Trophy";
-import Chart from "pixelarticons/react/Chart";
-import User from "pixelarticons/react/User";
-import AudioWaveform from "pixelarticons/react/AudioWaveform";
-import Volume2 from "pixelarticons/react/Volume2";
-import InfoBox from "pixelarticons/react/InfoBox";
-import ArrowRight from "pixelarticons/react/ArrowRight";
-import Play from "pixelarticons/react/Play";
-import Close from "pixelarticons/react/Close";
+import { Article } from "pixelarticons/react/Article";
+import { Hash } from "pixelarticons/react/Hash";
+import { Message } from "pixelarticons/react/Message";
+import { Terminal } from "pixelarticons/react/Terminal";
+import { Ampersand } from "pixelarticons/react/Ampersand";
+import { Shuffle } from "pixelarticons/react/Shuffle";
+import { Calendar } from "pixelarticons/react/Calendar";
+import { Settings2 } from "pixelarticons/react/Settings2";
+import { Trophy } from "pixelarticons/react/Trophy";
+import { Chart } from "pixelarticons/react/Chart";
+import { User } from "pixelarticons/react/User";
+import { AudioWaveform } from "pixelarticons/react/AudioWaveform";
+import { Volume2 } from "pixelarticons/react/Volume2";
+import { InfoBox } from "pixelarticons/react/InfoBox";
+import { ArrowRight } from "pixelarticons/react/ArrowRight";
+import { Play } from "pixelarticons/react/Play";
+import { Close } from "pixelarticons/react/Close";
 
 export type IconName =
   | "standard"
