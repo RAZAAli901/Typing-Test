@@ -164,3 +164,25 @@ Prisma 7 removes datasource URLs from `schema.prisma`. Connections are managed d
 2. In your Vercel Dashboard, select **Add New Project** and import your repository.
 3. Add a **Postgres Storage** database to your project via the Vercel dashboard's **Storage** tab. This will automatically inject the database connection environment variables (`POSTGRES_PRISMA_URL`, etc.).
 4. Vercel will automatically build and deploy the Next.js production server. Your global leaderboard is now live!
+
+---
+
+## 🔒 User Accounts, Authentication & Blob Storage
+
+TypeMaster Web v2.0 includes a comprehensive, secure authentication and persistent profile system:
+
+### 1. User Authentication (NextAuth & Credentials Provider)
+- **Identity Registration (/signup):** Users can build a custom cognitive identity profile. Form registration enforces real-time client-side format checks (unique email structure, minimum 6 characters with at least one digit password checks, password strength meter).
+- **Secure Password Hashing:** Uses `bcryptjs` on the server-side to hash passwords securely before database persistence.
+- **Terminal Access Console (/login):** Authenticates users via NextAuth credentials flow. Users can check **Remember Me** to flag persistent session storage (using a 30-day session caching token).
+- **Guest Fallback Mode:** Allows users to "Continue as Guest" to practice anonymously. Guest sessions use standard local browser storage keys (`typemaster_username`) and bind session submissions to the database under virtual guest identities, preserving data format consistency.
+
+### 2. Profile Avatar Uploads (Vercel Blob Storage)
+- **Profile Dossier View (/profile):** Displays restricting classified dossier details, clearance levels, active typing stats grids, and user avatar.
+- **Vercel Blob Integration:** Users can click and upload JPEG/PNG images (under 2MB size) directly to Vercel's global blob database via `@vercel/blob` SDK.
+- **Resilient Fallback placeholders:** If Vercel Blob storage token (`BLOB_READ_WRITE_TOKEN`) is not configured, the application falls back automatically to generating responsive retro pixel-art placeholder SVGs containing unique alphanumeric color matrices.
+- **Public Leaderboard Integration:** The global leaderboard queries (`/api/leaderboard`) retrieve and render user avatar thumbnails for high-ranking competitors, sanitizing output objects to prevent leaking email addresses or password hashes.
+
+### 3. CRT Terminal Component Structure
+- **Screen Filter Wrapper:** Next.js global layouts are wrapped in visual viewport scanlines and noise filters to capture CRT aesthetic styles.
+- **Interactable Dial Controls:** Nav bar badges and bezel toggles trigger CRT screen effects, amber/green phosphor phosphor switching, and Web Audio API synthesized audio clicks.
