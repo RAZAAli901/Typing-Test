@@ -50,8 +50,9 @@ export default function Home() {
     <div className="flex flex-col items-center justify-center space-y-16 py-8 md:py-12">
       {/* Hero Section */}
       <section className="text-center max-w-3xl space-y-6">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/40 border border-cyan-800/40 text-cyan-400 text-xs font-semibold tracking-wider uppercase animate-pulse">
-          <span>⚡</span> Rebuilt from CLI to Next.js
+        <div className="inline-flex items-center gap-2 text-crt-dim text-xs font-bold tracking-widest uppercase font-mono">
+          <span className="w-2 h-2 rounded-full bg-crt-primary animate-pulse shadow-[0_0_5px_var(--color-crt-primary)]"></span>
+          [REBUILT FROM CLI TO NEXT.JS]
         </div>
         <h1 className="text-4xl md:text-6xl font-black tracking-widest text-crt-primary drop-shadow-[0_0_6px_var(--color-crt-primary)] uppercase leading-tight font-vt323">
           Master Your Typing Speed on TypeMaster Web
