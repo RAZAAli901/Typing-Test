@@ -22,6 +22,8 @@ export default function SignupPage() {
   const [hasDigit, setHasDigit] = useState(false);
   const [passwordsMatch, setPasswordsMatch] = useState(false);
 
+  const strengthScore = [hasMinLen, hasDigit, passwordsMatch].filter(Boolean).length;
+
   useEffect(() => {
     setHasMinLen(password.length >= 6);
     setHasDigit(/\d/.test(password));
@@ -153,25 +155,53 @@ export default function SignupPage() {
             </div>
 
             {/* Password strength checklist indicators */}
-            <div className="bg-[#050505] border border-crt-dim/20 rounded p-3 text-xs space-y-1">
-              <div className="font-bold text-crt-dim uppercase tracking-wider mb-1.5 text-[10px]">ACCESS KEY CRITERIA:</div>
-              <div className="flex items-center gap-2">
-                <span className={hasMinLen ? "text-emerald-400" : "text-crt-dim/40"}>
-                  {hasMinLen ? "☑" : "☐"}
-                </span>
-                <span className={hasMinLen ? "text-emerald-400 font-semibold" : ""}>AT LEAST 6 CHARACTERS</span>
+            <div className="bg-[#050505] border border-crt-dim/20 rounded p-3 text-xs space-y-3">
+              <div className="font-bold text-crt-dim uppercase tracking-wider text-[10px]">ACCESS KEY CRITERIA:</div>
+              
+              {/* Strength Meter Bar */}
+              <div className="space-y-1.5">
+                <div className="flex justify-between font-bold text-[11px] uppercase tracking-wider">
+                  <span>KEY STRENGTH:</span>
+                  <span className={`${
+                    strengthScore === 1 ? "text-red-500" :
+                    strengthScore === 2 ? "text-amber-500" :
+                    strengthScore >= 3 ? "text-emerald-400" : "text-crt-dim/50"
+                  } drop-shadow-[0_0_2px_currentColor]`}>
+                    {strengthScore === 1 ? "WEAK" :
+                     strengthScore === 2 ? "MODERATE" :
+                     strengthScore >= 3 ? "STRONG/SECURE" : "UNRESOLVED"}
+                  </span>
+                </div>
+                <div className="h-1.5 w-full bg-zinc-950 border border-crt-dim/20 rounded-sm overflow-hidden flex">
+                  <div
+                    className={`h-full transition-all duration-300 ${
+                      strengthScore === 1 ? "bg-red-500 w-1/3" :
+                      strengthScore === 2 ? "bg-amber-500 w-2/3" :
+                      strengthScore >= 3 ? "bg-emerald-400 w-full" : "w-0"
+                    }`}
+                  />
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <span className={hasDigit ? "text-emerald-400" : "text-crt-dim/40"}>
-                  {hasDigit ? "☑" : "☐"}
-                </span>
-                <span className={hasDigit ? "text-emerald-400 font-semibold" : ""}>CONTAINS AT LEAST 1 DIGIT (0-9)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className={passwordsMatch ? "text-emerald-400" : "text-crt-dim/40"}>
-                  {passwordsMatch ? "☑" : "☐"}
-                </span>
-                <span className={passwordsMatch ? "text-emerald-400 font-semibold" : ""}>CONFIRMATION MATCHES PASSWORD</span>
+
+              <div className="space-y-1 text-[11px]">
+                <div className="flex items-center gap-2">
+                  <span className={hasMinLen ? "text-emerald-400" : "text-crt-dim/40"}>
+                    {hasMinLen ? "☑" : "☐"}
+                  </span>
+                  <span className={hasMinLen ? "text-emerald-400 font-semibold" : ""}>AT LEAST 6 CHARACTERS</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className={hasDigit ? "text-emerald-400" : "text-crt-dim/40"}>
+                    {hasDigit ? "☑" : "☐"}
+                  </span>
+                  <span className={hasDigit ? "text-emerald-400 font-semibold" : ""}>CONTAINS AT LEAST 1 DIGIT (0-9)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className={passwordsMatch ? "text-emerald-400" : "text-crt-dim/40"}>
+                    {passwordsMatch ? "☑" : "☐"}
+                  </span>
+                  <span className={passwordsMatch ? "text-emerald-400 font-semibold" : ""}>CONFIRMATION MATCHES PASSWORD</span>
+                </div>
               </div>
             </div>
 
