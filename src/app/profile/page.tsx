@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Icon from "@/components/Icon";
+import DefaultAvatar from "@/components/DefaultAvatar";
 
 interface UserStats {
   username: string;
@@ -224,7 +225,7 @@ export default function ProfilePage() {
                 className="w-full h-full object-cover"
               />
             ) : (
-              <Icon name="user" className="text-crt-dim group-hover:text-crt-primary transition-colors" size={48} />
+              <DefaultAvatar className="text-crt-dim group-hover:text-crt-primary transition-colors w-16 h-16" />
             )}
             
             {/* Hover overlay file trigger */}
