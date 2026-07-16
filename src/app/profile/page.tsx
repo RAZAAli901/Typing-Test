@@ -33,11 +33,17 @@ const MODES = [
 ];
 
 export default function ProfilePage() {
-  const { data: session, status } = useSession();
+  const { data: session, status, update: updateSession } = useSession();
   const [stats, setStats] = useState<UserStats | null>(null);
   const [personalBests, setPersonalBests] = useState<Record<string, PBData | null>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Avatar upload states
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   useEffect(() => {
     if (status !== "authenticated" || !session?.user?.name) return;
@@ -95,6 +101,76 @@ export default function ProfilePage() {
     fetchProfileData();
   }, [session, status]);
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadError(null);
+
+    // Validate size (2MB)
+    const MAX_SIZE = 2 * 1024 * 1024;
+    if (file.size > MAX_SIZE) {
+      setUploadError("Image exceeds 2MB maximum size.");
+      setSelectedFile(null);
+      setPreviewUrl(null);
+      return;
+    }
+
+    // Validate type (JPEG or PNG)
+    const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+    if (!allowedTypes.includes(file.type)) {
+      setUploadError("Invalid image type. Only JPEG and PNG are allowed.");
+      setSelectedFile(null);
+      setPreviewUrl(null);
+      return;
+    }
+
+    setSelectedFile(file);
+    setPreviewUrl(URL.createObjectURL(file));
+  };
+
+  const handleUpload = async () => {
+    if (!selectedFile) return;
+    setIsUploading(true);
+    setUploadError(null);
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+
+    try {
+      const res = await fetch("/api/profile/avatar", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.error || "Failed to upload avatar.");
+      }
+
+      const data = await res.json();
+      
+      // Update session context
+      await updateSession({ picture: data.url });
+
+      // Dispatch event to sync header/HUD name/avatar if needed
+      window.dispatchEvent(new Event("usernameChanged"));
+
+      setSelectedFile(null);
+      setPreviewUrl(null);
+    } catch (err: any) {
+      setUploadError(err.message || "Failed to save image.");
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleCancelPreview = () => {
+    setSelectedFile(null);
+    setPreviewUrl(null);
+    setUploadError(null);
+  };
+
   if (status === "loading" || (status === "authenticated" && isLoading)) {
     return (
       <div className="max-w-4xl mx-auto py-8 px-4 space-y-8 font-vt323 text-lg animate-pulse text-crt-dim">
@@ -131,12 +207,17 @@ export default function ProfilePage() {
           Review your credentials, configuration, and performance stats database.
         </p>
       </div>
-
       <div className="bg-[#080808] border-2 border-crt-dim/40 rounded p-6 shadow-[0_0_20px_rgba(0,0,0,0.9)] space-y-6">
         <div className="flex flex-col sm:flex-row items-center gap-6 pb-6 border-b border-dashed border-crt-dim/30">
           {/* Avatar Area */}
           <div className="relative w-24 h-24 bg-[#0a0a0a] border-2 border-crt-dim/50 rounded flex items-center justify-center overflow-hidden shadow-inner group">
-            {session?.user?.image ? (
+            {previewUrl ? (
+              <img
+                src={previewUrl}
+                alt="Avatar Preview"
+                className="w-full h-full object-cover"
+              />
+            ) : session?.user?.image ? (
               <img
                 src={session.user.image}
                 alt="Avatar"
@@ -145,12 +226,62 @@ export default function ProfilePage() {
             ) : (
               <Icon name="user" className="text-crt-dim group-hover:text-crt-primary transition-colors" size={48} />
             )}
+            
+            {/* Hover overlay file trigger */}
+            {!isUploading && (
+              <label className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center cursor-pointer transition-opacity text-[10px] font-bold text-crt-primary uppercase text-center p-1">
+                <Icon name="custom" size={16} className="mb-1" />
+                <span>Upload</span>
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+              </label>
+            )}
+            
+            {/* Uploading loading overlay */}
+            {isUploading && (
+              <div className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center text-[10px] font-bold text-crt-primary uppercase">
+                <span className="animate-spin">🔄</span>
+                <span>Saving...</span>
+              </div>
+            )}
           </div>
 
-          <div className="space-y-1 text-center sm:text-left">
+          <div className="space-y-2 text-center sm:text-left flex-grow">
             <h2 className="text-2xl font-black text-white uppercase">{session?.user?.name}</h2>
             <p className="text-sm uppercase tracking-wider">EMAIL: <span className="text-crt-primary">{maskEmail(session?.user?.email)}</span></p>
-            <p className="text-xs text-crt-dim/70 uppercase">TYPEMASTER CONNECTION ACTIVE</p>
+            
+            {/* Preview controls */}
+            {previewUrl && !isUploading && (
+              <div className="flex flex-wrap gap-2 justify-center sm:justify-start pt-1">
+                <button
+                  onClick={handleUpload}
+                  className="px-3 py-1 bg-zinc-900 border border-crt-primary text-crt-primary hover:text-white hover:bg-crt-primary/10 text-xs font-bold uppercase rounded cursor-pointer transition-all"
+                >
+                  Save Avatar
+                </button>
+                <button
+                  onClick={handleCancelPreview}
+                  className="px-3 py-1 bg-transparent border border-crt-dim/50 text-crt-dim hover:text-white hover:border-white text-xs font-bold uppercase rounded cursor-pointer transition-all"
+                >
+                  Cancel
+                </button>
+              </div>
+            )}
+            
+            {/* Size or upload errors */}
+            {uploadError && (
+              <p className="text-xs text-red-500 font-bold uppercase tracking-wider animate-pulse pt-1">
+                [ALERT: {uploadError}]
+              </p>
+            )}
+            
+            {!previewUrl && !uploadError && (
+              <p className="text-xs text-crt-dim/70 uppercase">Hover avatar to edit photo (JPEG/PNG under 2MB)</p>
+            )}
           </div>
         </div>
 
