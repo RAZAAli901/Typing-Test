@@ -96,6 +96,14 @@ export default function SignupPage() {
       </div>
 
       <div className="bg-[#080808] border-2 border-crt-dim/40 rounded p-6 shadow-[0_0_20px_rgba(0,0,0,0.9)] space-y-6">
+        <div className="flex justify-between items-center text-[10px] font-bold text-crt-dim/60 border-b border-dashed border-crt-dim/20 pb-2 mb-2">
+          <span>IDENTITY SEED: 0x8A9E</span>
+          <span className="flex items-center gap-1 text-crt-primary animate-pulse">
+            <span className="inline-block w-2 h-2 rounded-full bg-crt-primary"></span>
+            CIPHER_CORE_READY
+          </span>
+        </div>
+
         {success ? (
           <div className="space-y-4 text-center py-8">
             <div className="text-4xl text-emerald-400 animate-bounce">✔</div>
