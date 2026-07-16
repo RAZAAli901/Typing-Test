@@ -82,7 +82,7 @@ export default function Home() {
       {/* Feature Grid */}
       <section className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl font-vt323 text-lg">
         <div className="bg-[#070707] border-2 border-crt-dim/40 rounded p-6 shadow-[inset_0_0_10px_rgba(0,0,0,0.9)] space-y-3 hover:border-crt-primary/60 transition-all duration-300 flex flex-col">
-          <span className="text-3xl">🎙️</span>
+          <Icon name="mic" className="text-crt-primary" size={32} />
           <h3 className="text-xl font-bold text-crt-primary drop-shadow-[0_0_3px_var(--color-crt-primary)] uppercase">Live Feedback HUD</h3>
           <p className="text-base text-crt-dim/80 leading-relaxed uppercase">
             Monitor speed (Gross & Net WPM), accuracy percentage, and elapsed stopwatch time in real-time on every keystroke.
@@ -90,7 +90,7 @@ export default function Home() {
         </div>
 
         <div className="bg-[#070707] border-2 border-crt-dim/40 rounded p-6 shadow-[inset_0_0_10px_rgba(0,0,0,0.9)] space-y-3 hover:border-crt-primary/60 transition-all duration-300 flex flex-col">
-          <span className="text-3xl">🎛️</span>
+          <Icon name="speaker" className="text-crt-primary" size={32} />
           <h3 className="text-xl font-bold text-crt-primary drop-shadow-[0_0_3px_var(--color-crt-primary)] uppercase">Synthesized Audio</h3>
           <p className="text-base text-crt-dim/80 leading-relaxed uppercase">
             Zero asset load times! Audio cues are dynamically synthesized via the Web Audio API for tactile typewriter sounds.
@@ -98,7 +98,7 @@ export default function Home() {
         </div>
 
         <div className="bg-[#070707] border-2 border-crt-dim/40 rounded p-6 shadow-[inset_0_0_10px_rgba(0,0,0,0.9)] space-y-3 hover:border-crt-primary/60 transition-all duration-300 flex flex-col">
-          <span className="text-3xl">📈</span>
+          <Icon name="chart" className="text-crt-primary" size={32} />
           <h3 className="text-xl font-bold text-crt-primary drop-shadow-[0_0_3px_var(--color-crt-primary)] uppercase">SVG Performance Curves</h3>
           <p className="text-base text-crt-dim/80 leading-relaxed uppercase">
             Get an instant visual dashboard of your typing stability with an SVG-generated speed and accuracy timeline graph.

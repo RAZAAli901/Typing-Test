@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Icon from "@/components/Icon";
 import TypingArea from "@/components/TypingArea";
 import StatsHUD from "@/components/StatsHUD";
 import ResultsScreen from "@/components/ResultsScreen";
@@ -332,53 +333,53 @@ export default function PlayPage() {
 
   const accuracy = totalTyped > 0 ? (correctCount / totalTyped) * 100 : 100;
 
-  const modesList: { id: ExtendedModeType; label: string; icon: string; desc: string }[] = [
+  const modesList: { id: ExtendedModeType; label: string; icon: any; desc: string }[] = [
     {
       id: "standard",
       label: "Standard",
-      icon: "📝",
+      icon: "standard",
       desc: "Standard — practice classic prose with balanced sentences to find your baseline rhythm.",
     },
     {
       id: "numbers",
       label: "Numbers",
-      icon: "🔢",
+      icon: "numbers",
       desc: "Numbers — practice reports, figures, decimal coordinates, and technical data entry.",
     },
     {
       id: "quotes",
       label: "Quotes",
-      icon: "💬",
+      icon: "quotes",
       desc: "Quotes — type famous quotes and philosophy from historic writers.",
     },
     {
       id: "code-snippet",
       label: "Code",
-      icon: "💻",
+      icon: "code",
       desc: "Code Snippet — practice programming structures, braces, syntax, and semicolons.",
     },
     {
       id: "punctuation",
       label: "Punctuation",
-      icon: "🔣",
+      icon: "punctuation",
       desc: "Punctuation — challenge yourself with brackets, dashes, quotes, and symbols.",
     },
     {
       id: "random-words",
       label: "Random",
-      icon: "🔀",
+      icon: "random",
       desc: "Random Words — type shuffled common words to train visual reflex and speed.",
     },
     {
       id: "daily-challenge",
       label: "Daily Challenge",
-      icon: "📅",
+      icon: "daily",
       desc: "Daily Challenge — a seed-driven challenge shared by all visitors globally, refreshed daily.",
     },
     {
       id: "custom",
       label: "Custom Text",
-      icon: "⚙️",
+      icon: "custom",
       desc: "Custom Text — practice with paragraphs pasted directly from your clipboard.",
     },
   ];
@@ -394,8 +395,11 @@ export default function PlayPage() {
         <>
           {/* Header Title */}
           <div className="text-center space-y-2">
-            <h1 className="text-3xl font-extrabold text-white">⚡ Practice Arena</h1>
-            <p className="text-sm text-slate-400 font-light">
+            <h1 className="text-3xl font-extrabold text-white flex items-center justify-center gap-2 font-vt323 uppercase tracking-wider">
+              <Icon name="play" size={20} className="text-crt-primary animate-pulse" />
+              Practice Arena
+            </h1>
+            <p className="text-sm text-slate-400 font-light font-vt323 uppercase tracking-wider">
               Select a typing mode and challenge your speed.
             </p>
           </div>
@@ -414,7 +418,7 @@ export default function PlayPage() {
                       : "text-crt-dim hover:text-white bg-transparent border border-transparent"
                   }`}
                 >
-                  <span>{m.icon}</span>
+                  <Icon name={m.icon} size={16} className={isActive ? "text-crt-primary" : "text-crt-dim"} />
                   <span>{m.label.toUpperCase()}</span>
                 </button>
               );
@@ -460,9 +464,10 @@ export default function PlayPage() {
                 <button
                   onClick={handleApplyCustomText}
                   disabled={!customInputText.trim()}
-                  className="px-6 py-2 bg-zinc-900 border-2 border-crt-dim text-crt-primary disabled:opacity-50 disabled:cursor-not-allowed hover:text-white hover:border-crt-primary font-bold rounded shadow-[3px_3px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase tracking-wider"
+                  className="inline-flex items-center gap-1.5 px-6 py-2 bg-zinc-900 border-2 border-crt-dim text-crt-primary disabled:opacity-50 disabled:cursor-not-allowed hover:text-white hover:border-crt-primary font-bold rounded shadow-[3px_3px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase tracking-wider"
                 >
-                  Apply Prompt ⚡
+                  <span>Apply Prompt</span>
+                  <Icon name="play" size={14} />
                 </button>
                 <button
                   onClick={() => handleReset("standard", activeLength)}
@@ -493,9 +498,10 @@ export default function PlayPage() {
               {/* Reset Action */}
               <button
                 onClick={() => handleReset(activeMode, activeLength)}
-                className="px-6 py-2 bg-zinc-900 hover:bg-zinc-800 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold rounded shadow-[3px_3px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase font-vt323 tracking-wider"
+                className="inline-flex items-center gap-1.5 px-6 py-2 bg-zinc-900 hover:bg-zinc-800 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold rounded shadow-[3px_3px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase font-vt323 tracking-wider"
               >
-                Reset Test 🔄
+                <span>Reset Test</span>
+                <Icon name="play" size={14} />
               </button>
             </>
           )}

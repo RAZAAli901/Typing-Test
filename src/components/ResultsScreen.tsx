@@ -1,4 +1,4 @@
-"use client";
+import Icon from "@/components/Icon";
 
 interface TimelineDataPoint {
   time: number;
@@ -184,9 +184,10 @@ export default function ResultsScreen({
       <div className="flex justify-center pt-2 border-t border-dashed border-crt-dim/30">
         <button
           onClick={onRetry}
-          className="px-8 py-3 bg-zinc-900 hover:bg-zinc-800 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold text-lg rounded active:scale-95 transition-all shadow-[4px_4px_0px_var(--color-crt-dim)] active:translate-x-1 active:translate-y-1 active:shadow-none cursor-pointer uppercase tracking-widest"
+          className="inline-flex items-center gap-2 px-8 py-3 bg-zinc-900 hover:bg-zinc-800 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold text-lg rounded active:scale-95 transition-all shadow-[4px_4px_0px_var(--color-crt-dim)] active:translate-x-1 active:translate-y-1 active:shadow-none cursor-pointer uppercase tracking-widest"
         >
-          Retry Practice 🔄
+          <span>Retry Practice</span>
+          <Icon name="play" size={18} />
         </button>
       </div>
     </div>
