@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Icon from "@/components/Icon";
+import { useSession } from "next-auth/react";
 import TypingArea from "@/components/TypingArea";
 import StatsHUD from "@/components/StatsHUD";
 import ResultsScreen from "@/components/ResultsScreen";
@@ -27,6 +28,7 @@ interface TimelineDataPoint {
 }
 
 export default function PlayPage() {
+  const { data: session } = useSession();
   const { settings } = useCrtSettings();
   const [activeMode, setActiveMode] = useState<ExtendedModeType>("standard");
   const [activeLength, setActiveLength] = useState<LengthType>("medium");
@@ -209,13 +211,14 @@ export default function PlayPage() {
 
       // Save results locally to localStorage as a fallback / local history
       if (typeof window !== "undefined") {
-        const savedUsername = localStorage.getItem("typemaster_username") || "Anonymous";
+        const isLoggedIn = !!session?.user?.name;
+        const currentUsername = session?.user?.name || localStorage.getItem("typemaster_username") || "Anonymous";
         try {
           const localSessionsStr = localStorage.getItem("typemaster_local_sessions") || "[]";
           const localSessions = JSON.parse(localSessionsStr);
           const newSession = {
             id: Math.random().toString(36).substring(2, 9),
-            username: savedUsername,
+            username: currentUsername,
             mode: activeMode,
             grossWpm: Math.round(finalGross),
             netWpm: Math.round(finalNet),
@@ -231,8 +234,9 @@ export default function PlayPage() {
           console.error("Error saving local session:", e);
         }
 
-        // Post results to database leaderboard if username is claimed
-        if (savedUsername && savedUsername !== "Anonymous" && savedUsername.trim().length >= 3) {
+        // Post results to database leaderboard if logged in OR username is claimed
+        const shouldSaveToDb = isLoggedIn || (currentUsername && currentUsername !== "Anonymous" && currentUsername.trim().length >= 3);
+        if (shouldSaveToDb) {
           try {
             await fetch("/api/sessions", {
               method: "POST",
@@ -240,7 +244,7 @@ export default function PlayPage() {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                username: savedUsername.trim(),
+                username: currentUsername.trim(),
                 mode: activeMode,
                 grossWpm: Math.round(finalGross),
                 netWpm: Math.round(finalNet),
