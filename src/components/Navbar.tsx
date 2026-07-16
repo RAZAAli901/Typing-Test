@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import Icon, { IconName } from "@/components/Icon";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -30,11 +31,11 @@ export default function Navbar() {
     };
   }, []);
 
-  const navLinks = [
-    { href: "/play", label: "PLAY", icon: "⚡" },
-    { href: "/leaderboard", label: "LEADERBOARD", icon: "🏆" },
-    { href: "/stats", label: "STATS", icon: "📊" },
-    { href: "/about", label: "ABOUT", icon: "ℹ️" },
+  const navLinks: { href: string; label: string; icon: IconName }[] = [
+    { href: "/play", label: "PLAY", icon: "play" },
+    { href: "/leaderboard", label: "LEADERBOARD", icon: "trophy" },
+    { href: "/stats", label: "STATS", icon: "stats" },
+    { href: "/about", label: "ABOUT", icon: "info" },
   ];
 
   return (
@@ -43,7 +44,7 @@ export default function Navbar() {
         {/* Logo Area */}
         {/* CRT Phosphor styling with glow effects */}
         <Link href="/" className="flex items-center gap-2 group font-press-start text-[10px] md:text-[12px]">
-          <span className="text-crt-primary drop-shadow-[0_0_4px_var(--color-crt-primary)] animate-pulse">⚡</span>
+          <Icon name="play" size={14} className="text-crt-primary drop-shadow-[0_0_4px_var(--color-crt-primary)] animate-pulse" />
           <span className="tracking-tight text-white group-hover:text-crt-primary group-hover:drop-shadow-[0_0_5px_var(--color-crt-primary)] transition-all">
             TYPEMASTER <span className="text-crt-primary font-black">v1.0</span>
           </span>
@@ -63,7 +64,7 @@ export default function Navbar() {
                     : "text-crt-dim hover:text-crt-primary hover:drop-shadow-[0_0_4px_var(--color-crt-primary)]"
                 }`}
               >
-                <span>{link.icon}</span>
+                <Icon name={link.icon} size={18} className={isActive ? "text-crt-primary" : "text-crt-dim"} />
                 <span>{link.label}</span>
                 {isActive && (
                   <span className="absolute bottom-0 left-2 right-2 h-[2px] bg-crt-primary shadow-[0_0_6px_var(--color-crt-primary)] animate-[blink_0.8s_infinite]" />
@@ -76,7 +77,7 @@ export default function Navbar() {
         {/* User Identity HUD */}
         <div className="flex items-center gap-4 font-vt323 text-lg md:text-xl">
           <div className="flex items-center gap-2 bg-[#0a0a0a] border border-crt-dim/50 rounded px-3 py-1 shadow-[inset_0_0_8px_rgba(0,0,0,0.8)]">
-            <span className="text-sm">👤</span>
+            <Icon name="user" size={16} className="text-crt-primary" />
             <span className="font-bold text-crt-primary tracking-wide max-w-[120px] truncate" title={username}>
               {username}
             </span>
@@ -96,7 +97,7 @@ export default function Navbar() {
                 isActive ? "text-crt-primary drop-shadow-[0_0_4px_var(--color-crt-primary)]" : "text-crt-dim hover:text-crt-primary"
               }`}
             >
-              <span className="text-base">{link.icon}</span>
+              <Icon name={link.icon} size={16} className={isActive ? "text-crt-primary" : "text-crt-dim"} />
               <span>{link.label}</span>
             </Link>
           );
