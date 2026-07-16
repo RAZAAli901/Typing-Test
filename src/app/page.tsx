@@ -1,47 +1,48 @@
 import Link from "next/link";
+import Icon from "@/components/Icon";
 
 export default function Home() {
   const modes = [
     {
       name: "Standard",
       desc: "Classic practice text with balanced sentences to find your baseline rhythm.",
-      icon: "📝",
+      icon: "standard",
       borderColor: "border-cyan-500/30",
     },
     {
       name: "Numbers",
       desc: "Practice entering report data, temperatures, ratios, and percentages quickly.",
-      icon: "🔢",
+      icon: "numbers",
       borderColor: "border-purple-500/30",
     },
     {
       name: "Quotes",
       desc: "Type famous inspirational quotes and philosophical thoughts from history.",
-      icon: "💬",
+      icon: "quotes",
       borderColor: "border-pink-500/30",
     },
     {
       name: "Code Snippet",
       desc: "Practice programming syntax, brackets, semicolons, and indentation rules.",
-      icon: "💻",
+      icon: "code",
       borderColor: "border-emerald-500/30",
     },
     {
       name: "Punctuation",
       desc: "Type paragraphs loaded with symbols, exclamation marks, and complex punctuation.",
-      icon: "🔣",
+      icon: "punctuation",
       borderColor: "border-amber-500/30",
     },
     {
       name: "Random Words",
       desc: "Endless combinations of words selected from our local dictionary database.",
-      icon: "🔀",
+      icon: "random",
       borderColor: "border-indigo-500/30",
     },
     {
       name: "Daily Challenge",
       desc: "A single identical prompt refreshed daily for all players globally.",
-      icon: "📅",
+      icon: "daily",
       borderColor: "border-violet-500/30",
     },
   ];
@@ -122,7 +123,7 @@ export default function Home() {
             >
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl">{m.icon}</span>
+                  <Icon name={m.icon as any} className="text-crt-primary group-hover:text-white transition-all duration-300" size={24} />
                   <h4 className="text-lg font-bold text-crt-primary group-hover:text-white transition-colors uppercase">
                     {m.name}
                   </h4>
