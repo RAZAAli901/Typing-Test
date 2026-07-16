@@ -28,7 +28,13 @@ export async function GET(request: Request) {
       orderBy: orderBy,
       take: limit,
       include: {
-        user: true,
+        user: {
+          select: {
+            username: true,
+            avatarUrl: true,
+            createdAt: true,
+          },
+        },
       },
     });
 
