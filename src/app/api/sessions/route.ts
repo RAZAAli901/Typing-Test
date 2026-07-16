@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
 
 // Rate limiting in-memory store
 interface RateLimitInfo {
@@ -95,17 +97,29 @@ export async function POST(request: Request) {
       );
     }
 
+    // Check active authentication session
+    const authSession = await getServerSession(authOptions);
+    const finalUsername = authSession?.user?.name || username;
+
     // Ensure the User exists in the database
-    await db.user.upsert({
-      where: { username },
-      update: {},
-      create: { username },
+    const userExists = await db.user.findUnique({
+      where: { username: finalUsername },
     });
+
+    if (!userExists) {
+      await db.user.create({
+        data: {
+          username: finalUsername,
+          email: `${finalUsername.toLowerCase()}@guest.typemaster.local`,
+          passwordHash: "GUEST_USER_NO_PASSWORD",
+        },
+      });
+    }
 
     // Write the Session record to the database
     const session = await db.session.create({
       data: {
-        username,
+        username: finalUsername,
         mode,
         grossWpm,
         netWpm,
