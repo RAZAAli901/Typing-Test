@@ -82,6 +82,14 @@ export default function LoginPage() {
       </div>
 
       <div className="bg-[#080808] border-2 border-crt-dim/40 rounded p-6 shadow-[0_0_20px_rgba(0,0,0,0.9)] space-y-6">
+        <div className="flex justify-between items-center text-[10px] font-bold text-crt-dim/60 border-b border-dashed border-crt-dim/20 pb-2">
+          <span>SECURE PORT: 8443</span>
+          <span className="flex items-center gap-1 text-crt-primary animate-pulse">
+            <span className="inline-block w-2 h-2 rounded-full bg-crt-primary"></span>
+            SECURE_SYS_ONLINE
+          </span>
+        </div>
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
             <label className="block text-sm font-bold uppercase tracking-wider">EMAIL ADDRESS</label>
