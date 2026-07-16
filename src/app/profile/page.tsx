@@ -45,6 +45,7 @@ export default function ProfilePage() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [successNotify, setSuccessNotify] = useState<string | null>(null);
 
   useEffect(() => {
     if (status !== "authenticated" || !session?.user?.name) return;
@@ -159,6 +160,10 @@ export default function ProfilePage() {
 
       setSelectedFile(null);
       setPreviewUrl(null);
+      setSuccessNotify("AVATAR UPLOAD COMPLETED SUCCESSFULLY. DOSSIER SYNCHRONIZED.");
+      setTimeout(() => {
+        setSuccessNotify(null);
+      }, 5000);
     } catch (err: any) {
       setUploadError(err.message || "Failed to save image.");
     } finally {
@@ -214,6 +219,13 @@ export default function ProfilePage() {
           <span>CIPHER: 256-BIT ROT-13/AES</span>
           <span>RECORD STATE: STABLE</span>
         </div>
+
+        {successNotify && (
+          <div className="bg-emerald-950/40 border border-emerald-500 text-emerald-400 text-sm font-bold uppercase p-3 rounded animate-pulse text-center tracking-widest">
+            [SYS_NOTICE: {successNotify}]
+          </div>
+        )}
+
         <div className="flex flex-col sm:flex-row items-center gap-6 pb-6 border-b border-dashed border-crt-dim/30">
           {/* Avatar Area */}
           <div className="relative w-24 h-24 bg-[#0a0a0a] border-2 border-crt-dim/50 rounded flex items-center justify-center overflow-hidden shadow-inner group">
