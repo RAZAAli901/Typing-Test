@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { ModeType } from "@/content/texts";
+import DefaultAvatar from "@/components/DefaultAvatar";
+import Icon from "@/components/Icon";
 
 interface SessionData {
   id: string;
@@ -12,6 +14,9 @@ interface SessionData {
   accuracy: number;
   timeTakenSeconds: number;
   createdAt: string;
+  user?: {
+    avatarUrl?: string | null;
+  };
 }
 
 export default function LeaderboardPage() {
@@ -21,15 +26,15 @@ export default function LeaderboardPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const modesList: { id: ModeType | "custom"; label: string; icon: string }[] = [
-    { id: "standard", label: "Standard", icon: "📝" },
-    { id: "numbers", label: "Numbers", icon: "🔢" },
-    { id: "quotes", label: "Quotes", icon: "💬" },
-    { id: "code-snippet", label: "Code", icon: "💻" },
-    { id: "punctuation", label: "Punctuation", icon: "🔣" },
-    { id: "random-words", label: "Random", icon: "🔀" },
-    { id: "daily-challenge", label: "Daily Challenge", icon: "📅" },
-    { id: "custom", label: "Custom Text", icon: "⚙️" },
+  const modesList: { id: ModeType | "custom"; label: string; icon: any }[] = [
+    { id: "standard", label: "Standard", icon: "standard" },
+    { id: "numbers", label: "Numbers", icon: "numbers" },
+    { id: "quotes", label: "Quotes", icon: "quotes" },
+    { id: "code-snippet", label: "Code", icon: "code" },
+    { id: "punctuation", label: "Punctuation", icon: "punctuation" },
+    { id: "random-words", label: "Random", icon: "random" },
+    { id: "daily-challenge", label: "Daily Challenge", icon: "daily" },
+    { id: "custom", label: "Custom Text", icon: "custom" },
   ];
 
   // Fetch leaderboard data when mode or sort selection changes
@@ -140,7 +145,7 @@ export default function LeaderboardPage() {
                   : "text-crt-dim hover:text-white bg-transparent border border-transparent"
               }`}
             >
-              <span>{m.icon}</span>
+              <Icon name={m.icon as any} size={16} className={isActive ? "text-crt-primary" : "text-crt-dim"} />
               <span>{m.label.toUpperCase()}</span>
             </button>
           );
@@ -255,12 +260,21 @@ export default function LeaderboardPage() {
                         {rankStr}
                       </td>
                       <td className="py-4 px-6 text-left font-bold text-white tracking-wide">
-                        {session.username}
-                        {isCurUser && (
-                          <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded bg-crt-primary/20 text-crt-primary border border-crt-primary/30">
-                            YOU
-                          </span>
-                        )}
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 rounded overflow-hidden flex items-center justify-center bg-zinc-950 border border-crt-dim/40 flex-shrink-0">
+                            {session.user?.avatarUrl ? (
+                              <img src={session.user.avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
+                            ) : (
+                              <DefaultAvatar className="w-4 h-4 text-crt-primary" />
+                            )}
+                          </div>
+                          <span>{session.username}</span>
+                          {isCurUser && (
+                            <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded bg-crt-primary/20 text-crt-primary border border-crt-primary/30">
+                              YOU
+                            </span>
+                          )}
+                        </div>
                       </td>
                       <td className="py-4 px-6 font-black text-white text-xl drop-shadow-[0_0_2px_rgba(255,255,255,0.2)]">
                         {session.netWpm}
