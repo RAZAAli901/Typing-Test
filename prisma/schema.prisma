@@ -7,9 +7,12 @@ generator client {
 }
 
 model User {
-  username  String    @id @db.VarChar(50)
-  createdAt DateTime  @default(now())
-  sessions  Session[]
+  username     String    @id @db.VarChar(50)
+  email        String    @unique
+  passwordHash String
+  avatarUrl    String?
+  createdAt    DateTime  @default(now())
+  sessions     Session[]
 }
 
 model Session {
