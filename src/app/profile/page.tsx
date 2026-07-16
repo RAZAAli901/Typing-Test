@@ -202,13 +202,18 @@ export default function ProfilePage() {
     <div className="max-w-4xl mx-auto py-8 px-4 space-y-8 font-vt323 text-lg text-crt-dim select-none">
       <div className="text-center space-y-2">
         <h1 className="text-4xl md:text-5xl font-black text-crt-primary tracking-widest uppercase drop-shadow-[0_0_5px_var(--color-crt-primary)]">
-          👤 USER PROFILE
+          [DOSSIER: {session?.user?.name || "COGNITIVE ID"}]
         </h1>
-        <p className="text-sm md:text-base text-crt-dim font-bold tracking-widest uppercase">
-          Review your credentials, configuration, and performance stats database.
+        <p className="text-sm md:text-base text-crt-dim font-bold tracking-widest uppercase animate-pulse">
+          *** RESTRICTED ACCESS // EYES ONLY // ENCRYPTED DOSSIER ***
         </p>
       </div>
       <div className="bg-[#080808] border-2 border-crt-dim/40 rounded p-6 shadow-[0_0_20px_rgba(0,0,0,0.9)] space-y-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center text-[10px] font-bold text-crt-dim/50 border-b border-dashed border-crt-dim/20 pb-2 mb-4 gap-2">
+          <span>CLASSIFICATION: LEVEL-4 CLEARANCE</span>
+          <span>CIPHER: 256-BIT ROT-13/AES</span>
+          <span>RECORD STATE: STABLE</span>
+        </div>
         <div className="flex flex-col sm:flex-row items-center gap-6 pb-6 border-b border-dashed border-crt-dim/30">
           {/* Avatar Area */}
           <div className="relative w-24 h-24 bg-[#0a0a0a] border-2 border-crt-dim/50 rounded flex items-center justify-center overflow-hidden shadow-inner group">
