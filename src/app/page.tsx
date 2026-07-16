@@ -138,9 +138,9 @@ export default function Home() {
                 </div>
                 <Link
                   href={`/play?mode=${m.name.toLowerCase().replace(" ", "-")}`}
-                  className="text-cyan-400 hover:text-cyan-300 flex items-center gap-0.5"
+                  className="text-crt-primary hover:text-white hover:drop-shadow-[0_0_3px_var(--color-crt-primary)] transition-all font-bold"
                 >
-                  Configure &rarr;
+                  [CONFIGURE &rarr;]
                 </Link>
               </div>
             </div>
