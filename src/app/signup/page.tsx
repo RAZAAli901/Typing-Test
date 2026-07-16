@@ -219,6 +219,13 @@ export default function SignupPage() {
               <span>{isLoading ? "CREATING..." : "BUILD PROFILE"}</span>
               <Icon name="play" size={16} />
             </button>
+
+            <Link
+              href="/play"
+              className="w-full inline-flex items-center justify-center gap-2 px-6 py-2 bg-transparent border border-crt-dim/40 hover:border-crt-primary text-crt-dim hover:text-crt-primary font-bold rounded transition-all cursor-pointer uppercase tracking-wider text-sm"
+            >
+              Continue as Guest [→]
+            </Link>
           </form>
         )}
 
