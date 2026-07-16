@@ -62,16 +62,16 @@ export default function Home() {
         </p>
 
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-4 font-vt323 text-lg">
           <Link
             href="/play"
-            className="w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-slate-950 bg-gradient-to-r from-cyan-400 to-purple-400 hover:from-cyan-300 hover:to-purple-300 transition-all duration-300 shadow-lg shadow-cyan-500/20 hover:shadow-cyan-400/40 hover:-translate-y-0.5 text-center text-base"
+            className="w-full sm:w-auto px-8 py-3 bg-[#080808] hover:bg-zinc-900 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold rounded shadow-[4px_4px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer text-center uppercase tracking-widest"
           >
             Start Typing ⚡
           </Link>
           <Link
             href="/leaderboard"
-            className="w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-white bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 text-center text-base"
+            className="w-full sm:w-auto px-8 py-3 bg-[#080808] hover:bg-zinc-900 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold rounded shadow-[4px_4px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer text-center uppercase tracking-widest"
           >
             View Leaderboards 🏆
           </Link>
