@@ -133,7 +133,7 @@ export default function LoginPage() {
 
           {error && (
             <div className="bg-red-950/40 border border-red-500 text-red-500 text-sm font-bold uppercase p-3 rounded animate-pulse">
-              [ALERT: {error}]
+              [ACCESS DENIED: {error}]
             </div>
           )}
 
