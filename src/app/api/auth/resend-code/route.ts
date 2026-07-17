@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { generateVerificationCode, hashVerificationCode, isEmailRateLimited } from "@/lib/verification";
 import { sendVerificationEmail } from "@/lib/email";
+import { isIpRateLimited } from "@/lib/rateLimit";
 
 /**
  * Endpoint: POST /api/auth/resend-code
@@ -10,6 +11,14 @@ import { sendVerificationEmail } from "@/lib/email";
  */
 export async function POST(request: Request) {
   try {
+    const ip = request.headers.get("x-forwarded-for") || "127.0.0.1";
+    if (isIpRateLimited(ip, "resend-api", 5, 60000)) {
+      return NextResponse.json(
+        { error: "Too many attempts. Please try again in a minute." },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
     const { email } = body;
 

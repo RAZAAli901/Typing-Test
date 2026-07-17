@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { hashVerificationCode } from "@/lib/verification";
+import { isIpRateLimited } from "@/lib/rateLimit";
 
 /**
  * Endpoint: POST /api/auth/verify
@@ -8,6 +9,14 @@ import { hashVerificationCode } from "@/lib/verification";
  */
 export async function POST(request: Request) {
   try {
+    const ip = request.headers.get("x-forwarded-for") || "127.0.0.1";
+    if (isIpRateLimited(ip, "verify-api", 5, 60000)) {
+      return NextResponse.json(
+        { error: "Too many attempts. Please try again in a minute." },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
     const { email, code } = body;
 
