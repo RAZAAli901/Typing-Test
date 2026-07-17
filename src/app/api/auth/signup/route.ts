@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
-import { generateVerificationCode, hashVerificationCode } from "@/lib/verification";
+import { generateVerificationCode, hashVerificationCode, isEmailRateLimited } from "@/lib/verification";
 import { sendVerificationEmail } from "@/lib/email";
 
 // Rate limiting in-memory store
@@ -95,6 +95,48 @@ export async function POST(request: Request) {
     });
 
     if (existingUserByEmail) {
+      if (!existingUserByEmail.emailVerified) {
+        // Enforce per-email rate limit
+        if (await isEmailRateLimited(existingUserByEmail.email)) {
+          return NextResponse.json(
+            { error: "Too many verification requests. Please check your inbox or try again later." },
+            { status: 429 }
+          );
+        }
+
+        // Generate, hash, and store a new verification code
+        const rawCode = generateVerificationCode();
+        const codeHash = hashVerificationCode(rawCode);
+        const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+
+        await db.verificationCode.create({
+          data: {
+            userId: existingUserByEmail.username,
+            codeHash,
+            expiresAt,
+          },
+        });
+
+        // Send email
+        const emailSent = await sendVerificationEmail(existingUserByEmail.email, rawCode);
+        if (!emailSent) {
+          return NextResponse.json(
+            { error: "Failed to send verification email. Please try again." },
+            { status: 500 }
+          );
+        }
+
+        return NextResponse.json(
+          {
+            success: true,
+            unverified: true,
+            user: { username: existingUserByEmail.username, email: existingUserByEmail.email },
+            message: "This identity is unverified. A new access key has been transmitted."
+          },
+          { status: 200 }
+        );
+      }
+
       return NextResponse.json(
         { error: "An account with this email already exists." },
         { status: 400 }
