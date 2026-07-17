@@ -11,6 +11,7 @@ declare module "next-auth" {
       name?: string | null;
       email?: string | null;
       image?: string | null;
+      emailVerified?: boolean;
     };
   }
 }
@@ -86,6 +87,7 @@ export const authOptions: NextAuthOptions = {
         session.user.name = token.name;
         session.user.email = token.email;
         session.user.image = token.picture;
+        session.user.emailVerified = token.emailVerified as boolean;
       }
       return session;
     },
