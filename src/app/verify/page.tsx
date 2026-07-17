@@ -44,6 +44,30 @@ function VerifyContent() {
     return () => clearInterval(interval);
   }, [resendCooldown]);
 
+  // Guard: Redirect if email is missing or already verified
+  useEffect(() => {
+    if (!email) {
+      router.push("/signup");
+      return;
+    }
+
+    const checkVerificationStatus = async () => {
+      try {
+        const res = await fetch(`/api/auth/verification-status?email=${encodeURIComponent(email)}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.verified) {
+            router.push("/login?verified=true");
+          }
+        }
+      } catch (err) {
+        console.error("Verification status query failed:", err);
+      }
+    };
+
+    checkVerificationStatus();
+  }, [email, router]);
+
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
