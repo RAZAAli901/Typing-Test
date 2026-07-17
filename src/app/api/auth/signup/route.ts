@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
+import { generateVerificationCode, hashVerificationCode } from "@/lib/verification";
 
 // Rate limiting in-memory store
 interface RateLimitInfo {
@@ -109,6 +110,19 @@ export async function POST(request: Request) {
         email: lowerEmail,
         passwordHash: hashedPassword,
         emailVerified: false,
+      },
+    });
+
+    // Generate, hash, and store verification code
+    const rawCode = generateVerificationCode();
+    const codeHash = hashVerificationCode(rawCode);
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes expiry
+
+    await db.verificationCode.create({
+      data: {
+        userId: newUser.username,
+        codeHash,
+        expiresAt,
       },
     });
 
