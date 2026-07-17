@@ -58,6 +58,7 @@ export async function POST(request: Request) {
 
     // Check code expiry
     if (Date.now() > verificationCode.expiresAt.getTime()) {
+      console.warn(`[SECURITY AUDIT] Expiration failure for user: ${user.username} (Code expired at ${verificationCode.expiresAt.toISOString()})`);
       return NextResponse.json(
         { error: "Verification code has expired. Please request a new code." },
         { status: 400 }
@@ -66,6 +67,7 @@ export async function POST(request: Request) {
 
     // Check attempts limit
     if (verificationCode.attempts >= 5) {
+      console.warn(`[SECURITY AUDIT] Blocked verification attempt for user: ${user.username} (Attempts limit of 5 exceeded)`);
       return NextResponse.json(
         { error: "Maximum attempts exceeded. Please request a new code." },
         { status: 400 }
@@ -77,10 +79,12 @@ export async function POST(request: Request) {
 
     if (!timingSafeCompare(submittedHash, verificationCode.codeHash)) {
       // Increment attempt count on mismatch
-      await db.verificationCode.update({
+      const updatedCode = await db.verificationCode.update({
         where: { id: verificationCode.id },
         data: { attempts: { increment: 1 } },
       });
+
+      console.warn(`[SECURITY AUDIT] Mismatch verification attempt for user: ${user.username}. Attempts count is now: ${updatedCode.attempts}`);
 
       return NextResponse.json(
         { error: "Invalid credentials or verification code." },
