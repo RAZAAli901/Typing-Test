@@ -19,7 +19,7 @@ export async function sendVerificationEmail(email: string, code: string): Promis
 
   if (!resend) {
     console.log(`\n==================================================`);
-    console.log(`[DEV MODE - VERIFICATION CODE NOT EMAILED]`);
+    console.log(`[DEV MODE — CODE NOT EMAILED]`);
     console.log(`TO: ${email}`);
     console.log(`CODE: ${code}`);
     console.log(`==================================================\n`);
