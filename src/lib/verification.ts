@@ -45,4 +45,27 @@ export async function isEmailRateLimited(email: string): Promise<boolean> {
   return user.verificationCodes.length >= 3;
 }
 
+const DISPOSABLE_DOMAINS = new Set([
+  "mailinator.com",
+  "guerrillamail.com",
+  "10minutemail.com",
+  "trashmail.com",
+  "yopmail.com",
+  "tempmail.com",
+  "getairmail.com",
+  "sharklasers.com",
+  "dispostable.com"
+]);
+
+/**
+ * Checks if the email domain is blocklisted as disposable.
+ */
+export function isDisposableEmail(email: string): boolean {
+  const parts = email.toLowerCase().split("@");
+  if (parts.length !== 2) return false;
+  const domain = parts[1];
+  return DISPOSABLE_DOMAINS.has(domain);
+}
+
+
 

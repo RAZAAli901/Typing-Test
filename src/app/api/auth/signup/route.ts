@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
-import { generateVerificationCode, hashVerificationCode, isEmailRateLimited } from "@/lib/verification";
+import { generateVerificationCode, hashVerificationCode, isEmailRateLimited, isDisposableEmail } from "@/lib/verification";
 import { sendVerificationEmail } from "@/lib/email";
 
 // Rate limiting in-memory store
@@ -64,6 +64,14 @@ export async function POST(request: Request) {
     const { username, email, password } = result.data;
     const lowerEmail = email.toLowerCase();
     const normalizedUsername = username.trim();
+
+    // Block disposable/temporary emails
+    if (isDisposableEmail(lowerEmail)) {
+      return NextResponse.json(
+        { error: "Disposable or throwaway email addresses are not permitted." },
+        { status: 400 }
+      );
+    }
 
     // Enforce username rules and profanity checks
     const BLOCKED_USERNAMES = [
