@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { db } from "@/lib/db";
 
 /**
  * Endpoint: POST /api/auth/verify
@@ -16,9 +17,43 @@ export async function POST(request: Request) {
       );
     }
 
-    // Baseline layout return, logic will be expanded in Commit 20
+    const lowerEmail = email.toLowerCase();
+
+    // Look up the user profile
+    const user = await db.user.findUnique({
+      where: { email: lowerEmail },
+    });
+
+    if (!user) {
+      return NextResponse.json(
+        { error: "Invalid credentials or verification code." },
+        { status: 400 }
+      );
+    }
+
+    // Retrieve the latest code generated for this user
+    const verificationCode = await db.verificationCode.findFirst({
+      where: { userId: user.username },
+      orderBy: { createdAt: "desc" },
+    });
+
+    if (!verificationCode) {
+      return NextResponse.json(
+        { error: "Invalid credentials or verification code." },
+        { status: 400 }
+      );
+    }
+
+    // Check code expiry
+    if (Date.now() > verificationCode.expiresAt.getTime()) {
+      return NextResponse.json(
+        { error: "Verification code has expired. Please request a new code." },
+        { status: 400 }
+      );
+    }
+
     return NextResponse.json(
-      { success: false, message: "Verification API layout initialized." },
+      { success: false, message: "Code expiration verified. Attempt verification pending." },
       { status: 501 }
     );
   } catch (error) {
