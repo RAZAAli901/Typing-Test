@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { generateVerificationCode, hashVerificationCode } from "@/lib/verification";
+import { sendVerificationEmail } from "@/lib/email";
 
 // Rate limiting in-memory store
 interface RateLimitInfo {
@@ -125,6 +126,15 @@ export async function POST(request: Request) {
         expiresAt,
       },
     });
+
+    // Send verification email
+    const emailSent = await sendVerificationEmail(newUser.email, rawCode);
+    if (!emailSent) {
+      return NextResponse.json(
+        { error: "Failed to send verification email. Registration aborted." },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json(
       { success: true, user: { username: newUser.username, email: newUser.email } },
