@@ -129,12 +129,15 @@ Ensure you have Node.js 18+ installed, then install all project packages:
 npm install
 ```
 
-#### 2. Configure Database Environment
-Create a `.env` file in the root directory (based on `.env.example`) with your PostgreSQL connection strings:
+#### 2. Configure Environment Variables
+Create a `.env` file in the root directory (based on `.env.example`) with your PostgreSQL connection strings and Resend API Key:
 ```env
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/typemaster?schema=public"
 POSTGRES_PRISMA_URL="postgresql://postgres:postgres@localhost:5432/typemaster?schema=public"
+RESEND_API_KEY="re_your_api_key"
 ```
+*Note: Create a free account at [Resend](https://resend.com) to generate your `RESEND_API_KEY`. If left empty, local development will fallback to printing verification codes directly to the server console.*
+
 
 #### 3. Database Migration & Scaffolding (Prisma 7)
 Prisma 7 removes datasource URLs from `schema.prisma`. Connections are managed dynamically at runtime via pg driver adapters inside `src/lib/db.ts` and for CLI operations via `prisma.config.ts`.
