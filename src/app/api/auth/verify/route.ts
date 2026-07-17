@@ -86,14 +86,14 @@ export async function POST(request: Request) {
       );
     }
 
-    // Code is valid. Perform user activation and delete the code (consume it) in a transaction.
+    // Code is valid. Perform user activation and delete all verification codes for this user in a transaction.
     await db.$transaction([
       db.user.update({
         where: { username: user.username },
         data: { emailVerified: true },
       }),
-      db.verificationCode.delete({
-        where: { id: verificationCode.id },
+      db.verificationCode.deleteMany({
+        where: { userId: user.username },
       }),
     ]);
 
