@@ -53,6 +53,7 @@ export const authOptions: NextAuthOptions = {
           name: user.username,
           email: user.email,
           image: user.avatarUrl,
+          emailVerified: user.emailVerified,
         };
       },
     }),
@@ -70,6 +71,7 @@ export const authOptions: NextAuthOptions = {
         token.name = user.name;
         token.email = user.email;
         token.picture = user.image;
+        token.emailVerified = (user as any).emailVerified;
       }
       if (trigger === "update" && session) {
         if (session.name) token.name = session.name;
