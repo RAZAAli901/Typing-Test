@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 
 function VerifyContent() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get("email") || "";
   const tParam = searchParams.get("t");
@@ -105,6 +106,9 @@ function VerifyContent() {
         setError(data.error || "VERIFICATION FAILED.");
       } else {
         setSuccess("ACCESS GRANTED — IDENTITY VERIFIED");
+        setTimeout(() => {
+          router.push(`/login?verified=true&email=${encodeURIComponent(email)}`);
+        }, 2000);
       }
     } catch (err) {
       setError("CONNECTION TO SECURITY MODULE FAILED.");
