@@ -213,6 +213,24 @@ export default function ProfilePage() {
           *** RESTRICTED ACCESS // EYES ONLY // ENCRYPTED DOSSIER ***
         </p>
       </div>
+
+      {session?.user && session.user.emailVerified === false && (
+        <div className="bg-amber-950/30 border-2 border-crt-amber text-crt-amber p-4 rounded text-center font-bold tracking-wider uppercase drop-shadow-[0_0_4px_rgba(251,191,36,0.3)] space-y-2">
+          <div>[WARNING: IDENTITY PROFILE UNVERIFIED]</div>
+          <div className="text-sm font-mono normal-case">
+            Your login session has unverified credentials. Security policies may restrict terminal databases access.
+          </div>
+          <div>
+            <Link
+              href={`/verify?email=${encodeURIComponent(session.user.email || "")}`}
+              className="text-crt-primary underline hover:text-crt-primary/80 font-bold uppercase"
+            >
+              [CLICK HERE TO ENTER ACCESS CODE & AUTHENTICATE]
+            </Link>
+          </div>
+        </div>
+      )}
+
       <div className="bg-[#080808] border-2 border-crt-dim/40 rounded p-6 shadow-[0_0_20px_rgba(0,0,0,0.9)] space-y-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center text-[10px] font-bold text-crt-dim/50 border-b border-dashed border-crt-dim/20 pb-2 mb-4 gap-2">
           <span>CLASSIFICATION: LEVEL-4 CLEARANCE</span>
