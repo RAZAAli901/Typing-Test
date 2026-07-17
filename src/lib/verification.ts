@@ -79,6 +79,22 @@ export function timingSafeCompare(a: string, b: string): boolean {
   return crypto.timingSafeEqual(bufA, bufB);
 }
 
+/**
+ * Prunes all expired verification codes from the database.
+ * Can be integrated into cron jobs or executed during runtime actions.
+ */
+export async function cleanupExpiredCodes(): Promise<number> {
+  const result = await db.verificationCode.deleteMany({
+    where: {
+      expiresAt: {
+        lt: new Date(),
+      },
+    },
+  });
+  return result.count;
+}
+
+
 
 
 
