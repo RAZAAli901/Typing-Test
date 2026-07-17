@@ -18,6 +18,8 @@ function VerifyContent() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState(initialTime);
+  const [resendCooldown, setResendCooldown] = useState(60);
+  const [resendLoading, setResendLoading] = useState(false);
 
   useEffect(() => {
     if (timeLeft <= 0) return;
@@ -33,10 +35,44 @@ function VerifyContent() {
     return () => clearInterval(interval);
   }, [timeLeft]);
 
+  useEffect(() => {
+    if (resendCooldown <= 0) return;
+    const interval = setInterval(() => {
+      setResendCooldown((prev) => prev - 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [resendCooldown]);
+
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
+
+  const handleResend = async () => {
+    if (resendCooldown > 0 || resendLoading) return;
+    setResendLoading(true);
+    setError(null);
+    setSuccess(null);
+    try {
+      const res = await fetch("/api/auth/resend-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "FAILED TO RESEND ACCESS KEY.");
+      } else {
+        setSuccess("A NEW ACCESS KEY HAS BEEN DISPATCHED.");
+        setTimeLeft(600); // Reset expiry to 10 mins
+        setResendCooldown(60); // Reset cooldown to 60s
+      }
+    } catch (err) {
+      setError("CONNECTION TO SECURITY MODULE FAILED.");
+    } finally {
+      setResendLoading(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -125,6 +161,23 @@ function VerifyContent() {
             {isLoading ? "AUTHORIZING..." : "SUBMIT ACCESS KEY"}
           </button>
         </form>
+
+        <div className="text-center pt-4 border-t border-dashed border-crt-dim/20 text-xs">
+          {resendCooldown > 0 ? (
+            <p className="text-crt-dim/40 uppercase">
+              RESEND COOLDOWN ACTIVE — WAIT {resendCooldown}s
+            </p>
+          ) : (
+            <button
+              type="button"
+              onClick={handleResend}
+              disabled={resendLoading || !!success}
+              className="text-crt-primary uppercase font-bold tracking-wider hover:underline hover:text-crt-primary/80 disabled:opacity-40"
+            >
+              {resendLoading ? "RE-TRANSMITTING..." : "[REQUEST NEW ACCESS KEY]"}
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
