@@ -75,6 +75,17 @@ function VerifyContent() {
     }
   };
 
+  const getFormattedError = (err: string) => {
+    const lower = err.toLowerCase();
+    if (lower.includes("invalid") || lower.includes("credentials") || lower.includes("failed")) {
+      return "[INVALID CODE]";
+    }
+    if (lower.includes("expired")) {
+      return "[CODE EXPIRED — REQUEST A NEW ONE]";
+    }
+    return `[ERROR: ${err.toUpperCase()}]`;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (code.length !== 6) {
@@ -121,6 +132,18 @@ function VerifyContent() {
             GATEWAY_SECURED
           </span>
         </div>
+
+        {error && (
+          <div className="border border-red-500/50 bg-red-950/20 text-red-500 p-3 text-center uppercase tracking-wider drop-shadow-[0_0_3px_#ef4444] text-xs font-bold font-mono">
+            {getFormattedError(error)}
+          </div>
+        )}
+
+        {success && (
+          <div className="border-2 border-crt-primary bg-[#050505] text-crt-primary p-4 text-center uppercase tracking-wider font-bold text-lg drop-shadow-[0_0_6px_var(--color-crt-primary)] font-mono animate-pulse">
+            [ACCESS GRANTED — IDENTITY VERIFIED]
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2 text-center">
