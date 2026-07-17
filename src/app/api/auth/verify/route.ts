@@ -34,6 +34,8 @@ export async function POST(request: Request) {
       where: { email: lowerEmail },
     });
 
+    // Security check: Use a generic error message so that hackers cannot determine
+    // which email addresses have registered accounts.
     if (!user) {
       return NextResponse.json(
         { error: "Invalid credentials or verification code." },
