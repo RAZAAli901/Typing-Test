@@ -7,13 +7,14 @@ generator client {
 }
 
 model User {
-  username      String    @id @db.VarChar(50)
-  email         String    @unique
-  passwordHash  String
-  avatarUrl     String?
-  emailVerified Boolean   @default(false)
-  createdAt     DateTime  @default(now())
-  sessions      Session[]
+  username          String             @id @db.VarChar(50)
+  email             String             @unique
+  passwordHash      String
+  avatarUrl         String?
+  emailVerified     Boolean            @default(false)
+  createdAt         DateTime           @default(now())
+  sessions          Session[]
+  verificationCodes VerificationCode[]
 }
 
 model Session {
@@ -31,4 +32,16 @@ model Session {
 
   @@index([username])
   @@index([mode])
+}
+
+model VerificationCode {
+  id        String   @id @default(uuid())
+  userId    String   @db.VarChar(50)
+  user      User     @relation(fields: [userId], references: [username], onDelete: Cascade)
+  codeHash  String
+  expiresAt DateTime
+  attempts  Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
 }
