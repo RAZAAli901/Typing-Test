@@ -75,7 +75,7 @@ export default function SignupPage() {
 
       setSuccess(true);
       setTimeout(() => {
-        router.push("/login?signup_success=true");
+        router.push(`/verify?email=${encodeURIComponent(email.trim().toLowerCase())}&t=${Date.now()}`);
       }, 2500);
     } catch (err: any) {
       setError(err.message || "An unexpected registration error occurred.");
@@ -107,9 +107,9 @@ export default function SignupPage() {
         {success ? (
           <div className="space-y-4 text-center py-8">
             <div className="text-4xl text-emerald-400 animate-bounce">✔</div>
-            <h3 className="text-xl font-bold text-emerald-400 uppercase tracking-widest">[IDENTITY CREATED SUCCESSFULLY]</h3>
+            <h3 className="text-xl font-bold text-emerald-400 uppercase tracking-widest">[IDENTITY CREATED]</h3>
             <p className="text-sm uppercase tracking-wider text-crt-dim">
-              REDIRECTING TO ACCESS AUTHENTICATION CONSOLE...
+              REDIRECTING TO ACCESS CODE VERIFICATION GATEWAY...
             </p>
           </div>
         ) : (
