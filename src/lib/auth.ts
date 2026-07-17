@@ -41,6 +41,11 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Invalid credentials");
         }
 
+        // Gate login: reject if email is not verified
+        if (!user.emailVerified) {
+          throw new Error("UNVERIFIED_EMAIL");
+        }
+
         return {
           id: user.username,
           name: user.username,
