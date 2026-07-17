@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { hashVerificationCode } from "@/lib/verification";
 
 /**
  * Endpoint: POST /api/auth/verify
@@ -52,8 +53,32 @@ export async function POST(request: Request) {
       );
     }
 
+    // Check attempts limit
+    if (verificationCode.attempts >= 5) {
+      return NextResponse.json(
+        { error: "Maximum attempts exceeded. Please request a new code." },
+        { status: 400 }
+      );
+    }
+
+    // Hash submitted code
+    const submittedHash = hashVerificationCode(code);
+
+    if (submittedHash !== verificationCode.codeHash) {
+      // Increment attempt count on mismatch
+      await db.verificationCode.update({
+        where: { id: verificationCode.id },
+        data: { attempts: { increment: 1 } },
+      });
+
+      return NextResponse.json(
+        { error: "Invalid credentials or verification code." },
+        { status: 400 }
+      );
+    }
+
     return NextResponse.json(
-      { success: false, message: "Code expiration verified. Attempt verification pending." },
+      { success: false, message: "Code hash matches. Activation pending." },
       { status: 501 }
     );
   } catch (error) {
