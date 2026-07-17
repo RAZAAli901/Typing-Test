@@ -11,7 +11,7 @@ export default function LoginPage() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/play";
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(searchParams.get("email") || "");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -90,6 +90,12 @@ export default function LoginPage() {
           </span>
         </div>
 
+        {searchParams.get("verified") === "true" && (
+          <div className="border border-crt-primary bg-crt-primary/10 text-crt-primary p-3 text-center uppercase tracking-wider font-bold text-sm drop-shadow-[0_0_4px_var(--color-crt-primary)] font-mono animate-pulse rounded">
+            [IDENTITY VERIFIED — READY FOR DATABASE ACCESS]
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
             <label className="block text-sm font-bold uppercase tracking-wider">EMAIL ADDRESS</label>
@@ -131,7 +137,19 @@ export default function LoginPage() {
             </span>
           </label>
 
-          {error && (
+          {error === "UNVERIFIED_EMAIL" ? (
+            <div className="bg-red-950/40 border border-red-500 text-red-500 text-sm font-bold uppercase p-3 rounded space-y-2 text-center">
+              <div>[ACCESS DENIED: IDENTITY UNVERIFIED]</div>
+              <div>
+                <Link
+                  href={`/verify?email=${encodeURIComponent(email)}`}
+                  className="text-crt-primary underline hover:text-crt-primary/80 font-bold"
+                >
+                  [CLICK HERE TO ENTER ACCESS CODE]
+                </Link>
+              </div>
+            </div>
+          ) : error && (
             <div className="bg-red-950/40 border border-red-500 text-red-500 text-sm font-bold uppercase p-3 rounded animate-pulse">
               [ACCESS DENIED: {error}]
             </div>
