@@ -41,6 +41,8 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Invalid credentials");
         }
 
+        // Guest access bypasses NextAuth credentials authorize entirely (handled client-side or anonymous storage).
+        // Verified users have user.emailVerified === true and bypass the unverified gate check.
         // Gate login: reject if email is not verified
         if (!user.emailVerified) {
           throw new Error("UNVERIFIED_EMAIL");
