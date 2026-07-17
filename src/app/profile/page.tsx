@@ -277,13 +277,13 @@ export default function ProfilePage() {
               <div className="flex flex-wrap gap-2 justify-center sm:justify-start pt-1">
                 <button
                   onClick={handleUpload}
-                  className="px-3 py-1 bg-zinc-900 border border-crt-primary text-crt-primary hover:text-white hover:bg-crt-primary/10 text-xs font-bold uppercase rounded cursor-pointer transition-all"
+                  className="px-3 py-1 bg-zinc-900 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold rounded shadow-[2px_2px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase tracking-wider text-xs"
                 >
                   Save Avatar
                 </button>
                 <button
                   onClick={handleCancelPreview}
-                  className="px-3 py-1 bg-transparent border border-crt-dim/50 text-crt-dim hover:text-white hover:border-white text-xs font-bold uppercase rounded cursor-pointer transition-all"
+                  className="px-3 py-1 bg-transparent border-2 border-crt-dim/40 text-crt-dim hover:text-white hover:border-white font-bold rounded hover:bg-white/5 transition-all cursor-pointer uppercase tracking-wider text-xs"
                 >
                   Cancel
                 </button>
@@ -305,27 +305,32 @@ export default function ProfilePage() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          <div className="bg-[#070707] border border-crt-dim/30 rounded p-4 text-center shadow-inner">
+          <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 text-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden">
+            <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
             <span className="block text-[10px] font-bold uppercase tracking-wider mb-1">COMPLETED</span>
             <span className="text-2xl font-black text-white">{stats?.totalSessions || 0}</span>
             <span className="block text-[10px] mt-1">sessions</span>
           </div>
-          <div className="bg-[#070707] border border-crt-dim/30 rounded p-4 text-center shadow-inner">
+          <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 text-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden">
+            <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
             <span className="block text-[10px] font-bold uppercase tracking-wider mb-1">AVG SPEED</span>
             <span className="text-2xl font-black text-white">{stats?.averageWpm || 0}</span>
             <span className="block text-[10px] mt-1">net WPM</span>
           </div>
-          <div className="bg-[#070707] border border-crt-dim/30 rounded p-4 text-center shadow-inner">
+          <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 text-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden">
+            <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
             <span className="block text-[10px] font-bold uppercase tracking-wider mb-1">TOP SPEED</span>
             <span className="text-2xl font-black text-crt-primary drop-shadow-[0_0_3px_var(--color-crt-primary)]">{stats?.topWpm || 0}</span>
             <span className="block text-[10px] mt-1">max net WPM</span>
           </div>
-          <div className="bg-[#070707] border border-crt-dim/30 rounded p-4 text-center shadow-inner">
+          <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 text-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden">
+            <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
             <span className="block text-[10px] font-bold uppercase tracking-wider mb-1">AVG ACCURACY</span>
             <span className="text-2xl font-black text-emerald-400">{stats?.averageAccuracy || 0}%</span>
             <span className="block text-[10px] mt-1">precision</span>
           </div>
-          <div className="bg-[#070707] border border-crt-dim/30 rounded p-4 text-center shadow-inner col-span-2 md:col-span-1">
+          <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 text-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden col-span-2 md:col-span-1">
+            <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
             <span className="block text-[10px] font-bold uppercase tracking-wider mb-1">PRACTICE TIME</span>
             <span className="text-2xl font-black text-purple-400">{stats?.totalDurationMinutes || 0}</span>
             <span className="block text-[10px] mt-1">minutes</span>
@@ -334,16 +339,20 @@ export default function ProfilePage() {
 
         {/* Personal Bests */}
         <div className="space-y-4 pt-4">
-          <h3 className="text-xl font-black text-white uppercase tracking-wider">🏆 PERSONAL BEST RECORDS</h3>
+          <h3 className="text-xl font-black text-white uppercase tracking-wider flex items-center gap-2">
+            <Icon name="trophy" size={20} className="text-crt-primary drop-shadow-[0_0_4px_var(--color-crt-primary)]" />
+            <span>PERSONAL BEST RECORDS</span>
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {MODES.map((m) => {
               const pb = personalBests[m.id];
               return (
                 <div
                   key={m.id}
-                  className="bg-[#070707] border border-crt-dim/30 rounded p-4 flex items-center justify-between hover:border-crt-primary/50 transition-colors"
+                  className="bg-[#070707] border border-crt-dim/30 rounded p-4 flex items-center justify-between hover:border-crt-primary/50 transition-colors shadow-[inset_0_0_10px_rgba(0,0,0,0.95)] relative overflow-hidden"
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="absolute inset-0 bg-crt-primary/[0.005] pointer-events-none" />
+                  <div className="flex items-center gap-3 relative z-10">
                     <Icon name={m.icon as any} className="text-crt-dim" size={24} />
                     <div>
                       <h4 className="text-sm font-bold text-white uppercase">{m.label}</h4>
@@ -353,23 +362,26 @@ export default function ProfilePage() {
                     </div>
                   </div>
 
-                  {pb ? (
-                    <div className="text-right">
-                      <span className="block text-lg font-black text-white">
-                        {pb.netWpm} <span className="text-[10px]">WPM</span>
-                      </span>
-                      <span className="block text-xs font-semibold text-emerald-400 uppercase">
-                        {pb.accuracy.toFixed(1)}% ACC
-                      </span>
-                    </div>
-                  ) : (
-                    <Link
-                      href={`/play?mode=${m.id}`}
-                      className="text-xs font-bold text-crt-primary hover:text-white bg-crt-primary/10 px-3 py-1.5 rounded border border-crt-dim/40 hover:bg-crt-primary/20 hover:border-crt-primary transition-all uppercase tracking-wider"
-                    >
-                      PLAY [→]
-                    </Link>
-                  )}
+                  <div className="relative z-10">
+                    {pb ? (
+                      <div className="text-right">
+                        <span className="block text-lg font-black text-white">
+                          {pb.netWpm} <span className="text-[10px]">WPM</span>
+                        </span>
+                        <span className="block text-xs font-semibold text-emerald-400 uppercase">
+                          {pb.accuracy.toFixed(1)}% ACC
+                        </span>
+                      </div>
+                    ) : (
+                      <Link
+                        href={`/play?mode=${m.id}`}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-zinc-900 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold rounded shadow-[2px_2px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase tracking-wider text-xs"
+                      >
+                        <span>PLAY</span>
+                        <Icon name="play" size={10} className="text-crt-primary" />
+                      </Link>
+                    )}
+                  </div>
                 </div>
               );
             })}

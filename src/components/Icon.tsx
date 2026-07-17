@@ -16,6 +16,10 @@ import { InfoBox } from "pixelarticons/react/InfoBox";
 import { ArrowRight } from "pixelarticons/react/ArrowRight";
 import { Play } from "pixelarticons/react/Play";
 import { Close } from "pixelarticons/react/Close";
+import { Target } from "pixelarticons/react/Target";
+import { Scale } from "pixelarticons/react/Scale";
+import { Grid3x3 } from "pixelarticons/react/Grid3x3";
+import { Gamepad } from "pixelarticons/react/Gamepad";
 
 export type IconName =
   | "standard"
@@ -36,7 +40,11 @@ export type IconName =
   | "info"
   | "arrow-right"
   | "play"
-  | "close";
+  | "close"
+  | "target"
+  | "scale"
+  | "grid"
+  | "game";
 
 interface IconProps {
   name: IconName;
@@ -65,6 +73,10 @@ export default function Icon({ name, className = "", size = 24 }: IconProps) {
     "arrow-right": ArrowRight,
     play: Play,
     close: Close,
+    target: Target,
+    scale: Scale,
+    grid: Grid3x3,
+    game: Gamepad,
   };
 
   const IconComponent = iconMap[name];

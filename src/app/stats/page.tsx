@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Icon from "@/components/Icon";
+import DefaultAvatar from "@/components/DefaultAvatar";
 
 interface UserStats {
   username: string;
@@ -20,14 +22,14 @@ interface PBData {
 }
 
 const MODES = [
-  { id: "standard", label: "Standard", icon: "📝" },
-  { id: "numbers", label: "Numbers", icon: "🔢" },
-  { id: "quotes", label: "Quotes", icon: "💬" },
-  { id: "code-snippet", label: "Code Snippet", icon: "💻" },
-  { id: "punctuation", label: "Punctuation", icon: "🔣" },
-  { id: "random-words", label: "Random Words", icon: "🔀" },
-  { id: "daily-challenge", label: "Daily Challenge", icon: "📅" },
-  { id: "custom", label: "Custom Text", icon: "⚙️" },
+  { id: "standard", label: "Standard", icon: "standard" },
+  { id: "numbers", label: "Numbers", icon: "numbers" },
+  { id: "quotes", label: "Quotes", icon: "quotes" },
+  { id: "code-snippet", label: "Code Snippet", icon: "code" },
+  { id: "punctuation", label: "Punctuation", icon: "punctuation" },
+  { id: "random-words", label: "Random Words", icon: "random" },
+  { id: "daily-challenge", label: "Daily Challenge", icon: "daily" },
+  { id: "custom", label: "Custom Text", icon: "custom" },
 ];
 
 export default function StatsPage() {
@@ -236,12 +238,12 @@ export default function StatsPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-8 px-4 space-y-8">
+    <div className="max-w-4xl mx-auto py-8 px-4 space-y-8 font-vt323 text-lg text-crt-dim select-none">
       {!username ? (
         /* Claim Username Flow Screen */
         <div className="max-w-md mx-auto py-12 font-vt323 text-lg text-crt-dim">
           <div className="bg-[#080808] border-2 border-crt-dim/40 rounded p-8 space-y-6 shadow-[0_0_20px_rgba(0,0,0,0.9)] text-center">
-            <div className="text-4xl animate-pulse">👑</div>
+            <Icon name="user" size={40} className="mx-auto text-crt-primary drop-shadow-[0_0_6px_var(--color-crt-primary)] animate-pulse" />
             <div className="space-y-2">
               <h2 className="text-2xl font-black text-crt-primary uppercase drop-shadow-[0_0_4px_var(--color-crt-primary)]">CLAIM COMPETITOR ID</h2>
               <p className="text-sm text-crt-dim leading-relaxed uppercase">
@@ -263,17 +265,18 @@ export default function StatsPage() {
               </div>
 
               {claimError && (
-                <div className="text-red-500 text-sm font-bold text-left ml-1 bg-red-950/20 border border-red-500/30 px-3 py-2 rounded">
-                  ⚠️ [ERROR: {claimError.toUpperCase()}]
+                <div className="bg-red-950/40 border border-red-500 text-red-500 text-sm font-bold uppercase p-3 rounded animate-pulse text-left tracking-wider">
+                  [ALERT: {claimError.toUpperCase()}]
                 </div>
               )}
 
               <button
                 type="submit"
                 disabled={isSubmittingClaim || !claimInput.trim()}
-                className="w-full py-2.5 bg-zinc-900 hover:bg-zinc-800 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold rounded shadow-[4px_4px_0px_var(--color-crt-dim)] active:translate-x-1 active:translate-y-1 active:shadow-none transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider"
+                className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-zinc-900 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold rounded shadow-[4px_4px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase tracking-wider text-lg"
               >
-                {isSubmittingClaim ? "VALIDATING PROFILE..." : "Claim Identity 🚀"}
+                <span>{isSubmittingClaim ? "VALIDATING PROFILE..." : "CLAIM IDENTITY"}</span>
+                <Icon name="play" size={16} />
               </button>
             </form>
           </div>
@@ -282,59 +285,60 @@ export default function StatsPage() {
         /* Profile statistics Screen */
         <>
           {/* Header Banner */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-950/20 p-6 rounded-2xl border border-white/5 backdrop-blur-sm">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-500 to-purple-500 flex items-center justify-center text-xl shadow-md">
-                👤
+          <div className="bg-[#080808] border-2 border-crt-dim/40 rounded p-6 shadow-[0_0_20px_rgba(0,0,0,0.9)] flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 bg-[#0a0a0a] border border-crt-dim/50 rounded flex items-center justify-center overflow-hidden shadow-inner p-1">
+                <DefaultAvatar className="w-10 h-10 text-crt-primary" />
               </div>
               <div>
-                <h2 className="text-2xl font-black text-white">{username}</h2>
-                <p className="text-xs text-slate-400 font-light">TypeMaster Competitor</p>
+                <h2 className="text-2xl font-black text-white uppercase">{username}</h2>
+                <p className="text-xs text-crt-dim font-bold tracking-wider uppercase">TypeMaster Competitor</p>
               </div>
             </div>
             <button
               onClick={handleResetUsername}
-              className="text-xs font-semibold text-slate-400 hover:text-white px-3 py-1.5 rounded-lg border border-white/5 bg-white/2 hover:bg-white/5 transition-all cursor-pointer"
+              className="px-4 py-2 bg-zinc-900 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold rounded shadow-[2px_2px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase tracking-wider text-xs flex items-center gap-1.5"
             >
-              Edit Username ⚙️
+              <span>EDIT USERNAME</span>
+              <Icon name="settings" size={12} />
             </button>
           </div>
 
           {isLoading ? (
-            <div className="space-y-8 animate-pulse">
+            <div className="space-y-8 animate-pulse text-crt-dim">
               {/* Aggregated Stats Cards Skeleton */}
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                 {[...Array(5)].map((_, i) => (
                   <div
                     key={i}
-                    className="glass-panel p-5 rounded-2xl border border-white/5 bg-slate-950/20 h-24 flex flex-col justify-center items-center space-y-2"
+                    className="bg-[#070707] border border-crt-dim/30 rounded p-4 h-24 flex flex-col justify-center items-center space-y-2 shadow-inner"
                   >
-                    <div className="h-3 bg-slate-900 rounded w-12" />
-                    <div className="h-6 bg-slate-900 rounded w-8" />
-                    <div className="h-2 bg-slate-900 rounded w-16" />
+                    <div className="h-3 bg-crt-dim/20 rounded w-12" />
+                    <div className="h-6 bg-crt-dim/20 rounded w-8" />
+                    <div className="h-2 bg-crt-dim/20 rounded w-16" />
                   </div>
                 ))}
               </div>
 
               {/* Personal Bests Skeleton */}
               <div className="space-y-4">
-                <div className="h-5 bg-slate-900 rounded w-36" />
+                <div className="h-5 bg-crt-dim/20 rounded w-36" />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[...Array(6)].map((_, i) => (
                     <div
                       key={i}
-                      className="glass-panel p-5 rounded-2xl border border-white/5 bg-slate-950/10 h-20 flex justify-between items-center"
+                      className="bg-[#070707] border border-crt-dim/30 rounded p-4 h-20 flex justify-between items-center shadow-inner"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-slate-900 rounded-lg" />
+                        <div className="w-8 h-8 bg-crt-dim/20 rounded" />
                         <div className="space-y-2">
-                          <div className="h-3.5 bg-slate-900 rounded w-20" />
-                          <div className="h-2.5 bg-slate-900 rounded w-16" />
+                          <div className="h-3.5 bg-crt-dim/20 rounded w-20" />
+                          <div className="h-2.5 bg-crt-dim/20 rounded w-16" />
                         </div>
                       </div>
                       <div className="space-y-2 text-right">
-                        <div className="h-4 bg-slate-900 rounded w-12 ml-auto" />
-                        <div className="h-2.5 bg-slate-900 rounded w-10 ml-auto" />
+                        <div className="h-4 bg-crt-dim/20 rounded w-12 ml-auto" />
+                        <div className="h-2.5 bg-crt-dim/20 rounded w-10 ml-auto" />
                       </div>
                     </div>
                   ))}
@@ -342,98 +346,110 @@ export default function StatsPage() {
               </div>
             </div>
           ) : error ? (
-            <div className="text-center py-16 text-rose-400 text-sm font-semibold">
-              ❌ {error}
+            <div className="bg-red-950/40 border border-red-500 text-red-500 text-sm font-bold uppercase p-3 rounded animate-pulse text-center tracking-wider">
+              [ERROR: {error.toUpperCase()}]
             </div>
           ) : (
             <>
               {/* Aggregated Stats Cards */}
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                <div className="glass-panel p-5 rounded-2xl border border-white/5 text-center bg-slate-950/20">
-                  <span className="block text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">
+                <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 text-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden">
+                  <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
+                  <span className="block text-crt-dim text-[10px] font-bold uppercase tracking-wider mb-1">
                     Completed
                   </span>
                   <span className="text-2xl font-black text-white">{stats?.totalSessions}</span>
-                  <span className="block text-slate-500 text-[10px] mt-1 font-light">sessions</span>
+                  <span className="block text-crt-dim/70 text-[10px] mt-1 uppercase font-bold">sessions</span>
                 </div>
 
-                <div className="glass-panel p-5 rounded-2xl border border-white/5 text-center bg-slate-950/20">
-                  <span className="block text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">
+                <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 text-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden">
+                  <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
+                  <span className="block text-crt-dim text-[10px] font-bold uppercase tracking-wider mb-1">
                     Average Speed
                   </span>
                   <span className="text-2xl font-black text-white">{stats?.averageWpm}</span>
-                  <span className="block text-slate-500 text-[10px] mt-1 font-light">net WPM</span>
+                  <span className="block text-crt-dim/70 text-[10px] mt-1 uppercase font-bold">net WPM</span>
                 </div>
 
-                <div className="glass-panel p-5 rounded-2xl border border-white/5 text-center bg-slate-950/20">
-                  <span className="block text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">
+                <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 text-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden">
+                  <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
+                  <span className="block text-crt-dim text-[10px] font-bold uppercase tracking-wider mb-1">
                     Top Speed
                   </span>
-                  <span className="text-2xl font-black text-cyan-400">{stats?.topWpm}</span>
-                  <span className="block text-slate-500 text-[10px] mt-1 font-light">max net WPM</span>
+                  <span className="text-2xl font-black text-crt-primary drop-shadow-[0_0_3px_var(--color-crt-primary)]">{stats?.topWpm}</span>
+                  <span className="block text-crt-dim/70 text-[10px] mt-1 uppercase font-bold">max net WPM</span>
                 </div>
 
-                <div className="glass-panel p-5 rounded-2xl border border-white/5 text-center bg-slate-950/20">
-                  <span className="block text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">
+                <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 text-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden">
+                  <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
+                  <span className="block text-crt-dim text-[10px] font-bold uppercase tracking-wider mb-1">
                     Average Accuracy
                   </span>
                   <span className="text-2xl font-black text-emerald-400">
                     {stats?.averageAccuracy}%
                   </span>
-                  <span className="block text-slate-500 text-[10px] mt-1 font-light">precision rate</span>
+                  <span className="block text-crt-dim/70 text-[10px] mt-1 uppercase font-bold">precision</span>
                 </div>
 
-                <div className="glass-panel col-span-2 md:col-span-1 p-5 rounded-2xl border border-white/5 text-center bg-slate-950/20">
-                  <span className="block text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">
+                <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 text-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden col-span-2 md:col-span-1">
+                  <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
+                  <span className="block text-crt-dim text-[10px] font-bold uppercase tracking-wider mb-1">
                     Practice Time
                   </span>
                   <span className="text-2xl font-black text-purple-400">
                     {stats?.totalDurationMinutes}
                   </span>
-                  <span className="block text-slate-500 text-[10px] mt-1 font-light">minutes</span>
+                  <span className="block text-crt-dim/70 text-[10px] mt-1 uppercase font-bold">minutes</span>
                 </div>
               </div>
 
               {/* Personal Bests Section */}
               <div className="space-y-4">
-                <h3 className="text-lg font-black text-white">🏆 Personal Bests</h3>
+                <h3 className="text-xl font-black text-white uppercase tracking-wider flex items-center gap-2">
+                  <Icon name="trophy" size={20} className="text-crt-primary drop-shadow-[0_0_4px_var(--color-crt-primary)]" />
+                  <span>PERSONAL BEST RECORDS</span>
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {MODES.map((m) => {
                     const pb = personalBests[m.id];
                     return (
                       <div
                         key={m.id}
-                        className="glass-panel p-5 rounded-2xl border border-white/5 bg-slate-950/10 flex items-center justify-between hover:border-cyan-500/20 transition-all duration-300"
+                        className="bg-[#070707] border border-crt-dim/30 rounded p-4 flex items-center justify-between hover:border-crt-primary/50 transition-colors shadow-[inset_0_0_10px_rgba(0,0,0,0.95)] relative overflow-hidden"
                       >
-                        <div className="flex items-center gap-3">
-                          <span className="text-2xl">{m.icon}</span>
+                        <div className="absolute inset-0 bg-crt-primary/[0.005] pointer-events-none" />
+                        <div className="flex items-center gap-3 relative z-10">
+                          <Icon name={m.icon as any} className="text-crt-dim" size={24} />
                           <div>
-                            <h4 className="text-sm font-bold text-white">{m.label}</h4>
-                            <p className="text-[10px] text-slate-400 font-light">
+                            <h4 className="text-sm font-bold text-white uppercase">{m.label}</h4>
+                            <p className="text-[10px] font-light uppercase">
                               {pb
-                                ? `Achieved on ${new Date(pb.createdAt).toLocaleDateString()}`
+                                ? `LOGGED ON ${new Date(pb.createdAt).toLocaleDateString()}`
                                 : "No record set"}
                             </p>
                           </div>
                         </div>
 
-                        {pb ? (
-                          <div className="text-right">
-                            <span className="block text-lg font-black text-white">
-                              {pb.netWpm} <span className="text-[10px] font-semibold text-slate-400">WPM</span>
-                            </span>
-                            <span className="block text-xs font-semibold text-emerald-400">
-                              {pb.accuracy.toFixed(1)}% acc
-                            </span>
-                          </div>
-                        ) : (
-                          <Link
-                            href="/play"
-                            className="text-xs font-bold text-cyan-400 hover:text-cyan-300 bg-cyan-950/20 px-3 py-1.5 rounded-lg border border-cyan-800/30 hover:bg-cyan-950/40 transition-all"
-                          >
-                            Play Mode ➡️
-                          </Link>
-                        )}
+                        <div className="relative z-10">
+                          {pb ? (
+                            <div className="text-right">
+                              <span className="block text-lg font-black text-white">
+                                {pb.netWpm} <span className="text-[10px]">WPM</span>
+                              </span>
+                              <span className="block text-xs font-semibold text-emerald-400 uppercase">
+                                {pb.accuracy.toFixed(1)}% acc
+                              </span>
+                            </div>
+                          ) : (
+                            <Link
+                              href={`/play?mode=${m.id}`}
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-zinc-900 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold rounded shadow-[2px_2px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase tracking-wider text-xs"
+                            >
+                              <span>PLAY</span>
+                              <Icon name="play" size={10} className="text-crt-primary" />
+                            </Link>
+                          )}
+                        </div>
                       </div>
                     );
                   })}

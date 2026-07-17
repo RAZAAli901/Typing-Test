@@ -147,18 +147,20 @@ export default function LoginPage() {
           </button>
 
           <Link
+            href="/signup"
+            className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-zinc-900 border-2 border-crt-amber text-crt-amber hover:text-white hover:border-crt-amber shadow-[4px_4px_0px_var(--color-crt-amber)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase tracking-wider text-lg font-bold rounded"
+          >
+            <span>REGISTER NEW PROFILE</span>
+            <Icon name="user" size={16} className="text-crt-amber" />
+          </Link>
+
+          <Link
             href="/play"
             className="w-full inline-flex items-center justify-center gap-2 px-6 py-2 bg-transparent border border-crt-dim/40 hover:border-crt-primary text-crt-dim hover:text-crt-primary font-bold rounded transition-all cursor-pointer uppercase tracking-wider text-sm"
           >
             Continue as Guest [→]
           </Link>
         </form>
-
-        <div className="text-center pt-2 border-t border-dashed border-crt-dim/30 text-xs font-bold uppercase tracking-widest">
-          <Link href="/signup" className="text-crt-dim hover:text-crt-primary transition-colors">
-            [CREATE COGNITIVE PROFILE]
-          </Link>
-        </div>
       </div>
     </div>
   );

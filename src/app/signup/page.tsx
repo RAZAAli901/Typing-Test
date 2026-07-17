@@ -237,8 +237,9 @@ export default function SignupPage() {
           </form>
         )}
 
-        <div className="text-center pt-2 border-t border-dashed border-crt-dim/30 text-xs font-bold uppercase tracking-widest">
-          <Link href="/login" className="text-crt-dim hover:text-crt-primary transition-colors">
+        <div className="text-center pt-4 border-t border-dashed border-crt-dim/30 text-sm font-bold uppercase tracking-widest flex flex-col sm:flex-row items-center justify-center gap-1">
+          <span className="text-crt-dim/60">ALREADY HAVE AN IDENTITY?</span>
+          <Link href="/login" className="text-crt-primary hover:text-white transition-colors underline decoration-2 underline-offset-4">
             [ACCESS EXISTING IDENTITY]
           </Link>
         </div>
