@@ -1,16 +1,43 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 function VerifyContent() {
   const searchParams = useSearchParams();
   const email = searchParams.get("email") || "";
+  const tParam = searchParams.get("t");
+
+  // Determine expiration offset (10 minutes total lifespan)
+  const initialTime = tParam 
+    ? Math.max(0, Math.floor((parseInt(tParam) + 10 * 60 * 1000 - Date.now()) / 1000))
+    : 600;
 
   const [code, setCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [timeLeft, setTimeLeft] = useState(initialTime);
+
+  useEffect(() => {
+    if (timeLeft <= 0) return;
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [timeLeft]);
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,14 +101,25 @@ function VerifyContent() {
               disabled={isLoading || !!success}
               autoFocus
             />
-            <p className="text-[11px] text-crt-dim/60 uppercase">
+            <p className="text-[11px] text-crt-dim/60 uppercase pb-2">
               TRANSMITTED TO: {email || "UNKNOWN"}
             </p>
+            <div className="text-sm">
+              {timeLeft > 0 ? (
+                <span className="text-crt-primary uppercase font-bold tracking-wider">
+                  CODE EXPIRES IN {formatTime(timeLeft)}
+                </span>
+              ) : (
+                <span className="text-red-500 uppercase font-bold tracking-wider animate-pulse">
+                  CODE EXPIRED — REQUEST A NEW ONE
+                </span>
+              )}
+            </div>
           </div>
 
           <button
             type="submit"
-            disabled={isLoading || code.length !== 6 || !!success}
+            disabled={isLoading || code.length !== 6 || !!success || timeLeft === 0}
             className="w-full bg-[#070707] text-crt-primary border-2 border-crt-primary font-bold py-3 uppercase tracking-widest hover:bg-crt-primary hover:text-black transition-all duration-200 active:scale-95 disabled:opacity-40 disabled:pointer-events-none shadow-[4px_4px_0px_var(--color-crt-primary)] relative"
           >
             {isLoading ? "AUTHORIZING..." : "SUBMIT ACCESS KEY"}
