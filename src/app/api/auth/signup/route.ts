@@ -130,6 +130,11 @@ export async function POST(request: Request) {
     // Send verification email
     const emailSent = await sendVerificationEmail(newUser.email, rawCode);
     if (!emailSent) {
+      // Cleanup: delete the unverified user. Cascade deletion will clean up codes.
+      await db.user.delete({
+        where: { username: newUser.username },
+      });
+
       return NextResponse.json(
         { error: "Failed to send verification email. Registration aborted." },
         { status: 500 }
