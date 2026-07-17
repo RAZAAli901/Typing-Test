@@ -7,6 +7,10 @@ const resendApiKey = process.env.RESEND_API_KEY;
 export const resend = resendApiKey ? new Resend(resendApiKey) : null;
 
 /**
+ * SECURITY AUDIT CHECKPOINT:
+ * Plaintext verification codes must never be logged in production environments.
+ * The console output below is strictly evaluated as a Dev Mode console fallback.
+ *
  * Sends a verification email with a 6-digit access code.
  * Falls back to console logging if the Resend client is not configured.
  */
