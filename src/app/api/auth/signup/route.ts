@@ -108,6 +108,7 @@ export async function POST(request: Request) {
         username: normalizedUsername,
         email: lowerEmail,
         passwordHash: hashedPassword,
+        emailVerified: false,
       },
     });
 
