@@ -77,9 +77,20 @@ export async function POST(request: Request) {
       );
     }
 
+    // Code is valid. Perform user activation and delete the code (consume it) in a transaction.
+    await db.$transaction([
+      db.user.update({
+        where: { username: user.username },
+        data: { emailVerified: true },
+      }),
+      db.verificationCode.delete({
+        where: { id: verificationCode.id },
+      }),
+    ]);
+
     return NextResponse.json(
-      { success: false, message: "Code hash matches. Activation pending." },
-      { status: 501 }
+      { success: true, message: "Identity authorized successfully." },
+      { status: 200 }
     );
   } catch (error) {
     console.error("Verification endpoint error:", error);
