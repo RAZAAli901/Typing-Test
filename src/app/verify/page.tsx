@@ -213,7 +213,10 @@ function VerifyContent() {
           </button>
         </form>
 
-        <div className="text-center pt-4 border-t border-dashed border-crt-dim/20 text-xs">
+        <div className="text-center pt-4 border-t border-dashed border-crt-dim/20 text-xs space-y-2">
+          <p className="text-[10px] text-crt-dim/50 uppercase">
+            Didn't get the code? Check your spam folder, or resend it below.
+          </p>
           {resendCooldown > 0 ? (
             <p className="text-crt-dim/40 uppercase">
               RESEND COOLDOWN ACTIVE — WAIT {resendCooldown}s
