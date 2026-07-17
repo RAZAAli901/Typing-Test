@@ -8,9 +8,35 @@ function VerifyContent() {
   const email = searchParams.get("email") || "";
 
   const [code, setCode] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (code.length !== 6) {
+      setError("ACCESS CODE MUST BE 6 DIGITS.");
+      return;
+    }
+    setIsLoading(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/auth/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, code }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "VERIFICATION FAILED.");
+      } else {
+        setSuccess("ACCESS GRANTED — IDENTITY VERIFIED");
+      }
+    } catch (err) {
+      setError("CONNECTION TO SECURITY MODULE FAILED.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -25,8 +51,41 @@ function VerifyContent() {
       </div>
 
       <div className="bg-[#080808] border-2 border-crt-dim/40 rounded p-6 shadow-[0_0_20px_rgba(0,0,0,0.9)] space-y-6">
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <p className="text-center text-sm uppercase">Verification page initialized for: {email}</p>
+        <div className="flex justify-between items-center text-[10px] font-bold text-crt-dim/60 border-b border-dashed border-crt-dim/20 pb-2">
+          <span>IDENTITY GATEWAY PORT: 8443</span>
+          <span className="flex items-center gap-1 text-crt-primary animate-pulse">
+            <span className="inline-block w-2 h-2 rounded-full bg-crt-primary"></span>
+            GATEWAY_SECURED
+          </span>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-2 text-center">
+            <label className="block text-sm font-bold uppercase tracking-wider">
+              ENTER 6-DIGIT SECURITY KEY
+            </label>
+            <input
+              type="text"
+              value={code}
+              onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+              placeholder="••••••"
+              className="w-full bg-[#0a0a0a] border border-crt-dim/30 rounded py-3 px-4 text-center font-mono text-3xl tracking-[1rem] focus:outline-none focus:border-crt-primary focus:shadow-[0_0_10px_var(--color-crt-primary)] text-crt-primary transition-all uppercase placeholder-crt-dim/20"
+              maxLength={6}
+              disabled={isLoading || !!success}
+              autoFocus
+            />
+            <p className="text-[11px] text-crt-dim/60 uppercase">
+              TRANSMITTED TO: {email || "UNKNOWN"}
+            </p>
+          </div>
+
+          <button
+            type="submit"
+            disabled={isLoading || code.length !== 6 || !!success}
+            className="w-full bg-[#070707] text-crt-primary border-2 border-crt-primary font-bold py-3 uppercase tracking-widest hover:bg-crt-primary hover:text-black transition-all duration-200 active:scale-95 disabled:opacity-40 disabled:pointer-events-none shadow-[4px_4px_0px_var(--color-crt-primary)] relative"
+          >
+            {isLoading ? "AUTHORIZING..." : "SUBMIT ACCESS KEY"}
+          </button>
         </form>
       </div>
     </div>
