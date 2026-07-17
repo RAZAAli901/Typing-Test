@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { hashVerificationCode } from "@/lib/verification";
+import { hashVerificationCode, timingSafeCompare } from "@/lib/verification";
 import { isIpRateLimited } from "@/lib/rateLimit";
 
 /**
@@ -73,7 +73,7 @@ export async function POST(request: Request) {
     // Hash submitted code
     const submittedHash = hashVerificationCode(code);
 
-    if (submittedHash !== verificationCode.codeHash) {
+    if (!timingSafeCompare(submittedHash, verificationCode.codeHash)) {
       // Increment attempt count on mismatch
       await db.verificationCode.update({
         where: { id: verificationCode.id },
