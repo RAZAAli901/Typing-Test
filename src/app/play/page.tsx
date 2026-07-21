@@ -401,13 +401,13 @@ export default function PlayPage() {
       {!isFinished ? (
         <>
           {/* Header Title */}
-          <div className="text-center space-y-2">
-            <h1 className="text-3xl font-extrabold text-white flex items-center justify-center gap-2 font-vt323 uppercase tracking-wider">
-              <Icon name="play" size={20} className="text-crt-primary animate-pulse" />
-              Practice Arena
+          <div className="text-center space-y-2 select-none">
+            <h1 className="text-3xl md:text-4xl font-extrabold text-crt-primary flex items-center justify-center gap-2 font-vt323 uppercase tracking-widest drop-shadow-[0_0_6px_var(--color-crt-primary)]">
+              <Icon name="play" size={24} className="text-crt-primary animate-pulse" />
+              <span>Practice Arena</span>
             </h1>
-            <p className="text-sm text-slate-400 font-light font-vt323 uppercase tracking-wider">
-              Select a typing mode and challenge your speed.
+            <p className="text-sm text-crt-dim font-bold font-vt323 uppercase tracking-widest">
+              Select a typing mode and challenge your typing speed.
             </p>
           </div>
 
