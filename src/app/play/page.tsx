@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Icon from "@/components/Icon";
+import { Button } from "@/components/ui/8bit/button";
 import { useSession } from "next-auth/react";
 import TypingArea from "@/components/TypingArea";
 import StatsHUD from "@/components/StatsHUD";
@@ -413,18 +414,15 @@ export default function PlayPage() {
             {modesList.map((m) => {
               const isActive = activeMode === m.id;
               return (
-                <button
+                <Button
                   key={m.id}
                   onClick={() => handleReset(m.id, activeLength)}
-                  className={`flex items-center gap-1.5 px-4 py-1.5 font-bold rounded transition-all duration-200 cursor-pointer ${
-                    isActive
-                      ? "bg-crt-primary/20 text-crt-primary border border-crt-primary/40 shadow-[0_0_8px_rgba(57,255,20,0.15)]"
-                      : "text-crt-dim hover:text-white bg-transparent border border-transparent"
-                  }`}
+                  variant={isActive ? "default" : "ghost"}
+                  size="sm"
                 >
                   <Icon name={m.icon} size={16} className={isActive ? "text-crt-primary" : "text-crt-dim"} />
                   <span>{m.label.toUpperCase()}</span>
-                </button>
+                </Button>
               );
             })}
           </div>
@@ -437,19 +435,16 @@ export default function PlayPage() {
           {/* Length Selector */}
           <div className="flex gap-3 items-center text-sm font-bold text-crt-dim uppercase tracking-wider font-vt323">
             <span>SELECT LENGTH:</span>
-            <div className="flex bg-[#070707] p-0.5 rounded border border-crt-dim/20">
+            <div className="flex gap-1 bg-[#070707] p-0.5 rounded border border-crt-dim/20">
               {(["short", "medium", "long"] as LengthType[]).map((len) => (
-                <button
+                <Button
                   key={len}
                   onClick={() => handleReset(activeMode, len)}
-                  className={`px-3 py-1 rounded text-xs font-bold uppercase cursor-pointer transition-all duration-200 ${
-                    activeLength === len
-                      ? "bg-crt-primary/20 text-crt-primary shadow-sm"
-                      : "text-crt-dim hover:text-slate-200"
-                  }`}
+                  variant={activeLength === len ? "default" : "ghost"}
+                  size="sm"
                 >
                   {len}
-                </button>
+                </Button>
               ))}
             </div>
           </div>
@@ -465,20 +460,21 @@ export default function PlayPage() {
                 className="w-full min-h-[120px] bg-[#070707] border-2 border-crt-dim/30 rounded p-4 font-vt323 text-lg text-crt-primary focus:outline-none focus:border-crt-primary/80 shadow-[inset_0_0_10px_rgba(0,0,0,0.9)] resize-y placeholder:text-crt-dim/30"
               />
               <div className="flex items-center gap-3">
-                <button
+                <Button
                   onClick={handleApplyCustomText}
                   disabled={!customInputText.trim()}
-                  className="inline-flex items-center gap-1.5 px-6 py-2 bg-zinc-900 border-2 border-crt-dim text-crt-primary disabled:opacity-50 disabled:cursor-not-allowed hover:text-white hover:border-crt-primary font-bold rounded shadow-[3px_3px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase tracking-wider"
+                  size="sm"
                 >
                   <span>Apply Prompt</span>
                   <Icon name="play" size={14} />
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={() => handleReset("standard", activeLength)}
-                  className="px-6 py-2 bg-transparent border border-crt-dim/50 text-crt-dim hover:text-white hover:border-white font-bold rounded transition-all cursor-pointer uppercase tracking-wider"
+                  variant="outline"
+                  size="sm"
                 >
                   Cancel
-                </button>
+                </Button>
               </div>
             </div>
           ) : (
@@ -500,13 +496,13 @@ export default function PlayPage() {
               </div>
 
               {/* Reset Action */}
-              <button
+              <Button
                 onClick={() => handleReset(activeMode, activeLength)}
-                className="inline-flex items-center gap-1.5 px-6 py-2 bg-zinc-900 hover:bg-zinc-800 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold rounded shadow-[3px_3px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase font-vt323 tracking-wider"
+                size="sm"
               >
                 <span>Reset Test</span>
                 <Icon name="play" size={14} />
-              </button>
+              </Button>
             </>
           )}
         </>
