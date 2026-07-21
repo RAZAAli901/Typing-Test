@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Icon from "@/components/Icon";
 import { Button } from "@/components/ui/8bit/button";
 import { Textarea } from "@/components/ui/8bit/textarea";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/8bit/tabs";
 import { useSession } from "next-auth/react";
 import TypingArea from "@/components/TypingArea";
 import StatsHUD from "@/components/StatsHUD";
@@ -411,22 +412,16 @@ export default function PlayPage() {
           </div>
 
           {/* Mode Selector Tabs */}
-          <div className="w-full flex flex-wrap gap-2 justify-center bg-[#070707] p-2 rounded border border-crt-dim/30 shadow-md font-vt323 text-base">
-            {modesList.map((m) => {
-              const isActive = activeMode === m.id;
-              return (
-                <Button
-                  key={m.id}
-                  onClick={() => handleReset(m.id, activeLength)}
-                  variant={isActive ? "default" : "ghost"}
-                  size="sm"
-                >
-                  <Icon name={m.icon} size={16} className={isActive ? "text-crt-primary" : "text-crt-dim"} />
+          <Tabs value={activeMode} onValueChange={(val: string) => handleReset(val as ModeType, activeLength)}>
+            <TabsList className="w-full flex flex-wrap gap-2 justify-center">
+              {modesList.map((m) => (
+                <TabsTrigger key={m.id} value={m.id}>
+                  <Icon name={m.icon} size={16} className={activeMode === m.id ? "text-crt-primary" : "text-crt-dim"} />
                   <span>{m.label.toUpperCase()}</span>
-                </Button>
-              );
-            })}
-          </div>
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
 
           {/* Mode Selector Description */}
           <div className="text-center text-sm text-crt-dim font-bold tracking-wider uppercase max-w-lg leading-relaxed bg-zinc-950/40 border border-crt-dim/20 px-4 py-2.5 rounded font-vt323">
