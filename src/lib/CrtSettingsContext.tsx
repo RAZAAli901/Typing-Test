@@ -21,7 +21,7 @@ interface CrtSettingsContextType {
 const CrtSettingsContext = createContext<CrtSettingsContextType | undefined>(undefined);
 
 export function CrtSettingsProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<CrtTheme>("green");
+  const [theme, setThemeState] = useState<CrtTheme>("amber");
   const [effectsEnabled, setEffectsEnabledState] = useState<boolean>(true);
   const [soundEnabled, setSoundEnabledState] = useState<boolean>(false);
   const [reducedMotion, setReducedMotion] = useState<boolean>(false);
@@ -69,10 +69,12 @@ export function CrtSettingsProvider({ children }: { children: React.ReactNode })
   useEffect(() => {
     if (typeof document !== "undefined") {
       const root = document.documentElement;
-      if (theme === "amber") {
-        root.classList.add("theme-amber");
-      } else {
+      if (theme === "green") {
+        root.classList.add("theme-green");
         root.classList.remove("theme-amber");
+      } else {
+        root.classList.add("theme-amber");
+        root.classList.remove("theme-green");
       }
     }
   }, [theme]);

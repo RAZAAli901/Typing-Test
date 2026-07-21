@@ -29,10 +29,10 @@
   --crt-green-dim: #0a5f00;
   --crt-amber: #ffb000;
   
-  /* Dynamic CRT active color theme tokens */
-  --color-crt-primary: #39ff14;
-  --color-crt-dim: #0a5f00;
-  --color-crt-glow-rgb: 57, 255, 20;
+  /* Dynamic CRT active color theme tokens (Default: Amber / Orange) */
+  --color-crt-primary: #ffb000;
+  --color-crt-dim: #8b5e00;
+  --color-crt-glow-rgb: 255, 176, 0;
   
   background-color: var(--crt-bg);
   color: var(--color-crt-primary);
@@ -40,8 +40,14 @@
 
 .theme-amber {
   --color-crt-primary: #ffb000;
-  --color-crt-dim: #5f3f00;
+  --color-crt-dim: #8b5e00;
   --color-crt-glow-rgb: 255, 176, 0;
+}
+
+.theme-green {
+  --color-crt-primary: #39ff14;
+  --color-crt-dim: #0a5f00;
+  --color-crt-glow-rgb: 57, 255, 20;
 }
 
 body {
