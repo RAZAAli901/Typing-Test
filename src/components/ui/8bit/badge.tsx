@@ -23,7 +23,7 @@ export const badgeVariants = cva("font-vt323 text-xs font-bold uppercase trackin
 
 export interface BitBadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<badgeVariants> {}
+    VariantProps<typeof badgeVariants> {}
 
 function Badge({ className, font, variant = "default", children, ...props }: BitBadgeProps) {
   return (
