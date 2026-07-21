@@ -6,6 +6,7 @@ import Link from "next/link";
 import Icon from "@/components/Icon";
 import { Button } from "@/components/ui/8bit/button";
 import { Input } from "@/components/ui/8bit/input";
+import { Alert } from "@/components/ui/8bit/alert";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -212,9 +213,9 @@ export default function SignupPage() {
             </div>
 
             {error && (
-              <div className="bg-red-950/40 border border-red-500 text-red-500 text-sm font-bold uppercase p-3 rounded animate-pulse">
+              <Alert variant="destructive">
                 [ALERT: {error}]
-              </div>
+              </Alert>
             )}
 
             <Button

@@ -7,6 +7,7 @@ import Link from "next/link";
 import Icon from "@/components/Icon";
 import { Button } from "@/components/ui/8bit/button";
 import { Input } from "@/components/ui/8bit/input";
+import { Alert } from "@/components/ui/8bit/alert";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -93,9 +94,9 @@ export default function LoginPage() {
         </div>
 
         {searchParams.get("verified") === "true" && (
-          <div className="border border-crt-primary bg-crt-primary/10 text-crt-primary p-3 text-center uppercase tracking-wider font-bold text-sm drop-shadow-[0_0_4px_var(--color-crt-primary)] font-mono animate-pulse rounded">
+          <Alert variant="default" className="text-center font-mono">
             [IDENTITY VERIFIED — READY FOR DATABASE ACCESS]
-          </div>
+          </Alert>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -138,7 +139,7 @@ export default function LoginPage() {
           </label>
 
           {error === "UNVERIFIED_EMAIL" ? (
-            <div className="bg-red-950/40 border border-red-500 text-red-500 text-sm font-bold uppercase p-3 rounded space-y-2 text-center">
+            <Alert variant="destructive" className="space-y-2 text-center">
               <div>[ACCESS DENIED: IDENTITY UNVERIFIED]</div>
               <div>
                 <Link
@@ -148,11 +149,11 @@ export default function LoginPage() {
                   [CLICK HERE TO ENTER ACCESS CODE]
                 </Link>
               </div>
-            </div>
+            </Alert>
           ) : error && (
-            <div className="bg-red-950/40 border border-red-500 text-red-500 text-sm font-bold uppercase p-3 rounded animate-pulse">
+            <Alert variant="destructive">
               [ACCESS DENIED: {error}]
-            </div>
+            </Alert>
           )}
 
           <Button

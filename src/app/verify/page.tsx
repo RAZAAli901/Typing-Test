@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/8bit/button";
 import { Input } from "@/components/ui/8bit/input";
+import { Alert } from "@/components/ui/8bit/alert";
 
 function VerifyContent() {
   const router = useRouter();
@@ -164,15 +165,15 @@ function VerifyContent() {
         </div>
 
         {error && (
-          <div className="border border-red-500/50 bg-red-950/20 text-red-500 p-3 text-center uppercase tracking-wider drop-shadow-[0_0_3px_#ef4444] text-xs font-bold font-mono">
+          <Alert variant="destructive" className="text-center font-mono">
             {getFormattedError(error)}
-          </div>
+          </Alert>
         )}
 
         {success && (
-          <div className="border-2 border-crt-primary bg-[#050505] text-crt-primary p-4 text-center uppercase tracking-wider font-bold text-lg drop-shadow-[0_0_6px_var(--color-crt-primary)] font-mono animate-pulse">
+          <Alert variant="default" className="text-center font-mono text-lg font-bold">
             [ACCESS GRANTED — IDENTITY VERIFIED]
-          </div>
+          </Alert>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
