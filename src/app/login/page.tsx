@@ -5,6 +5,7 @@ import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Icon from "@/components/Icon";
+import { Button } from "@/components/ui/8bit/button";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -155,29 +156,38 @@ export default function LoginPage() {
             </div>
           )}
 
-          <button
+          <Button
             type="submit"
             disabled={isLoading}
-            className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-zinc-900 border-2 border-crt-dim text-crt-primary disabled:opacity-50 disabled:cursor-not-allowed hover:text-white hover:border-crt-primary font-bold rounded shadow-[4px_4px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase tracking-wider text-lg"
+            className="w-full"
+            size="lg"
           >
             <span>{isLoading ? "AUTHORIZING..." : "ACCESS DATABASE"}</span>
             <Icon name="play" size={16} />
-          </button>
+          </Button>
 
-          <Link
-            href="/signup"
-            className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-zinc-900 border-2 border-crt-amber text-crt-amber hover:text-white hover:border-crt-amber shadow-[4px_4px_0px_var(--color-crt-amber)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase tracking-wider text-lg font-bold rounded"
+          <Button
+            asChild
+            variant="secondary"
+            className="w-full"
+            size="lg"
           >
-            <span>REGISTER NEW PROFILE</span>
-            <Icon name="user" size={16} className="text-crt-amber" />
-          </Link>
+            <Link href="/signup">
+              <span>REGISTER NEW PROFILE</span>
+              <Icon name="user" size={16} className="text-crt-amber" />
+            </Link>
+          </Button>
 
-          <Link
-            href="/play"
-            className="w-full inline-flex items-center justify-center gap-2 px-6 py-2 bg-transparent border border-crt-dim/40 hover:border-crt-primary text-crt-dim hover:text-crt-primary font-bold rounded transition-all cursor-pointer uppercase tracking-wider text-sm"
+          <Button
+            asChild
+            variant="ghost"
+            className="w-full"
+            size="sm"
           >
-            Continue as Guest [→]
-          </Link>
+            <Link href="/play">
+              Continue as Guest [→]
+            </Link>
+          </Button>
         </form>
       </div>
     </div>
