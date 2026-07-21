@@ -4,6 +4,15 @@ import { cn } from "@/lib/utils";
 import { Button as ShadcnButton } from "@/components/ui/button";
 import "@/components/ui/8bit/styles/retro.css";
 
+/**
+ * 8bitcn Button Component — CRT Retro Variant Mapping:
+ * - `default`: Primary CTA (CRT Green phosphor border/text with hover glow)
+ * - `secondary`: Secondary CTA / Amber Accent (CRT Amber phosphor styling)
+ * - `outline`: Outline action (Dark glass panel with CRT border)
+ * - `destructive`: Danger action (Red phosphor border/bg for clear/reset)
+ * - `ghost`: Minimalist action (Icon buttons, navbar toggles)
+ * - `link`: In-text directional link
+ */
 export const buttonVariants = cva("font-vt323 uppercase tracking-widest transition-all cursor-pointer select-none", {
   variants: {
     font: {
