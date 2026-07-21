@@ -223,33 +223,7 @@ body {
   box-shadow: 0 0 6px var(--color-crt-primary);
 }
 
-/* Retro terminal tooltip styles */
-.crt-tooltip {
-  position: relative;
-}
-.crt-tooltip::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: 125%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #080808;
-  border: 1px solid var(--color-crt-primary);
-  color: var(--color-crt-primary);
-  font-family: var(--font-vt323), monospace;
-  font-size: 14px;
-  padding: 4px 8px;
-  white-space: nowrap;
-  border-radius: 2px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-  z-index: 100;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.9);
-}
-.crt-tooltip:hover::after {
-  opacity: 1;
-}
+
 
 /* Print Stylesheet Overrides */
 @media print {
