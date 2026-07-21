@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Icon from "@/components/Icon";
 import { Button } from "@/components/ui/8bit/button";
-import { Card, CardTitle, CardDescription } from "@/components/ui/8bit/card";
+import { Card, CardTitle, CardDescription, CardFooter } from "@/components/ui/8bit/card";
 
 export default function Home() {
   const modes = [
@@ -117,9 +117,9 @@ export default function Home() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {modes.map((m, idx) => (
-            <div
+            <Card
               key={idx}
-              className={`bg-[#070707] border-2 ${m.borderColor} p-6 rounded flex flex-col justify-between hover:border-crt-primary hover:scale-[1.02] transition-all duration-300 shadow-[inset_0_0_10px_rgba(0,0,0,0.8)] group`}
+              className={`${m.borderColor} hover:border-crt-primary hover:scale-[1.02] flex flex-col justify-between group`}
             >
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
@@ -132,19 +132,18 @@ export default function Home() {
                   {m.desc}
                 </p>
               </div>
-              <div className="mt-4 flex items-center justify-between text-xs font-bold uppercase tracking-wider font-vt323 text-crt-dim">
+              <CardFooter className="pt-4 border-t-0 p-0">
                 <div className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-crt-primary animate-pulse shadow-[0_0_4px_var(--color-crt-primary)]"></span>
                   <span>[LDR ACTIVE]</span>
                 </div>
-                <Link
-                  href={`/play?mode=${m.name.toLowerCase().replace(" ", "-")}`}
-                  className="text-crt-primary hover:text-white hover:drop-shadow-[0_0_3px_var(--color-crt-primary)] transition-all font-bold"
-                >
-                  [CONFIGURE &rarr;]
-                </Link>
-              </div>
-            </div>
+                <Button asChild size="sm" variant="ghost">
+                  <Link href={`/play?mode=${m.name.toLowerCase().replace(" ", "-")}`}>
+                    [CONFIGURE &rarr;]
+                  </Link>
+                </Button>
+              </CardFooter>
+            </Card>
           ))}
         </div>
       </section>
