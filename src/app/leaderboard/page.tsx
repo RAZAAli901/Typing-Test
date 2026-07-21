@@ -6,6 +6,7 @@ import DefaultAvatar from "@/components/DefaultAvatar";
 import Icon from "@/components/Icon";
 import { Button } from "@/components/ui/8bit/button";
 import { Card } from "@/components/ui/8bit/card";
+import { Skeleton } from "@/components/ui/8bit/skeleton";
 
 interface SessionData {
   id: string;
@@ -180,31 +181,10 @@ export default function LeaderboardPage() {
       {/* Leaderboard Table Container */}
       <Card className="p-0! overflow-hidden">
         {isLoading ? (
-          <div className="overflow-x-auto animate-pulse">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b border-crt-dim/20 bg-zinc-950/60 text-crt-dim text-xs uppercase tracking-wider">
-                  <th className="py-4 px-6 text-center w-20"><div className="h-3 bg-zinc-900 rounded w-10 mx-auto" /></th>
-                  <th className="py-4 px-6"><div className="h-3 bg-zinc-900 rounded w-20" /></th>
-                  <th className="py-4 px-6 text-center"><div className="h-3 bg-zinc-900 rounded w-16 mx-auto" /></th>
-                  <th className="py-4 px-6 text-center"><div className="h-3 bg-zinc-900 rounded w-16 mx-auto" /></th>
-                  <th className="py-4 px-6 text-center"><div className="h-3 bg-zinc-900 rounded w-16 mx-auto" /></th>
-                  <th className="py-4 px-6 text-center hidden md:table-cell"><div className="h-3 bg-zinc-900 rounded w-24 mx-auto" /></th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-crt-dim/10 text-sm">
-                {[...Array(5)].map((_, i) => (
-                  <tr key={i} className="h-16">
-                    <td className="py-4 px-6 text-center"><div className="h-4 bg-zinc-900 rounded w-8 mx-auto" /></td>
-                    <td className="py-4 px-6"><div className="h-4 bg-zinc-900 rounded w-28" /></td>
-                    <td className="py-4 px-6 text-center"><div className="h-4 bg-zinc-900 rounded w-10 mx-auto" /></td>
-                    <td className="py-4 px-6 text-center"><div className="h-4 bg-zinc-900 rounded w-12 mx-auto" /></td>
-                    <td className="py-4 px-6 text-center"><div className="h-4 bg-zinc-900 rounded w-10 mx-auto" /></td>
-                    <td className="py-4 px-6 text-center hidden md:table-cell"><div className="h-3 bg-zinc-900 rounded w-20 mx-auto" /></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="overflow-x-auto p-4 space-y-4">
+            {[...Array(5)].map((_, i) => (
+              <Skeleton key={i} className="h-12 w-full" />
+            ))}
           </div>
         ) : error ? (
           <div className="text-center py-16 text-red-500 font-bold tracking-widest uppercase">
