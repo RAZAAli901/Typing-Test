@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { ModeType } from "@/content/texts";
 import DefaultAvatar from "@/components/DefaultAvatar";
 import Icon from "@/components/Icon";
+import { Button } from "@/components/ui/8bit/button";
 
 interface SessionData {
   id: string;
@@ -136,18 +137,15 @@ export default function LeaderboardPage() {
         {modesList.map((m) => {
           const isActive = activeMode === m.id;
           return (
-            <button
+            <Button
               key={m.id}
               onClick={() => setActiveMode(m.id)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 text-sm font-bold rounded transition-all duration-200 cursor-pointer ${
-                isActive
-                  ? "bg-crt-primary/20 text-crt-primary border border-crt-primary/40 shadow-[0_0_8px_rgba(57,255,20,0.15)]"
-                  : "text-crt-dim hover:text-white bg-transparent border border-transparent"
-              }`}
+              variant={isActive ? "default" : "ghost"}
+              size="sm"
             >
               <Icon name={m.icon as any} size={16} className={isActive ? "text-crt-primary" : "text-crt-dim"} />
               <span>{m.label.toUpperCase()}</span>
-            </button>
+            </Button>
           );
         })}
       </div>
@@ -159,27 +157,21 @@ export default function LeaderboardPage() {
         </div>
         <div className="flex gap-2 items-center text-xs md:text-sm text-crt-dim font-bold uppercase">
           <span>Sort by:</span>
-          <div className="flex bg-[#0a0a0a] p-0.5 rounded border border-crt-dim/20">
-            <button
+          <div className="flex gap-1 bg-[#0a0a0a] p-0.5 rounded border border-crt-dim/20">
+            <Button
               onClick={() => setActiveSort("netWpm")}
-              className={`px-3 py-1 rounded transition-all cursor-pointer font-bold ${
-                activeSort === "netWpm"
-                  ? "bg-crt-primary/20 text-crt-primary shadow-sm"
-                  : "text-crt-dim hover:text-slate-300"
-              }`}
+              variant={activeSort === "netWpm" ? "default" : "ghost"}
+              size="sm"
             >
               NET WPM
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => setActiveSort("accuracy")}
-              className={`px-3 py-1 rounded transition-all cursor-pointer font-bold ${
-                activeSort === "accuracy"
-                  ? "bg-crt-primary/20 text-crt-primary shadow-sm"
-                  : "text-crt-dim hover:text-slate-300"
-              }`}
+              variant={activeSort === "accuracy" ? "default" : "ghost"}
+              size="sm"
             >
               ACCURACY
-            </button>
+            </Button>
           </div>
         </div>
       </div>
