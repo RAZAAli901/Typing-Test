@@ -5,6 +5,7 @@ import { ModeType } from "@/content/texts";
 import DefaultAvatar from "@/components/DefaultAvatar";
 import Icon from "@/components/Icon";
 import { Button } from "@/components/ui/8bit/button";
+import { Card } from "@/components/ui/8bit/card";
 
 interface SessionData {
   id: string;
@@ -177,7 +178,7 @@ export default function LeaderboardPage() {
       </div>
 
       {/* Leaderboard Table Container */}
-      <div className="bg-[#070707] border-2 border-crt-dim/40 rounded shadow-[0_0_20px_rgba(0,0,0,0.9)] overflow-hidden">
+      <Card className="p-0! overflow-hidden">
         {isLoading ? (
           <div className="overflow-x-auto animate-pulse">
             <table className="w-full text-left border-collapse">
@@ -291,7 +292,7 @@ export default function LeaderboardPage() {
             </table>
           </div>
         )}
-      </div>
+      </Card>
     </div>
   );
 }
