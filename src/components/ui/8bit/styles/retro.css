@@ -1,10 +1,21 @@
-@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap");
+
+:root {
+  --color-crt-primary: #39ff14;
+  --color-crt-dim: #1e840d;
+  --crt-amber: #ffb000;
+}
+
+.crt-amber-mode {
+  --color-crt-primary: #ffb000;
+  --color-crt-dim: #8b5e00;
+}
 
 .retro {
   font-family:
+    "VT323",
     "Press Start 2P",
-    system-ui,
-    -apple-system,
+    monospace,
     sans-serif;
   line-height: 1.5;
   letter-spacing: 0.5px;
