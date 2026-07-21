@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Icon from "@/components/Icon";
 import DefaultAvatar from "@/components/DefaultAvatar";
+import { Button } from "@/components/ui/8bit/button";
 
 interface UserStats {
   username: string;
@@ -293,18 +294,19 @@ export default function ProfilePage() {
             {/* Preview controls */}
             {previewUrl && !isUploading && (
               <div className="flex flex-wrap gap-2 justify-center sm:justify-start pt-1">
-                <button
+                <Button
                   onClick={handleUpload}
-                  className="px-3 py-1 bg-zinc-900 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold rounded shadow-[2px_2px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase tracking-wider text-xs"
+                  size="sm"
                 >
                   Save Avatar
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={handleCancelPreview}
-                  className="px-3 py-1 bg-transparent border-2 border-crt-dim/40 text-crt-dim hover:text-white hover:border-white font-bold rounded hover:bg-white/5 transition-all cursor-pointer uppercase tracking-wider text-xs"
+                  variant="outline"
+                  size="sm"
                 >
                   Cancel
-                </button>
+                </Button>
               </div>
             )}
             
@@ -391,13 +393,12 @@ export default function ProfilePage() {
                         </span>
                       </div>
                     ) : (
-                      <Link
-                        href={`/play?mode=${m.id}`}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-zinc-900 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold rounded shadow-[2px_2px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase tracking-wider text-xs"
-                      >
-                        <span>PLAY</span>
-                        <Icon name="play" size={10} className="text-crt-primary" />
-                      </Link>
+                      <Button asChild size="sm">
+                        <Link href={`/play?mode=${m.id}`}>
+                          <span>PLAY</span>
+                          <Icon name="play" size={10} className="text-crt-primary" />
+                        </Link>
+                      </Button>
                     )}
                   </div>
                 </div>
