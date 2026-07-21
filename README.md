@@ -119,6 +119,29 @@ The entire user interface of TypeMaster Web has been overhauled to emulate typin
 
 ---
 
+## 🕹️ 8bitcn UI Component Architecture & Retro CRT Tokens
+
+TypeMaster Web adopts [8bitcn/ui](https://www.8bitcn.com/) — a retro pixel-art component library built on top of shadcn/ui and Tailwind CSS:
+
+* **Component Location:** All 8bitcn retro UI primitives reside in `src/components/ui/8bit/` with base shadcn wrappers in `src/components/ui/`.
+* **CRT Design System Tokens:**
+  * `--color-crt-primary`: CRT Green phosphor (`#39ff14`) or Amber phosphor (`#ffb000`).
+  * `--color-crt-dim`: CRT Dim border & accent token (`#1e840d` / `#8b5e00`).
+  * `font-vt323` & `font-press-start`: Retro monospaced pixel fonts.
+* **Adopted 8bitcn Components:**
+  * `Button`: Action CTAs, mode tabs, CRT bezel setting toggles with retro borders.
+  * `Card`: CRT-themed containers for Home features, mode select cards, stats grids, personal best rows, and highscore tables.
+  * `Input`: Monospaced retro text inputs across Login, Signup, Verify, and Profile username claims.
+  * `Badge`: Retro CRT status tags (e.g. `[LDR ACTIVE]`).
+  * `Tabs`: Mode selection on `/play` and highscore filtering on `/leaderboard`.
+  * `Avatar`: High-density pixel art frames for user profile avatar display.
+  * `Alert`: Terminal error and identity verification status alerts.
+  * `Dialog`: Retro CRT title-bar modal dialogs (`CrtModal`).
+  * `Tooltip`: Hover tooltips for hardware bezel dial knobs.
+  * `Progress`: Accuracy timeline percentage indicators.
+  * `Skeleton`: Pulsing CRT green loading placeholders.
+  * `DropdownMenu`: CRT-styled authenticated user navigation menu in Navbar.
+
 ---
 
 ### 🛠️ Local Development & Scaffolding
