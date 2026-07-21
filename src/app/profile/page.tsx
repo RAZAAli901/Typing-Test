@@ -233,7 +233,7 @@ export default function ProfilePage() {
         </div>
       )}
 
-      <div className="bg-[#080808] border-2 border-crt-dim/40 rounded p-6 shadow-[0_0_20px_rgba(0,0,0,0.9)] space-y-6">
+      <Card className="space-y-6 p-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center text-[10px] font-bold text-crt-dim/50 border-b border-dashed border-crt-dim/20 pb-2 mb-4 gap-2">
           <span>CLASSIFICATION: LEVEL-4 CLEARANCE</span>
           <span>CIPHER: 256-BIT ROT-13/AES</span>
@@ -401,7 +401,7 @@ export default function ProfilePage() {
             })}
           </div>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }
