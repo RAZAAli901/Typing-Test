@@ -42,14 +42,14 @@ export default function ErrorPage({ error, reset }: ErrorProps) {
       <div className="flex gap-4">
         <Button
           onClick={reset}
-          size="md"
+          size="default"
         >
           Try Again 🔄
         </Button>
         <Button
           asChild
           variant="outline"
-          size="md"
+          size="default"
         >
           <Link href="/">
             Go Home
