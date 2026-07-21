@@ -7,6 +7,14 @@ import Icon, { IconName } from "@/components/Icon";
 import { useSession, signOut } from "next-auth/react";
 import DefaultAvatar from "@/components/DefaultAvatar";
 import { Button } from "@/components/ui/8bit/button";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "@/components/ui/8bit/dropdown-menu";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -80,25 +88,36 @@ export default function Navbar() {
         <div className="flex items-center gap-4 font-vt323 text-lg md:text-xl">
           {status === "authenticated" && session?.user ? (
             <div className="flex items-center gap-3">
-              <Link href="/profile" className="flex items-center gap-2 bg-[#0a0a0a] border border-crt-dim/50 rounded px-3 py-1 shadow-[inset_0_0_8px_rgba(0,0,0,0.8)] hover:border-crt-primary transition-colors group">
-                <div className="w-5 h-5 rounded overflow-hidden flex items-center justify-center bg-zinc-950">
-                  {session.user.image ? (
-                    <img src={session.user.image} alt="Avatar" className="w-full h-full object-cover" />
-                  ) : (
-                    <DefaultAvatar className="w-4 h-4 text-crt-primary" />
-                  )}
-                </div>
-                <span className="font-bold text-crt-primary group-hover:text-white tracking-wide max-w-[100px] truncate" title={session.user.name || ""}>
-                  {session.user.name}
-                </span>
-              </Link>
-              <Button
-                onClick={() => signOut({ callbackUrl: "/" })}
-                variant="outline"
-                size="sm"
-              >
-                LOGOUT
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="flex items-center gap-2 bg-[#0a0a0a] border border-crt-dim/50 rounded px-3 py-1 shadow-[inset_0_0_8px_rgba(0,0,0,0.8)] hover:border-crt-primary transition-colors cursor-pointer group">
+                    <div className="w-5 h-5 rounded overflow-hidden flex items-center justify-center bg-zinc-950">
+                      {session.user.image ? (
+                        <img src={session.user.image} alt="Avatar" className="w-full h-full object-cover" />
+                      ) : (
+                        <DefaultAvatar className="w-4 h-4 text-crt-primary" />
+                      )}
+                    </div>
+                    <span className="font-bold text-crt-primary group-hover:text-white tracking-wide max-w-[100px] truncate" title={session.user.name || ""}>
+                      {session.user.name}
+                    </span>
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>IDENTITY: {session.user.name}</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile" className="w-full cursor-pointer">VIEW PROFILE</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/stats" className="w-full cursor-pointer">STATS DASHBOARD</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })} className="text-red-500 cursor-pointer">
+                    LOGOUT
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           ) : (
             <div className="flex items-center gap-2">
