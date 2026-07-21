@@ -89,7 +89,7 @@ export default function Navbar() {
           {status === "authenticated" && session?.user ? (
             <div className="flex items-center gap-3">
               <DropdownMenu>
-                <DropdownMenuTrigger asChild>
+                <DropdownMenuTrigger>
                   <button className="flex items-center gap-2 bg-[#0a0a0a] border border-crt-dim/50 rounded px-3 py-1 shadow-[inset_0_0_8px_rgba(0,0,0,0.8)] hover:border-crt-primary transition-colors cursor-pointer group">
                     <div className="w-5 h-5 rounded overflow-hidden flex items-center justify-center bg-zinc-950">
                       {session.user.image ? (
@@ -106,10 +106,10 @@ export default function Navbar() {
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>IDENTITY: {session.user.name}</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
+                  <DropdownMenuItem>
                     <Link href="/profile" className="w-full cursor-pointer">VIEW PROFILE</Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
+                  <DropdownMenuItem>
                     <Link href="/stats" className="w-full cursor-pointer">STATS DASHBOARD</Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
