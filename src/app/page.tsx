@@ -2,6 +2,7 @@ import Link from "next/link";
 import Icon from "@/components/Icon";
 import { Button } from "@/components/ui/8bit/button";
 import { Card, CardTitle, CardDescription, CardFooter } from "@/components/ui/8bit/card";
+import { Badge } from "@/components/ui/8bit/badge";
 
 export default function Home() {
   const modes = [
@@ -133,10 +134,10 @@ export default function Home() {
                 </p>
               </div>
               <CardFooter className="pt-4 border-t-0 p-0">
-                <div className="flex items-center gap-1.5">
+                <Badge variant="default">
                   <span className="w-1.5 h-1.5 rounded-full bg-crt-primary animate-pulse shadow-[0_0_4px_var(--color-crt-primary)]"></span>
                   <span>[LDR ACTIVE]</span>
-                </div>
+                </Badge>
                 <Button asChild size="sm" variant="ghost">
                   <Link href={`/play?mode=${m.name.toLowerCase().replace(" ", "-")}`}>
                     [CONFIGURE &rarr;]
