@@ -8,6 +8,7 @@ import Icon from "@/components/Icon";
 import { Button } from "@/components/ui/8bit/button";
 import { Input } from "@/components/ui/8bit/input";
 import { Alert } from "@/components/ui/8bit/alert";
+import { Card } from "@/components/ui/8bit/card";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -84,7 +85,7 @@ export default function LoginPage() {
         </p>
       </div>
 
-      <div className="bg-[#080808] border-2 border-crt-dim/40 rounded p-6 shadow-[0_0_20px_rgba(0,0,0,0.9)] space-y-6">
+      <Card className="space-y-6 p-6">
         <div className="flex justify-between items-center text-[10px] font-bold text-crt-dim/60 border-b border-dashed border-crt-dim/20 pb-2">
           <span>SECURE PORT: 8443</span>
           <span className="flex items-center gap-1 text-crt-primary animate-pulse">
@@ -189,7 +190,7 @@ export default function LoginPage() {
             </Link>
           </Button>
         </form>
-      </div>
+      </Card>
     </div>
   );
 }
