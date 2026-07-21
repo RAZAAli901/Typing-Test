@@ -5,6 +5,7 @@ import Link from "next/link";
 import Icon from "@/components/Icon";
 import DefaultAvatar from "@/components/DefaultAvatar";
 import { Button } from "@/components/ui/8bit/button";
+import { Card } from "@/components/ui/8bit/card";
 
 interface UserStats {
   username: string;
@@ -356,35 +357,31 @@ export default function StatsPage() {
             <>
               {/* Aggregated Stats Cards */}
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 text-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden">
-                  <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
+                <Card className="p-4 text-center">
                   <span className="block text-crt-dim text-[10px] font-bold uppercase tracking-wider mb-1">
                     Completed
                   </span>
                   <span className="text-2xl font-black text-white">{stats?.totalSessions}</span>
                   <span className="block text-crt-dim/70 text-[10px] mt-1 uppercase font-bold">sessions</span>
-                </div>
+                </Card>
 
-                <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 text-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden">
-                  <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
+                <Card className="p-4 text-center">
                   <span className="block text-crt-dim text-[10px] font-bold uppercase tracking-wider mb-1">
                     Average Speed
                   </span>
                   <span className="text-2xl font-black text-white">{stats?.averageWpm}</span>
                   <span className="block text-crt-dim/70 text-[10px] mt-1 uppercase font-bold">net WPM</span>
-                </div>
+                </Card>
 
-                <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 text-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden">
-                  <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
+                <Card className="p-4 text-center">
                   <span className="block text-crt-dim text-[10px] font-bold uppercase tracking-wider mb-1">
                     Top Speed
                   </span>
                   <span className="text-2xl font-black text-crt-primary drop-shadow-[0_0_3px_var(--color-crt-primary)]">{stats?.topWpm}</span>
                   <span className="block text-crt-dim/70 text-[10px] mt-1 uppercase font-bold">max net WPM</span>
-                </div>
+                </Card>
 
-                <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 text-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden">
-                  <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
+                <Card className="p-4 text-center">
                   <span className="block text-crt-dim text-[10px] font-bold uppercase tracking-wider mb-1">
                     Average Accuracy
                   </span>
@@ -392,10 +389,9 @@ export default function StatsPage() {
                     {stats?.averageAccuracy}%
                   </span>
                   <span className="block text-crt-dim/70 text-[10px] mt-1 uppercase font-bold">precision</span>
-                </div>
+                </Card>
 
-                <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 text-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden col-span-2 md:col-span-1">
-                  <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
+                <Card className="p-4 text-center col-span-2 md:col-span-1">
                   <span className="block text-crt-dim text-[10px] font-bold uppercase tracking-wider mb-1">
                     Practice Time
                   </span>
@@ -403,7 +399,7 @@ export default function StatsPage() {
                     {stats?.totalDurationMinutes}
                   </span>
                   <span className="block text-crt-dim/70 text-[10px] mt-1 uppercase font-bold">minutes</span>
-                </div>
+                </Card>
               </div>
 
               {/* Personal Bests Section */}
@@ -416,11 +412,10 @@ export default function StatsPage() {
                   {MODES.map((m) => {
                     const pb = personalBests[m.id];
                     return (
-                      <div
+                      <Card
                         key={m.id}
-                        className="bg-[#070707] border border-crt-dim/30 rounded p-4 flex items-center justify-between hover:border-crt-primary/50 transition-colors shadow-[inset_0_0_10px_rgba(0,0,0,0.95)] relative overflow-hidden"
+                        className="p-4 flex flex-row items-center justify-between space-y-0"
                       >
-                        <div className="absolute inset-0 bg-crt-primary/[0.005] pointer-events-none" />
                         <div className="flex items-center gap-3 relative z-10">
                           <Icon name={m.icon as any} className="text-crt-dim" size={24} />
                           <div>
@@ -452,7 +447,7 @@ export default function StatsPage() {
                             </Button>
                           )}
                         </div>
-                      </div>
+                      </Card>
                     );
                   })}
                 </div>

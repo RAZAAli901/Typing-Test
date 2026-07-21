@@ -6,6 +6,7 @@ import Link from "next/link";
 import Icon from "@/components/Icon";
 import DefaultAvatar from "@/components/DefaultAvatar";
 import { Button } from "@/components/ui/8bit/button";
+import { Card } from "@/components/ui/8bit/card";
 
 interface UserStats {
   username: string;
@@ -325,36 +326,31 @@ export default function ProfilePage() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 text-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden">
-            <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
+          <Card className="p-4 text-center">
             <span className="block text-[10px] font-bold uppercase tracking-wider mb-1">COMPLETED</span>
             <span className="text-2xl font-black text-white">{stats?.totalSessions || 0}</span>
             <span className="block text-[10px] mt-1">sessions</span>
-          </div>
-          <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 text-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden">
-            <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
+          </Card>
+          <Card className="p-4 text-center">
             <span className="block text-[10px] font-bold uppercase tracking-wider mb-1">AVG SPEED</span>
             <span className="text-2xl font-black text-white">{stats?.averageWpm || 0}</span>
             <span className="block text-[10px] mt-1">net WPM</span>
-          </div>
-          <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 text-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden">
-            <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
+          </Card>
+          <Card className="p-4 text-center">
             <span className="block text-[10px] font-bold uppercase tracking-wider mb-1">TOP SPEED</span>
             <span className="text-2xl font-black text-crt-primary drop-shadow-[0_0_3px_var(--color-crt-primary)]">{stats?.topWpm || 0}</span>
             <span className="block text-[10px] mt-1">max net WPM</span>
-          </div>
-          <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 text-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden">
-            <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
+          </Card>
+          <Card className="p-4 text-center">
             <span className="block text-[10px] font-bold uppercase tracking-wider mb-1">AVG ACCURACY</span>
             <span className="text-2xl font-black text-emerald-400">{stats?.averageAccuracy || 0}%</span>
             <span className="block text-[10px] mt-1">precision</span>
-          </div>
-          <div className="bg-[#070707] border border-crt-dim/40 rounded p-4 text-center shadow-[inset_0_0_12px_rgba(0,0,0,0.95)] relative overflow-hidden col-span-2 md:col-span-1">
-            <div className="absolute inset-0 bg-crt-primary/[0.01] pointer-events-none" />
+          </Card>
+          <Card className="p-4 text-center col-span-2 md:col-span-1">
             <span className="block text-[10px] font-bold uppercase tracking-wider mb-1">PRACTICE TIME</span>
             <span className="text-2xl font-black text-purple-400">{stats?.totalDurationMinutes || 0}</span>
             <span className="block text-[10px] mt-1">minutes</span>
-          </div>
+          </Card>
         </div>
 
         {/* Personal Bests */}
@@ -367,11 +363,10 @@ export default function ProfilePage() {
             {MODES.map((m) => {
               const pb = personalBests[m.id];
               return (
-                <div
+                <Card
                   key={m.id}
-                  className="bg-[#070707] border border-crt-dim/30 rounded p-4 flex items-center justify-between hover:border-crt-primary/50 transition-colors shadow-[inset_0_0_10px_rgba(0,0,0,0.95)] relative overflow-hidden"
+                  className="p-4 flex flex-row items-center justify-between space-y-0"
                 >
-                  <div className="absolute inset-0 bg-crt-primary/[0.005] pointer-events-none" />
                   <div className="flex items-center gap-3 relative z-10">
                     <Icon name={m.icon as any} className="text-crt-dim" size={24} />
                     <div>
@@ -401,7 +396,7 @@ export default function ProfilePage() {
                       </Button>
                     )}
                   </div>
-                </div>
+                </Card>
               );
             })}
           </div>
