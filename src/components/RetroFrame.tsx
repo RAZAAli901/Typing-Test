@@ -5,6 +5,7 @@ import { useCrtSettings } from "@/lib/CrtSettingsContext";
 import ScanlineOverlay from "./ScanlineOverlay";
 import CurvedVignette from "./CurvedVignette";
 import StaticNoiseLines from "./StaticNoiseLines";
+import { Button } from "@/components/ui/8bit/button";
 
 interface RetroFrameProps {
   children: React.ReactNode;
@@ -45,47 +46,43 @@ export default function RetroFrame({ children }: RetroFrameProps) {
           {/* Color theme switch knob */}
           <div className="flex flex-col items-center gap-1">
             <span className="text-[7px] text-zinc-600 scale-90">COLOR</span>
-            <button
+            <Button
               onClick={() => setTheme(settings.theme === "green" ? "amber" : "green")}
-              className={`w-6 h-6 rounded-full border border-zinc-700 shadow-md active:scale-90 transition-all hover:bg-zinc-800 cursor-pointer flex items-center justify-center text-[8px] font-extrabold ${
-                settings.theme === "green" ? "bg-[#182a15] text-[#39ff14]" : "bg-[#2a2215] text-[#ffb000]"
-              }`}
+              size="icon"
+              variant="ghost"
+              className="w-7 h-7 text-[8px] p-0"
               title="Toggle Phosphor Green / Amber Theme"
             >
               {settings.theme === "green" ? "GRN" : "AMB"}
-            </button>
+            </Button>
           </div>
 
           {/* Effects switch knob */}
           <div className="flex flex-col items-center gap-1">
             <span className="text-[7px] text-zinc-600 scale-90">EFFECTS</span>
-            <button
+            <Button
               onClick={() => setEffectsEnabled(!settings.effectsEnabled)}
-              className={`w-6 h-6 rounded-full border shadow-md active:scale-90 transition-all cursor-pointer flex items-center justify-center text-[8px] font-extrabold ${
-                settings.effectsEnabled
-                  ? "bg-zinc-900 border-zinc-700 text-emerald-400"
-                  : "bg-zinc-800 border-zinc-800 text-zinc-500"
-              }`}
+              size="icon"
+              variant="ghost"
+              className="w-7 h-7 text-[8px] p-0"
               title="Toggle CRT Scanlines & Visual Filters"
             >
               {settings.effectsEnabled ? "ON" : "OFF"}
-            </button>
+            </Button>
           </div>
 
           {/* Sound switch knob */}
           <div className="flex flex-col items-center gap-1">
             <span className="text-[7px] text-zinc-600 scale-90">AUDIO</span>
-            <button
+            <Button
               onClick={() => setSoundEnabled(!settings.soundEnabled)}
-              className={`w-6 h-6 rounded-full border shadow-md active:scale-90 transition-all cursor-pointer flex items-center justify-center text-[8px] font-extrabold ${
-                settings.soundEnabled
-                  ? "bg-zinc-900 border-zinc-700 text-emerald-400"
-                  : "bg-zinc-800 border-zinc-800 text-zinc-500"
-              }`}
+              size="icon"
+              variant="ghost"
+              className="w-7 h-7 text-[8px] p-0"
               title="Toggle Keystroke & Error Sounds"
             >
               {settings.soundEnabled ? "ON" : "OFF"}
-            </button>
+            </Button>
           </div>
 
           <div className="w-[1px] h-6 bg-zinc-800 hidden sm:block"></div>
