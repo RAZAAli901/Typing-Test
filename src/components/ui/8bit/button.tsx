@@ -13,7 +13,7 @@ import "@/components/ui/8bit/styles/retro.css";
  * - `ghost`: Minimalist action (Icon buttons, navbar toggles)
  * - `link`: In-text directional link
  */
-export const buttonVariants = cva("font-vt323 uppercase tracking-widest transition-all cursor-pointer select-none", {
+export const buttonVariants = cva("font-vt323 uppercase tracking-widest transition-all cursor-pointer select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-crt-primary)] focus-visible:ring-offset-1 focus-visible:ring-offset-black", {
   variants: {
     font: {
       normal: "",
