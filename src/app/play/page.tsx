@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Icon from "@/components/Icon";
 import { Button } from "@/components/ui/8bit/button";
+import { Textarea } from "@/components/ui/8bit/textarea";
 import { useSession } from "next-auth/react";
 import TypingArea from "@/components/TypingArea";
 import StatsHUD from "@/components/StatsHUD";
@@ -453,11 +454,10 @@ export default function PlayPage() {
           {activeMode === "custom" && isEditingCustom ? (
             <div className="w-full bg-[#080808] border-2 border-crt-dim/40 rounded p-6 md:p-8 flex flex-col space-y-4 shadow-[0_0_20px_rgba(0,0,0,0.9)] font-vt323 text-lg text-crt-dim">
               <h3 className="text-xl font-black text-crt-primary uppercase">ENTER CUSTOM PROMPT TEXT</h3>
-              <textarea
+              <Textarea
                 value={customInputText}
                 onChange={(e) => setCustomInputText(e.target.value)}
                 placeholder="PASTE YOUR CUSTOM PARAGRAPH HERE TO PRACTICE TYPING IT..."
-                className="w-full min-h-[120px] bg-[#070707] border-2 border-crt-dim/30 rounded p-4 font-vt323 text-lg text-crt-primary focus:outline-none focus:border-crt-primary/80 shadow-[inset_0_0_10px_rgba(0,0,0,0.9)] resize-y placeholder:text-crt-dim/30"
               />
               <div className="flex items-center gap-3">
                 <Button
