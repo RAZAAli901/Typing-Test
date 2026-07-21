@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { Button } from "@/components/ui/8bit/button";
 
 function VerifyContent() {
   const router = useRouter();
@@ -204,13 +205,14 @@ function VerifyContent() {
             </div>
           </div>
 
-          <button
+          <Button
             type="submit"
             disabled={isLoading || code.length !== 6 || !!success || timeLeft === 0}
-            className="w-full bg-[#070707] text-crt-primary border-2 border-crt-primary font-bold py-3 uppercase tracking-widest hover:bg-crt-primary hover:text-black transition-all duration-200 active:scale-95 disabled:opacity-40 disabled:pointer-events-none shadow-[4px_4px_0px_var(--color-crt-primary)] relative"
+            className="w-full"
+            size="lg"
           >
             {isLoading ? "AUTHORIZING..." : "SUBMIT ACCESS KEY"}
-          </button>
+          </Button>
         </form>
 
         <div className="text-center pt-4 border-t border-dashed border-crt-dim/20 text-xs space-y-2">
@@ -222,14 +224,16 @@ function VerifyContent() {
               RESEND COOLDOWN ACTIVE — WAIT {resendCooldown}s
             </p>
           ) : (
-            <button
+            <Button
               type="button"
+              variant="ghost"
               onClick={handleResend}
               disabled={resendLoading || !!success}
-              className="text-crt-primary uppercase font-bold tracking-wider hover:underline hover:text-crt-primary/80 disabled:opacity-40"
+              className="w-full"
+              size="sm"
             >
               {resendLoading ? "RE-TRANSMITTING..." : "[REQUEST NEW ACCESS KEY]"}
-            </button>
+            </Button>
           )}
         </div>
       </div>
