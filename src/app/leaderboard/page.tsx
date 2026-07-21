@@ -7,6 +7,7 @@ import Icon from "@/components/Icon";
 import { Button } from "@/components/ui/8bit/button";
 import { Card } from "@/components/ui/8bit/card";
 import { Skeleton } from "@/components/ui/8bit/skeleton";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/8bit/tabs";
 
 interface SessionData {
   id: string;
@@ -135,22 +136,16 @@ export default function LeaderboardPage() {
       </div>
 
       {/* Mode Selector Tabs */}
-      <div className="w-full flex flex-wrap gap-2 justify-center bg-[#070707] p-2 rounded border border-crt-dim/30 shadow-md">
-        {modesList.map((m) => {
-          const isActive = activeMode === m.id;
-          return (
-            <Button
-              key={m.id}
-              onClick={() => setActiveMode(m.id)}
-              variant={isActive ? "default" : "ghost"}
-              size="sm"
-            >
-              <Icon name={m.icon as any} size={16} className={isActive ? "text-crt-primary" : "text-crt-dim"} />
+      <Tabs value={activeMode} onValueChange={(val: string) => setActiveMode(val as ModeType)}>
+        <TabsList className="w-full flex flex-wrap gap-2 justify-center">
+          {modesList.map((m) => (
+            <TabsTrigger key={m.id} value={m.id}>
+              <Icon name={m.icon as any} size={16} className={activeMode === m.id ? "text-crt-primary" : "text-crt-dim"} />
               <span>{m.label.toUpperCase()}</span>
-            </Button>
-          );
-        })}
-      </div>
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </Tabs>
 
       {/* Sort Toggles */}
       <div className="flex justify-between items-center bg-[#070707] p-4 rounded border border-crt-dim/30">
