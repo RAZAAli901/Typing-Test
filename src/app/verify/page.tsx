@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/8bit/button";
+import { Input } from "@/components/ui/8bit/input";
 
 function VerifyContent() {
   const router = useRouter();
@@ -179,12 +180,12 @@ function VerifyContent() {
             <label className="block text-sm font-bold uppercase tracking-wider">
               ENTER 6-DIGIT SECURITY KEY
             </label>
-            <input
+            <Input
               type="text"
               value={code}
               onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
               placeholder="••••••"
-              className="w-full bg-[#0a0a0a] border border-crt-dim/30 rounded py-3 px-4 text-center font-mono text-3xl tracking-[1rem] focus:outline-none focus:border-crt-primary focus:shadow-[0_0_10px_var(--color-crt-primary)] text-crt-primary transition-all uppercase placeholder-crt-dim/20"
+              className="text-center font-mono text-3xl tracking-[1rem]"
               maxLength={6}
               disabled={isLoading || !!success}
               autoFocus

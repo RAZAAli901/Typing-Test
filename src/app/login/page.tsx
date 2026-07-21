@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Icon from "@/components/Icon";
 import { Button } from "@/components/ui/8bit/button";
+import { Input } from "@/components/ui/8bit/input";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -100,24 +101,22 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
             <label className="block text-sm font-bold uppercase tracking-wider">EMAIL ADDRESS</label>
-            <input
+            <Input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="ENTER REGISTERED EMAIL"
-              className="w-full bg-[#070707] border-2 border-crt-dim/30 rounded p-3 text-crt-primary focus:outline-none focus:border-crt-primary/80 shadow-inner placeholder:text-crt-dim/30"
               required
             />
           </div>
 
           <div className="space-y-1.5">
             <label className="block text-sm font-bold uppercase tracking-wider">SECURE PASSWORD</label>
-            <input
+            <Input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="ENTER ACCESS KEY"
-              className="w-full bg-[#070707] border-2 border-crt-dim/30 rounded p-3 text-crt-primary focus:outline-none focus:border-crt-primary/80 shadow-inner placeholder:text-crt-dim/30"
               required
             />
           </div>

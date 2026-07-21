@@ -6,6 +6,7 @@ import Icon from "@/components/Icon";
 import DefaultAvatar from "@/components/DefaultAvatar";
 import { Button } from "@/components/ui/8bit/button";
 import { Card } from "@/components/ui/8bit/card";
+import { Input } from "@/components/ui/8bit/input";
 
 interface UserStats {
   username: string;
@@ -256,12 +257,11 @@ export default function StatsPage() {
             <form onSubmit={handleClaimUsername} className="space-y-4">
               <div className="space-y-1 text-left">
                 <label className="text-sm font-bold text-crt-dim uppercase tracking-wider ml-1">Competitor Name</label>
-                <input
+                <Input
                   type="text"
                   value={claimInput}
                   onChange={(e) => setClaimInput(e.target.value)}
                   placeholder="E.G. SPEED_TYPER"
-                  className="w-full bg-[#070707] border-2 border-crt-dim/40 rounded px-4 py-2.5 text-crt-primary focus:outline-none focus:border-crt-primary/80 shadow-[inset_0_0_10px_rgba(0,0,0,0.9)] placeholder:text-crt-dim/30 font-bold uppercase tracking-widest"
                   maxLength={20}
                 />
               </div>
