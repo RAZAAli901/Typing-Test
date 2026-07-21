@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Icon from "@/components/Icon";
+import { Button } from "@/components/ui/8bit/button";
 
 export default function Home() {
   const modes = [
@@ -64,18 +65,16 @@ export default function Home() {
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-4 font-vt323 text-lg">
-          <Link
-            href="/play"
-            className="w-full sm:w-auto px-8 py-3 bg-[#080808] hover:bg-zinc-900 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold rounded shadow-[4px_4px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer text-center uppercase tracking-widest"
-          >
-            Start Typing ⚡
-          </Link>
-          <Link
-            href="/leaderboard"
-            className="w-full sm:w-auto px-8 py-3 bg-[#080808] hover:bg-zinc-900 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold rounded shadow-[4px_4px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer text-center uppercase tracking-widest"
-          >
-            View Leaderboards 🏆
-          </Link>
+          <Button asChild size="lg" className="w-full sm:w-auto">
+            <Link href="/play">
+              Start Typing ⚡
+            </Link>
+          </Button>
+          <Button asChild size="lg" variant="outline" className="w-full sm:w-auto">
+            <Link href="/leaderboard">
+              View Leaderboards 🏆
+            </Link>
+          </Button>
         </div>
       </section>
 
