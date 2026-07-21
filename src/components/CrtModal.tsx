@@ -20,7 +20,7 @@ interface CrtModalProps {
 
 export default function CrtModal({ isOpen, title, onClose, onConfirm, children }: CrtModalProps) {
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+    <Dialog open={isOpen} onOpenChange={(open: boolean) => !open && onClose()}>
       <DialogContent className="max-w-md p-0 overflow-hidden border-2 border-crt-primary">
         {/* Chunky retro title bar */}
         <div className="bg-crt-primary text-black px-4 py-2 flex items-center justify-between font-bold tracking-wider">
