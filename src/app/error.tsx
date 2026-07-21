@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import { Button } from "@/components/ui/8bit/button";
 
 interface ErrorProps {
   error: Error & { digest?: string };
@@ -39,18 +40,21 @@ export default function ErrorPage({ error, reset }: ErrorProps) {
 
       {/* Action Buttons */}
       <div className="flex gap-4">
-        <button
+        <Button
           onClick={reset}
-          className="px-6 py-3 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-sm tracking-wide transition-all shadow-md shadow-cyan-400/10 cursor-pointer"
+          size="md"
         >
           Try Again 🔄
-        </button>
-        <Link
-          href="/"
-          className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-slate-400 hover:text-white font-semibold text-sm transition-all hover:bg-white/10 cursor-pointer"
+        </Button>
+        <Button
+          asChild
+          variant="outline"
+          size="md"
         >
-          Go Home
-        </Link>
+          <Link href="/">
+            Go Home
+          </Link>
+        </Button>
       </div>
     </div>
   );

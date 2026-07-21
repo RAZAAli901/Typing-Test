@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Icon, { IconName } from "@/components/Icon";
 import { useSession, signOut } from "next-auth/react";
 import DefaultAvatar from "@/components/DefaultAvatar";
+import { Button } from "@/components/ui/8bit/button";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -91,12 +92,13 @@ export default function Navbar() {
                   {session.user.name}
                 </span>
               </Link>
-              <button
+              <Button
                 onClick={() => signOut({ callbackUrl: "/" })}
-                className="px-2.5 py-1 bg-transparent border border-crt-dim/40 text-crt-dim hover:text-white hover:border-white rounded text-xs font-bold uppercase transition-all cursor-pointer"
+                variant="outline"
+                size="sm"
               >
                 LOGOUT
-              </button>
+              </Button>
             </div>
           ) : (
             <div className="flex items-center gap-2">
@@ -105,13 +107,12 @@ export default function Navbar() {
                 <Icon name="user" size={12} className="text-crt-dim/50" />
                 <span className="max-w-[70px] truncate">{username}</span>
               </div>
-              <Link
-                href="/login"
-                className="inline-flex items-center gap-1.5 px-3 py-1 bg-zinc-900 border border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold rounded shadow-[2px_2px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase tracking-wider text-xs"
-              >
-                <Icon name="user" size={12} />
-                <span>LOGIN</span>
-              </Link>
+              <Button asChild size="sm">
+                <Link href="/login">
+                  <Icon name="user" size={12} />
+                  <span>LOGIN</span>
+                </Link>
+              </Button>
             </div>
           )}
         </div>

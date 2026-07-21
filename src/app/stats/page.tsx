@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Icon from "@/components/Icon";
 import DefaultAvatar from "@/components/DefaultAvatar";
+import { Button } from "@/components/ui/8bit/button";
 
 interface UserStats {
   username: string;
@@ -270,14 +271,15 @@ export default function StatsPage() {
                 </div>
               )}
 
-              <button
+              <Button
                 type="submit"
                 disabled={isSubmittingClaim || !claimInput.trim()}
-                className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-zinc-900 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold rounded shadow-[4px_4px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase tracking-wider text-lg"
+                className="w-full"
+                size="lg"
               >
                 <span>{isSubmittingClaim ? "VALIDATING PROFILE..." : "CLAIM IDENTITY"}</span>
                 <Icon name="play" size={16} />
-              </button>
+              </Button>
             </form>
           </div>
         </div>
@@ -295,13 +297,14 @@ export default function StatsPage() {
                 <p className="text-xs text-crt-dim font-bold tracking-wider uppercase">TypeMaster Competitor</p>
               </div>
             </div>
-            <button
+            <Button
               onClick={handleResetUsername}
-              className="px-4 py-2 bg-zinc-900 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold rounded shadow-[2px_2px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase tracking-wider text-xs flex items-center gap-1.5"
+              variant="outline"
+              size="sm"
             >
               <span>EDIT USERNAME</span>
               <Icon name="settings" size={12} />
-            </button>
+            </Button>
           </div>
 
           {isLoading ? (
@@ -441,13 +444,12 @@ export default function StatsPage() {
                               </span>
                             </div>
                           ) : (
-                            <Link
-                              href={`/play?mode=${m.id}`}
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-zinc-900 border-2 border-crt-dim text-crt-primary hover:text-white hover:border-crt-primary font-bold rounded shadow-[2px_2px_0px_var(--color-crt-dim)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer uppercase tracking-wider text-xs"
-                            >
-                              <span>PLAY</span>
-                              <Icon name="play" size={10} className="text-crt-primary" />
-                            </Link>
+                            <Button asChild size="sm">
+                              <Link href={`/play?mode=${m.id}`}>
+                                <span>PLAY</span>
+                                <Icon name="play" size={10} className="text-crt-primary" />
+                              </Link>
+                            </Button>
                           )}
                         </div>
                       </div>
