@@ -1,13 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap");
 
 .retro {
-  font-family:
-    "Press Start 2P",
-    system-ui,
-    -apple-system,
-    sans-serif;
-  line-height: 1.5;
-  letter-spacing: 0.5px;
+  font-family: var(--font-vt323), "VT323", "Press Start 2P", monospace;
+  line-height: 1.2;
+  letter-spacing: 1px;
 }
 
 .pixelated {
