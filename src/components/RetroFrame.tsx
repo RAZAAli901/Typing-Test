@@ -6,6 +6,7 @@ import ScanlineOverlay from "./ScanlineOverlay";
 import CurvedVignette from "./CurvedVignette";
 import StaticNoiseLines from "./StaticNoiseLines";
 import { Button } from "@/components/ui/8bit/button";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/8bit/tooltip";
 
 interface RetroFrameProps {
   children: React.ReactNode;
@@ -43,46 +44,64 @@ export default function RetroFrame({ children }: RetroFrameProps) {
 
         {/* Dial knobs and dials */}
         <div className="flex items-center gap-4">
-          {/* Color theme switch knob */}
+          {/* CRT Theme Switcher */}
           <div className="flex flex-col items-center gap-1">
             <span className="text-[7px] text-zinc-600 scale-90">COLOR</span>
-            <Button
-              onClick={() => setTheme(settings.theme === "green" ? "amber" : "green")}
-              size="icon"
-              variant="ghost"
-              className="w-7 h-7 text-[8px] p-0"
-              title="Toggle Phosphor Green / Amber Theme"
-            >
-              {settings.theme === "green" ? "GRN" : "AMB"}
-            </Button>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button
+                  onClick={() => setTheme(settings.theme === "green" ? "amber" : "green")}
+                  size="icon"
+                  variant="ghost"
+                  className="w-7 h-7 text-[8px] p-0"
+                >
+                  {settings.theme === "green" ? "GRN" : "AMB"}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="top">
+                Switch CRT Phosphor Color (Green/Amber)
+              </TooltipContent>
+            </Tooltip>
           </div>
 
-          {/* Effects switch knob */}
+          {/* CRT Filter Toggle */}
           <div className="flex flex-col items-center gap-1">
             <span className="text-[7px] text-zinc-600 scale-90">EFFECTS</span>
-            <Button
-              onClick={() => setEffectsEnabled(!settings.effectsEnabled)}
-              size="icon"
-              variant="ghost"
-              className="w-7 h-7 text-[8px] p-0"
-              title="Toggle CRT Scanlines & Visual Filters"
-            >
-              {settings.effectsEnabled ? "ON" : "OFF"}
-            </Button>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button
+                  onClick={() => setEffectsEnabled(!settings.effectsEnabled)}
+                  size="icon"
+                  variant="ghost"
+                  className="w-7 h-7 text-[8px] p-0"
+                >
+                  {settings.effectsEnabled ? "ON" : "OFF"}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="top">
+                Toggle Scanlines & CRT Curvature Filters
+              </TooltipContent>
+            </Tooltip>
           </div>
 
           {/* Sound switch knob */}
           <div className="flex flex-col items-center gap-1">
             <span className="text-[7px] text-zinc-600 scale-90">AUDIO</span>
-            <Button
-              onClick={() => setSoundEnabled(!settings.soundEnabled)}
-              size="icon"
-              variant="ghost"
-              className="w-7 h-7 text-[8px] p-0"
-              title="Toggle Keystroke & Error Sounds"
-            >
-              {settings.soundEnabled ? "ON" : "OFF"}
-            </Button>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button
+                  onClick={() => setSoundEnabled(!settings.soundEnabled)}
+                  size="icon"
+                  variant="ghost"
+                  className="w-7 h-7 text-[8px] p-0"
+                >
+                  {settings.soundEnabled ? "ON" : "OFF"}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="top">
+                Toggle Mechanical Keyboard Audio Cues
+              </TooltipContent>
+            </Tooltip>
           </div>
 
           <div className="w-[1px] h-6 bg-zinc-800 hidden sm:block"></div>

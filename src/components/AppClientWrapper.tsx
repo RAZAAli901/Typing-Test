@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import RetroBootScreen from "./RetroBootScreen";
+import { TooltipProvider } from "@/components/ui/8bit/tooltip";
 
 interface AppClientWrapperProps {
   children: React.ReactNode;
@@ -38,5 +39,5 @@ export default function AppClientWrapper({ children }: AppClientWrapperProps) {
     return <RetroBootScreen onComplete={handleBootComplete} />;
   }
 
-  return <>{children}</>;
+  return <TooltipProvider>{children}</TooltipProvider>;
 }
