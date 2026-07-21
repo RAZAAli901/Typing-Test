@@ -34,7 +34,7 @@ function Card({ className, font, children, ...props }: BitCardProps) {
   );
 }
 
-function CardHeader({ className, font, children, ...props }: BitCardProps) {
+function CardHeader({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       {...props}
@@ -45,7 +45,7 @@ function CardHeader({ className, font, children, ...props }: BitCardProps) {
   );
 }
 
-function CardTitle({ className, font, children, ...props }: BitCardProps) {
+function CardTitle({ className, children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
   return (
     <h3
       {...props}
@@ -59,7 +59,7 @@ function CardTitle({ className, font, children, ...props }: BitCardProps) {
   );
 }
 
-function CardDescription({ className, font, children, ...props }: BitCardProps) {
+function CardDescription({ className, children, ...props }: React.HTMLAttributes<HTMLParagraphElement>) {
   return (
     <p
       {...props}
@@ -70,7 +70,7 @@ function CardDescription({ className, font, children, ...props }: BitCardProps) 
   );
 }
 
-function CardContent({ className, font, children, ...props }: BitCardProps) {
+function CardContent({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       {...props}
@@ -81,7 +81,7 @@ function CardContent({ className, font, children, ...props }: BitCardProps) {
   );
 }
 
-function CardFooter({ className, font, children, ...props }: BitCardProps) {
+function CardFooter({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       {...props}

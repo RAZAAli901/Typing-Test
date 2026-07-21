@@ -2,7 +2,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import "@/components/ui/8bit/styles/retro.css";
 
-export interface BitSkeletonProps extends React.HTMLAttributes<HTMLDivElement> {}
+export type BitSkeletonProps = React.HTMLAttributes<HTMLDivElement>;
 
 function Skeleton({ className, ...props }: BitSkeletonProps) {
   return (
