@@ -1,5 +1,6 @@
 import Icon from "@/components/Icon";
 import { Button } from "@/components/ui/8bit/button";
+import { Progress } from "@/components/ui/8bit/progress";
 
 interface TimelineDataPoint {
   time: number;
@@ -141,10 +142,13 @@ export default function ResultsScreen({
           <span className="flex-grow border-b border-dotted border-crt-dim/40 mx-2"></span>
           <span className="text-3xl font-black text-crt-primary drop-shadow-[0_0_6px_var(--color-crt-primary)]">{netWpm}</span>
         </div>
-        <div className="flex justify-between items-center">
-          <span>ACCURACY (%)</span>
-          <span className="flex-grow border-b border-dotted border-crt-dim/40 mx-2"></span>
-          <span className="text-3xl font-black text-crt-primary drop-shadow-[0_0_6px_var(--color-crt-primary)]">{accuracy.toFixed(1)}%</span>
+        <div className="space-y-1">
+          <div className="flex justify-between items-center">
+            <span>ACCURACY (%)</span>
+            <span className="flex-grow border-b border-dotted border-crt-dim/40 mx-2"></span>
+            <span className="text-3xl font-black text-crt-primary drop-shadow-[0_0_6px_var(--color-crt-primary)]">{accuracy.toFixed(1)}%</span>
+          </div>
+          <Progress value={accuracy} className="h-3" />
         </div>
         <div className="flex justify-between items-center">
           <span>GROSS SPEED (WPM)</span>
