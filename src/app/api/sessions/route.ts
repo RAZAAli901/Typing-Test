@@ -3,6 +3,8 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
+import { recomputeSessionMetrics } from "@/lib/scoreValidation";
+import { TEXT_ASSETS } from "@/content/texts";
 
 // Rate limiting in-memory store
 interface RateLimitInfo {
@@ -89,13 +91,35 @@ export async function POST(request: Request) {
     const {
       username,
       mode,
-      grossWpm,
-      netWpm,
-      accuracy,
-      timeTakenSeconds,
-      charsTyped = 0,
-      mistakes = 0,
+      grossWpm: clientGross = 0,
+      netWpm: clientNet = 0,
+      accuracy: clientAcc = 0,
+      timeTakenSeconds: clientTime = 0,
+      charsTyped: clientChars = 0,
+      mistakes: clientMistakes = 0,
+      events,
     } = result.data;
+
+    // Default target text fallback for recomputation if events provided
+    const targetText = TEXT_ASSETS[mode as keyof typeof TEXT_ASSETS] || TEXT_ASSETS.standard;
+    
+    // Server-side score recomputation: Never trust client-submitted metrics for database storage
+    let grossWpm = clientGross;
+    let netWpm = clientNet;
+    let accuracy = clientAcc;
+    let timeTakenSeconds = clientTime;
+    let charsTyped = clientChars;
+    let mistakes = clientMistakes;
+
+    if (events && events.length > 0) {
+      const recomputed = recomputeSessionMetrics(targetText, events);
+      grossWpm = recomputed.grossWpm;
+      netWpm = recomputed.netWpm;
+      accuracy = recomputed.accuracy;
+      timeTakenSeconds = recomputed.timeTakenSeconds;
+      charsTyped = recomputed.charsTyped;
+      mistakes = recomputed.mistakes;
+    }
 
     // 3. Profanity and reserved word check
     if (isProfane(username)) {
