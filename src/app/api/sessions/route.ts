@@ -110,6 +110,7 @@ export async function POST(request: Request) {
     let targetText = TEXT_ASSETS[mode as keyof typeof TEXT_ASSETS] || TEXT_ASSETS.standard;
 
     if (!practiceSessionId) {
+      console.warn("[SECURITY REJECT] Session submission rejected: Missing practiceSessionId", { ip, user: authenticatedUser || "guest", timestamp: new Date().toISOString() });
       return NextResponse.json(
         { error: "Invalid session submission: missing practiceSessionId" },
         { status: 400 }
@@ -121,6 +122,7 @@ export async function POST(request: Request) {
     });
 
     if (!practiceSession) {
+      console.warn("[SECURITY REJECT] Session submission rejected: Practice session not found", { practiceSessionId, ip, user: authenticatedUser || "guest", timestamp: new Date().toISOString() });
       return NextResponse.json(
         { error: "Practice session not found or invalid" },
         { status: 400 }
@@ -128,6 +130,7 @@ export async function POST(request: Request) {
     }
 
     if (practiceSession.completed) {
+      console.warn("[SECURITY REJECT] Session submission rejected: Practice session already completed (replay attempt)", { practiceSessionId, ip, user: authenticatedUser || "guest", timestamp: new Date().toISOString() });
       return NextResponse.json(
         { error: "Practice session has already been completed" },
         { status: 400 }
@@ -135,6 +138,7 @@ export async function POST(request: Request) {
     }
 
     if (new Date() > new Date(practiceSession.expiresAt)) {
+      console.warn("[SECURITY REJECT] Session submission rejected: Practice session expired", { practiceSessionId, ip, user: authenticatedUser || "guest", timestamp: new Date().toISOString() });
       return NextResponse.json(
         { error: "Practice session has expired" },
         { status: 400 }
