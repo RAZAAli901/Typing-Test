@@ -126,3 +126,22 @@ export function validateAccuracyConsistency(metrics: RecomputedMetrics): SanityV
 
   return { valid: true };
 }
+
+/**
+ * Consistency check that grossWpm is mathematically plausible given charsTyped and timeTakenSeconds.
+ */
+export function validateGrossWpmPlausibility(metrics: RecomputedMetrics): SanityValidationResult {
+  if (metrics.timeTakenSeconds > 0 && metrics.charsTyped > 0) {
+    const minutes = metrics.timeTakenSeconds / 60;
+    const expectedGrossWpm = Math.round((metrics.charsTyped / 5) / minutes);
+    const diff = Math.abs(metrics.grossWpm - expectedGrossWpm);
+    if (diff > 3) {
+      return {
+        valid: false,
+        reason: `grossWpm (${metrics.grossWpm}) is mathematically implausible given charsTyped (${metrics.charsTyped}) and timeTakenSeconds (${metrics.timeTakenSeconds}s)`,
+      };
+    }
+  }
+
+  return { valid: true };
+}

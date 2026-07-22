@@ -3,7 +3,7 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import { recomputeSessionMetrics, validateSanityBounds, validateAccuracyConsistency } from "@/lib/scoreValidation";
+import { recomputeSessionMetrics, validateSanityBounds, validateAccuracyConsistency, validateGrossWpmPlausibility } from "@/lib/scoreValidation";
 import { TEXT_ASSETS } from "@/content/texts";
 
 // Rate limiting in-memory store
@@ -187,6 +187,22 @@ export async function POST(request: Request) {
     if (!accuracyCheck.valid) {
       return NextResponse.json(
         { error: `Accuracy consistency check failed: ${accuracyCheck.reason}` },
+        { status: 400 }
+      );
+    }
+
+    const grossWpmCheck = validateGrossWpmPlausibility({
+      grossWpm,
+      netWpm,
+      accuracy,
+      charsTyped,
+      mistakes,
+      timeTakenSeconds,
+    });
+
+    if (!grossWpmCheck.valid) {
+      return NextResponse.json(
+        { error: `Gross WPM plausibility check failed: ${grossWpmCheck.reason}` },
         { status: 400 }
       );
     }
