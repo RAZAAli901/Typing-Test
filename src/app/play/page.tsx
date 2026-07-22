@@ -36,6 +36,7 @@ export default function PlayPage() {
   const [activeMode, setActiveMode] = useState<ExtendedModeType>("standard");
   const [activeLength, setActiveLength] = useState<LengthType>("medium");
   const [text, setText] = useState("");
+  const [practiceSessionId, setPracticeSessionId] = useState<string | null>(null);
   const [isStarted, setIsStarted] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -248,6 +249,7 @@ export default function PlayPage() {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
+                practiceSessionId: practiceSessionId || undefined,
                 username: currentUsername.trim(),
                 guestDisplayName: !isLoggedIn ? currentUsername.trim() : undefined,
                 mode: activeMode,
@@ -321,6 +323,26 @@ export default function PlayPage() {
 
     const finalPassage = adjustPassageLength(rawText, targetLength);
     setText(finalPassage);
+
+    // Initialize server-side PracticeSession for verification
+    fetch("/api/practice-sessions/start", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        mode: targetMode,
+        length: targetLength,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.practiceSessionId) {
+          setPracticeSessionId(data.practiceSessionId);
+          if (data.targetText) {
+            setText(data.targetText);
+          }
+        }
+      })
+      .catch((err) => console.warn("Failed to start server practice session:", err));
   };
 
   const handleApplyCustomText = () => {

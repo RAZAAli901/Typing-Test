@@ -54,6 +54,7 @@ const KeystrokeEventSchema = z.object({
 
 // Zod Schema validation with raw keystroke event log support
 const SessionPostSchema = z.object({
+  practiceSessionId: z.string().optional(),
   username: z.string().min(3).max(20).regex(/^[a-zA-Z0-9 _-]+$/).optional(),
   guestDisplayName: z.string().min(3).max(20).optional(),
   mode: z.string(),
