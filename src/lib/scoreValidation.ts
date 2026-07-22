@@ -70,3 +70,37 @@ export function recomputeSessionMetrics(
     timeTakenSeconds,
   };
 }
+
+export interface SanityValidationResult {
+  valid: boolean;
+  reason?: string;
+}
+
+/**
+ * Defense-in-depth sanity checks on recomputed/submitted metrics.
+ * Rejects impossible values (netWpm > grossWpm, negative numbers, accuracy > 100, timeTakenSeconds <= 0).
+ */
+export function validateSanityBounds(metrics: RecomputedMetrics): SanityValidationResult {
+  if (metrics.netWpm > metrics.grossWpm) {
+    return { valid: false, reason: "netWpm cannot exceed grossWpm" };
+  }
+
+  if (
+    metrics.grossWpm < 0 ||
+    metrics.netWpm < 0 ||
+    metrics.charsTyped < 0 ||
+    metrics.mistakes < 0
+  ) {
+    return { valid: false, reason: "Metrics cannot be negative numbers" };
+  }
+
+  if (metrics.accuracy > 100 || metrics.accuracy < 0) {
+    return { valid: false, reason: "Accuracy must be between 0 and 100%" };
+  }
+
+  if (metrics.timeTakenSeconds <= 0) {
+    return { valid: false, reason: "timeTakenSeconds must be greater than 0" };
+  }
+
+  return { valid: true };
+}

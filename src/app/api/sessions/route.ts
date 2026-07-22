@@ -3,7 +3,7 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import { recomputeSessionMetrics } from "@/lib/scoreValidation";
+import { recomputeSessionMetrics, validateSanityBounds } from "@/lib/scoreValidation";
 import { TEXT_ASSETS } from "@/content/texts";
 
 // Rate limiting in-memory store
@@ -156,6 +156,23 @@ export async function POST(request: Request) {
       timeTakenSeconds = recomputed.timeTakenSeconds;
       charsTyped = recomputed.charsTyped;
       mistakes = recomputed.mistakes;
+    }
+
+    // Defense-in-depth sanity bounds check
+    const sanityCheck = validateSanityBounds({
+      grossWpm,
+      netWpm,
+      accuracy,
+      charsTyped,
+      mistakes,
+      timeTakenSeconds,
+    });
+
+    if (!sanityCheck.valid) {
+      return NextResponse.json(
+        { error: `Sanity bounds check failed: ${sanityCheck.reason}` },
+        { status: 400 }
+      );
     }
 
     // 3. Profanity and reserved word check
