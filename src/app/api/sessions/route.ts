@@ -3,7 +3,7 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import { recomputeSessionMetrics, validateSanityBounds, validateAccuracyConsistency, validateGrossWpmPlausibility } from "@/lib/scoreValidation";
+import { recomputeSessionMetrics, validateSanityBounds, validateAccuracyConsistency, validateGrossWpmPlausibility, validateSpeedCeiling } from "@/lib/scoreValidation";
 import { TEXT_ASSETS } from "@/content/texts";
 
 // Rate limiting in-memory store
@@ -203,6 +203,22 @@ export async function POST(request: Request) {
     if (!grossWpmCheck.valid) {
       return NextResponse.json(
         { error: `Gross WPM plausibility check failed: ${grossWpmCheck.reason}` },
+        { status: 400 }
+      );
+    }
+
+    const speedCeilingCheck = validateSpeedCeiling({
+      grossWpm,
+      netWpm,
+      accuracy,
+      charsTyped,
+      mistakes,
+      timeTakenSeconds,
+    });
+
+    if (!speedCeilingCheck.valid) {
+      return NextResponse.json(
+        { error: `Speed ceiling check failed: ${speedCeilingCheck.reason}` },
         { status: 400 }
       );
     }

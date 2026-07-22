@@ -145,3 +145,27 @@ export function validateGrossWpmPlausibility(metrics: RecomputedMetrics): Sanity
 
   return { valid: true };
 }
+
+export const MAX_HUMAN_WPM = 250;
+
+/**
+ * Hard ceiling check rejecting submissions with unrealistic speed (> 250 WPM).
+ * Logs suspicious attempts for administrative review before returning failure.
+ */
+export function validateSpeedCeiling(metrics: RecomputedMetrics): SanityValidationResult {
+  if (metrics.netWpm > MAX_HUMAN_WPM || metrics.grossWpm > MAX_HUMAN_WPM) {
+    console.warn("[SECURITY REJECT] Unrealistic speed session detected and rejected:", {
+      netWpm: metrics.netWpm,
+      grossWpm: metrics.grossWpm,
+      accuracy: metrics.accuracy,
+      timeTakenSeconds: metrics.timeTakenSeconds,
+      timestamp: new Date().toISOString(),
+    });
+    return {
+      valid: false,
+      reason: `Typing speed (${Math.max(metrics.netWpm, metrics.grossWpm)} WPM) exceeds realistic human ceiling limit (${MAX_HUMAN_WPM} WPM)`,
+    };
+  }
+
+  return { valid: true };
+}
