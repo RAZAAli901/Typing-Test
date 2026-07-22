@@ -34,6 +34,17 @@ model Session {
   @@index([mode])
 }
 
+model PracticeSession {
+  id               String   @id @default(uuid())
+  targetText       String
+  mode             String
+  userId           String?  @db.VarChar(50)
+  guestDisplayName String?
+  startedAt        DateTime @default(now())
+  expiresAt        DateTime
+  completed        Boolean  @default(false)
+}
+
 model VerificationCode {
   id        String   @id @default(uuid())
   userId    String   @db.VarChar(50)
