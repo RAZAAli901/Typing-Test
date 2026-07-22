@@ -48,7 +48,7 @@ export async function testSessionForgeryRegression() {
 
   // 3. Verify session was NOT attached to the registered user
   const attachedSessions = await db.session.findMany({
-    where: { username: targetUsername },
+    where: { userId: targetUsername },
   });
 
   // Cleanup test user

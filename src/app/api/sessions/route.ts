@@ -232,23 +232,19 @@ export async function POST(request: Request) {
     }
 
     // 3. Profanity and reserved word check
-    if (isProfane(username)) {
+    if (username && isProfane(username)) {
       return NextResponse.json(
         { error: "Username contains blocked or inappropriate words." },
         { status: 400 }
       );
     }
 
-    // Check active authentication session
-    const authSession = await getServerSession(authOptions);
-    const authenticatedUser = authSession?.user?.name || authSession?.user?.id;
-    
     // If authenticated, use verified session identity; never lookup or attach to client-supplied username
     let finalUsername: string;
     if (authenticatedUser) {
       finalUsername = authenticatedUser;
     } else {
-      finalUsername = username;
+      finalUsername = username || "Guest";
     }
 
     // Coordinate with guest handling: tag colliding guest display names cleanly

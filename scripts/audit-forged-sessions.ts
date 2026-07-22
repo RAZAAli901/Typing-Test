@@ -29,6 +29,8 @@ export async function auditForgedSessions(): Promise<SuspiciousSessionFlag[]> {
   for (const session of sessions) {
     const reasons: string[] = [];
 
+    const sessionName = session.user?.username || session.guestDisplayName || "Guest";
+
     // 1. Unrealistic speed ceiling (> 250 WPM)
     if (session.netWpm > 250 || session.grossWpm > 250) {
       reasons.push(`Implausible speed: netWpm=${session.netWpm}, grossWpm=${session.grossWpm} (> 250 WPM)`);
@@ -46,13 +48,13 @@ export async function auditForgedSessions(): Promise<SuspiciousSessionFlag[]> {
 
     // 4. Session attributed to GUEST user placeholder account
     if (session.user && session.user.passwordHash === "GUEST_USER_NO_PASSWORD") {
-      reasons.push(`Attributed to auto-created guest placeholder user (${session.username})`);
+      reasons.push(`Attributed to auto-created guest placeholder user (${sessionName})`);
     }
 
     if (reasons.length > 0) {
       flagged.push({
         sessionId: session.id,
-        username: session.username,
+        username: sessionName,
         mode: session.mode,
         netWpm: session.netWpm,
         grossWpm: session.grossWpm,
