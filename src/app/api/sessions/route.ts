@@ -90,6 +90,7 @@ export async function POST(request: Request) {
     }
 
     const {
+      practiceSessionId,
       username,
       mode,
       grossWpm: clientGross = 0,
@@ -101,8 +102,43 @@ export async function POST(request: Request) {
       events,
     } = result.data;
 
-    // Default target text fallback for recomputation if events provided
-    const targetText = TEXT_ASSETS[mode as keyof typeof TEXT_ASSETS] || TEXT_ASSETS.standard;
+    // Validate PracticeSession record
+    let targetText = TEXT_ASSETS[mode as keyof typeof TEXT_ASSETS] || TEXT_ASSETS.standard;
+
+    if (!practiceSessionId) {
+      return NextResponse.json(
+        { error: "Invalid session submission: missing practiceSessionId" },
+        { status: 400 }
+      );
+    }
+
+    const practiceSession = await db.practiceSession.findUnique({
+      where: { id: practiceSessionId },
+    });
+
+    if (!practiceSession) {
+      return NextResponse.json(
+        { error: "Practice session not found or invalid" },
+        { status: 400 }
+      );
+    }
+
+    if (practiceSession.completed) {
+      return NextResponse.json(
+        { error: "Practice session has already been completed" },
+        { status: 400 }
+      );
+    }
+
+    if (new Date() > new Date(practiceSession.expiresAt)) {
+      return NextResponse.json(
+        { error: "Practice session has expired" },
+        { status: 400 }
+      );
+    }
+
+    // Use server-verified targetText from PracticeSession
+    targetText = practiceSession.targetText;
     
     // Server-side score recomputation: Never trust client-submitted metrics for database storage
     let grossWpm = clientGross;
@@ -167,6 +203,12 @@ export async function POST(request: Request) {
         },
       });
     }
+
+    // Mark PracticeSession as completed to prevent replay attacks
+    await db.practiceSession.update({
+      where: { id: practiceSession.id },
+      data: { completed: true },
+    });
 
     // Write the Session record to the database
     const session = await db.session.create({
