@@ -34,6 +34,8 @@ export async function POST(request: Request) {
     const { mode, length, customText, guestDisplayName } = result.data;
     let targetText = "";
 
+    // Server-authoritative passage generation:
+    // Generate and store target text server-side at session-start time as the source of truth
     if (mode === "custom" && customText && customText.trim()) {
       targetText = adjustPassageLength(customText.trim(), length as LengthType);
     } else if (mode === "random-words") {
