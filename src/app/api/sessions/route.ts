@@ -101,8 +101,13 @@ export async function POST(request: Request) {
     const authSession = await getServerSession(authOptions);
     const authenticatedUser = authSession?.user?.name || authSession?.user?.id;
     
-    // If authenticated, use verified session identity; never trust client-supplied username/userId
-    const finalUsername = authenticatedUser || username;
+    // If authenticated, use verified session identity; never lookup or attach to client-supplied username
+    let finalUsername: string;
+    if (authenticatedUser) {
+      finalUsername = authenticatedUser;
+    } else {
+      finalUsername = username;
+    }
 
     // Ensure the User exists in the database
     const userExists = await db.user.findUnique({
