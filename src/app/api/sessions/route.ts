@@ -258,20 +258,7 @@ export async function POST(request: Request) {
       }
     }
 
-    // Ensure the User or guest entry exists in database
-    const userExists = await db.user.findUnique({
-      where: { username: finalUsername },
-    });
-
-    if (!userExists) {
-      await db.user.create({
-        data: {
-          username: finalUsername,
-          email: `${finalUsername.toLowerCase()}@guest.typemaster.local`,
-          passwordHash: "GUEST_USER_NO_PASSWORD",
-        },
-      });
-    }
+    // Note: Guest submissions never create or reserve User table rows (Issue #3 fix).
 
     // Mark PracticeSession as completed to prevent replay attacks
     await db.practiceSession.update({
