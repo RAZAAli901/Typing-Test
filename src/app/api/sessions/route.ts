@@ -69,9 +69,13 @@ const SessionPostSchema = z.object({
 
 export async function POST(request: Request) {
   try {
-    // 1. IP Rate Limiting Check
+    // 1. IP and User Rate Limiting Check
     const ip = request.headers.get("x-forwarded-for") || "127.0.0.1";
-    if (isRateLimited(ip)) {
+    const authSession = await getServerSession(authOptions);
+    const authenticatedUser = authSession?.user?.name || authSession?.user?.id;
+    const rateLimitKey = authenticatedUser ? `user:${authenticatedUser}` : `ip:${ip}`;
+
+    if (isRateLimited(rateLimitKey)) {
       return NextResponse.json(
         { error: "Too many requests. Please wait a minute before submitting again." },
         { status: 429 }
