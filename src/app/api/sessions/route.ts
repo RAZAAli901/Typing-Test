@@ -109,16 +109,14 @@ export async function POST(request: Request) {
       finalUsername = username;
     }
 
-    // Ensure unauthenticated submissions never attach to registered User accounts
+    // Coordinate with guest handling: tag colliding guest display names cleanly
     if (!authenticatedUser) {
       const registeredUser = await db.user.findUnique({
         where: { username: finalUsername },
       });
-      // If a registered user exists with this username (and it's not a legacy guest placeholder),
-      // ensure unauthenticated submission does not attach to that registered account.
       if (registeredUser && registeredUser.passwordHash !== "GUEST_USER_NO_PASSWORD") {
-        // Tag unauthenticated username so it cannot hijack the registered account
-        finalUsername = `${finalUsername}_guest`;
+        // Clearly tag/distinguish guest submission from real account
+        finalUsername = `${finalUsername} (guest)`;
       }
     }
 
