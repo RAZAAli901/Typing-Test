@@ -99,7 +99,10 @@ export async function POST(request: Request) {
 
     // Check active authentication session
     const authSession = await getServerSession(authOptions);
-    const finalUsername = authSession?.user?.name || username;
+    const authenticatedUser = authSession?.user?.name || authSession?.user?.id;
+    
+    // If authenticated, use verified session identity; never trust client-supplied username/userId
+    const finalUsername = authenticatedUser || username;
 
     // Ensure the User exists in the database
     const userExists = await db.user.findUnique({
