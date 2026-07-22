@@ -44,16 +44,24 @@ function isProfane(username: string): boolean {
   return BLOCKED_USERNAMES.some((bad) => lower.includes(bad));
 }
 
-// Basic Zod Schema validation with sanity bounds
+const KeystrokeEventSchema = z.object({
+  char: z.string(),
+  timestamp: z.number(),
+  correct: z.boolean(),
+});
+
+// Zod Schema validation with raw keystroke event log support
 const SessionPostSchema = z.object({
-  username: z.string().min(3).max(20).regex(/^[a-zA-Z0-9_-]+$/),
+  username: z.string().min(3).max(20).regex(/^[a-zA-Z0-9 _-]+$/).optional(),
+  guestDisplayName: z.string().min(3).max(20).optional(),
   mode: z.string(),
-  grossWpm: z.number().int().min(0).max(400),
-  netWpm: z.number().int().min(0).max(400),
-  accuracy: z.number().min(0).max(100),
-  timeTakenSeconds: z.number().gt(0).max(3600),
+  grossWpm: z.number().int().min(0).max(400).optional(),
+  netWpm: z.number().int().min(0).max(400).optional(),
+  accuracy: z.number().min(0).max(100).optional(),
+  timeTakenSeconds: z.number().gt(0).max(3600).optional(),
   charsTyped: z.number().int().min(0).max(50000).optional(),
   mistakes: z.number().int().min(0).max(5000).optional(),
+  events: z.array(KeystrokeEventSchema).optional(),
 });
 
 export async function POST(request: Request) {

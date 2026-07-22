@@ -249,6 +249,7 @@ export default function PlayPage() {
               },
               body: JSON.stringify({
                 username: currentUsername.trim(),
+                guestDisplayName: !isLoggedIn ? currentUsername.trim() : undefined,
                 mode: activeMode,
                 grossWpm: Math.round(finalGross),
                 netWpm: Math.round(finalNet),
@@ -256,6 +257,7 @@ export default function PlayPage() {
                 timeTakenSeconds: Number(finalElapsed.toFixed(1)),
                 charsTyped: totalTypedRef.current,
                 mistakes: mistakesRef.current,
+                events: keystrokeEventsRef.current,
               }),
             });
           } catch (err) {
