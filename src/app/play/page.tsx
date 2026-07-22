@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/8bit/button";
 import { Textarea } from "@/components/ui/8bit/textarea";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/8bit/tabs";
 import { useSession } from "next-auth/react";
-import TypingArea from "@/components/TypingArea";
+import TypingArea, { KeystrokeEvent } from "@/components/TypingArea";
 import StatsHUD from "@/components/StatsHUD";
 import ResultsScreen from "@/components/ResultsScreen";
 import { useCrtSettings } from "@/lib/CrtSettingsContext";
@@ -53,6 +53,7 @@ export default function PlayPage() {
   const startTimeRef = useRef<number | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const prevTypedLengthRef = useRef(0);
+  const keystrokeEventsRef = useRef<KeystrokeEvent[]>([]);
 
   // Keep refs of live metrics to access inside timer interval closure safely
   const totalTypedRef = useRef(0);
@@ -278,6 +279,7 @@ export default function PlayPage() {
     setTimelineData([]);
     startTimeRef.current = null;
     prevTypedLengthRef.current = 0;
+    keystrokeEventsRef.current = [];
     
     const targetMode = newMode || activeMode;
     const targetLength = newLength || activeLength;
@@ -486,7 +488,12 @@ export default function PlayPage() {
               {/* Typing Area */}
               <div className="w-full">
                 {text && (
-                  <TypingArea text={text} isFinished={isFinished} onKeyStroke={handleKeyStroke} />
+                  <TypingArea
+                    text={text}
+                    isFinished={isFinished}
+                    onKeyStroke={handleKeyStroke}
+                    onKeystrokeEvent={(evt) => keystrokeEventsRef.current.push(evt)}
+                  />
                 )}
               </div>
 

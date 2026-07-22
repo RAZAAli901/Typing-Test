@@ -2,13 +2,20 @@
 
 import { useEffect, useRef, useState } from "react";
 
+export interface KeystrokeEvent {
+  char: string;
+  timestamp: number;
+  correct: boolean;
+}
+
 interface TypingAreaProps {
   text: string;
   isFinished: boolean;
   onKeyStroke?: (typed: string) => void;
+  onKeystrokeEvent?: (event: KeystrokeEvent) => void;
 }
 
-export default function TypingArea({ text, isFinished, onKeyStroke }: TypingAreaProps) {
+export default function TypingArea({ text, isFinished, onKeyStroke, onKeystrokeEvent }: TypingAreaProps) {
   const [typedText, setTypedText] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -32,6 +39,19 @@ export default function TypingArea({ text, isFinished, onKeyStroke }: TypingArea
     
     // Limit input length to target text length
     if (value.length <= text.length) {
+      const prevLength = typedText.length;
+      if (value.length > prevLength) {
+        const addedChar = value[value.length - 1];
+        const targetChar = text[value.length - 1];
+        const isCorrect = addedChar === targetChar;
+        if (onKeystrokeEvent) {
+          onKeystrokeEvent({
+            char: addedChar,
+            timestamp: Date.now(),
+            correct: isCorrect,
+          });
+        }
+      }
       setTypedText(value);
       if (onKeyStroke) {
         onKeyStroke(value);
