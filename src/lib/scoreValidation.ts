@@ -104,3 +104,25 @@ export function validateSanityBounds(metrics: RecomputedMetrics): SanityValidati
 
   return { valid: true };
 }
+
+/**
+ * Consistency check that mistakes cannot exceed charsTyped and accuracy is mathematically consistent.
+ */
+export function validateAccuracyConsistency(metrics: RecomputedMetrics): SanityValidationResult {
+  if (metrics.mistakes > metrics.charsTyped) {
+    return { valid: false, reason: "mistakes cannot exceed charsTyped" };
+  }
+
+  if (metrics.charsTyped > 0) {
+    const expectedAccuracy = ((metrics.charsTyped - metrics.mistakes) / metrics.charsTyped) * 100;
+    const diff = Math.abs(metrics.accuracy - expectedAccuracy);
+    if (diff > 1.5) {
+      return {
+        valid: false,
+        reason: `accuracy (${metrics.accuracy}%) is mathematically inconsistent with mistakes (${metrics.mistakes}) and charsTyped (${metrics.charsTyped})`,
+      };
+    }
+  }
+
+  return { valid: true };
+}
