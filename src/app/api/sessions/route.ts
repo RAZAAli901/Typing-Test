@@ -266,10 +266,12 @@ export async function POST(request: Request) {
       data: { completed: true },
     });
 
-    // Write the Session record to the database
+    // Write the Session record to the database (guests populate guestDisplayName, authenticated users populate userId)
     const session = await db.session.create({
       data: {
-        username: finalUsername,
+        userId: authenticatedUser ? authenticatedUser : null,
+        guestDisplayName: !authenticatedUser ? finalUsername : null,
+        practiceSessionId: practiceSession.id,
         mode,
         grossWpm,
         netWpm,
