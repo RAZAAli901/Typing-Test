@@ -8,13 +8,20 @@ export async function GET(
   try {
     const { username } = await params;
 
-    // Retrieve user and their sessions
+    // Retrieve user and their registered sessions
     const user = await db.user.findUnique({
       where: { username },
-      include: { sessions: true },
+      include: {
+        sessions: {
+          where: {
+            // Strictly exclude any unauthenticated/guest sessions
+            userId: username,
+          },
+        },
+      },
     });
 
-    if (!user) {
+    if (!user || user.passwordHash === "GUEST_USER_NO_PASSWORD") {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 

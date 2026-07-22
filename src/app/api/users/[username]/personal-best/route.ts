@@ -17,10 +17,19 @@ export async function GET(
       );
     }
 
-    // Find the single highest scoring session by netWpm descending, with accuracy as a tie-breaker
+    // Verify target user is a real registered account
+    const user = await db.user.findUnique({
+      where: { username },
+    });
+
+    if (!user || user.passwordHash === "GUEST_USER_NO_PASSWORD") {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    // Find the single highest scoring session for this registered user
     const personalBest = await db.session.findFirst({
       where: {
-        username: username,
+        userId: username,
         mode: mode,
       },
       orderBy: [
