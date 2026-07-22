@@ -12,6 +12,8 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/8bit/tabs";
 interface SessionData {
   id: string;
   username: string;
+  guestDisplayName?: string | null;
+  isGuest?: boolean;
   mode: string;
   grossWpm: number;
   netWpm: number;
@@ -237,6 +239,11 @@ export default function LeaderboardPage() {
                             )}
                           </div>
                           <span>{session.username}</span>
+                          {session.isGuest && (
+                            <span className="ml-1 text-[10px] px-1.5 py-0.5 rounded bg-zinc-800 text-crt-dim border border-zinc-700">
+                              (guest)
+                            </span>
+                          )}
                           {isCurUser && (
                             <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded bg-crt-primary/20 text-crt-primary border border-crt-primary/30">
                               YOU

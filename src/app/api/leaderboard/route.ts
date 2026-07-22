@@ -38,7 +38,25 @@ export async function GET(request: Request) {
       },
     });
 
-    return NextResponse.json({ sessions });
+    const formattedSessions = sessions.map((s) => {
+      const isGuest = !s.user || s.user.username.includes("_guest") || s.user.username.includes("(guest)");
+      const displayName = s.user ? s.user.username : (s.guestDisplayName || "Guest");
+      return {
+        id: s.id,
+        username: displayName,
+        guestDisplayName: s.guestDisplayName,
+        isGuest,
+        mode: s.mode,
+        grossWpm: s.grossWpm,
+        netWpm: s.netWpm,
+        accuracy: s.accuracy,
+        timeTakenSeconds: s.timeTakenSeconds,
+        createdAt: s.createdAt,
+        user: s.user,
+      };
+    });
+
+    return NextResponse.json({ sessions: formattedSessions });
   } catch (error: any) {
     console.error("Error fetching leaderboard:", error);
     
