@@ -109,7 +109,20 @@ export async function POST(request: Request) {
       finalUsername = username;
     }
 
-    // Ensure the User exists in the database
+    // Ensure unauthenticated submissions never attach to registered User accounts
+    if (!authenticatedUser) {
+      const registeredUser = await db.user.findUnique({
+        where: { username: finalUsername },
+      });
+      // If a registered user exists with this username (and it's not a legacy guest placeholder),
+      // ensure unauthenticated submission does not attach to that registered account.
+      if (registeredUser && registeredUser.passwordHash !== "GUEST_USER_NO_PASSWORD") {
+        // Tag unauthenticated username so it cannot hijack the registered account
+        finalUsername = `${finalUsername}_guest`;
+      }
+    }
+
+    // Ensure the User or guest entry exists in database
     const userExists = await db.user.findUnique({
       where: { username: finalUsername },
     });
