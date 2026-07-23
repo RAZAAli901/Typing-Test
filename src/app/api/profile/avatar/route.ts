@@ -19,7 +19,7 @@ export async function detectRealImageType(buffer: Buffer): Promise<"png" | "jpeg
   try {
     const metadata = await sharp(buffer).metadata();
     if (metadata.format === "png" && isPngMagic) return "png";
-    if ((metadata.format === "jpeg" || metadata.format === "jpg") && isJpegMagic) return "jpeg";
+    if (metadata.format === "jpeg" && isJpegMagic) return "jpeg";
     if (metadata.format === "webp" && isWebpMagic) return "webp";
   } catch {
     return null;
