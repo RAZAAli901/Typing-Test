@@ -85,11 +85,12 @@ export async function POST(request: Request) {
 
     let imageUrl = "";
 
-    // 4. Upload to Vercel Blob (or fallback to local file system in development/local mode)
+    // 4. Upload re-encoded buffer to Vercel Blob (or fallback to local file system in development/local mode)
     if (process.env.BLOB_READ_WRITE_TOKEN) {
       try {
-        const blob = await put(`avatars/${serverGeneratedFilename}`, file, {
+        const blob = await put(`avatars/${serverGeneratedFilename}`, processedBuffer, {
           access: "public",
+          contentType: "image/png",
         });
         imageUrl = blob.url;
       } catch (blobErr) {
@@ -105,7 +106,7 @@ export async function POST(request: Request) {
       await fs.mkdir(uploadDir, { recursive: true });
       
       const filePath = path.join(uploadDir, serverGeneratedFilename);
-      await fs.writeFile(filePath, rawBuffer);
+      await fs.writeFile(filePath, processedBuffer);
       
       imageUrl = `/uploads/${serverGeneratedFilename}`;
     }
