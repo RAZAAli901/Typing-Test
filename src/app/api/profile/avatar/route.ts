@@ -85,6 +85,7 @@ export async function POST(request: Request) {
 
     let imageUrl = "";
 
+    // Environment check (#5): Fail immediately in production if BLOB_READ_WRITE_TOKEN is missing
     const isProduction = process.env.NODE_ENV === "production" || !!process.env.VERCEL;
     const hasBlobToken = !!process.env.BLOB_READ_WRITE_TOKEN;
 
