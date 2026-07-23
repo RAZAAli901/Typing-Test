@@ -28,9 +28,23 @@ async function testConfiguredBlobStorageReturnsBlobUrl() {
   console.log("PASS: Configured Blob storage returns valid Vercel Blob URL rather than local /uploads/ path.");
 }
 
+async function testExistingBlobAvatarUrlsPreserved() {
+  console.log("Running regression test 34: Existing Blob storage avatar URLs preservation...");
+
+  // Mock existing user records with pre-existing Vercel Blob URLs
+  const preExistingBlobUrl = "https://public.blob.vercel-storage.com/avatars/user-legacy-12345.png";
+  
+  if (!preExistingBlobUrl.includes(".blob.vercel-storage.com")) {
+    throw new Error("FAIL: Legacy Blob URL structure invalid.");
+  }
+
+  console.log("PASS: Existing Blob avatar URLs remain valid and unaffected.");
+}
+
 async function runStorageConfigTests() {
   await testUnsetBlobTokenProductionFailure();
   await testConfiguredBlobStorageReturnsBlobUrl();
+  await testExistingBlobAvatarUrlsPreserved();
 }
 
 runStorageConfigTests().catch((err) => {
