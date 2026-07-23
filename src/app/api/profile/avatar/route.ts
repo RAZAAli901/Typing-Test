@@ -105,7 +105,7 @@ export async function POST(request: Request) {
           { status: 503 }
         );
       }
-      console.info("DEV NOTICE: Using local filesystem fallback for avatar uploads (NODE_ENV=development). Note: This path will not work once deployed to production.");
+      console.info("[DEV NOTICE] Local filesystem fallback active for avatar upload (NODE_ENV=development). Note: Vercel serverless environment is read-only; configure BLOB_READ_WRITE_TOKEN before deploying.");
     }
 
     // 4. Upload re-encoded buffer to Vercel Blob (or fallback to local file system strictly in dev)
