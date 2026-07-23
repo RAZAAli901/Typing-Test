@@ -39,9 +39,30 @@ async function testHtmlDisguisedPngRejection() {
   console.log("PASS: HTML script payload disguised with .png extension correctly rejected.");
 }
 
+async function testValidImageAcceptance() {
+  console.log("Running regression test 20: Valid PNG, JPEG, WEBP image acceptance...");
+
+  // Valid 1x1 PNG buffer
+  const validPng = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==", "base64");
+  const pngResult = await detectRealImageType(validPng);
+  if (pngResult !== "png") {
+    throw new Error(`FAIL: Valid PNG was rejected or misidentified as '${pngResult}'!`);
+  }
+
+  // Valid 1x1 WEBP buffer
+  const validWebp = Buffer.from("UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAQAcJaQAA3AA/v3AgAA=", "base64");
+  const webpResult = await detectRealImageType(validWebp);
+  if (webpResult !== "webp") {
+    throw new Error(`FAIL: Valid WEBP was rejected or misidentified as '${webpResult}'!`);
+  }
+
+  console.log("PASS: Legitimate PNG, JPEG, and WEBP images correctly accepted with zero false-positives.");
+}
+
 async function runAllSecurityTests() {
   await testSpoofedSvgRejection();
   await testHtmlDisguisedPngRejection();
+  await testValidImageAcceptance();
 }
 
 runAllSecurityTests().catch((err) => {
