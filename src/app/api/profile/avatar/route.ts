@@ -120,7 +120,7 @@ export async function POST(request: Request) {
       }
     }
 
-    // Local filesystem upload fallback (STRICTLY DEV-ONLY)
+    // Local filesystem upload fallback (STRICTLY DEV-ONLY: NODE_ENV === "development" and not on Vercel)
     if (!imageUrl && !isProduction) {
       const uploadDir = path.join(process.cwd(), "public", "uploads");
       
