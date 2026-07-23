@@ -85,8 +85,22 @@ export async function POST(request: Request) {
 
     let imageUrl = "";
 
-    // 4. Upload re-encoded buffer to Vercel Blob (or fallback to local file system in development/local mode)
-    if (process.env.BLOB_READ_WRITE_TOKEN) {
+    const isProduction = process.env.NODE_ENV === "production" || !!process.env.VERCEL;
+    const hasBlobToken = !!process.env.BLOB_READ_WRITE_TOKEN;
+
+    if (!hasBlobToken) {
+      if (isProduction) {
+        console.error("CRITICAL SECURITY / CONFIGURATION ERROR: Avatar storage is not configured for this production environment. BLOB_READ_WRITE_TOKEN is missing.");
+        return NextResponse.json(
+          { error: "Avatar storage is not configured for this environment" },
+          { status: 503 }
+        );
+      }
+      console.info("DEV NOTICE: Using local filesystem fallback for avatar uploads (NODE_ENV=development). Note: This path will not work once deployed to production.");
+    }
+
+    // 4. Upload re-encoded buffer to Vercel Blob (or fallback to local file system strictly in dev)
+    if (hasBlobToken) {
       try {
         // Set explicit server-enforced Content-Type matching re-encoded image format
         const blob = await put(`avatars/${serverGeneratedFilename}`, processedBuffer, {
@@ -95,12 +109,18 @@ export async function POST(request: Request) {
         });
         imageUrl = blob.url;
       } catch (blobErr) {
-        console.warn("Vercel Blob upload failed, falling back to local filesystem:", blobErr);
+        console.warn("Vercel Blob upload failed:", blobErr);
+        if (isProduction) {
+          return NextResponse.json(
+            { error: "Avatar storage service unavailable" },
+            { status: 503 }
+          );
+        }
       }
     }
 
-    // Local filesystem upload fallback
-    if (!imageUrl) {
+    // Local filesystem upload fallback (STRICTLY DEV-ONLY)
+    if (!imageUrl && !isProduction) {
       const uploadDir = path.join(process.cwd(), "public", "uploads");
       
       // Ensure local upload folder exists
@@ -110,6 +130,13 @@ export async function POST(request: Request) {
       await fs.writeFile(filePath, processedBuffer);
       
       imageUrl = `/uploads/${serverGeneratedFilename}`;
+    }
+
+    if (!imageUrl) {
+      return NextResponse.json(
+        { error: "Avatar storage is not configured for this environment" },
+        { status: 503 }
+      );
     }
 
     // 5. Update user avatarUrl in database
