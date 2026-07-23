@@ -74,8 +74,13 @@ export async function POST(request: Request) {
     }
 
     // Generate stored filename/extension server-side based on detected real type only, never from client input
-    const fileExt = detectedType === "jpeg" ? "jpg" : detectedType;
+    const fileExt = "png";
     const serverGeneratedFilename = `avatar-${session.user.name.replace(/[^a-zA-Z0-9_-]/g, "_")}-${Date.now()}.${fileExt}`;
+
+    // 4. Server-side image re-encoding using sharp to strip embedded scripts, comments, and polyglot tricks
+    const processedBuffer = await sharp(rawBuffer)
+      .png({ quality: 90, compressionLevel: 9 })
+      .toBuffer();
 
     let imageUrl = "";
 
