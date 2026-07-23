@@ -28,6 +28,8 @@ export async function detectRealImageType(buffer: Buffer): Promise<"png" | "jpeg
   return null;
 }
 
+let hasLoggedProductionMissingTokenWarning = false;
+
 export async function POST(request: Request) {
   try {
     // 1. Authenticate user session
@@ -91,7 +93,13 @@ export async function POST(request: Request) {
 
     if (!hasBlobToken) {
       if (isProduction) {
-        console.error("CRITICAL SECURITY / CONFIGURATION ERROR: Avatar storage is not configured for this production environment. BLOB_READ_WRITE_TOKEN is missing.");
+        if (!hasLoggedProductionMissingTokenWarning) {
+          console.error("================================================================================");
+          console.error("CRITICAL SECURITY / CONFIGURATION WARNING: BLOB_READ_WRITE_TOKEN is missing in production!");
+          console.error("Avatar uploads will fail until BLOB_READ_WRITE_TOKEN is set in Vercel environment.");
+          console.error("================================================================================");
+          hasLoggedProductionMissingTokenWarning = true;
+        }
         return NextResponse.json(
           { error: "Avatar storage is not configured for this environment" },
           { status: 503 }
