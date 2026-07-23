@@ -203,10 +203,10 @@ TypeMaster Web v2.0 includes a comprehensive, secure authentication and persiste
 - **Terminal Access Console (/login):** Authenticates users via NextAuth credentials flow. Users can check **Remember Me** to flag persistent session storage (using a 30-day session caching token).
 - **Guest Fallback Mode:** Allows users to "Continue as Guest" to practice anonymously. Guest sessions use standard local browser storage keys (`typemaster_username`) and bind session submissions to the database under virtual guest identities, preserving data format consistency.
 
-### 2. Profile Avatar Uploads (Vercel Blob Storage)
-- **Profile Dossier View (/profile):** Displays restricting classified dossier details, clearance levels, active typing stats grids, and user avatar.
-- **Vercel Blob Integration:** Users can click and upload JPEG/PNG images (under 2MB size) directly to Vercel's global blob database via `@vercel/blob` SDK.
-- **Resilient Fallback placeholders:** If Vercel Blob storage token (`BLOB_READ_WRITE_TOKEN`) is not configured, the application falls back automatically to generating responsive retro pixel-art placeholder SVGs containing unique alphanumeric color matrices.
+### 2. Profile Avatar Uploads (Vercel Blob Storage & Content Validation)
+- **Profile Dossier View (/profile):** Displays restricted classified dossier details, clearance levels, active typing stats grids, and user avatar.
+- **Vercel Blob Integration & Production Requirement:** Avatar uploads require `BLOB_READ_WRITE_TOKEN` to be configured in any deployed environment (e.g. Vercel). Vercel serverless functions use an ephemeral read-only filesystem; therefore, the local-filesystem fallback operates strictly in offline local development (`NODE_ENV=development`). In deployed production environments, missing storage tokens fail loudly with status 503 rather than silently losing files.
+- **Magic Byte Content Validation & Re-Encoding:** Server-side avatar processing inspects actual file magic numbers (`sharp` format verification) allowing PNG, JPEG, and WEBP only. SVG vector scripts are rejected outright to prevent stored XSS. Uploaded images are re-encoded fresh and resized (max 512x512) before storage.
 - **Public Leaderboard Integration:** The global leaderboard queries (`/api/leaderboard`) retrieve and render user avatar thumbnails for high-ranking competitors, sanitizing output objects to prevent leaking email addresses or password hashes.
 
 ### 3. CRT Terminal Component Structure
