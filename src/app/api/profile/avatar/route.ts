@@ -121,6 +121,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       url: imageUrl,
+      contentType: "image/png",
     });
   } catch (error: any) {
     console.error("Avatar upload handler error:", error);
