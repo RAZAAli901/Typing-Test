@@ -30,6 +30,10 @@ export async function POST(request: Request) {
       );
     }
 
+    // Read uploaded file buffer for inspection
+    const arrayBuffer = await file.arrayBuffer();
+    const rawBuffer = Buffer.from(arrayBuffer);
+
     // 3. Validate file type (JPEG or PNG)
     const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
     if (!allowedTypes.includes(file.type)) {
