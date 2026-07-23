@@ -25,6 +25,10 @@ function Avatar({
   )
 }
 
+/**
+ * SECURITY AUDIT (#4): Avatar images are strictly rendered via native standard <img> elements
+ * or Base UI image components. No dangerouslySetInnerHTML or unsafe inner HTML injection is permitted.
+ */
 function AvatarImage({ className, ...props }: AvatarPrimitive.Image.Props) {
   return (
     <AvatarPrimitive.Image
