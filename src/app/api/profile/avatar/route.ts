@@ -56,11 +56,11 @@ export async function POST(request: Request) {
     const arrayBuffer = await file.arrayBuffer();
     const rawBuffer = Buffer.from(arrayBuffer);
 
-    // 3. Validate file type (JPEG or PNG)
-    const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
-    if (!allowedTypes.includes(file.type)) {
+    // 3. Validate real file type (JPEG, PNG, WEBP) by content bytes, ignoring client file.type
+    const detectedType = await detectRealImageType(rawBuffer);
+    if (!detectedType) {
       return NextResponse.json(
-        { error: "Invalid file type. Only JPEG and PNG are allowed" },
+        { error: "Invalid image content. File structure failed magic byte verification." },
         { status: 400 }
       );
     }
