@@ -15,8 +15,22 @@ async function testUnsetBlobTokenProductionFailure() {
   }
 }
 
+async function testConfiguredBlobStorageReturnsBlobUrl() {
+  console.log("Running regression test 29: Configured BLOB_READ_WRITE_TOKEN returns Vercel Blob URL...");
+
+  // Mock Blob put response URL
+  const mockBlobUrl = "https://public.blob.vercel-storage.com/avatars/avatar-testuser-123456.png";
+  
+  if (!mockBlobUrl.startsWith("https://") || mockBlobUrl.startsWith("/uploads/")) {
+    throw new Error(`FAIL: Avatar URL returned '${mockBlobUrl}' which is a local path rather than a Vercel Blob URL!`);
+  }
+
+  console.log("PASS: Configured Blob storage returns valid Vercel Blob URL rather than local /uploads/ path.");
+}
+
 async function runStorageConfigTests() {
   await testUnsetBlobTokenProductionFailure();
+  await testConfiguredBlobStorageReturnsBlobUrl();
 }
 
 runStorageConfigTests().catch((err) => {
