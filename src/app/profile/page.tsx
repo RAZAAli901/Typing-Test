@@ -120,10 +120,10 @@ export default function ProfilePage() {
       return;
     }
 
-    // Validate type (JPEG or PNG)
-    const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+    // Validate type (JPEG, PNG, WEBP)
+    const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
     if (!allowedTypes.includes(file.type)) {
-      setUploadError("Invalid image type. Only JPEG and PNG are allowed.");
+      setUploadError("Invalid image type. Only PNG, JPEG, and WEBP are allowed.");
       setSelectedFile(null);
       setPreviewUrl(null);
       return;
@@ -274,9 +274,10 @@ export default function ProfilePage() {
               <label className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center cursor-pointer transition-opacity text-[10px] font-bold text-crt-primary uppercase text-center p-1">
                 <Icon name="custom" size={16} className="mb-1" />
                 <span>Upload</span>
+                {/* UX restriction only. Real enforcement is server-side in /api/profile/avatar since accept is trivially bypassable */}
                 <input
                   type="file"
-                  accept="image/jpeg,image/png"
+                  accept="image/png,image/jpeg,image/webp"
                   onChange={handleFileChange}
                   className="hidden"
                 />
