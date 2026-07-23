@@ -57,6 +57,14 @@ export async function POST(request: Request) {
     const rawBuffer = Buffer.from(arrayBuffer);
 
     // 3. Validate real file type (JPEG, PNG, WEBP) by content bytes, ignoring client file.type
+    const fileHeaderStr = rawBuffer.toString("utf-8", 0, Math.min(rawBuffer.length, 1024)).toLowerCase();
+    if (fileHeaderStr.includes("<svg") || fileHeaderStr.includes("<?xml") || fileHeaderStr.includes("<script") || fileHeaderStr.includes("http://www.w3.org/2000/svg")) {
+      return NextResponse.json(
+        { error: "SVG images and vector scripts are strictly prohibited for avatars." },
+        { status: 400 }
+      );
+    }
+
     const detectedType = await detectRealImageType(rawBuffer);
     if (!detectedType) {
       return NextResponse.json(
