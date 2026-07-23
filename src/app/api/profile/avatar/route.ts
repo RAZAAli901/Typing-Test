@@ -88,6 +88,7 @@ export async function POST(request: Request) {
     // 4. Upload re-encoded buffer to Vercel Blob (or fallback to local file system in development/local mode)
     if (process.env.BLOB_READ_WRITE_TOKEN) {
       try {
+        // Set explicit server-enforced Content-Type matching re-encoded image format
         const blob = await put(`avatars/${serverGeneratedFilename}`, processedBuffer, {
           access: "public",
           contentType: "image/png",
