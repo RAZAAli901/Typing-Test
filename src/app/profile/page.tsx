@@ -149,7 +149,11 @@ export default function ProfilePage() {
 
       if (!res.ok) {
         const errData = await res.json();
-        throw new Error(errData.error || "Failed to upload avatar.");
+        const serverError = errData.error || "Failed to upload avatar.";
+        if (serverError.toLowerCase().includes("magic byte") || serverError.toLowerCase().includes("svg") || serverError.toLowerCase().includes("structure")) {
+          throw new Error(`FILE VALIDATION FAILED: ${serverError}`);
+        }
+        throw new Error(serverError);
       }
 
       const data = await res.json();
