@@ -34,6 +34,16 @@ This document describes the security model, identity verification, anti-cheat en
 
 ---
 
-## 4. Reporting Security Vulnerabilities
+## 4. Avatar Upload Security & Storage Isolation (Issues #4 & #5 Resolution)
+
+- **Magic Byte File Content Inspection**: `POST /api/profile/avatar` reads the raw uploaded buffer and validates magic byte signatures using `sharp` format detection rather than trusting client-reported MIME types or file extensions. Accepted formats are strictly limited to PNG, JPEG, and WEBP.
+- **Outright SVG & Script Rejection**: Vector graphics (`.svg`) and XML/script payloads are rejected outright due to stored XSS vectors (`<script>` injection).
+- **Server-Side Re-Encoding & Resizing**: Uploaded images are re-encoded fresh to PNG format via `sharp` and constrained to a maximum dimension of 512x512 pixels. This strips all embedded scripts, EXIF metadata, and polyglot container tricks.
+- **Server-Generated Filenames & Headers**: Filenames and extensions are generated server-side from session identity and timestamp tokens only. Uploads to Vercel Blob set explicit `Content-Type: image/png` headers.
+- **Production Storage Isolation**: In deployed environments (`process.env.VERCEL` or `NODE_ENV === "production"`), uploads strictly require `BLOB_READ_WRITE_TOKEN`. Unconfigured environments fail immediately with status 503 rather than attempting to write to Vercel's read-only serverless filesystem. Local disk fallback operates strictly in offline local development (`NODE_ENV === "development"`).
+
+---
+
+## 5. Reporting Security Vulnerabilities
 
 To report a security vulnerability or exploit attempt, please consult [SECURITY_TESTING.md](./SECURITY_TESTING.md) or open an issue on GitHub.
