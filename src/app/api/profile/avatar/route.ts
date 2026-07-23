@@ -61,6 +61,7 @@ export async function POST(request: Request) {
     // 3. Validate real file type (JPEG, PNG, WEBP) by content bytes, ignoring client file.type
     const fileHeaderStr = rawBuffer.toString("utf-8", 0, Math.min(rawBuffer.length, 1024)).toLowerCase();
     if (fileHeaderStr.includes("<svg") || fileHeaderStr.includes("<?xml") || fileHeaderStr.includes("<script") || fileHeaderStr.includes("http://www.w3.org/2000/svg")) {
+      console.warn(`[SECURITY AUDIT] Avatar upload rejected for user '${session.user.name}': Detected prohibited SVG/vector script content.`);
       return NextResponse.json(
         { error: "SVG images and vector scripts are strictly prohibited for avatars." },
         { status: 400 }
@@ -69,6 +70,7 @@ export async function POST(request: Request) {
 
     const detectedType = await detectRealImageType(rawBuffer);
     if (!detectedType) {
+      console.warn(`[SECURITY AUDIT] Avatar upload rejected for user '${session.user.name}': File structure failed magic byte verification.`);
       return NextResponse.json(
         { error: "Invalid image content. File structure failed magic byte verification." },
         { status: 400 }
