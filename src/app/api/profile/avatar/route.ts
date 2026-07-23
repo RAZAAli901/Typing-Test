@@ -5,6 +5,28 @@ import { db } from "@/lib/db";
 import { put } from "@vercel/blob";
 import { promises as fs } from "fs";
 import path from "path";
+import sharp from "sharp";
+
+export async function detectRealImageType(buffer: Buffer): Promise<"png" | "jpeg" | "webp" | null> {
+  const isPngMagic = buffer.length >= 8 && buffer[0] === 0x89 && buffer[1] === 0x50 && buffer[2] === 0x4E && buffer[3] === 0x47;
+  const isJpegMagic = buffer.length >= 3 && buffer[0] === 0xFF && buffer[1] === 0xD8 && buffer[2] === 0xFF;
+  const isWebpMagic = buffer.length >= 12 && buffer.toString("ascii", 0, 4) === "RIFF" && buffer.toString("ascii", 8, 12) === "WEBP";
+
+  if (!isPngMagic && !isJpegMagic && !isWebpMagic) {
+    return null;
+  }
+
+  try {
+    const metadata = await sharp(buffer).metadata();
+    if (metadata.format === "png" && isPngMagic) return "png";
+    if ((metadata.format === "jpeg" || metadata.format === "jpg") && isJpegMagic) return "jpeg";
+    if (metadata.format === "webp" && isWebpMagic) return "webp";
+  } catch {
+    return null;
+  }
+
+  return null;
+}
 
 export async function POST(request: Request) {
   try {
