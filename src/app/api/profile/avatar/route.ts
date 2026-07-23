@@ -43,11 +43,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
-    // 2. Validate file size (max 2MB)
-    const MAX_SIZE = 2 * 1024 * 1024;
+    // 2. Validate max file size BEFORE reading full buffer or running sharp re-encoding (early rejection)
+    const MAX_SIZE = 5 * 1024 * 1024; // 5MB limit
     if (file.size > MAX_SIZE) {
       return NextResponse.json(
-        { error: "File size exceeds the 2MB limit" },
+        { error: "File size exceeds the 5MB maximum limit" },
         { status: 400 }
       );
     }
