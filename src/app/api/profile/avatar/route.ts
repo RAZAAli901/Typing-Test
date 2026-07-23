@@ -79,6 +79,7 @@ export async function POST(request: Request) {
 
     // 4. Server-side image re-encoding using sharp to strip embedded scripts, comments, and polyglot tricks
     const processedBuffer = await sharp(rawBuffer)
+      .resize(512, 512, { fit: "inside", withoutEnlargement: true })
       .png({ quality: 90, compressionLevel: 9 })
       .toBuffer();
 
