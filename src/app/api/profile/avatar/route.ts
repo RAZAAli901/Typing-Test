@@ -73,12 +73,16 @@ export async function POST(request: Request) {
       );
     }
 
+    // Generate stored filename/extension server-side based on detected real type only
+    const fileExt = detectedType === "jpeg" ? "jpg" : detectedType;
+    const serverGeneratedFilename = `${session.user.name.replace(/[^a-zA-Z0-9_-]/g, "_")}-${Date.now()}.${fileExt}`;
+
     let imageUrl = "";
 
     // 4. Upload to Vercel Blob (or fallback to local file system in development/local mode)
     if (process.env.BLOB_READ_WRITE_TOKEN) {
       try {
-        const blob = await put(`avatars/${session.user.name}-${Date.now()}-${file.name}`, file, {
+        const blob = await put(`avatars/${serverGeneratedFilename}`, file, {
           access: "public",
         });
         imageUrl = blob.url;
@@ -89,17 +93,15 @@ export async function POST(request: Request) {
 
     // Local filesystem upload fallback
     if (!imageUrl) {
-      const buffer = Buffer.from(await file.arrayBuffer());
-      const cleanFilename = `${session.user.name}-${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
       const uploadDir = path.join(process.cwd(), "public", "uploads");
       
       // Ensure local upload folder exists
       await fs.mkdir(uploadDir, { recursive: true });
       
-      const filePath = path.join(uploadDir, cleanFilename);
-      await fs.writeFile(filePath, buffer);
+      const filePath = path.join(uploadDir, serverGeneratedFilename);
+      await fs.writeFile(filePath, rawBuffer);
       
-      imageUrl = `/uploads/${cleanFilename}`;
+      imageUrl = `/uploads/${serverGeneratedFilename}`;
     }
 
     // 5. Update user avatarUrl in database
