@@ -150,6 +150,9 @@ export default function ProfilePage() {
       if (!res.ok) {
         const errData = await res.json();
         const serverError = errData.error || "Failed to upload avatar.";
+        if (res.status === 503 || serverError.toLowerCase().includes("not configured")) {
+          throw new Error("AVATAR STORAGE UNCONFIGURED: Storage service is not configured for this environment.");
+        }
         if (serverError.toLowerCase().includes("magic byte") || serverError.toLowerCase().includes("svg") || serverError.toLowerCase().includes("structure")) {
           throw new Error(`FILE VALIDATION FAILED: ${serverError}`);
         }
