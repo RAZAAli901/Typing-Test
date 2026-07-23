@@ -129,6 +129,7 @@ export async function POST(request: Request) {
     }
 
     // Local filesystem upload fallback (STRICTLY DEV-ONLY: NODE_ENV === "development" and not on Vercel)
+    // AUDIT (#5): Verified this route is the sole location in the codebase attempting local disk fallback.
     if (!imageUrl && !isProduction) {
       const uploadDir = path.join(process.cwd(), "public", "uploads");
       
