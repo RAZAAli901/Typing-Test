@@ -1,6 +1,8 @@
 # Live Typing Test Suite v1.0
 
+
 Welcome to the **Live Typing Test Suite**, a comprehensive package featuring multiple versions of typing test applications, designed to help you measure and improve your typing speed and accuracy. 
+
 
 This repository contains both console-based CLI applications (C++) and a high-fidelity web-based application (HTML/CSS/JS) with premium styling, audio feedback, and visual graphs.
 
