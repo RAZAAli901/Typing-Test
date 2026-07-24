@@ -8,6 +8,7 @@ This repository contains both console-based CLI applications (C++) and a high-fi
 
 ---
 
+
 ## 📦 Suite Components & Versions
 
 This project is divided into three distinct versions of the typing test:
