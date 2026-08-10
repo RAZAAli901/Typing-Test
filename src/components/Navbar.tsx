@@ -22,6 +22,8 @@ export default function Navbar() {
   const pathname = usePathname();
   const { data: session, status } = useSession();
   const [username, setUsername] = useState<string>("Anonymous");
+  const { onlineCount, isPresenceActive } = useRealtimePresence(session?.user?.name || username);
+
 
   // Fetch username from localStorage client-side as fallback for guests
   useEffect(() => {

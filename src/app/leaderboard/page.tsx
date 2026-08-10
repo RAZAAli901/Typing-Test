@@ -110,68 +110,71 @@ export default function LeaderboardPage() {
   ];
 
   // Fetch leaderboard data when mode or sort selection changes
-  useEffect(() => {
-    async function fetchLeaderboard() {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const response = await fetch(
-          `/api/leaderboard?mode=${activeMode}&sort=${activeSort}&limit=10`
-        );
-        if (!response.ok) {
-          let errorMsg = "Failed to load leaderboard data.";
-          try {
-            const data = await response.json();
-            if (data && data.error) {
-              errorMsg = data.error;
-            }
-          } catch (e) {
-            errorMsg = `Server error (Status ${response.status})`;
+  const fetchLeaderboard = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(
+        `/api/leaderboard?mode=${activeMode}&sort=${activeSort}&limit=10`
+      );
+      if (!response.ok) {
+        let errorMsg = "Failed to load leaderboard data.";
+        try {
+          const data = await response.json();
+          if (data && data.error) {
+            errorMsg = data.error;
           }
-          throw new Error(errorMsg);
+        } catch (e) {
+          errorMsg = `Server error (Status ${response.status})`;
         }
-        const data = await response.json();
-        setSessions(data.sessions || []);
-      } catch (err: any) {
-        console.warn("Database leaderboard fetch failed, falling back to local scores:", err);
-        
-        const isNetworkError = err.message && (
-          err.message.includes("fetch") || 
-          err.message.includes("Network") || 
-          err.message.includes("Failed to fetch")
-        );
-        const displayError = isNetworkError
-          ? "Failed to connect to the server (Network Error). Please check your connection."
-          : (err.message || "Failed to load leaderboard data.");
-        
-        setError(displayError);
-
-        if (typeof window !== "undefined") {
-          try {
-            const localSessionsStr = localStorage.getItem("typemaster_local_sessions") || "[]";
-            const localSessions = JSON.parse(localSessionsStr) as any[];
-            
-            // Filter by activeMode
-            const filtered = localSessions.filter((s) => s.mode === activeMode);
-            
-            // Sort by activeSort (netWpm or accuracy)
-            filtered.sort((a, b) => {
-              if (activeSort === "accuracy") {
-                return b.accuracy - a.accuracy || b.netWpm - a.netWpm;
-              }
-              return b.netWpm - a.netWpm || b.accuracy - a.accuracy;
-            });
-            
-            // Take top 10
-            setSessions(filtered.slice(0, 10));
-          } catch (localErr) {
-            console.error("Failed to load local scores fallback:", localErr);
-          }
-        }
-      } finally {
-        setIsLoading(false);
+        throw new Error(errorMsg);
       }
+      const data = await response.json();
+      setSessions(data.sessions || []);
+    } catch (err: any) {
+      console.warn("Database leaderboard fetch failed, falling back to local scores:", err);
+      
+      const isNetworkError = err.message && (
+        err.message.includes("fetch") || 
+        err.message.includes("Network") || 
+        err.message.includes("Failed to fetch")
+      );
+      const displayError = isNetworkError
+        ? "Failed to connect to the server (Network Error). Please check your connection."
+        : (err.message || "Failed to load leaderboard data.");
+      
+      setError(displayError);
+
+      if (typeof window !== "undefined") {
+        try {
+          const localSessionsStr = localStorage.getItem("typemaster_local_sessions") || "[]";
+          const localSessions = JSON.parse(localSessionsStr) as any[];
+          
+          // Filter by activeMode
+          const filtered = localSessions.filter((s) => s.mode === activeMode);
+          
+          // Sort by activeSort (netWpm or accuracy)
+          filtered.sort((a, b) => {
+            if (activeSort === "accuracy") {
+              return b.accuracy - a.accuracy || b.netWpm - a.netWpm;
+            }
+            return b.netWpm - a.netWpm || b.accuracy - a.accuracy;
+          });
+          
+          // Take top 10
+          setSessions(filtered.slice(0, 10));
+        } catch (localErr) {
+          console.error("Failed to load local scores fallback:", localErr);
+        }
+      }
+    } finally {
+      setIsLoading(false);
     }
+  }, [activeMode, activeSort]);
+
+  useEffect(() => {
+    fetchLeaderboard();
+  }, [fetchLeaderboard]);
 
   // Fallback interval polling when Realtime is disconnected
   useEffect(() => {
@@ -183,7 +186,9 @@ export default function LeaderboardPage() {
     }, 10000);
 
     return () => clearInterval(intervalId);
-  }, [isRealtimeConnected, activeMode, activeSort]);
+  }, [isRealtimeConnected, fetchLeaderboard]);
+
+
 
 
   // Read current claim username from localStorage to highlight in list (hydration safe)

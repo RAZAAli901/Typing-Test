@@ -16,13 +16,15 @@ async function testPbAlertFiltering() {
 
   // Test 3: Higher score than PB by competitor (Should TRIGGER)
   const higherScore = { username: "other_player", netWpm: 135, mode: "standard" };
-  const shouldTrigger = !isSelf && higherScore.netWpm > userPb;
+  const isHigherCompetitorSelf = higherScore.username.toLowerCase() === username.toLowerCase();
+  const shouldTrigger = !isHigherCompetitorSelf && higherScore.netWpm > userPb;
   console.log(`  ✓ Higher competitor score (135 > 120 WPM): ${shouldTrigger ? "TRIGGERED (PASS)" : "IGNORED (FAIL)"}`);
 
-  if (!shouldTrigger || isSelf || !isLower) {
+  if (!shouldTrigger || !isSelf || !isLower) {
     console.error("❌ PB ALERT TEST FAILED: Filtering rules did not evaluate correctly!");
     process.exit(1);
   }
+
 
   console.log("[PB ALERT TEST] SUCCESS! Personal Best alert filtering rules verified.");
 }
