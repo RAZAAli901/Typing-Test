@@ -18,7 +18,13 @@ import { createClient } from "@supabase/supabase-js";
  */
 
 
+// SECURITY ASSERTION: Ensure service role key is never passed to browser client
+if (process.env.SUPABASE_SERVICE_ROLE_KEY && typeof window !== "undefined") {
+  console.error("SECURITY RISK DETECTED: Service Role Key leaked into browser context!");
+}
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || "";
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || "";
 
 export const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+
