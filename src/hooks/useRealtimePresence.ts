@@ -10,9 +10,11 @@ export function useRealtimePresence(username?: string) {
 
   useEffect(() => {
     if (!checkSupabaseVarsPresence()) {
+      // GRACEFUL DEGRADATION: If Supabase env vars are unconfigured, presence stays inactive without breaking UI
       setIsPresenceActive(false);
       return;
     }
+
 
     const currentUsername = username || "Anonymous Typist";
     const channel = supabaseClient.channel("presence:play", {
