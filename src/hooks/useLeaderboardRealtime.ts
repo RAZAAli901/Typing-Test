@@ -78,15 +78,18 @@ export function useLeaderboardRealtime({
           }
         )
 
-        .subscribe((status) => {
+        .subscribe((status, err) => {
           if (status === "SUBSCRIBED") {
             setIsConnected(true);
             setError(null);
-          } else if (status === "CLOSED" || status === "CHANNEL_ERROR") {
+          } else if (status === "CLOSED" || status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
+            const errDetail = err?.message || `Realtime channel error status: ${status}`;
+            console.warn(`[SUPABASE REALTIME WARNING] ${errDetail}`);
             setIsConnected(false);
-            setError(`Realtime channel status: ${status}`);
+            setError(errDetail);
           }
         });
+
     } catch (err: any) {
       console.warn("Failed to establish Supabase Realtime channel:", err);
       setIsConnected(false);
