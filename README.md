@@ -169,6 +169,16 @@ DIRECT_URL="postgres://postgres.[project-ref]:[password]@aws-0-[region].pooler.s
 > - `DATABASE_URL` uses Supabase's Transaction Pooler on port **6543**. The `?pgbouncer=true&connection_limit=1` parameters are **required** to prevent prepared statement errors when Prisma executes queries through PgBouncer poolers in serverless environments.
 > - `DIRECT_URL` points directly to port **5432** and bypasses PgBouncer, ensuring schema migrations (`prisma migrate deploy`) and schema diffing execute cleanly without transaction locking errors.
 
+### 🛠️ Common Prisma + Supabase Pooler Errors & Solutions
+
+| Error Message / Symptom | Root Cause | Resolution |
+| :--- | :--- | :--- |
+| `prepared statement "s0" already exists` | Prisma prepared statements conflicting with PgBouncer transaction pooling mode | Append `?pgbouncer=true&connection_limit=1` to `DATABASE_URL`. |
+| `P1001: Can't reach database server` | Incorrect port or network firewall blocking port 6543/5432 | Check database password and verify connection string port is **6543** for `DATABASE_URL` and **5432** for `DIRECT_URL`. |
+| `Error in migration: db push locked` | Executing migrations over Transaction Pooler (port 6543) | Set `directUrl = env("DIRECT_URL")` in `schema.prisma` so migrations run over port 5432. |
+| `Connection terminated unexpectedly` | Max pool connection limit exceeded on free tier | Set `connection_limit=1` on serverless endpoints or use Prisma's `@prisma/adapter-pg` driver adapter. |
+
+
 *Note: Create a free account at [Resend](https://resend.com) to generate your `RESEND_API_KEY`. If left empty, local development will fallback to printing verification codes directly to the server console.*
 
 
