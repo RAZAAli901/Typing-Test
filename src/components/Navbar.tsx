@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Icon, { IconName } from "@/components/Icon";
 import { useSession, signOut } from "next-auth/react";
 import { formatAvatarUrl } from "@/lib/utils";
+import { useRealtimePresence } from "@/hooks/useRealtimePresence";
 import DefaultAvatar from "@/components/DefaultAvatar";
 import { Button } from "@/components/ui/8bit/button";
 import {
@@ -89,7 +90,16 @@ export default function Navbar() {
 
         {/* User Identity HUD */}
         <div className="flex items-center gap-4 font-vt323 text-lg md:text-xl">
+          {/* Live Presence Competitor Count Badge */}
+          {isPresenceActive && onlineCount > 0 && (
+            <div className="hidden lg:flex items-center gap-1.5 bg-crt-primary/10 border border-crt-primary/30 px-2.5 py-0.5 rounded text-xs text-crt-primary font-mono font-bold tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-crt-primary animate-ping" />
+              <span>{onlineCount} ONLINE</span>
+            </div>
+          )}
+
           {status === "authenticated" && session?.user ? (
+
             <div className="flex items-center gap-3">
               <DropdownMenu>
                 <DropdownMenuTrigger>
