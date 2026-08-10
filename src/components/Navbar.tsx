@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Icon, { IconName } from "@/components/Icon";
 import { useSession, signOut } from "next-auth/react";
+import { formatAvatarUrl } from "@/lib/utils";
 import DefaultAvatar from "@/components/DefaultAvatar";
 import { Button } from "@/components/ui/8bit/button";
 import {
@@ -47,6 +48,8 @@ export default function Navbar() {
     { href: "/stats", label: "STATS", icon: "stats" },
     { href: "/about", label: "ABOUT", icon: "info" },
   ];
+
+  const formattedAvatarUrl = formatAvatarUrl(session?.user?.image);
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-crt-dim/40 bg-[#060606]/90 backdrop-blur-md">
@@ -92,12 +95,13 @@ export default function Navbar() {
                 <DropdownMenuTrigger>
                   <button className="flex items-center gap-2 bg-[#0a0a0a] border border-crt-dim/50 rounded px-3 py-1 shadow-[inset_0_0_8px_rgba(0,0,0,0.8)] hover:border-crt-primary transition-colors cursor-pointer group">
                     <div className="w-5 h-5 rounded overflow-hidden flex items-center justify-center bg-zinc-950">
-                      {session.user.image ? (
-                        <img src={session.user.image} alt="Avatar" className="w-full h-full object-cover" />
+                      {formattedAvatarUrl ? (
+                        <img src={formattedAvatarUrl} alt="Avatar" className="w-full h-full object-cover" />
                       ) : (
                         <DefaultAvatar className="w-4 h-4 text-crt-primary" />
                       )}
                     </div>
+
                     <span className="font-bold text-crt-primary group-hover:text-white tracking-wide max-w-[100px] truncate" title={session.user.name || ""}>
                       {session.user.name}
                     </span>
