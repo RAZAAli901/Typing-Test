@@ -9,6 +9,7 @@ interface CrtSettings {
   effectsEnabled: boolean;
   soundEnabled: boolean;
   reducedMotion: boolean;
+  liveFlashEnabled: boolean;
 }
 
 interface CrtSettingsContextType {
@@ -16,6 +17,7 @@ interface CrtSettingsContextType {
   setTheme: (theme: CrtTheme) => void;
   setEffectsEnabled: (enabled: boolean) => void;
   setSoundEnabled: (enabled: boolean) => void;
+  setLiveFlashEnabled: (enabled: boolean) => void;
 }
 
 const CrtSettingsContext = createContext<CrtSettingsContextType | undefined>(undefined);
@@ -24,6 +26,7 @@ export function CrtSettingsProvider({ children }: { children: React.ReactNode })
   const [theme, setThemeState] = useState<CrtTheme>("amber");
   const [effectsEnabled, setEffectsEnabledState] = useState<boolean>(true);
   const [soundEnabled, setSoundEnabledState] = useState<boolean>(false);
+  const [liveFlashEnabled, setLiveFlashEnabledState] = useState<boolean>(true);
   const [reducedMotion, setReducedMotion] = useState<boolean>(false);
 
   useEffect(() => {
@@ -40,10 +43,12 @@ export function CrtSettingsProvider({ children }: { children: React.ReactNode })
     const savedTheme = localStorage.getItem("typemaster_crt_theme") as CrtTheme | null;
     const savedEffects = localStorage.getItem("typemaster_crt_effects");
     const savedSound = localStorage.getItem("typemaster_crt_sound");
+    const savedLiveFlash = localStorage.getItem("typemaster_crt_live_flash");
 
     if (savedTheme) setThemeState(savedTheme);
     if (savedEffects !== null) setEffectsEnabledState(savedEffects === "true");
     if (savedSound !== null) setSoundEnabledState(savedSound === "true");
+    if (savedLiveFlash !== null) setLiveFlashEnabledState(savedLiveFlash === "true");
 
     return () => {
       mediaQuery.removeEventListener("change", handleChange);
@@ -65,6 +70,11 @@ export function CrtSettingsProvider({ children }: { children: React.ReactNode })
     localStorage.setItem("typemaster_crt_sound", String(enabled));
   };
 
+  const setLiveFlashEnabled = (enabled: boolean) => {
+    setLiveFlashEnabledState(enabled);
+    localStorage.setItem("typemaster_crt_live_flash", String(enabled));
+  };
+
   // Sync theme class to html/document element
   useEffect(() => {
     if (typeof document !== "undefined") {
@@ -84,6 +94,7 @@ export function CrtSettingsProvider({ children }: { children: React.ReactNode })
     effectsEnabled: effectsEnabled && !reducedMotion, // Overridden by prefers-reduced-motion
     soundEnabled,
     reducedMotion,
+    liveFlashEnabled,
   };
 
   return (
@@ -93,12 +104,14 @@ export function CrtSettingsProvider({ children }: { children: React.ReactNode })
         setTheme,
         setEffectsEnabled,
         setSoundEnabled,
+        setLiveFlashEnabled,
       }}
     >
       {children}
     </CrtSettingsContext.Provider>
   );
 }
+
 
 export function useCrtSettings() {
   const context = useContext(CrtSettingsContext);
