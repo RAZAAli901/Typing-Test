@@ -45,6 +45,8 @@ export function useLeaderboardRealtime({
 
     let channel: ReturnType<typeof supabaseClient.channel> | null = null;
 
+    let debounceTimer: NodeJS.Timeout | null = null;
+
     try {
       channel = supabaseClient
         .channel(`realtime:leaderboard:${activeMode}`)
@@ -63,13 +65,19 @@ export function useLeaderboardRealtime({
                 ...newRecord,
                 username: newRecord.userId || newRecord.guestDisplayName || "Anonymous Guest",
               };
-              setLastEvent(formattedPayload);
-              if (callbackRef.current) {
-                callbackRef.current(formattedPayload);
-              }
+              
+              // Debounce rapid updates (300ms throttle window)
+              if (debounceTimer) clearTimeout(debounceTimer);
+              debounceTimer = setTimeout(() => {
+                setLastEvent(formattedPayload);
+                if (callbackRef.current) {
+                  callbackRef.current(formattedPayload);
+                }
+              }, 300);
             }
           }
         )
+
         .subscribe((status) => {
           if (status === "SUBSCRIBED") {
             setIsConnected(true);
