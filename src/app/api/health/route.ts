@@ -14,9 +14,12 @@ export async function GET() {
       database: "connected",
       supabase: isSupabaseConfigured ? "configured" : "unconfigured",
       supabaseConfigured: isSupabaseConfigured,
+      supabaseStorage: isSupabaseConfigured ? "configured" : "unconfigured",
+      supabaseStorageConfigured: isSupabaseConfigured,
       blobStorage: hasBlobConfigured ? "configured" : "unconfigured",
       blobStorageConfigured: hasBlobConfigured,
     });
+
   } catch (error: any) {
     console.error("Database health check failed:", error);
     const isSupabaseConfigured = checkSupabaseVarsPresence();
