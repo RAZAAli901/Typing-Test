@@ -223,17 +223,23 @@ Prisma 7 removes datasource URLs from `schema.prisma`. Connections are managed d
 
 TypeMaster Web v2.0 includes a comprehensive, secure authentication and persistent profile system:
 
-### 1. User Authentication (NextAuth & Credentials Provider)
-- **Identity Registration (/signup):** Users can build a custom cognitive identity profile. Form registration enforces real-time client-side format checks (unique email structure, minimum 6 characters with at least one digit password checks, password strength meter).
-- **Secure Password Hashing:** Uses `bcryptjs` on the server-side to hash passwords securely before database persistence.
-- **Terminal Access Console (/login):** Authenticates users via NextAuth credentials flow. Users can check **Remember Me** to flag persistent session storage (using a 30-day session caching token).
-- **Guest Fallback Mode:** Allows users to "Continue as Guest" to practice anonymously. Guest sessions use standard local browser storage keys (`typemaster_username`) and bind session submissions to the database under virtual guest identities, preserving data format consistency.
+### 1. Database Architecture (Supabase PostgreSQL & Prisma 7)
+- **Supabase Cloud Postgres**: Powered by Supabase PostgreSQL with PgBouncer connection pooling.
+- **Connection Strings**:
+  - `DATABASE_URL`: Transaction pooler string on port **6543** with `pgbouncer=true` parameter.
+  - `DIRECT_URL`: Direct PostgreSQL string on port **5432** for schema migrations (`prisma db push`).
+- **Prisma 7 Adapter Integration**: Configured with `@prisma/adapter-pg` and `pg.Pool` in `src/lib/db.ts` for connection efficiency.
 
-### 2. Profile Avatar Uploads (Supabase Storage & Content Validation)
-- **Profile Dossier View (/profile):** Displays restricted classified dossier details, clearance levels, active typing stats grids, and user avatar.
-- **Supabase Storage Integration (`avatars` bucket):** Avatars are stored in the public `avatars` bucket in Supabase Storage. Uploads are processed server-side using the privileged Supabase Service Role client (`src/lib/supabase/server.ts`) and served publicly via global Supabase CDN URLs.
-- **Magic Byte Content Validation & Re-Encoding:** Server-side avatar processing inspects actual file magic numbers (`sharp` format verification) allowing PNG, JPEG, and WEBP only. SVG vector scripts are rejected outright to prevent stored XSS. Uploaded images are re-encoded fresh and resized (max 512x512) before storage.
-- **Public Leaderboard Integration:** The global leaderboard queries (`/api/leaderboard`) retrieve and render user avatar thumbnails for high-ranking competitors, sanitizing output objects to prevent leaking email addresses or password hashes.
+### 2. Avatar Storage (Supabase Storage)
+- **Bucket**: Public `avatars` storage bucket.
+- **CDN Serving**: Public asset serving via `https://<project-ref>.supabase.co/storage/v1/object/public/avatars/<filename>`.
+- **Server Validation & Security**: Magic-byte content validation, SVG vector script rejection, and `sharp` 512x512 PNG re-encoding pipeline.
+
+### 3. Realtime Leaderboard & Presence (Supabase Realtime WebSockets)
+- **Postgres CDC Subscriptions**: Real-time change data capture (`postgres_changes`) listening on table `Session`.
+- **Live Leaderboard Streaming**: `useLeaderboardRealtime` hook streams incoming high scores live with `[LIVE]` pulse indicators and CRT phosphor row-flash highlights.
+- **Realtime Competitor Presence**: `useRealtimePresence` tracks live active typists (`X ONLINE` HUD badge) via WebSocket presence state sync.
+
 
 
 ### 3. CRT Terminal Component Structure
