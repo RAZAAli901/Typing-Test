@@ -173,8 +173,18 @@ export default function LeaderboardPage() {
       }
     }
 
-    fetchLeaderboard();
-  }, [activeMode, activeSort]);
+  // Fallback interval polling when Realtime is disconnected
+  useEffect(() => {
+    if (isRealtimeConnected) return;
+
+    const intervalId = setInterval(() => {
+      console.log("[POLLING FALLBACK] Realtime offline: polling latest leaderboard scores...");
+      fetchLeaderboard();
+    }, 10000);
+
+    return () => clearInterval(intervalId);
+  }, [isRealtimeConnected, activeMode, activeSort]);
+
 
   // Read current claim username from localStorage to highlight in list (hydration safe)
   const [claimedUsername, setClaimedUsername] = useState<string | null>(null);
