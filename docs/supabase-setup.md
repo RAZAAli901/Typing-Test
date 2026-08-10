@@ -33,14 +33,16 @@ This document provides a step-by-step walkthrough to reproduce the exact Supabas
 
 ---
 
-## Step 4: Configure Storage Bucket for Avatars
-1. Navigate to **Storage** in the left menu.
+## Step 4: Configure Storage Bucket for Avatars (`avatars`)
+1. Navigate to **Storage** in the Supabase Dashboard left menu.
 2. Click **Create a new bucket**:
-   - Bucket Name: `avatars`
-   - Public Bucket: **YES** (Enabled)
-3. Under **Policies**:
-   - Allow public SELECT reads for anyone.
-   - Restrict INSERT / UPDATE / DELETE writes to authenticated server functions via service role.
+   - **Name**: `avatars`
+   - **Public Bucket**: Toggle to **Public** (Allows public image URL access via CDN).
+   - **Allowed MIME types**: `image/png, image/jpeg, image/webp`
+   - **Max file size**: `5 MB`
+3. Click **Save Bucket**.
+4. Apply storage bucket SQL access policy from `supabase/policies/storage_avatars.sql`.
+
 
 ---
 
