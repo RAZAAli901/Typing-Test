@@ -52,3 +52,14 @@ export function assertSupabaseEnvVars(): void {
     );
   }
 }
+
+/**
+ * Early presence check for Supabase configuration.
+ * Returns true if all minimal client/server Supabase credentials are configured.
+ */
+export function checkSupabaseVarsPresence(): boolean {
+  const hasUrl = !!(process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL);
+  const hasKey = !!(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY);
+  return hasUrl && hasKey;
+}
+
