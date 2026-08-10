@@ -39,3 +39,13 @@ Follow these steps to manually verify the email verification flow:
 - [ ] **Foreign Key Resolution Check:** Run `npx tsx scripts/verify-no-orphaned-rows.ts` to confirm 0 orphaned session records.
 - [ ] **Health Endpoint Smoke Test:** Visit `http://localhost:3000/api/health` and confirm JSON response reads `{ ok: true, database: "connected", supabase: "configured" }`.
 
+## Phase 5: Realtime & Supabase Storage Verification
+- [ ] **Avatar Upload Security:** Run `npx tsx scripts/test-supabase-storage-security.ts` to verify magic-byte validation and SVG rejection.
+- [ ] **Avatar Storage Upload:** Run `npx tsx scripts/test-supabase-storage-legitimate-upload.ts` to confirm 512x512 PNG re-encoding and Supabase Storage CDN URL generation.
+- [ ] **Realtime Mode Subscriptions:** Run `npx tsx scripts/test-realtime-across-modes.ts` to confirm WebSocket channel filters for all practice modes.
+- [ ] **Realtime Row Highlight:** Open `/leaderboard` and run `npx tsx scripts/simulate-realtime-score.ts standard 180 test_runner`. Confirm row updates live with CRT phosphor flash highlight.
+- [ ] **Realtime Presence Counter:** Open `/play` in two browser windows. Confirm `2 ONLINE` badge displays in Navbar header.
+- [ ] **Personal Best Alert Banner:** Run `npx tsx scripts/test-pb-alert-filtering.ts` to verify personal best notification trigger rules.
+- [ ] **Master Test Suite Execution:** Run `npx tsx scripts/run-all-tests.ts` to execute all 17 automated test suites end-to-end.
+
+
