@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { put } from "@vercel/blob";
+import { supabaseServer } from "@/lib/supabase/server";
+import { checkSupabaseVarsPresence } from "@/lib/env";
 import { promises as fs } from "fs";
 import path from "path";
 import sharp from "sharp";
@@ -89,16 +90,14 @@ export async function POST(request: Request) {
 
     let imageUrl = "";
 
-    // Environment check (#5): Fail immediately in production if BLOB_READ_WRITE_TOKEN is missing
     const isProduction = process.env.NODE_ENV === "production" || !!process.env.VERCEL;
-    const hasBlobToken = !!process.env.BLOB_READ_WRITE_TOKEN;
+    const isSupabaseConfigured = checkSupabaseVarsPresence();
 
-    if (!hasBlobToken) {
+    if (!isSupabaseConfigured) {
       if (isProduction) {
         if (!hasLoggedProductionMissingTokenWarning) {
           console.error("================================================================================");
-          console.error("CRITICAL SECURITY / CONFIGURATION WARNING: BLOB_READ_WRITE_TOKEN is missing in production!");
-          console.error("Avatar uploads will fail until BLOB_READ_WRITE_TOKEN is set in Vercel environment.");
+          console.error("CRITICAL SECURITY / CONFIGURATION WARNING: Supabase storage environment variables missing in production!");
           console.error("================================================================================");
           hasLoggedProductionMissingTokenWarning = true;
         }
@@ -107,20 +106,31 @@ export async function POST(request: Request) {
           { status: 503 }
         );
       }
-      console.info("[DEV NOTICE] Local filesystem fallback active for avatar upload (NODE_ENV=development). Note: Vercel serverless environment is read-only; configure BLOB_READ_WRITE_TOKEN before deploying.");
+      console.info("[DEV NOTICE] Local filesystem fallback active for avatar upload (NODE_ENV=development).");
     }
 
-    // 4. Upload re-encoded buffer to Vercel Blob (or fallback to local file system strictly in dev)
-    if (hasBlobToken) {
+    // Upload re-encoded buffer to Supabase Storage
+    if (isSupabaseConfigured) {
       try {
-        // Set explicit server-enforced Content-Type matching re-encoded image format
-        const blob = await put(`avatars/${serverGeneratedFilename}`, processedBuffer, {
-          access: "public",
-          contentType: "image/png",
-        });
-        imageUrl = blob.url;
-      } catch (blobErr) {
-        console.warn("Vercel Blob upload failed:", blobErr);
+        const { data, error: uploadError } = await supabaseServer.storage
+          .from("avatars")
+          .upload(serverGeneratedFilename, processedBuffer, {
+            contentType: "image/png",
+            upsert: true,
+          });
+
+        if (uploadError) {
+          console.warn("Supabase Storage upload failed:", uploadError.message);
+          throw uploadError;
+        }
+
+        const { data: publicUrlData } = supabaseServer.storage
+          .from("avatars")
+          .getPublicUrl(data.path);
+
+        imageUrl = publicUrlData.publicUrl;
+      } catch (storageErr: any) {
+        console.warn("Supabase Storage upload error:", storageErr);
         if (isProduction) {
           return NextResponse.json(
             { error: "Avatar storage service unavailable" },
@@ -130,19 +140,15 @@ export async function POST(request: Request) {
       }
     }
 
-    // Local filesystem upload fallback (STRICTLY DEV-ONLY: unreachable in production paths)
-    // AUDIT (#5): In production mode (NODE_ENV=production or VERCEL=1), this code block is completely unreachable.
+    // Local filesystem upload fallback (STRICTLY DEV-ONLY)
     if (!imageUrl && !isProduction) {
       const uploadDir = path.join(process.cwd(), "public", "uploads");
-      
-      // Ensure local upload folder exists
       await fs.mkdir(uploadDir, { recursive: true });
-      
       const filePath = path.join(uploadDir, serverGeneratedFilename);
       await fs.writeFile(filePath, processedBuffer);
-      
       imageUrl = `/uploads/${serverGeneratedFilename}`;
     }
+
 
     if (!imageUrl) {
       return NextResponse.json(
