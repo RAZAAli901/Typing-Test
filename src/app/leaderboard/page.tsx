@@ -264,8 +264,16 @@ export default function LeaderboardPage() {
         </div>
       </div>
 
+      {/* CRT Realtime Toast Alert */}
+      {toastMessage && (
+        <div className="bg-crt-primary/20 border-2 border-crt-primary p-4 rounded text-center text-crt-primary font-bold tracking-widest uppercase animate-bounce shadow-[0_0_15px_var(--color-crt-primary)]">
+          {toastMessage}
+        </div>
+      )}
+
       {/* Leaderboard Table Container */}
       <Card className="p-0! overflow-hidden">
+
         {isLoading ? (
           <div className="overflow-x-auto p-4 space-y-4">
             {[...Array(5)].map((_, i) => (
