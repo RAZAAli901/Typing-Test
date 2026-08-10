@@ -304,17 +304,22 @@ export default function LeaderboardPage() {
                   
                   const rankStr = getOrdinalRank(rank);
 
+                  const isRecentlyUpdated = session.id === updatedSessionId;
+
                   return (
                     <tr
                       key={session.id}
-                      className={`transition-colors hover:bg-crt-primary/[0.04] ${
-                        isCurUser
+                      className={`transition-all duration-500 hover:bg-crt-primary/[0.04] ${
+                        isRecentlyUpdated
+                          ? "bg-crt-primary/30 border-l-4 border-l-crt-primary shadow-[0_0_20px_var(--color-crt-primary)] animate-pulse"
+                          : isCurUser
                           ? "bg-crt-primary/10 border-l-4 border-l-crt-primary"
                           : idx % 2 === 0
                           ? "bg-[#070707]"
                           : "bg-[#0e0e0e]/50"
                       }`}
                     >
+
                       <td className="py-4 px-6 font-bold text-crt-primary drop-shadow-[0_0_3px_var(--color-crt-primary)] tracking-wide">
                         {rankStr}
                       </td>
