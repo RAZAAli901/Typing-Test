@@ -1,5 +1,11 @@
 import { createClient } from "@supabase/supabase-js";
 
+if (typeof window !== "undefined") {
+  throw new Error(
+    "SERVER-ONLY GUARD EXCEPTION: 'src/lib/supabase/server.ts' contains privileged service keys and MUST NOT be imported into client components."
+  );
+}
+
 /**
  * Server-side Supabase Client
  * 
