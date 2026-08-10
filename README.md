@@ -101,8 +101,10 @@ This repository has been upgraded with a high-fidelity **Next.js 14+ (App Router
 * **Passage Length Adjuster:** Trim or repeat prompts to match **Short** (~15 words), **Medium** (~30 words), or **Long** (~60 words) parameters.
 * **SVG Timeline Curves:** Self-calculating, responsive charts tracing speed and accuracy throughout typing sessions.
 * **Global Leaderboards & Realtime Updates:** Dynamically filters rankings per mode, sorts by speed or accuracy, and streams live score submissions instantly via Supabase Realtime WebSockets (`[LIVE]` indicator badge & CRT row-flash highlights).
+* **Realtime Presence & Competitor Alerts:** Tracks live active typists (`X ONLINE` HUD indicator) using Supabase Presence and triggers CRT notifications when a competitor beats your personal best speed record.
 * **User Profile Statistics:** Displays total sessions completed, lifetime averages (speed/accuracy), top WPM speed records, and cumulative practice minutes.
 * **API Security & Resiliency:** Integrated in-memory IP-based rate limiting, offensive username filters, custom 404 pages, and global client-side error boundaries.
+
 
 
 ---
