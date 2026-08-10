@@ -158,10 +158,17 @@ npm install
 #### 2. Configure Environment Variables
 Create a `.env` file in the root directory (based on `.env.example`) with your PostgreSQL connection strings and Resend API Key:
 ```env
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/typemaster?schema=public"
-POSTGRES_PRISMA_URL="postgresql://postgres:postgres@localhost:5432/typemaster?schema=public"
-RESEND_API_KEY="re_your_api_key"
+# Supabase Transaction Pooler (Port 6543) - Used for Prisma queries
+DATABASE_URL="postgres://postgres.[project-ref]:[password]@aws-0-[region].pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=1"
+
+# Supabase Direct Connection (Port 5432) - Used for Prisma migrations and schema pushes
+DIRECT_URL="postgres://postgres.[project-ref]:[password]@aws-0-[region].pooler.supabase.com:5432/postgres"
 ```
+> [!IMPORTANT]
+> **Supabase Connection Pooling (pgBouncer)**:
+> - `DATABASE_URL` uses Supabase's Transaction Pooler on port **6543**. The `?pgbouncer=true&connection_limit=1` parameters are **required** to prevent prepared statement errors when Prisma executes queries through PgBouncer poolers in serverless environments.
+> - `DIRECT_URL` points directly to port **5432** and bypasses PgBouncer, ensuring schema migrations (`prisma migrate deploy`) and schema diffing execute cleanly without transaction locking errors.
+
 *Note: Create a free account at [Resend](https://resend.com) to generate your `RESEND_API_KEY`. If left empty, local development will fallback to printing verification codes directly to the server console.*
 
 
