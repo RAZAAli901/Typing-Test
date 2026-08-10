@@ -7,13 +7,22 @@ if (typeof window !== "undefined") {
 }
 
 /**
- * Server-side Supabase Client
+ * ============================================================================
+ * SERVER-SIDE SUPABASE CLIENT SETUP
+ * ============================================================================
+ * KEY TYPE USED: SUPABASE_SERVICE_ROLE_KEY (Service Role Key / Admin Key)
  * 
- * KEY USAGE: Uses SUPABASE_SERVICE_ROLE_KEY (or SUPABASE_ANON_KEY as fallback).
- * SCOPE: Server-side API routes, Server Components, and Node.js backend routines ONLY.
- * SECURITY NOTICE: The service role key bypasses Row Level Security (RLS).
- * NEVER import this file into a client-side component ('use client').
+ * WHY THIS KEY IS USED HERE:
+ * - The Service Role Key bypasses Row Level Security (RLS) policies completely.
+ * - Used strictly for privileged backend administrative tasks (e.g. storage bucket policy bypass, database seed scripts, service operations).
+ * - FALLBACK: Uses SUPABASE_ANON_KEY if Service Role Key is absent in dev.
+ * 
+ * SECURITY RULES:
+ * 1. NEVER expose SUPABASE_SERVICE_ROLE_KEY to client components or NEXT_PUBLIC_* variables.
+ * 2. NEVER import this module inside any file marked with 'use client'.
+ * ============================================================================
  */
+
 
 const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const supabaseServiceKey =
