@@ -1,10 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+import { db } from "../src/lib/db";
 import fs from "fs";
 import path from "path";
 
 async function importLeaderboard() {
   const isDryRun = process.argv.includes("--dry-run");
-  const prisma = new PrismaClient();
   const exportPath = path.join(process.cwd(), "data-exports", "leaderboard_export.json");
 
   console.log(`[IMPORT LEADERBOARD] Mode: ${isDryRun ? "DRY-RUN (No DB commits)" : "FULL IMPORT"}`);
@@ -26,7 +25,7 @@ async function importLeaderboard() {
       insertedCount++;
     } else {
       try {
-        await prisma.session.upsert({
+        await db.session.upsert({
           where: { id: item.id },
           update: {
             userId: item.userId,
@@ -61,7 +60,7 @@ async function importLeaderboard() {
   console.log(
     `[IMPORT LEADERBOARD SUMMARY] Processed: ${items.length} | Inserted/Updated: ${insertedCount} | Failed/Skipped: ${skippedCount}`
   );
-  await prisma.$disconnect();
 }
 
 importLeaderboard();
+

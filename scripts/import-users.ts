@@ -1,11 +1,11 @@
-import { PrismaClient } from "@prisma/client";
+import { db } from "../src/lib/db";
 import fs from "fs";
 import path from "path";
 
 async function importUsers() {
   const isDryRun = process.argv.includes("--dry-run");
-  const prisma = new PrismaClient();
   const exportPath = path.join(process.cwd(), "data-exports", "users_export.json");
+
 
   console.log(`[IMPORT USER] Mode: ${isDryRun ? "DRY-RUN (No DB commits)" : "FULL IMPORT"}`);
 
@@ -26,7 +26,7 @@ async function importUsers() {
       insertedCount++;
     } else {
       try {
-        await prisma.user.upsert({
+        await db.user.upsert({
           where: { username: user.username },
           update: {
             email: user.email,
@@ -55,7 +55,7 @@ async function importUsers() {
   console.log(
     `[IMPORT USER SUMMARY] Processed: ${users.length} | Inserted/Updated: ${insertedCount} | Failed/Skipped: ${skippedCount}`
   );
-  await prisma.$disconnect();
 }
+
 
 importUsers();

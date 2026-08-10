@@ -1,10 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+import { db } from "../src/lib/db";
 import fs from "fs";
 import path from "path";
 
 async function importSessions() {
   const isDryRun = process.argv.includes("--dry-run");
-  const prisma = new PrismaClient();
   const exportPath = path.join(process.cwd(), "data-exports", "sessions_export.json");
 
   console.log(`[IMPORT SESSION] Mode: ${isDryRun ? "DRY-RUN (No DB commits)" : "FULL IMPORT"}`);
@@ -26,7 +25,7 @@ async function importSessions() {
       insertedCount++;
     } else {
       try {
-        await prisma.session.upsert({
+        await db.session.upsert({
           where: { id: session.id },
           update: {
             userId: session.userId,
@@ -67,7 +66,7 @@ async function importSessions() {
   console.log(
     `[IMPORT SESSION SUMMARY] Processed: ${sessions.length} | Inserted/Updated: ${insertedCount} | Failed/Skipped: ${skippedCount}`
   );
-  await prisma.$disconnect();
 }
 
 importSessions();
+
