@@ -83,10 +83,16 @@ export async function POST(request: Request) {
     const serverGeneratedFilename = `avatar-${session.user.name.replace(/[^a-zA-Z0-9_-]/g, "_")}-${Date.now()}.${fileExt}`;
 
     // 4. Server-side image re-encoding using sharp to strip embedded scripts, comments, and polyglot tricks
+    // SECURITY AUDIT: All uploads to Supabase Storage strictly pass through:
+    // (a) Max file size pre-check (5MB)
+    // (b) Prohibited vector/script content scan (SVG/XML/script)
+    // (c) Real file magic byte verification (PNG, JPEG, WEBP)
+    // (d) Fresh Sharp raster re-encoding (512x512 PNG)
     const processedBuffer = await sharp(rawBuffer)
       .resize(512, 512, { fit: "inside", withoutEnlargement: true })
       .png({ quality: 90, compressionLevel: 9 })
       .toBuffer();
+
 
     let imageUrl = "";
 
