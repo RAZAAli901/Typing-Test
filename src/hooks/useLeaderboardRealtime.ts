@@ -95,9 +95,11 @@ export function useLeaderboardRealtime({
 
     return () => {
       if (channel) {
+        // UNMOUNT CLEANUP: Explicitly remove active channel to prevent memory leaks or duplicate listeners
         supabaseClient.removeChannel(channel);
       }
     };
+
   }, [activeMode, enabled]);
 
   return {
