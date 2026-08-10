@@ -195,13 +195,26 @@ export default function LeaderboardPage() {
     <div className="max-w-4xl mx-auto py-8 px-4 space-y-8 font-vt323 text-lg">
       {/* Title Header */}
       <div className="text-center space-y-2">
-        <h1 className="text-4xl md:text-5xl font-black text-crt-primary tracking-widest uppercase drop-shadow-[0_0_5px_var(--color-crt-primary)]">
-          🏆 GLOBAL HIGHSCORES
-        </h1>
+        <div className="flex items-center justify-center gap-3">
+          <h1 className="text-4xl md:text-5xl font-black text-crt-primary tracking-widest uppercase drop-shadow-[0_0_5px_var(--color-crt-primary)]">
+            🏆 GLOBAL HIGHSCORES
+          </h1>
+          <span
+            className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-xs font-mono font-bold uppercase tracking-wider border ${
+              isRealtimeConnected
+                ? "bg-crt-primary/10 border-crt-primary/40 text-crt-primary shadow-[0_0_8px_var(--color-crt-primary)]"
+                : "bg-amber-500/10 border-amber-500/30 text-amber-400"
+            }`}
+          >
+            <span className={`w-2 h-2 rounded-full ${isRealtimeConnected ? "bg-crt-primary animate-ping" : "bg-amber-400"}`} />
+            {isRealtimeConnected ? "LIVE" : "POLLING"}
+          </span>
+        </div>
         <p className="text-sm md:text-base text-crt-dim font-bold tracking-widest uppercase">
           Compare typing performance against players worldwide.
         </p>
       </div>
+
 
       {/* Mode Selector Tabs */}
       <Tabs value={activeMode} onValueChange={(val: string) => setActiveMode(val as ModeType)}>
