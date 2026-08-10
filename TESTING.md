@@ -31,3 +31,11 @@ Follow these steps to manually verify the email verification flow:
   - Verify that you are redirected to `/login?verified=true&email=[email]` after 2 seconds.
 - [ ] **Login Allowed After Verify:** Enter the password. Verify that access is granted, and you are successfully authenticated and logged in!
 - [ ] **Audit Session Payload:** Logged-in verified users should have `emailVerified: true` stored in their NextAuth session JWT, verified by visiting the Profile view (no warning banner should be displayed).
+
+## Phase 4: Supabase Database Migration & Data Parity
+- [ ] **Database Connection Check:** Run `npx tsx scripts/test-prisma-supabase-conn.ts` to confirm active connectivity to Supabase via PgBouncer transaction pooler.
+- [ ] **Schema Parity Verification:** Run `npx tsx scripts/verify-schema-manifest.ts` to confirm all 4 tables (`User`, `Session`, `PracticeSession`, `VerificationCode`) match expected column definitions.
+- [ ] **Data Row Count Parity:** Run `npx tsx scripts/verify-migration-counts.ts` to confirm row counts match exported dumps.
+- [ ] **Foreign Key Resolution Check:** Run `npx tsx scripts/verify-no-orphaned-rows.ts` to confirm 0 orphaned session records.
+- [ ] **Health Endpoint Smoke Test:** Visit `http://localhost:3000/api/health` and confirm JSON response reads `{ ok: true, database: "connected", supabase: "configured" }`.
+
