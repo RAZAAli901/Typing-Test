@@ -84,7 +84,9 @@ export default function LeaderboardPage() {
           setTimeout(() => setToastMessage(null), 5000);
         }
 
+        // Slice-cap to top 10 visible page size: ignores scores outside visible page bounds
         return updatedList.slice(0, 10);
+
       });
     },
     [activeMode, activeSort]
