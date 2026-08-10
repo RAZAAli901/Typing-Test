@@ -179,7 +179,10 @@ DIRECT_URL="postgres://postgres.[project-ref]:[password]@aws-0-[region].pooler.s
 | `Connection terminated unexpectedly` | Max pool connection limit exceeded on free tier | Set `connection_limit=1` on serverless endpoints or use Prisma's `@prisma/adapter-pg` driver adapter. |
 
 
-*Note: Create a free account at [Resend](https://resend.com) to generate your `RESEND_API_KEY`. If left empty, local development will fallback to printing verification codes directly to the server console.*
+> [!NOTE]
+> **Legacy Database Grace Period Retention**:
+> The previous database instance will remain active in read-only / standby mode for a mandatory **14-day grace period** following initial Supabase production cutover as a safety net. Refer to [docs/rollback-plan.md](file:///c:/Users/tipto/OneDrive/Desktop/New%20folder/Typing-Test/docs/rollback-plan.md) for immediate reversion steps if required.
+
 
 
 #### 3. Database Migration & Scaffolding (Prisma 7)
