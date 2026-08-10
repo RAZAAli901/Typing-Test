@@ -226,11 +226,12 @@ TypeMaster Web v2.0 includes a comprehensive, secure authentication and persiste
 - **Terminal Access Console (/login):** Authenticates users via NextAuth credentials flow. Users can check **Remember Me** to flag persistent session storage (using a 30-day session caching token).
 - **Guest Fallback Mode:** Allows users to "Continue as Guest" to practice anonymously. Guest sessions use standard local browser storage keys (`typemaster_username`) and bind session submissions to the database under virtual guest identities, preserving data format consistency.
 
-### 2. Profile Avatar Uploads (Vercel Blob Storage & Content Validation)
+### 2. Profile Avatar Uploads (Supabase Storage & Content Validation)
 - **Profile Dossier View (/profile):** Displays restricted classified dossier details, clearance levels, active typing stats grids, and user avatar.
-- **Vercel Blob Integration & Production Requirement:** Avatar uploads require `BLOB_READ_WRITE_TOKEN` to be configured in any deployed environment (e.g. Vercel). Vercel serverless functions use an ephemeral read-only filesystem; therefore, the local-filesystem fallback operates strictly in offline local development (`NODE_ENV=development`). In deployed production environments, missing storage tokens fail loudly with status 503 rather than silently losing files.
+- **Supabase Storage Integration (`avatars` bucket):** Avatars are stored in the public `avatars` bucket in Supabase Storage. Uploads are processed server-side using the privileged Supabase Service Role client (`src/lib/supabase/server.ts`) and served publicly via global Supabase CDN URLs.
 - **Magic Byte Content Validation & Re-Encoding:** Server-side avatar processing inspects actual file magic numbers (`sharp` format verification) allowing PNG, JPEG, and WEBP only. SVG vector scripts are rejected outright to prevent stored XSS. Uploaded images are re-encoded fresh and resized (max 512x512) before storage.
 - **Public Leaderboard Integration:** The global leaderboard queries (`/api/leaderboard`) retrieve and render user avatar thumbnails for high-ranking competitors, sanitizing output objects to prevent leaking email addresses or password hashes.
+
 
 ### 3. CRT Terminal Component Structure
 - **Screen Filter Wrapper:** Next.js global layouts are wrapped in visual viewport scanlines and noise filters to capture CRT aesthetic styles.
