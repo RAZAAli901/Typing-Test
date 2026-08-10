@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { ModeType } from "@/content/texts";
 import DefaultAvatar from "@/components/DefaultAvatar";
 import Icon from "@/components/Icon";
@@ -8,6 +8,9 @@ import { Button } from "@/components/ui/8bit/button";
 import { Card } from "@/components/ui/8bit/card";
 import { Skeleton } from "@/components/ui/8bit/skeleton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/8bit/tabs";
+import { useLeaderboardRealtime, RealtimeScorePayload } from "@/hooks/useLeaderboardRealtime";
+import { formatAvatarUrl } from "@/lib/utils";
+
 
 interface SessionData {
   id: string;
@@ -31,6 +34,67 @@ export default function LeaderboardPage() {
   const [sessions, setSessions] = useState<SessionData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [updatedSessionId, setUpdatedSessionId] = useState<string | null>(null);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // Handle incoming realtime score payload
+  const handleRealtimeScore = useCallback(
+    (payload: RealtimeScorePayload) => {
+      if (payload.mode !== activeMode) return;
+
+      setSessions((prevSessions) => {
+        // Check if session already exists
+        const existingIdx = prevSessions.findIndex((s) => s.id === payload.id);
+        let updatedList: SessionData[] = [...prevSessions];
+
+        const formattedSession: SessionData = {
+          id: payload.id,
+          username: payload.username || payload.userId || payload.guestDisplayName || "Anonymous Guest",
+          guestDisplayName: payload.guestDisplayName,
+          isGuest: !payload.userId,
+          mode: payload.mode,
+          grossWpm: payload.grossWpm,
+          netWpm: payload.netWpm,
+          accuracy: payload.accuracy,
+          timeTakenSeconds: payload.timeTakenSeconds,
+          createdAt: payload.createdAt,
+        };
+
+        if (existingIdx >= 0) {
+          updatedList[existingIdx] = formattedSession;
+        } else {
+          updatedList.push(formattedSession);
+        }
+
+        // Re-sort list based on activeSort
+        updatedList.sort((a, b) => {
+          if (activeSort === "accuracy") {
+            return b.accuracy - a.accuracy || b.netWpm - a.netWpm;
+          }
+          return b.netWpm - a.netWpm || b.accuracy - a.accuracy;
+        });
+
+        // Highlight updated row
+        setUpdatedSessionId(payload.id);
+        setTimeout(() => setUpdatedSessionId(null), 3000);
+
+        // Check if new #1 highscore was set
+        if (updatedList.length > 0 && updatedList[0].id === payload.id) {
+          setToastMessage(`🏆 NEW #1 RECORD! ${formattedSession.username} posted ${formattedSession.netWpm} WPM!`);
+          setTimeout(() => setToastMessage(null), 5000);
+        }
+
+        return updatedList.slice(0, 10);
+      });
+    },
+    [activeMode, activeSort]
+  );
+
+  const { isConnected: isRealtimeConnected } = useLeaderboardRealtime({
+    activeMode,
+    onNewScore: handleRealtimeScore,
+  });
+
 
   const modesList: { id: ModeType | "custom"; label: string; icon: any }[] = [
     { id: "standard", label: "Standard", icon: "standard" },
