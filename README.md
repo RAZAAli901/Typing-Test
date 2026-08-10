@@ -100,9 +100,10 @@ This repository has been upgraded with a high-fidelity **Next.js 14+ (App Router
 * **8 Practice Modes:** Standard, Numbers, Quotes, Code Snippet, Punctuation, Random Words (crypto-shuffled), Daily Challenge (UTC-seeded deterministic prompt), and Custom Text.
 * **Passage Length Adjuster:** Trim or repeat prompts to match **Short** (~15 words), **Medium** (~30 words), or **Long** (~60 words) parameters.
 * **SVG Timeline Curves:** Self-calculating, responsive charts tracing speed and accuracy throughout typing sessions.
-* **Global Leaderboards:** Dynamically filters rankings per mode, sorts by speed or accuracy, and highlights your active session.
+* **Global Leaderboards & Realtime Updates:** Dynamically filters rankings per mode, sorts by speed or accuracy, and streams live score submissions instantly via Supabase Realtime WebSockets (`[LIVE]` indicator badge & CRT row-flash highlights).
 * **User Profile Statistics:** Displays total sessions completed, lifetime averages (speed/accuracy), top WPM speed records, and cumulative practice minutes.
 * **API Security & Resiliency:** Integrated in-memory IP-based rate limiting, offensive username filters, custom 404 pages, and global client-side error boundaries.
+
 
 ---
 
