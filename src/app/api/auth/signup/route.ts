@@ -40,8 +40,13 @@ const signupSchema = z.object({
     .string()
     .min(3, "Username must be at least 3 characters")
     .max(20, "Username cannot exceed 20 characters")
-    .regex(/^[a-zA-Z0-9_-]+$/, "Username can only contain alphanumeric characters, underscores, and dashes"),
-  email: z.string().email().max(255, "Email address cannot exceed 255 characters"),
+    .regex(/^[a-zA-Z0-9_-]+$/, "Username can only contain alphanumeric characters, underscores, and dashes")
+    .refine((val) => !/[\x00-\x1F\x7F]/.test(val), "Null bytes and control characters are prohibited"),
+  email: z
+    .string()
+    .email()
+    .max(255, "Email address cannot exceed 255 characters")
+    .refine((val) => !/[\x00-\x1F\x7F]/.test(val), "Null bytes and control characters are prohibited"),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters long")
