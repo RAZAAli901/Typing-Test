@@ -65,7 +65,16 @@ This document describes the security model, identity verification, anti-cheat en
 
 ---
 
-## 10. Secret Rotation Runbook
+## 10. CSRF & CORS Security Architecture
+
+- **NextAuth Built-In CSRF Tokens**: Authentication routes (`/api/auth/*`) generate and validate cryptographic CSRF tokens stored in `__Host-next-auth.csrf-token` cookies.
+- **Origin & Referer Header Verification**: State-changing endpoints (`POST /api/sessions`, `POST /api/profile/avatar`, `POST /api/auth/logout-all`) validate `Origin` and `Referer` headers against the canonical host and `localhost` dev origins.
+- **CORS Header Restrictions**: Preflight `OPTIONS` and API routes constrain `Access-Control-Allow-Methods` to `GET, POST, PUT, DELETE, OPTIONS` and restrict allowed origin headers.
+- **Cookie SameSite Policy**: All session cookies explicitly specify `sameSite: "lax"` to prevent cross-site request forgery while preserving top-level navigation flow.
+
+---
+
+## 11. Secret Rotation Runbook
 
 ### Active Secrets Inventory
 
