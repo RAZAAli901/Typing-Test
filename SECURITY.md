@@ -115,7 +115,8 @@ This document describes the security model, identity verification, anti-cheat en
 1. **Automated Scanning**: Dependabot checks weekly for known vulnerabilities in `package.json` dependencies.
 2. **Lockfile Enforcement**: Production builds and CI environments strictly run `npm ci` to guarantee deterministic, exact lockfile installation without unvetted sub-dependency floating.
 3. **Pre-Merge Review**: Every proposed dependency update must be audited using `npm audit` and inspected for unexpected postinstall lifecycle scripts.
-4. **Security-Critical Package Pinning**: Auth and crypto packages (`bcryptjs`, `next-auth`, `zod`, `sharp`) must be strictly version-pinned.
+4. **Lockfile Synchronization**: `package-lock.json` is strictly tracked in git and synchronized across all local, preview, and production deployment runtimes.
+5. **Security-Critical Package Pinning**: Auth and crypto packages (`bcryptjs`, `next-auth`, `zod`, `sharp`) must be strictly version-pinned.
 
 ---
 
