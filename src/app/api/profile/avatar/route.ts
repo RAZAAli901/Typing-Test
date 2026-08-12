@@ -175,7 +175,29 @@ export async function POST(request: Request) {
       );
     }
 
-    // 5. Update user avatarUrl in database
+    // 5. Delete previous avatar file from storage if present (prevents storage bloat / orphaned files)
+    const existingUser = await db.user.findUnique({
+      where: { username: session.user.name },
+      select: { avatarUrl: true },
+    });
+
+    if (existingUser?.avatarUrl) {
+      try {
+        if (existingUser.avatarUrl.includes("/avatars/")) {
+          const oldFilename = existingUser.avatarUrl.split("/avatars/").pop();
+          if (oldFilename && isSupabaseConfigured) {
+            await supabaseServer.storage.from("avatars").remove([oldFilename]);
+          }
+        } else if (existingUser.avatarUrl.startsWith("/uploads/")) {
+          const oldLocalPath = path.join(process.cwd(), "public", existingUser.avatarUrl);
+          await fs.unlink(oldLocalPath).catch(() => {});
+        }
+      } catch (cleanupErr) {
+        console.warn("Non-fatal old avatar cleanup error:", cleanupErr);
+      }
+    }
+
+    // 6. Update user avatarUrl in database
     await db.user.update({
       where: { username: session.user.name },
       data: { avatarUrl: imageUrl },
