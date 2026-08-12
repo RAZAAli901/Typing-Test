@@ -46,6 +46,7 @@ This document provides a step-by-step walkthrough to reproduce the exact Supabas
    - **Max file size**: `5 MB`
 3. Click **Save Bucket**.
 4. Apply storage bucket SQL access policy from `supabase/policies/storage_avatars.sql`.
+5. **Security Configuration**: Directory listing (`LIST` permission for `anon`) is strictly disabled. Objects are fetched exclusively by explicit random UUID keys (`/storage/v1/object/public/avatars/<uuid>.png`).
 
 
 ---
