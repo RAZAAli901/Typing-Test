@@ -48,7 +48,8 @@ export function checkTemporaryIpBan(ip: string): { isBanned: boolean; remainingS
 }
 
 /**
- * Enforces global per-IP ceiling (100 combined requests/min) across all endpoints.
+ * Enforces global per-IP rate ceiling (100 combined requests/min) across all endpoints.
+ * Catches distributed abuse spread across multiple endpoints.
  */
 export function isGlobalIpRateLimited(ip: string, maxRequests: number = 100, windowMs: number = 60000): boolean {
   if (isIpAllowlisted(ip)) return false;
