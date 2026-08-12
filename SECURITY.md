@@ -74,7 +74,15 @@ This document describes the security model, identity verification, anti-cheat en
 
 ---
 
-## 11. Secret Rotation Runbook
+## 11. Abuse Prevention & Future Enhancements Roadmap
+
+- **Rate Limit Enforcement**: DB/KV-backed rate limiters enforce route-specific thresholds and a 100 req/min global per-IP ceiling.
+- **Temporary IP Bans**: IPs exceeding global limit ceilings >3 times within 5 minutes trigger an automated 30-minute temporary ban.
+- **CAPTCHA-on-Abuse Roadmap**: If repeated signup or verification code abuse is detected in production monitoring, an invisible CAPTCHA challenge (Cloudflare Turnstile or hCaptcha) will be conditionally rendered on `/signup` and `/api/auth/reset-password` for flagged IP addresses.
+
+---
+
+## 12. Secret Rotation Runbook
 
 ### Active Secrets Inventory
 
