@@ -1,0 +1,6 @@
+# TypeMaster Web Security Vulnerability Disclosure Policy (RFC 9116)
+Contact: mailto:security@typemaster-web.com
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: en
+Policy: https://github.com/RAZAAli901/Typing-Test/blob/main/SECURITY.md
+Canonical: https://typemaster-web.com/.well-known/security.txt
