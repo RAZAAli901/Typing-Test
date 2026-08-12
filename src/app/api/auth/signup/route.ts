@@ -46,7 +46,8 @@ const signupSchema = z.object({
     .string()
     .email()
     .max(255, "Email address cannot exceed 255 characters")
-    .refine((val) => !/[\x00-\x1F\x7F]/.test(val), "Null bytes and control characters are prohibited"),
+    .refine((val) => !/[\x00-\x1F\x7F]/.test(val), "Null bytes and control characters are prohibited")
+    .refine((val) => !/[\r\n]/.test(val), "Email address cannot contain carriage return or line feed characters"),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters long")
