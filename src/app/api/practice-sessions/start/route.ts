@@ -13,10 +13,10 @@ import {
 } from "@/content/texts";
 
 const StartPracticeSessionSchema = z.object({
-  mode: z.string(),
+  mode: z.string().max(50),
   length: z.enum(["short", "medium", "long"]).optional().default("medium"),
-  customText: z.string().optional(),
-  guestDisplayName: z.string().optional(),
+  customText: z.string().max(10000, "Custom text cannot exceed 10,000 characters").optional(),
+  guestDisplayName: z.string().min(3).max(20).optional(),
 });
 
 export async function POST(request: Request) {
