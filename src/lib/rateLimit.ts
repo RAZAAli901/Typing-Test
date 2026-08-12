@@ -30,7 +30,8 @@ export function addIpToAllowlist(ip: string): void {
 }
 
 /**
- * Checks if an IP is currently banned due to repeated abuse.
+ * Temporary IP Ban Mechanism:
+ * Automatically bans an IP for 30 minutes if it triggers repeated rate limit breaches (>3 times in 5 minutes).
  */
 export function checkTemporaryIpBan(ip: string): { isBanned: boolean; remainingSeconds: number } {
   if (isIpAllowlisted(ip)) return { isBanned: false, remainingSeconds: 0 };
