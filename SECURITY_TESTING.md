@@ -1,81 +1,57 @@
-# TypeMaster Web — Security Testing & Exploit Regression Guide
+# Security Testing Guide — Security Hardening Test Suite
 
-This document details how to verify the security protections against **Issue #1 (Impersonation)**, **Issue #2 (Unvalidated Scoring)**, and **Issue #3 (Guest Username Squatting)**.
-
----
-
-## 1. Automated Integration Regression Suite
-
-Run the full automated regression suite using `tsx` or Node:
-
-```bash
-npx tsx scripts/test-integration-suite.ts
-```
-
-Individual regression tests can also be executed:
-- `npx tsx scripts/test-session-forgery-regression.ts` (Verifies #1)
-- `npx tsx scripts/test-score-validation-regression.ts` (Verifies #2)
-- `npx tsx scripts/test-guest-squatting-regression.ts` (Verifies #3)
+This document details how to run, audit, and maintain the comprehensive security regression test suite for TypeMaster Web.
 
 ---
 
-## 2. Manual Exploit Reproduction & Verification
+## 🚀 Running the Security Test Suite
 
-### Exploit #1 Verification (Impersonation)
-1. Register a user account `victim_user`.
-2. Without logging in as `victim_user` (no session cookie), open an API client (or `curl` / `fetch`) and send:
-   ```json
-   POST /api/sessions
-   {
-     "username": "victim_user",
-     "mode": "standard",
-     "grossWpm": 120,
-     "netWpm": 115,
-     "accuracy": 98,
-     "timeTakenSeconds": 30
-   }
-   ```
-3. **Expected Behavior**: The request MUST NOT attach the score to `victim_user`.
+Run the master security test suite via `npm`:
 
-### Exploit #2 Verification (Unvalidated Scoring)
-1. Initialize a practice session:
-   ```json
-   POST /api/practice-sessions/start
-   { "mode": "standard", "length": "medium" }
-   ```
-   Save the returned `practiceSessionId`.
-2. Craft a submission payload attempting to forge 300 WPM:
-   ```json
-   POST /api/sessions
-   {
-     "practiceSessionId": "<PRACTICE_SESSION_ID>",
-     "mode": "standard",
-     "grossWpm": 300,
-     "netWpm": 300,
-     "accuracy": 100,
-     "events": [ /* raw events representing 40 WPM */ ]
-   }
-   ```
-3. **Expected Behavior**: The server recomputes metrics from `events` and target text (storing ~40 WPM, NOT 300 WPM) or rejects the submission for speed ceiling / sanity bound failure (> 250 WPM).
+```bash
+npm run test:security
+```
 
-### Exploit #3 Verification (Guest Username Squatting)
-1. As an unauthenticated guest, play a typing test using display name `free_username_123`.
-2. Verify session saves successfully.
-3. Open `/signup` page and attempt to sign up with `username`: `free_username_123`.
-4. **Expected Behavior**: Registration succeeds cleanly. No `User` record was squatted or created during the guest test.
+Or execute individual security test modules directly using `tsx`:
+
+```bash
+npx tsx scripts/test-account-lockout.ts
+npx tsx scripts/test-session-invalidation.ts
+npx tsx scripts/test-rls-anon-write.ts
+npx tsx scripts/test-rls-verification-code.ts
+npx tsx scripts/test-profile-authorization.ts
+npx tsx scripts/test-private-data-leakage.ts
+npx tsx scripts/test-input-validation.ts
+npx tsx scripts/test-custom-text-xss.ts
+npx tsx scripts/test-cors-forged-origin.ts
+npx tsx scripts/test-cors-legitimate-origin.ts
+npx tsx scripts/test-global-rate-limit.ts
+npx tsx scripts/test-legitimate-rate-limit.ts
+npx tsx scripts/test-security-headers.ts
+npx tsx scripts/test-health-degraded.ts
+npx tsx scripts/test-path-traversal-upload.ts
+npx tsx scripts/test-avatar-cleanup.ts
+```
 
 ---
 
-## 3. Database Session Audit Tool
+## 🛡️ Covered Vulnerability Areas
 
-Scan existing database `Session` records for suspicious or forged historical submissions:
-
-```bash
-npx tsx scripts/audit-forged-sessions.ts
-```
-
-Clean up legacy squatted guest user rows (`GUEST_USER_NO_PASSWORD`):
-
-```bash
-npx tsx scripts/cleanup-squatted-guests.ts
-```
+| Test Module Script | Target Vulnerability Vector | Expected Outcome |
+|:---|:---|:---|
+| `test-account-lockout.ts` | Brute-force credentials attack | Lockout triggered after 5 failures |
+| `test-session-invalidation.ts` | Stale session token reuse | Token rejected after password change / logout |
+| `test-rls-anon-write.ts` | Supabase RLS bypass | Anon write attempts denied |
+| `test-rls-verification-code.ts` | Supabase verification code leak | Anon read denied |
+| `test-profile-authorization.ts` | Cross-user profile edit | Cross-user profile modifications blocked |
+| `test-private-data-leakage.ts` | Sensitive field exposure | `passwordHash` and `email` stripped from public API |
+| `test-input-validation.ts` | Payload bounds breach | Oversized strings and numbers rejected |
+| `test-custom-text-xss.ts` | Stored XSS injection | HTML tags stripped server-side |
+| `test-cors-forged-origin.ts` | Forged cross-origin CSRF | Mismatched origin rejected with HTTP 403 |
+| `test-cors-legitimate-origin.ts` | Legitimate CORS navigation | Same-origin requests permitted |
+| `test-global-rate-limit.ts` | Endpoint abuse burst | 100 req/min global ceiling enforced |
+| `test-legitimate-rate-limit.ts` | Gameplay false positives | Legitimate gameplay uninterrupted |
+| `test-security-headers.ts` | Missing HTTP security headers | All 6 mandatory headers verified |
+| `test-health-degraded.ts` | Diagnostic reporting failure | Degraded DB triggers HTTP 503 |
+| `test-path-traversal-upload.ts` | Path-traversal file upload | Filename sanitized to server UUID |
+| `test-avatar-cleanup.ts` | Orphaned file storage bloat | Previous avatar deleted on replacement |
