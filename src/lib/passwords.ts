@@ -67,6 +67,7 @@ export function recordFailedLoginAttempt(identifier: string): { isLocked: boolea
     entry.attempts += 1;
   }
 
+  // Account Lockout Security Event: Log structured JSON audit event upon threshold breach
   if (entry.attempts >= MAX_FAILED_ATTEMPTS) {
     entry.lockedUntil = now + LOCKOUT_DURATION_MS;
     lockoutStore.set(key, entry);
