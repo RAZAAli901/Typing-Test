@@ -44,6 +44,48 @@ This document describes the security model, identity verification, anti-cheat en
 
 ---
 
-## 5. Reporting Security Vulnerabilities
+## 6. Secret Rotation Runbook
+
+### Active Secrets Inventory
+
+| Secret Variable Name | Service Platform / Location | Purpose | Recommended Rotation Frequency |
+|:---|:---|:---|:---|
+| `NEXTAUTH_SECRET` | Vercel Environment / `.env.local` | Session JWT signing & encryption key | Semi-annually / On exposure |
+| `DATABASE_URL` | Supabase DB Settings -> Connection Pooler | Transaction pooler DB connection string | Annually / On exposure |
+| `DIRECT_URL` | Supabase DB Settings -> Database Keys | Direct migration DB connection string | Annually / On exposure |
+| `RESEND_API_KEY` | Resend Dashboard -> API Keys | Transactional email dispatch key | Semi-annually / On exposure |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase Settings -> API Keys | Storage & admin service role bypass key | Quarterly / On exposure |
+
+---
+
+### Step-by-Step Secret Rotation Procedures
+
+#### A. Rotating `NEXTAUTH_SECRET`
+1. Generate a strong 32-character random string (e.g. `openssl rand -hex 32`).
+2. Update `NEXTAUTH_SECRET` in the Vercel Production and Preview project environment settings.
+3. Redeploy the application.
+4. *Impact*: Active sessions will gracefully expire and require re-authentication.
+
+#### B. Rotating Database Connection Strings (`DATABASE_URL` / `DIRECT_URL`)
+1. Reset database password in Supabase Dashboard (`Database` -> `Database Settings`).
+2. Copy new transaction pooler string (port 6543) into `DATABASE_URL` and direct string (port 5432) into `DIRECT_URL` in Vercel.
+3. Run `npx tsx scripts/test-prisma-supabase-conn.ts` to verify database connectivity.
+4. Redeploy Vercel application.
+
+#### C. Rotating `SUPABASE_SERVICE_ROLE_KEY`
+1. In Supabase Dashboard, navigate to `Project Settings` -> `API`.
+2. Click **Rotate Service Role Key** and confirm rotation.
+3. Update `SUPABASE_SERVICE_ROLE_KEY` in Vercel.
+4. Run `npx tsx scripts/test-supabase-storage-config.ts` to verify storage operations.
+
+#### D. Rotating `RESEND_API_KEY`
+1. Log into [Resend Console](https://resend.com), create a new API Key with Send permissions.
+2. Replace `RESEND_API_KEY` in Vercel environment variables.
+3. Revoke the previous API Key in Resend console.
+
+---
+
+## 7. Reporting Security Vulnerabilities
 
 To report a security vulnerability or exploit attempt, please consult [SECURITY_TESTING.md](./SECURITY_TESTING.md) or open an issue on GitHub.
+
