@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { CrtSettingsProvider } from "@/lib/CrtSettingsContext";
 import RetroFrame from "@/components/RetroFrame";
+import AppClientWrapper from "@/components/AppClientWrapper";
 // SECURITY AUDIT: Fonts consume Next.js `next/font/google` self-hosted optimization.
 // Zero un-audited external third-party `<script>` or `<link>` tags exist in layout.
 const outfit = Outfit({
