@@ -67,8 +67,19 @@ const SessionPostSchema = z.object({
   events: z.array(KeystrokeEventSchema).optional(),
 });
 
+import { validateOriginAndReferer } from "@/lib/utils";
+
 export async function POST(request: Request) {
   try {
+    // 0. CSRF & Origin Validation
+    const originCheck = validateOriginAndReferer(request);
+    if (!originCheck.valid) {
+      return NextResponse.json(
+        { error: `Cross-origin request rejected: ${originCheck.reason}` },
+        { status: 403 }
+      );
+    }
+
     // 1. IP and User Rate Limiting Check
     const ip = request.headers.get("x-forwarded-for") || "127.0.0.1";
     const authSession = await getServerSession(authOptions);
