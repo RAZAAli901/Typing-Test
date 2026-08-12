@@ -105,6 +105,7 @@ export const authOptions: NextAuthOptions = {
   jwt: {
     maxAge: 30 * 24 * 60 * 60,
   },
+  // CSRF Protection Security: NextAuth built-in CSRF token handling is active across all /api/auth/* endpoints.
   // Cookie Security: sameSite: 'lax' balances CSRF defense with cross-site top-level navigation usability.
   // Extended Remember Me sessions inherit identical httpOnly, secure, and sameSite cookie attributes.
   cookies: {
