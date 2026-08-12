@@ -55,15 +55,14 @@ const signupSchema = z.object({
     .refine((val) => !/^\d+$/.test(val), "Password cannot be purely numeric"),
 });
 
+import { isIpRateLimited, buildRateLimitResponse } from "@/lib/rateLimit";
+
 export async function POST(request: Request) {
   try {
-    // Rate Limiting Check
+    // Strict Signup Rate Limiting Check (Max 3 signups per minute per IP)
     const ip = request.headers.get("x-forwarded-for") || "127.0.0.1";
-    if (isRateLimited(ip)) {
-      return NextResponse.json(
-        { error: "Too many sign up requests. Please wait a minute before trying again." },
-        { status: 429 }
-      );
+    if (isIpRateLimited(ip, "signup-route", 3, 60000)) {
+      return buildRateLimitResponse(60, "Too many sign up requests. Please wait a minute before trying again.");
     }
 
     const body = await request.json();
