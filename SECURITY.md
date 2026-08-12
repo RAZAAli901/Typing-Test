@@ -57,7 +57,15 @@ This document describes the security model, identity verification, anti-cheat en
 
 ---
 
-## 8. Secret Rotation Runbook
+## 9. XSS & Rendering Security
+
+- **React Default Escaping**: All user-generated strings (usernames, custom practice text, guest display names) render exclusively via standard React JSX text bindings (`{value}`).
+- **Zero Inner HTML Injection**: Codebase auditing verifies zero usage of `dangerouslySetInnerHTML` or direct DOM innerHTML assignments for user content.
+- **Server HTML Sanitization**: Custom text inputs strip vector tags (`<script>`, `<iframe>`, `<img>`) and control bytes before passage initialization.
+
+---
+
+## 10. Secret Rotation Runbook
 
 ### Active Secrets Inventory
 
