@@ -1,3 +1,4 @@
+// Server-only file - RESTRICTED TO SERVER EXECUTION
 import { createClient } from "@supabase/supabase-js";
 
 if (typeof window !== "undefined") {

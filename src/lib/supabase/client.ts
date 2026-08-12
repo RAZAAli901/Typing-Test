@@ -1,3 +1,4 @@
+// Client-safe file - BROWSER ENVIRONMENT ONLY
 import { createClient } from "@supabase/supabase-js";
 
 /**
