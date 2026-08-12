@@ -163,8 +163,9 @@ export async function POST(request: Request) {
       );
     }
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Hash password using bcrypt with a modern cost factor of 12 for strong work-factor security
+    const BCRYPT_COST_FACTOR = 12;
+    const hashedPassword = await bcrypt.hash(password, BCRYPT_COST_FACTOR);
 
     // Create user
     const newUser = await db.user.create({
