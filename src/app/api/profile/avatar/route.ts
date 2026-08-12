@@ -36,12 +36,19 @@ export async function detectRealImageType(buffer: Buffer): Promise<"png" | "jpeg
 
 let hasLoggedProductionMissingTokenWarning = false;
 
+import { isIpRateLimited, buildRateLimitResponse } from "@/lib/rateLimit";
+
 export async function POST(request: Request) {
   try {
     // 1. Authenticate user session
     const session = await getServerSession(authOptions);
     if (!session || !session.user?.name) {
       return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
+    }
+
+    // Daily Avatar Upload Limit: Max 5 avatar uploads per 24 hours per user
+    if (isIpRateLimited(session.user.name, "avatar-upload-daily", 5, 86400000)) {
+      return buildRateLimitResponse(86400, "Maximum daily avatar uploads limit reached (5 uploads/day). Please try again tomorrow.");
     }
 
     const formData = await request.formData();
