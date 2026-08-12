@@ -1,4 +1,5 @@
 import { checkAccountLockout, recordFailedLoginAttempt, resetAccountLockout } from "@/lib/passwords";
+import { logSecurityEvent } from "@/lib/logger";
 
 // Server-only file - RESTRICTED TO SERVER EXECUTION (Reads NEXTAUTH_SECRET)
 import { NextAuthOptions } from "next-auth";
@@ -47,13 +48,28 @@ export const authOptions: NextAuthOptions = {
         });
 
         if (!user) {
+          recordFailedLoginAttempt(emailLower);
+          logSecurityEvent({
+            event: "LOGIN_FAILED",
+            email: emailLower,
+            reason: "Non-existent user email",
+          });
           throw new Error("Invalid credentials");
         }
 
         const isValid = await bcrypt.compare(credentials.password, user.passwordHash);
         if (!isValid) {
+          const failure = recordFailedLoginAttempt(emailLower);
+          logSecurityEvent({
+            event: failure.isLocked ? "ACCOUNT_LOCKED" : "LOGIN_FAILED",
+            email: emailLower,
+            reason: failure.isLocked ? "Account locked after 5 failed attempts" : "Incorrect password",
+          });
           throw new Error("Invalid credentials");
         }
+
+        // On successful authentication, reset lockout counter
+        resetAccountLockout(emailLower);
 
         // Guest access bypasses NextAuth credentials authorize entirely (handled client-side or anonymous storage).
         // Verified users have user.emailVerified === true and bypass the unverified gate check.
