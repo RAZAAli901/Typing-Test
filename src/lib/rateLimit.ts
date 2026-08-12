@@ -113,6 +113,7 @@ export function isIpRateLimited(
   clientInfo.count += 1;
   if (clientInfo.count > maxRequests) {
     clientInfo.violations += 1;
+    // Structured security logging of rate limit violation (includes IP, timestamp, route, and count)
     logSecurityEvent({
       event: "RATE_LIMIT_TRIGGERED",
       ip,
