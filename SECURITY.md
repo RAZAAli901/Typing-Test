@@ -147,7 +147,21 @@ In the event of a suspected security breach, credential leakage, or unauthorized
 
 ---
 
-## 17. Secret Rotation Runbook
+## 17. Security Events Worth Watching (SIEM & Log Alerting)
+
+Configure alerts on your log aggregation platform for the following security events:
+
+| Log Event Type | Threshold / Trigger Condition | Threat Indicator / Security Meaning | Recommended Action |
+|:---|:---|:---|:---|
+| `LOGIN_FAILED` | > 5 attempts in 15 mins (same IP/email) | Brute-force credentials attack | Verify account lockout trigger; block IP if persistent |
+| `ACCOUNT_LOCKED` | Single trigger event | Account lockout activated | Notify user of suspicious login activity |
+| `RATE_LIMIT_TRIGGERED` | > 10 events in 5 minutes | Endpoint abuse or bot scan | Check target IP; verify temporary IP ban status |
+| `SESSION_REJECTED` | > 5 events in 10 minutes | Score spoofing or session replay | Audit IP for automated bot submission |
+| `PASSWORD_RESET` | > 3 requests in 1 hour (same target email) | Email bombing / reset abuse | Verify password reset rate limiter enforcement |
+
+---
+
+## 18. Secret Rotation Runbook
 
 ### Active Secrets Inventory
 
