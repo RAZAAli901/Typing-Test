@@ -12,3 +12,6 @@ CREATE POLICY "service_role_session_all" ON "Session" TO service_role USING (tru
 CREATE POLICY "service_role_leaderboard_all" ON "Leaderboard" TO service_role USING (true) WITH CHECK (true);
 CREATE POLICY "service_role_verification_all" ON "VerificationCode" TO service_role USING (true) WITH CHECK (true);
 CREATE POLICY "service_role_practice_all" ON "PracticeSession" TO service_role USING (true) WITH CHECK (true);
+
+-- Public Read-Only Policy on Leaderboard Table (Required for WebSocket Realtime Subscriptions)
+CREATE POLICY "public_read_leaderboard" ON "Leaderboard" FOR SELECT TO anon USING (true);
