@@ -28,6 +28,10 @@ const nextConfig: NextConfig = {
             key: "Referrer-Policy",
             value: "strict-origin-when-cross-origin",
           },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=(), payment=()",
+          },
         ],
       // CORS Security: Enforce explicit allowed methods & headers on all API routes and OPTIONS preflights
       {
