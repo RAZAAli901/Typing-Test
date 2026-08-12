@@ -21,12 +21,14 @@ const StartPracticeSessionSchema = z.object({
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    // SECURITY ENFORCEMENT (Commit 46):
+    // Validate request payload via Zod schema BEFORE touching the database.
+    // Malformed requests are rejected with 400 Bad Request immediately.
     const result = StartPracticeSessionSchema.safeParse(body);
 
     if (!result.success) {
       return NextResponse.json(
-        { error: "Invalid parameters for practice session start" },
+        { error: "Invalid parameters for practice session start", details: result.error.format() },
         { status: 400 }
       );
     }
