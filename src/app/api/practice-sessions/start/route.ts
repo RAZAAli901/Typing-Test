@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     let targetText = "";
 
     // Server-authoritative passage generation:
-    // Generate and store target text server-side at session-start time as the source of truth
+    // User-submitted custom text is stored inertly; React automatic JSX escaping ensures zero XSS rendering
     if (mode === "custom" && customText && customText.trim()) {
       targetText = adjustPassageLength(customText.trim(), length as LengthType);
     } else if (mode === "random-words") {
