@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { generateVerificationCode, hashVerificationCode, isEmailRateLimited, isDisposableEmail } from "@/lib/verification";
 import { sendVerificationEmail } from "@/lib/email";
+import { isCommonPassword } from "@/lib/passwords";
 
 // Rate limiting in-memory store
 interface RateLimitInfo {
@@ -67,6 +68,14 @@ export async function POST(request: Request) {
     const { username, email, password } = result.data;
     const lowerEmail = email.toLowerCase();
     const normalizedUsername = username.trim();
+
+    // Check common password blocklist
+    if (isCommonPassword(password)) {
+      return NextResponse.json(
+        { error: "This password is too common or easily guessed. Please choose a unique password." },
+        { status: 400 }
+      );
+    }
 
     // Block disposable/temporary emails
     if (isDisposableEmail(lowerEmail)) {
