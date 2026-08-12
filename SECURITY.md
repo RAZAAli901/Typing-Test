@@ -44,7 +44,20 @@ This document describes the security model, identity verification, anti-cheat en
 
 ---
 
-## 6. Secret Rotation Runbook
+## 7. Authorization & Access Control Model
+
+| Resource / Model | Public / Anon Access | Authenticated User Access | Service Role Access |
+|:---|:---|:---|:---|
+| `User` (Private details: email, passwordHash) | DENIED | Read self profile, Update own avatar | Full Access |
+| `User` (Public fields: username, avatarUrl) | Read-only | Read | Full Access |
+| `Session` | Read-only via Leaderboard API | Read own history, Submit own scores | Full Access |
+| `Leaderboard` | Read-only (REST & Realtime) | Read-only | Full Access |
+| `VerificationCode` | DENIED | DENIED | Full Access (Service Role Only) |
+| `PracticeSession` | DENIED | Start practice session | Full Access |
+
+---
+
+## 8. Secret Rotation Runbook
 
 ### Active Secrets Inventory
 
