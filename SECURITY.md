@@ -97,7 +97,20 @@ This document describes the security model, identity verification, anti-cheat en
 
 ---
 
-## 13. Secret Rotation Runbook
+## 13. HTTP Security Headers Reference Table
+
+| Security Header Name | Configured Value / Directive | Protection Goal / Attack Defended |
+|:---|:---|:---|
+| `Content-Security-Policy` | `default-src 'self'; connect-src 'self' https: wss:; img-src 'self' data: blob: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'; upgrade-insecure-requests;` | Restricts script sources, socket endpoints, and enforces HTTPS upgrades |
+| `X-Content-Type-Options` | `nosniff` | Blocks MIME-type sniffing attacks across all routes |
+| `X-Frame-Options` | `DENY` | Prevents UI framing and clickjacking attacks |
+| `Referrer-Policy` | `strict-origin-when-cross-origin` | Limits cross-origin referrer leakage |
+| `Permissions-Policy` | `camera=(), microphone=(), geolocation=(), payment=()` | Disables sensitive browser hardware APIs |
+| `Strict-Transport-Security` | `max-age=63072000; includeSubDomains; preload` | Forces HSTS TLS encryption for 2 years |
+
+---
+
+## 14. Secret Rotation Runbook
 
 ### Active Secrets Inventory
 
