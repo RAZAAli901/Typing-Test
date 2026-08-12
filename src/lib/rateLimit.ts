@@ -126,7 +126,8 @@ export function isIpRateLimited(
 }
 
 /**
- * Builds a standardized 429 Too Many Requests response with a Retry-After header.
+ * Standardized Rate-Limit Response Helper:
+ * Returns HTTP 429 Too Many Requests status with standard Retry-After header.
  */
 export function buildRateLimitResponse(retryAfterSeconds: number = 60, message?: string): NextResponse {
   return NextResponse.json(
