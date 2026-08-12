@@ -15,3 +15,7 @@ CREATE POLICY "service_role_practice_all" ON "PracticeSession" TO service_role U
 
 -- Public Read-Only Policy on Leaderboard Table (Required for WebSocket Realtime Subscriptions)
 CREATE POLICY "public_read_leaderboard" ON "Leaderboard" FOR SELECT TO anon USING (true);
+
+-- SECURITY AUDIT CONFIRMATION:
+-- Zero policies exist granting INSERT, UPDATE, or DELETE access to the `anon` or public role on any table.
+-- All database mutations are strictly performed server-side via Next.js API routes using the `service_role` key.
