@@ -166,7 +166,7 @@ export const authOptions: NextAuthOptions = {
           select: { passwordChangedAt: true, sessionInvalidatedAt: true },
         });
         const invalidatedAt = dbUser?.sessionInvalidatedAt || dbUser?.passwordChangedAt;
-        if (invalidatedAt && token.iat) {
+        if (invalidatedAt && typeof token.iat === "number") {
           const invalidatedAtSeconds = Math.floor(invalidatedAt.getTime() / 1000);
           if (token.iat < invalidatedAtSeconds) {
             logSecurityEvent({
