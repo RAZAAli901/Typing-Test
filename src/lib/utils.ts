@@ -1,3 +1,4 @@
+// Client-safe utility file - Safe for browser components (Reads NEXT_PUBLIC_SUPABASE_URL)
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 

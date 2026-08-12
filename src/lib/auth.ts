@@ -1,3 +1,4 @@
+// Server-only file - RESTRICTED TO SERVER EXECUTION (Reads NEXTAUTH_SECRET)
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "@/lib/db";

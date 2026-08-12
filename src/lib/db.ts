@@ -1,3 +1,4 @@
+// Server-only file - RESTRICTED TO SERVER EXECUTION (Reads DATABASE_URL)
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";

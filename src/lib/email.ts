@@ -1,3 +1,4 @@
+// Server-only file - RESTRICTED TO SERVER EXECUTION (Reads RESEND_API_KEY)
 import { Resend } from "resend";
 import { getVerificationEmailTemplate } from "./emailTemplates";
 
