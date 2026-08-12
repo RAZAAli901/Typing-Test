@@ -105,6 +105,7 @@ export const authOptions: NextAuthOptions = {
   jwt: {
     maxAge: 30 * 24 * 60 * 60,
   },
+  // Cookie Security: sameSite: 'lax' balances CSRF defense with cross-site top-level navigation usability
   cookies: {
     sessionToken: {
       name: process.env.NODE_ENV === "production" ? "__Secure-next-auth.session-token" : "next-auth.session-token",
