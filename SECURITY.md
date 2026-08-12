@@ -183,7 +183,29 @@ Before tagging or deploying a production release:
 
 ---
 
-## 20. Secret Rotation Runbook
+## 20. Release `v3.1.0-security-hardening` Summary
+
+This release completes the comprehensive **130-Commit Security Hardening Pass** across 13 security domains:
+
+1. **Secrets & Key Management** (Commits 1–10)
+2. **Authentication Hardening** (Commits 11–25)
+3. **Session & Cookie Security** (Commits 26–33)
+4. **Authorization & Access Control** (Commits 34–45)
+5. **Input Validation & Injection Prevention** (Commits 46–57)
+6. **CSRF & CORS Security** (Commits 58–65)
+7. **Rate Limiting & Abuse Prevention** (Commits 66–77)
+8. **Security Headers & Transport** (Commits 78–87)
+9. **Dependency & Supply Chain Hygiene** (Commits 88–97)
+10. **Logging, Monitoring & Incident Response** (Commits 98–107)
+11. **File Upload Security** (Commits 108–115)
+12. **Testing & QA** (Commits 116–125)
+13. **Docs & Policy** (Commits 126–130)
+
+*Release Tag*: `v3.1.0-security-hardening`
+
+---
+
+## 21. Secret Rotation Runbook
 
 ### Active Secrets Inventory
 
