@@ -47,12 +47,12 @@ async function verifySchemaManifest() {
     for (const table of EXPECTED_MANIFEST) {
       console.log(`[MANIFEST AUDIT] Checking table '${table.tableName}'...`);
 
-      const columns: any[] = await prisma.$queryRawUnsafe(`
+      const columns: any[] = await prisma.$queryRaw`
         SELECT column_name
         FROM information_schema.columns
-        WHERE table_name = '${table.tableName}'
+        WHERE table_name = ${table.tableName}
         ORDER BY column_name;
-      `);
+      `;
 
       const actualColumnNames = columns.map((c) => c.column_name);
 
