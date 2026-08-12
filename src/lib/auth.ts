@@ -1,3 +1,5 @@
+import { checkAccountLockout, recordFailedLoginAttempt, resetAccountLockout } from "@/lib/passwords";
+
 // Server-only file - RESTRICTED TO SERVER EXECUTION (Reads NEXTAUTH_SECRET)
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -28,6 +30,16 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Missing email or password");
+        }
+
+        const emailLower = credentials.email.toLowerCase();
+
+        // Account lockout pre-check
+        const lockout = checkAccountLockout(emailLower);
+        if (lockout.isLocked) {
+          throw new Error(
+            `Account temporarily locked. Please try again in ${lockout.remainingMinutes} minutes.`
+          );
         }
 
         const user = await db.user.findUnique({
