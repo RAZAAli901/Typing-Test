@@ -18,6 +18,8 @@ export async function POST(request: Request) {
     const email = session.user.email.toLowerCase();
     const now = new Date();
 
+    // Server-side Session Invalidation: Updates sessionInvalidatedAt timestamp in database.
+    // Any existing JWTs issued prior to this timestamp will be rejected by NextAuth's jwt callback.
     await db.user.update({
       where: { email },
       data: { sessionInvalidatedAt: now },
