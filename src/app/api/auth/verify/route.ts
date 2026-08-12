@@ -56,7 +56,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Check code expiry
+    // Security enforcement: Check verification code 10-minute expiration
     if (Date.now() > verificationCode.expiresAt.getTime()) {
       console.warn(`[SECURITY AUDIT] Expiration failure for user: ${user.username} (Code expired at ${verificationCode.expiresAt.toISOString()})`);
       return NextResponse.json(
@@ -65,7 +65,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Check attempts limit
+    // Security enforcement: Re-verify strict 5-attempt brute-force limit
     if (verificationCode.attempts >= 5) {
       console.warn(`[SECURITY AUDIT] Blocked verification attempt for user: ${user.username} (Attempts limit of 5 exceeded)`);
       return NextResponse.json(
