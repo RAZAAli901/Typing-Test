@@ -52,16 +52,16 @@ const KeystrokeEventSchema = z.object({
   correct: z.boolean(),
 });
 
-// Zod Schema validation with raw keystroke event log support
+// Zod Schema boundary validation: Enforces strict sane bounds on all numeric metrics (WPM, accuracy, time)
 const SessionPostSchema = z.object({
   practiceSessionId: z.string().optional(),
   username: z.string().min(3).max(20).regex(/^[a-zA-Z0-9 _-]+$/).optional(),
   guestDisplayName: z.string().min(3).max(20).optional(),
   mode: z.string(),
-  grossWpm: z.number().int().min(0).max(400).optional(),
-  netWpm: z.number().int().min(0).max(400).optional(),
-  accuracy: z.number().min(0).max(100).optional(),
-  timeTakenSeconds: z.number().gt(0).max(3600).optional(),
+  grossWpm: z.number().int("Gross WPM must be an integer").min(0, "Gross WPM cannot be negative").max(400, "Gross WPM exceeds human ceiling of 400").optional(),
+  netWpm: z.number().int("Net WPM must be an integer").min(0, "Net WPM cannot be negative").max(400, "Net WPM exceeds human ceiling of 400").optional(),
+  accuracy: z.number().min(0, "Accuracy cannot be negative").max(100, "Accuracy cannot exceed 100%").optional(),
+  timeTakenSeconds: z.number().gt(0, "Time taken must be greater than 0").max(3600, "Time taken cannot exceed 1 hour").optional(),
   charsTyped: z.number().int().min(0).max(50000).optional(),
   mistakes: z.number().int().min(0).max(5000).optional(),
   events: z.array(KeystrokeEventSchema).optional(),
