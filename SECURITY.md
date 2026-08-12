@@ -82,7 +82,22 @@ This document describes the security model, identity verification, anti-cheat en
 
 ---
 
-## 12. Secret Rotation Runbook
+## 12. Configured Rate Limits Reference Table
+
+| Target Route / Endpoint | Rate Limit Threshold | Time Window | Violation Action / Penalty |
+|:---|:---|:---|:---|
+| `POST /api/auth/signup` | 3 requests | 60 seconds | HTTP 429 Retry-After: 60s |
+| `POST /api/auth/reset-password` | 3 requests | 60 seconds | HTTP 429 Retry-After: 60s |
+| `POST /api/auth/verify` | 5 requests | 60 seconds | HTTP 429 Retry-After: 60s |
+| `POST /api/auth/resend-code` | 3 requests | 3600 seconds (1 hour) | HTTP 429 Retry-After: 3600s |
+| `POST /api/sessions` | 10 requests | 60 seconds | HTTP 429 Retry-After: 60s |
+| `POST /api/profile/avatar` | 5 requests | 60 seconds | HTTP 429 Retry-After: 60s |
+| **Global Per-IP Ceiling** | 100 requests (all combined) | 60 seconds | HTTP 429 + IP Ban Warning |
+| **Temporary IP Ban** | > 3 global ceiling breaches | 300 seconds (5 min) | **30-Minute IP Ban** |
+
+---
+
+## 13. Secret Rotation Runbook
 
 ### Active Secrets Inventory
 
