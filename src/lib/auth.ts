@@ -1,5 +1,6 @@
 import { checkAccountLockout, recordFailedLoginAttempt, resetAccountLockout, DUMMY_BCRYPT_HASH } from "@/lib/passwords";
 import { logSecurityEvent } from "@/lib/logger";
+import { sendNewDeviceLoginNotification } from "@/lib/email";
 
 // Server-only file - RESTRICTED TO SERVER EXECUTION (Reads NEXTAUTH_SECRET)
 import { NextAuthOptions } from "next-auth";
@@ -72,6 +73,11 @@ export const authOptions: NextAuthOptions = {
 
         // On successful authentication, reset lockout counter
         resetAccountLockout(emailLower);
+
+        // Send login alert notification email asynchronously
+        sendNewDeviceLoginNotification(user.email, "Web Browser", "Active Connection").catch((err) =>
+          console.error("Login notification dispatch failed:", err)
+        );
 
         // Guest access bypasses NextAuth credentials authorize entirely (handled client-side or anonymous storage).
         // Verified users have user.emailVerified === true and bypass the unverified gate check.

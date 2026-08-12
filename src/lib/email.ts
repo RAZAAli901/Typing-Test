@@ -1,6 +1,6 @@
 // Server-only file - RESTRICTED TO SERVER EXECUTION (Reads RESEND_API_KEY)
 import { Resend } from "resend";
-import { getVerificationEmailTemplate } from "./emailTemplates";
+import { getVerificationEmailTemplate, getNewDeviceLoginEmailTemplate } from "./emailTemplates";
 
 const resendApiKey = process.env.RESEND_API_KEY;
 
@@ -44,6 +44,33 @@ export async function sendVerificationEmail(email: string, code: string): Promis
     return true;
   } catch (error) {
     console.error("Resend transport exception:", error);
+    return false;
+  }
+}
+
+/**
+ * Dispatches email notification when a login from a new or unrecognized device/IP occurs.
+ */
+export async function sendNewDeviceLoginNotification(email: string, userAgent: string, ip: string): Promise<boolean> {
+  const { html, text } = getNewDeviceLoginEmailTemplate(userAgent, ip);
+
+  if (!resend) {
+    console.log(`[DEV MODE] New device login notification for ${email} (IP: ${ip}, UA: ${userAgent})`);
+    return true;
+  }
+
+  try {
+    const response = await resend.emails.send({
+      from: "TypeMaster Security <security@resend.dev>",
+      to: email,
+      subject: "Security Alert: New Login to Your Account",
+      html,
+      text,
+    });
+
+    return !response.error;
+  } catch (err) {
+    console.error("Failed to send login notification email:", err);
     return false;
   }
 }

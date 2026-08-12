@@ -100,3 +100,43 @@ TYPEMASTER SUITE WEB V1.0 // SECURITY MODULE // EYES ONLY
 
   return { html, text };
 }
+
+/**
+ * Returns HTML and text templates for new device login notification.
+ */
+export function getNewDeviceLoginEmailTemplate(userAgent: string, ip: string): EmailTemplateResult {
+  const html = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <title>New Login Alert — TypeMaster</title>
+      </head>
+      <body style="background-color: #0c0c0c; color: #39ff14; font-family: monospace; padding: 24px;">
+        <div style="max-width: 500px; margin: 0 auto; border: 2px solid #ffb000; padding: 20px; background: #050505;">
+          <h2 style="color: #ffb000; margin-top: 0;">SECURITY ALERT: NEW LOGIN DETECTED</h2>
+          <p>A new login was detected on your TypeMaster account.</p>
+          <ul>
+            <li><strong>IP Address:</strong> ${ip}</li>
+            <li><strong>User Agent:</strong> ${userAgent}</li>
+            <li><strong>Timestamp:</strong> ${new Date().toUTCString()}</li>
+          </ul>
+          <p>If this was you, no action is required. If you did not initiate this login, please reset your password immediately.</p>
+        </div>
+      </body>
+    </html>
+  `;
+
+  const text = `
+SECURITY ALERT: NEW LOGIN DETECTED
+
+A new login was detected on your TypeMaster account.
+- IP Address: ${ip}
+- User Agent: ${userAgent}
+- Timestamp: ${new Date().toUTCString()}
+
+If this was not you, please reset your password immediately.
+  `.trim();
+
+  return { html, text };
+}
