@@ -15,9 +15,11 @@ export function isCommonPassword(password: string): boolean {
 }
 
 /**
- * In-memory Account Lockout Store
- * Key: Lowercase email / username identifier
+ * Pre-computed dummy bcrypt hash (cost 12) used to execute dummy comparison
+ * for non-existent email addresses, preventing username/email enumeration via timing side-channels.
  */
+export const DUMMY_BCRYPT_HASH = "$2a$12$L8vD3H2a4S6f8K0m2P4r6u8V0x2Z4b6d8f0h2j4l6n8p0r2t4v6x8";
+
 interface LockoutEntry {
   attempts: number;
   firstAttempt: number;
@@ -27,8 +29,8 @@ interface LockoutEntry {
 const lockoutStore = new Map<string, LockoutEntry>();
 
 const MAX_FAILED_ATTEMPTS = 5;
-const LOCKOUT_WINDOW_MS = 15 * 60 * 1000; // 15 minutes window
-const LOCKOUT_DURATION_MS = 15 * 60 * 1000; // 15 minutes lockout duration
+const LOCKOUT_WINDOW_MS = 15 * 60 * 1000;
+const LOCKOUT_DURATION_MS = 15 * 60 * 1000;
 
 export function checkAccountLockout(identifier: string): { isLocked: boolean; remainingMinutes: number } {
   const key = identifier.toLowerCase().trim();

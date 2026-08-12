@@ -1,4 +1,4 @@
-import { checkAccountLockout, recordFailedLoginAttempt, resetAccountLockout } from "@/lib/passwords";
+import { checkAccountLockout, recordFailedLoginAttempt, resetAccountLockout, DUMMY_BCRYPT_HASH } from "@/lib/passwords";
 import { logSecurityEvent } from "@/lib/logger";
 
 // Server-only file - RESTRICTED TO SERVER EXECUTION (Reads NEXTAUTH_SECRET)
@@ -48,6 +48,8 @@ export const authOptions: NextAuthOptions = {
         });
 
         if (!user) {
+          // Dummy hash comparison to ensure equal execution timing regardless of email existence
+          await bcrypt.compare(credentials.password, DUMMY_BCRYPT_HASH);
           recordFailedLoginAttempt(emailLower);
           logSecurityEvent({
             event: "LOGIN_FAILED",
