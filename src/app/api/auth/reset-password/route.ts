@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
-import { isIpRateLimited } from "@/lib/rateLimit";
+import { isIpRateLimited, buildRateLimitResponse } from "@/lib/rateLimit";
 import { hashVerificationCode, timingSafeCompare } from "@/lib/verification";
 import { isCommonPassword } from "@/lib/passwords";
 import { logSecurityEvent } from "@/lib/logger";
