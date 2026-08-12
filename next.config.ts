@@ -15,6 +15,7 @@ const nextConfig: NextConfig = {
             value: "default-src 'self'; connect-src 'self' https: wss:; img-src 'self' data: blob: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'; upgrade-insecure-requests;",
           },
 
+          // Global MIME-type sniffing defense across all application routes
           {
             key: "X-Content-Type-Options",
             value: "nosniff",
