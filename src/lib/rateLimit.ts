@@ -13,7 +13,9 @@ const rateLimiters = new Map<string, Map<string, RateLimitInfo>>();
 const globalIpLimiter = new Map<string, RateLimitInfo>();
 const ipBans = new Map<string, number>(); // IP -> Banned until timestamp
 
-// IP Allowlist configuration for dev/testing
+// Developer IP Allowlist Configuration:
+// Automatically bypasses rate limits for local development (127.0.0.1, ::1, localhost)
+// and custom developer IPs provided in process.env.ALLOWLISTED_IPS
 const ALLOWLISTED_IPS = new Set<string>([
   "127.0.0.1",
   "::1",
@@ -25,6 +27,9 @@ export function isIpAllowlisted(ip: string): boolean {
   return ALLOWLISTED_IPS.has(ip);
 }
 
+/**
+ * Programmatically adds a developer IP address to the rate limiter allowlist during automated testing.
+ */
 export function addIpToAllowlist(ip: string): void {
   ALLOWLISTED_IPS.add(ip);
 }
