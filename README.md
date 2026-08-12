@@ -221,6 +221,11 @@ Prisma 7 removes datasource URLs from `schema.prisma`. Connections are managed d
 > **Vercel Log Retention Policy**:
 > Vercel Pro/Enterprise provides 14-day to 30-day runtime log retention for `SECURITY_AUDIT_LOG` events. For extended multi-year audit compliance, configure Vercel Log Drains to export logs to an external SIEM endpoint (Datadog, Axiom, or Better Stack).
 
+> [!TIP]
+> **Production Monitoring Recommendations**:
+> - **Web Vitals & Performance**: Vercel Analytics is active for real-user monitoring (RUM).
+> - **Error Tracking & Telemetry**: Integrate Sentry (@sentry/nextjs) for automated error tracking and exception tracing.
+
 ---
 
 ## 🔒 User Accounts, Authentication & Blob Storage
