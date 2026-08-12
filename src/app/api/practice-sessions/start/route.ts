@@ -24,6 +24,7 @@ export async function POST(request: Request) {
     // SECURITY ENFORCEMENT (Commit 46):
     // Validate request payload via Zod schema BEFORE touching the database.
     // Malformed requests are rejected with 400 Bad Request immediately.
+    const body = await request.json();
     const result = StartPracticeSessionSchema.safeParse(body);
 
     if (!result.success) {
