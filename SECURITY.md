@@ -120,7 +120,15 @@ This document describes the security model, identity verification, anti-cheat en
 
 ---
 
-## 15. Secret Rotation Runbook
+## 15. Logging & Sensitive Data Privacy Policy
+
+- **Structured JSON Security Audit Logs**: All authentication failures, account lockouts, rate limit violations, and session rejections write structured JSON logs (`SECURITY_AUDIT_LOG`).
+- **Zero Sensitive Data Leakage**: Audit log review verifies zero inclusion of plain-text passwords, password hashes (`passwordHash`), verification codes (`codeHash`), or full JWT/session tokens.
+- **Log Sanitation Rule**: Only user identity boundaries (`username`, `email`), client IP addresses (`x-forwarded-for`), and generic status reasons are logged.
+
+---
+
+## 16. Secret Rotation Runbook
 
 ### Active Secrets Inventory
 
