@@ -239,7 +239,9 @@ export async function POST(request: Request) {
       );
     }
 
-    // If authenticated, use verified session identity; never lookup or attach to client-supplied username
+    // SECURITY ENFORCEMENT (Issue #1 & Commit 40):
+    // Authenticated users strictly derive identity from server session token (authSession.user).
+    // Client-supplied `username` or `userId` in request body is completely ignored for authenticated users.
     let finalUsername: string;
     if (authenticatedUser) {
       finalUsername = authenticatedUser;
