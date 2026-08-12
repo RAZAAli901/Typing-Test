@@ -1,7 +1,15 @@
 // Server-only file - Security Logger Module
 
 export interface SecurityEvent {
-  event: "LOGIN_FAILED" | "LOGIN_SUCCESS" | "ACCOUNT_LOCKED" | "PASSWORD_RESET" | "SESSION_REJECTED" | "RATE_LIMIT_TRIGGERED";
+  event:
+    | "LOGIN_FAILED"
+    | "LOGIN_SUCCESS"
+    | "SIGNUP_CREATED"
+    | "VERIFICATION_SUCCESS"
+    | "ACCOUNT_LOCKED"
+    | "PASSWORD_RESET"
+    | "SESSION_REJECTED"
+    | "RATE_LIMIT_TRIGGERED";
   timestamp: string;
   ip?: string;
   email?: string;
@@ -12,7 +20,7 @@ export interface SecurityEvent {
 
 /**
  * Logs a security event in structured JSON format.
- * Guarantees zero inclusion of sensitive credentials, plain passwords, or full tokens.
+ * Guarantees zero inclusion of sensitive credentials, plain passwords, verification codes, or tokens.
  */
 export function logSecurityEvent(event: Omit<SecurityEvent, "timestamp">): void {
   const payload: SecurityEvent = {
