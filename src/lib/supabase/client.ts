@@ -10,6 +10,7 @@ import { createClient } from "@supabase/supabase-js";
  * WHY THIS KEY IS USED HERE:
  * - Public API key safe for inclusion in client-side JS bundles.
  * - Used for real-time WebSocket subscriptions (Leaderboard, Presence).
+ * - Realtime cross-origin WebSocket traffic is permitted via `connect-src 'self' https: wss:;` CSP directive.
  * - All queries/subscriptions made via this client are strictly subject to Supabase RLS policies.
  * 
  * SECURITY RULES:
