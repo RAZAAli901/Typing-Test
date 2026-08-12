@@ -56,7 +56,7 @@ export const authOptions: NextAuthOptions = {
             email: emailLower,
             reason: "Non-existent user email",
           });
-          throw new Error("Invalid credentials");
+          throw new Error("Invalid email or password");
         }
 
         const isValid = await bcrypt.compare(credentials.password, user.passwordHash);
@@ -67,7 +67,7 @@ export const authOptions: NextAuthOptions = {
             email: emailLower,
             reason: failure.isLocked ? "Account locked after 5 failed attempts" : "Incorrect password",
           });
-          throw new Error("Invalid credentials");
+          throw new Error("Invalid email or password");
         }
 
         // On successful authentication, reset lockout counter
