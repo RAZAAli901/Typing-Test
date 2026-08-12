@@ -83,9 +83,9 @@ export async function POST(request: Request) {
       );
     }
 
-    // Generate stored filename/extension server-side based on detected real type only, never from client input
+    // Generate stored filename server-side using random UUID (completely independent of client input)
     const fileExt = "png";
-    const serverGeneratedFilename = `avatar-${session.user.name.replace(/[^a-zA-Z0-9_-]/g, "_")}-${Date.now()}.${fileExt}`;
+    const serverGeneratedFilename = `avatar-${crypto.randomUUID()}.${fileExt}`;
 
     // 4. Server-side image re-encoding using sharp to strip embedded scripts, comments, and polyglot tricks
     // SECURITY AUDIT: All uploads to Supabase Storage strictly pass through:
