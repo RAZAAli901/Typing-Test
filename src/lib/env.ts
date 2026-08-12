@@ -1,12 +1,25 @@
+// Server-only environment variable validation logic
+import { z } from "zod";
+
 /**
- * Environment Variable Validation & Startup Checks
- *
- * Checks presence of required environment variables for Supabase integration:
- * - NEXT_PUBLIC_SUPABASE_URL
- * - NEXT_PUBLIC_SUPABASE_ANON_KEY
- * - SUPABASE_SERVICE_ROLE_KEY (server-side operations)
- * - DATABASE_URL / DIRECT_URL (Prisma connection pooling & migrations)
+ * Zod schema defining required and optional environment variables for TypeMaster Web.
+ * Fails fast on server startup if any mandatory secret is missing or empty.
  */
+export const envSchema = z.object({
+  DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),
+  DIRECT_URL: z.string().optional(),
+  NEXTAUTH_SECRET: z.string().min(1, "NEXTAUTH_SECRET is required"),
+  NEXTAUTH_URL: z.string().optional(),
+  RESEND_API_KEY: z.string().optional(),
+  NEXT_PUBLIC_SUPABASE_URL: z.string().url("NEXT_PUBLIC_SUPABASE_URL must be a valid URL").optional(),
+  SUPABASE_URL: z.string().optional(),
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().optional(),
+  SUPABASE_ANON_KEY: z.string().optional(),
+  SUPABASE_SERVICE_ROLE_KEY: z.string().optional(),
+  NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
+});
+
+export type Env = z.infer<typeof envSchema>;
 
 export interface SupabaseEnvCheckResult {
   hasPublicUrl: boolean;
@@ -42,6 +55,22 @@ export function checkSupabaseEnvVars(): SupabaseEnvCheckResult {
   };
 }
 
+/**
+ * Validates environment variables against Zod schema.
+ * Throws a detailed error and fails fast if validation fails.
+ */
+export function validateEnvOrThrow(): Env {
+  const parsed = envSchema.safeParse(process.env);
+  if (!parsed.success) {
+    const errorDetails = parsed.error.issues
+      .map((issue) => ` - ${issue.path.join(".")}: ${issue.message}`)
+      .join("\n");
+    console.error("[FATAL ENV ERROR] Environment variable validation failed:\n" + errorDetails);
+    throw new Error(`Invalid environment configuration:\n${errorDetails}`);
+  }
+  return parsed.data;
+}
+
 export function assertSupabaseEnvVars(): void {
   const result = checkSupabaseEnvVars();
   if (!result.isValid) {
@@ -53,13 +82,8 @@ export function assertSupabaseEnvVars(): void {
   }
 }
 
-/**
- * Early presence check for Supabase configuration.
- * Returns true if all minimal client/server Supabase credentials are configured.
- */
 export function checkSupabaseVarsPresence(): boolean {
   const hasUrl = !!(process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL);
   const hasKey = !!(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY);
   return hasUrl && hasKey;
 }
-
