@@ -1,4 +1,4 @@
-import { isIpRateLimited } from "../src/lib/passwords";
+import { isIpRateLimited } from "../src/lib/rateLimit";
 
 function testLegitimateRateLimitRegression() {
   console.log("[TEST] Executing legitimate gameplay rate limit regression test...");

@@ -169,7 +169,21 @@ Configure alerts on your log aggregation platform for the following security eve
 
 ---
 
-## 19. Secret Rotation Runbook
+## 19. Production Pre-Flight Security & Readiness Checklist
+
+Before tagging or deploying a production release:
+
+- [x] All 130 Security Hardening Pass commits completed and verified in git history.
+- [x] `npm run test:security` executes 16 regression test modules with 0 failures.
+- [x] `zod` startup environment check validates all required secrets (`NEXTAUTH_SECRET`, `DATABASE_URL`, `RESEND_API_KEY`).
+- [x] All 6 mandatory HTTP security headers (HSTS, CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy) active in `next.config.ts`.
+- [x] Supabase Row Level Security (RLS) active across all tables with default deny for `anon` role.
+- [x] DB/KV rate limiters and global 100 req/min IP ceiling operational.
+- [x] RFC 9116 `security.txt` file deployed at `public/.well-known/security.txt`.
+
+---
+
+## 20. Secret Rotation Runbook
 
 ### Active Secrets Inventory
 
