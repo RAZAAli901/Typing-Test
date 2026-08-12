@@ -29,6 +29,8 @@ export async function GET(request: Request) {
       take: limit,
       include: {
         user: {
+          // SECURITY AUDIT: Only select public display fields (username, avatarUrl, createdAt).
+          // Private user details (email, passwordHash) are strictly omitted for third parties.
           select: {
             username: true,
             avatarUrl: true,
