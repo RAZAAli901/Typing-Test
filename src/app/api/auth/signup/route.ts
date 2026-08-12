@@ -36,7 +36,11 @@ function isRateLimited(ip: string): boolean {
 }
 
 const signupSchema = z.object({
-  username: z.string().min(3).max(20).regex(/^[a-zA-Z0-9_-]+$/),
+  username: z
+    .string()
+    .min(3, "Username must be at least 3 characters")
+    .max(20, "Username cannot exceed 20 characters")
+    .regex(/^[a-zA-Z0-9_-]+$/, "Username can only contain alphanumeric characters, underscores, and dashes"),
   email: z.string().email().max(255, "Email address cannot exceed 255 characters"),
   password: z
     .string()
