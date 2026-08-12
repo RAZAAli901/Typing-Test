@@ -29,3 +29,11 @@
    ```bash
    npx tsx scripts/run-all-tests.ts
    ```
+
+---
+
+## Dependency & Supply Chain Policy
+
+> [!IMPORTANT]
+> **No Unjustified Dependencies Policy**:
+> Do NOT introduce new npm packages or third-party dependencies without explicit architectural rationale, security evaluation, and team review. Minimize sub-dependency bloat and avoid single-function helper packages.
