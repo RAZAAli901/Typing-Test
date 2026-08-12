@@ -217,6 +217,10 @@ Prisma 7 removes datasource URLs from `schema.prisma`. Connections are managed d
 3. Add a **Postgres Storage** database to your project via the Vercel dashboard's **Storage** tab. This will automatically inject the database connection environment variables (`POSTGRES_PRISMA_URL`, etc.).
 4. Vercel will automatically build and deploy the Next.js production server. Your global leaderboard is now live!
 
+> [!NOTE]
+> **Vercel Log Retention Policy**:
+> Vercel Pro/Enterprise provides 14-day to 30-day runtime log retention for `SECURITY_AUDIT_LOG` events. For extended multi-year audit compliance, configure Vercel Log Drains to export logs to an external SIEM endpoint (Datadog, Axiom, or Better Stack).
+
 ---
 
 ## 🔒 User Accounts, Authentication & Blob Storage
