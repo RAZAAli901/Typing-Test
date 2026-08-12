@@ -149,6 +149,17 @@ export const authOptions: NextAuthOptions = {
         token.iat = Math.floor(Date.now() / 1000);
       }
       if (token.email) {
+        // Enforce maximum absolute session lifetime limit (90 days = 7,776,000 seconds)
+        const MAX_ABSOLUTE_LIFETIME_SECONDS = 90 * 24 * 60 * 60;
+        if (token.iat && Math.floor(Date.now() / 1000) - (token.iat as number) > MAX_ABSOLUTE_LIFETIME_SECONDS) {
+          logSecurityEvent({
+            event: "SESSION_REJECTED",
+            email: token.email,
+            reason: "Absolute session lifetime limit of 90 days exceeded",
+          });
+          return {};
+        }
+
         const dbUser = await db.user.findUnique({
           where: { email: token.email },
           select: { passwordChangedAt: true, sessionInvalidatedAt: true },
