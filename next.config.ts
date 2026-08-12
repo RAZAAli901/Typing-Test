@@ -21,6 +21,7 @@ const nextConfig: NextConfig = {
             value: "nosniff",
           },
         ],
+      // CORS Security: Enforce explicit allowed methods & headers on all API routes and OPTIONS preflights
       {
         source: "/api/:path*",
         headers: [
