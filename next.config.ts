@@ -12,8 +12,8 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Content-Security-Policy",
-            // Allow self, HTTPS images (Supabase storage CDN), and HTTPS/WSS connect-src for Supabase REST & Realtime WebSockets
-            value: "default-src 'self'; connect-src 'self' https: wss:; img-src 'self' data: blob: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';",
+            // HTTPS Enforcement & Asset Isolation: Allow self, HTTPS images (Supabase CDN), and HTTPS/WSS connect-src for Supabase REST & Realtime
+            value: "default-src 'self'; connect-src 'self' https: wss:; img-src 'self' data: blob: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests;",
           },
 
           {
