@@ -37,7 +37,10 @@ function isRateLimited(ip: string): boolean {
 const signupSchema = z.object({
   username: z.string().min(3).max(20).regex(/^[a-zA-Z0-9_-]+$/),
   email: z.string().email(),
-  password: z.string().min(6).regex(/\d/),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters long")
+    .refine((val) => !/^\d+$/.test(val), "Password cannot be purely numeric"),
 });
 
 export async function POST(request: Request) {
