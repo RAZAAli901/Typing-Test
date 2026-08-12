@@ -36,10 +36,11 @@ export async function POST(request: Request) {
     const { mode, length, customText, guestDisplayName } = result.data;
     let targetText = "";
 
-    // Server-authoritative passage generation:
-    // User-submitted custom text is stored inertly; React automatic JSX escaping ensures zero XSS rendering
+    // Server-authoritative passage generation with HTML sanitization:
+    // Strip HTML tags and control characters from custom text input
     if (mode === "custom" && customText && customText.trim()) {
-      targetText = adjustPassageLength(customText.trim(), length as LengthType);
+      const sanitizedText = customText.trim().replace(/<[^>]*>?/gm, "").replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "");
+      targetText = adjustPassageLength(sanitizedText, length as LengthType);
     } else if (mode === "random-words") {
       let wordCount = 30;
       if (length === "short") wordCount = 15;
