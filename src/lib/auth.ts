@@ -98,6 +98,11 @@ export const authOptions: NextAuthOptions = {
   ],
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days session expiration
+  },
+  // JWT Configuration Security: Uses default strong HMAC-SHA256 / HKDF encryption
+  jwt: {
+    maxAge: 30 * 24 * 60 * 60,
   },
   pages: {
     signIn: "/login",
