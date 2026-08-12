@@ -8,6 +8,11 @@ import { promises as fs } from "fs";
 import path from "path";
 import sharp from "sharp";
 
+/**
+ * Real Image Magic-Byte & Sharp Metadata Verification:
+ * Validates PNG (\x89PNG), JPEG (\xFF\xD8\xFF), and WEBP (RIFF...WEBP) binary headers
+ * to prevent extension spoofing and polyglot payload execution.
+ */
 export async function detectRealImageType(buffer: Buffer): Promise<"png" | "jpeg" | "webp" | null> {
   const isPngMagic = buffer.length >= 8 && buffer[0] === 0x89 && buffer[1] === 0x50 && buffer[2] === 0x4E && buffer[3] === 0x47;
   const isJpegMagic = buffer.length >= 3 && buffer[0] === 0xFF && buffer[1] === 0xD8 && buffer[2] === 0xFF;
