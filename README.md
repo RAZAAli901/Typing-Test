@@ -228,6 +228,16 @@ Prisma 7 removes datasource URLs from `schema.prisma`. Connections are managed d
 
 ---
 
+## 🛡️ Security Posture & Anti-Cheat Architecture
+
+TypeMaster Web enforces a hardened security model across all authentication, storage, and API routes:
+
+- **Comprehensive Security Policies**: Refer to [SECURITY.md](file:///c:/Users/tipto/OneDrive/Desktop/New%20folder/Typing-Test/SECURITY.md) for full identity verification, anti-cheat, RLS, and rate-limiting documentation.
+- **Security Testing Suite**: Refer to [SECURITY_TESTING.md](file:///c:/Users/tipto/OneDrive/Desktop/New%20folder/Typing-Test/SECURITY_TESTING.md) to run the 16-module automated security test suite (`npm run test:security`).
+- **Responsible Disclosure**: Security vulnerabilities should be reported following the RFC 9116 security contact policy at [public/.well-known/security.txt](file:///c:/Users/tipto/OneDrive/Desktop/New%20folder/Typing-Test/public/.well-known/security.txt).
+
+---
+
 ## 🔒 User Accounts, Authentication & Blob Storage
 
 TypeMaster Web v2.0 includes a comprehensive, secure authentication and persistent profile system:
