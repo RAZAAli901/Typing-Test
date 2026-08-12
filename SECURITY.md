@@ -161,7 +161,15 @@ Configure alerts on your log aggregation platform for the following security eve
 
 ---
 
-## 18. Secret Rotation Runbook
+## 18. File Upload Malware Scanning & Storage Defense Roadmap
+
+- **Magic-Byte Content Enforcement**: File uploads validate binary header magic bytes (`PNG`, `JPEG`, `WEBP`) and reject vector scripts (`<svg>`, `<?xml>`).
+- **Sharp Raster Re-Encoding**: All uploaded avatars are freshly rasterized into 512x512 PNG buffers, stripping metadata, EXIF profiles, and embedded polyglot comments.
+- **Serverless Malware Scanning Roadmap**: If user-uploaded content expands beyond profile avatars, an automated cloud virus scanner (ClamAV container or AWS GuardDuty / VirusTotal API integration) will scan incoming file streams before persistence.
+
+---
+
+## 19. Secret Rotation Runbook
 
 ### Active Secrets Inventory
 
