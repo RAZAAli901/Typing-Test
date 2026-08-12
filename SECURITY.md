@@ -128,7 +128,26 @@ This document describes the security model, identity verification, anti-cheat en
 
 ---
 
-## 16. Secret Rotation Runbook
+## 16. Incident Response Checklist & Breach Protocol
+
+In the event of a suspected security breach, credential leakage, or unauthorized system access:
+
+1. **Step 1: Immediate Triage & Isolation**
+   - Identify affected components (Database, Storage, NextAuth, Resend).
+   - If session compromise is suspected, execute global session invalidation by bumping `sessionInvalidatedAt` for affected accounts.
+2. **Step 2: Emergency Secret Rotation**
+   - Follow the [Secret Rotation Runbook](#secret-rotation-runbook) to immediately rotate `NEXTAUTH_SECRET`, `DATABASE_URL`, `RESEND_API_KEY`, and Supabase Service Role keys.
+   - Redeploy production build with clean environment variables.
+3. **Step 3: Audit Log Investigation**
+   - Search Vercel / application logs for `SECURITY_AUDIT_LOG` events around the incident window.
+   - Analyze IP addresses, failed login spikes, and rate-limit breach bursts.
+4. **Step 4: User Notification & Containment**
+   - If user credentials or personal data may have been exposed, send an automated security advisory email notifying users to update passwords.
+   - Post incident summary and mitigation steps in `SECURITY.md` changelog.
+
+---
+
+## 17. Secret Rotation Runbook
 
 ### Active Secrets Inventory
 
