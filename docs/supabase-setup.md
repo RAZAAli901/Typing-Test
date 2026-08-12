@@ -12,6 +12,10 @@ This document provides a step-by-step walkthrough to reproduce the exact Supabas
 5. Select Region (e.g., `us-east-1` or nearest region).
 6. Click **Create new project**.
 
+> [!SECURITY]
+> **Postgres Secret Rotation Note**:
+> Any initial database passwords visible in screenshots or logs during earlier setup have been rotated. Ensure all active environments deploy newly generated database credentials from Supabase settings.
+
 ---
 
 ## Step 2: Obtain Database Connection URIs
