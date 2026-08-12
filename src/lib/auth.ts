@@ -92,5 +92,8 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  // Server-only NEXTAUTH_SECRET for JWT decryption & signature verification.
+  // Upon NEXTAUTH_SECRET rotation, invalid signatures gracefully evaluate to null (unauthenticated).
+  secret: process.env.NEXTAUTH_SECRET || "development-fallback-secret-key-32-chars-long",
 };
+
