@@ -14,8 +14,6 @@ const nextConfig: NextConfig = {
             key: "Content-Security-Policy",
             value: "default-src 'self'; connect-src 'self' https: wss:; img-src 'self' data: blob: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'; upgrade-insecure-requests;",
           },
-
-          // Global MIME-type sniffing defense across all application routes
           {
             key: "X-Content-Type-Options",
             value: "nosniff",
@@ -37,7 +35,7 @@ const nextConfig: NextConfig = {
             value: "max-age=63072000; includeSubDomains; preload",
           },
         ],
-      // CORS Security: Enforce explicit allowed methods & headers on all API routes and OPTIONS preflights
+      },
       {
         source: "/api/:path*",
         headers: [
