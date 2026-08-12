@@ -104,6 +104,25 @@ export const authOptions: NextAuthOptions = {
         token.email = user.email;
         token.picture = user.image;
         token.emailVerified = (user as any).emailVerified;
+        token.iat = Math.floor(Date.now() / 1000);
+      }
+      if (token.email) {
+        const dbUser = await db.user.findUnique({
+          where: { email: token.email },
+          select: { passwordChangedAt: true, sessionInvalidatedAt: true },
+        });
+        const invalidatedAt = dbUser?.sessionInvalidatedAt || dbUser?.passwordChangedAt;
+        if (invalidatedAt && token.iat) {
+          const invalidatedAtSeconds = Math.floor(invalidatedAt.getTime() / 1000);
+          if (token.iat < invalidatedAtSeconds) {
+            logSecurityEvent({
+              event: "SESSION_REJECTED",
+              email: token.email,
+              reason: "JWT issued prior to password reset / session invalidation",
+            });
+            return {};
+          }
+        }
       }
       if (trigger === "update" && session) {
         if (session.name) token.name = session.name;

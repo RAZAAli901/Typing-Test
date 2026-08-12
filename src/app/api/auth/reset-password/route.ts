@@ -106,10 +106,15 @@ export async function POST(request: Request) {
     // Hash new password using bcrypt cost factor 12
     const hashedPassword = await bcrypt.hash(newPassword, 12);
 
+    const now = new Date();
     await db.$transaction([
       db.user.update({
         where: { username: user.username },
-        data: { passwordHash: hashedPassword },
+        data: {
+          passwordHash: hashedPassword,
+          passwordChangedAt: now,
+          sessionInvalidatedAt: now,
+        },
       }),
       db.verificationCode.deleteMany({
         where: { userId: user.username },
