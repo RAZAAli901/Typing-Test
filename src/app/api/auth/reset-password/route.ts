@@ -27,10 +27,7 @@ export async function POST(request: Request) {
         ip,
         reason: "Password reset rate limit exceeded",
       });
-      return NextResponse.json(
-        { error: "Too many password reset requests. Please wait before trying again." },
-        { status: 429 }
-      );
+      return buildRateLimitResponse(60, "Too many password reset requests. Please wait a minute before trying again.");
     }
 
     const body = await request.json();
