@@ -3,6 +3,7 @@ import { commonTypingMistakesGuide } from "./common-typing-mistakes";
 import { fifteenMinuteDailyTypingRoutineGuide } from "./15-minute-daily-typing-routine";
 import { homeRowAndFingerPlacementGuide } from "./home-row-and-finger-placement";
 import { howToImproveTypingSpeedGuide } from "./how-to-improve-typing-speed";
+import { howTypeMasterScoresWorkGuide } from "./how-typemaster-scores-work";
 import { qwertyDvorakColemakGuide } from "./qwerty-dvorak-colemak";
 import { stopLookingAtTheKeyboardGuide } from "./stop-looking-at-the-keyboard";
 import { touchTypingForBeginnersGuide } from "./touch-typing-for-beginners";
@@ -35,6 +36,7 @@ export const GUIDES: Guide[] = [
   typingTestsForJobApplicationsGuide,
   typingForStudentsGuide,
   typingRhythmAndFlowGuide,
+  howTypeMasterScoresWorkGuide,
 ];
 
 export function getAllGuides(): Guide[] {
