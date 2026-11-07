@@ -4,13 +4,45 @@ All notable changes to **TypeMaster Web** are documented in this file.
 
 ---
 
-## [Unreleased]
+## [1.1.0] — 2026-11-07
 
-- Added "Download My Data" button in profile view linking directly to the JSON data export endpoint.
-- Added self-serve data export endpoint (`GET /api/profile/export`) providing downloadable JSON data archive.
-- Added account deletion UI button and two-step confirmation modal in profile view.
-- Added self-serve account deletion endpoint (`DELETE /api/profile`) to allow users to permanently delete accounts and all cascading data.
-- Removed unconditional Google AdSense `<script>` tag from root layout `<head>` to prevent pre-consent tracking and cookie deposition.
+### 📢 Google AdSense Readiness & Comprehensive Compliance Pass
+
+#### 1. Privacy, Consent & Ad Management
+- Removed unconditional Google AdSense `<script>` tag from root layout `<head>` to prevent pre-consent tracking.
+- Implemented consent-gated dynamic loader (`AdSenseLoader.tsx`) with localStorage persistence and cross-tab synchronization.
+- Added automatic Global Privacy Control (`GPC`) detection via `navigator.globalPrivacyControl`.
+- Added granular cookie consent banner and interactive "Cookie settings" modal trigger in footer and legal pages.
+- Established strict route eligibility engine (`src/lib/adEligibility.ts`) restricting ads exclusively to content pages (`/`, `/about`, `/learn`, `/learn/*`) and blocking gameplay, auth, error, and transactional pages.
+- Implemented `AdContainer` wrapper with explicit dimensional reservation (`contain: layout style`) and `<aside role="complementary">` accessible landmark.
+
+#### 2. Legal Documentation & Trust Pages
+- Created comprehensive Privacy Policy (`/privacy`) detailing all database models, cookies, localStorage keys, and third-party processors.
+- Created Terms of Service (`/terms`) with anti-cheat enforcement and intellectual property terms.
+- Created Cookie Policy (`/cookies`) backed by typed browser storage registry (`storageRegistry.ts`).
+- Created Contact Page (`/contact`) and Editorial Standards Policy (`/editorial-policy`).
+
+#### 3. Crawl Signals, SEO & Structured Data
+- Deployed authorized digital seller file [public/ads.txt](file:///public/ads.txt) (`pub-6696399034620004`).
+- Added `<meta name="google-adsense-account">` site ownership verification tag in root metadata.
+- Generated dynamic [src/app/robots.ts](file:///src/app/robots.ts) and [src/app/sitemap.ts](file:///src/app/sitemap.ts) indexing all 53 public and educational routes.
+- Configured Open Graph share cards, dynamic Twitter metadata, and structured data schemas (`Article`, `FAQPage`, `DefinedTermSet`, `BreadcrumbList`).
+
+#### 4. Editorial Content & Learning Hub
+- Launched `/learn` educational hub featuring 18 original touch typing guides (700–1,000 words each).
+- Added comprehensive Touch Typing & Hardware Glossary (`/learn/glossary`) with 25+ authoritative definitions.
+- Integrated visible FAQ section with matching schema markup.
+- Added cross-site internal linking on Home and About pages.
+
+#### 5. Data Privacy Rights & Maintenance
+- Added self-serve account deletion endpoint (`DELETE /api/profile`) with two-step confirmation modal in profile view.
+- Added machine-readable JSON data export endpoint (`GET /api/profile/export`) and "Download My Data" button.
+- Added automated database retention cleanup script (`scripts/purge-expired-records.ts`) and `npm run db:purge-retention`.
+
+#### 6. Accessibility & UX Quality
+- Fixed WCAG AA contrast on hero section text and badges.
+- Standardized heading hierarchies (`<h1>` -> `<h2>` -> `<h3>`) and landmark wrappers (`<main id="main-content">`).
+- Enhanced CRT screen scanline overlay opacity and added `@media (prefers-reduced-motion: reduce)` disabling.
 
 ## [3.1.0-security-hardening] — 2026-08-12
 
