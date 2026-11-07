@@ -1,3 +1,4 @@
+import { homeRowAndFingerPlacementGuide } from "./home-row-and-finger-placement";
 import { howToImproveTypingSpeedGuide } from "./how-to-improve-typing-speed";
 import { touchTypingForBeginnersGuide } from "./touch-typing-for-beginners";
 import { typingAccuracyVsSpeedGuide } from "./typing-accuracy-vs-speed";
@@ -11,6 +12,7 @@ export const GUIDES: Guide[] = [
   whatIsWpmGuide,
   typingAccuracyVsSpeedGuide,
   whatIsAGoodTypingSpeedGuide,
+  homeRowAndFingerPlacementGuide,
 ];
 
 export function getAllGuides(): Guide[] {
