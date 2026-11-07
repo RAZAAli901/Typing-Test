@@ -6,6 +6,7 @@ All notable changes to **TypeMaster Web** are documented in this file.
 
 ## [Unreleased]
 
+- Added "Download My Data" button in profile view linking directly to the JSON data export endpoint.
 - Added self-serve data export endpoint (`GET /api/profile/export`) providing downloadable JSON data archive.
 - Added account deletion UI button and two-step confirmation modal in profile view.
 - Added self-serve account deletion endpoint (`DELETE /api/profile`) to allow users to permanently delete accounts and all cascading data.

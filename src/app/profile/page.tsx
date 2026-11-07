@@ -445,6 +445,32 @@ export default function ProfilePage() {
           </div>
         </div>
 
+        {/* Data Rights & Portability */}
+        <div className="pt-8 border-t border-crt-dim/30 space-y-4">
+          <div className="flex items-center gap-2 text-crt-primary">
+            <Icon name="stats" size={20} className="text-crt-primary" />
+            <h3 className="text-xl font-black uppercase tracking-wider">DATA PRIVACY &amp; EXPORT</h3>
+          </div>
+
+          <div className="p-5 border border-crt-dim/40 rounded bg-[#070707] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <h4 className="font-bold text-white text-base">Export Your Personal Data</h4>
+              <p className="text-xs text-crt-dim leading-relaxed max-w-xl font-mono">
+                Download a machine-readable JSON archive containing your account profile, email status, security timestamps, and complete typing session history.
+              </p>
+            </div>
+            <Button
+              asChild
+              variant="outline"
+              className="border-crt-primary/50 text-crt-primary hover:bg-crt-primary/10 flex-shrink-0"
+            >
+              <a href="/api/profile/export" download>
+                DOWNLOAD MY DATA (.JSON)
+              </a>
+            </Button>
+          </div>
+        </div>
+
         {/* Danger Zone: Account Deletion */}
         <div className="pt-8 border-t border-red-500/30 space-y-4">
           <div className="flex items-center gap-2 text-red-500">
