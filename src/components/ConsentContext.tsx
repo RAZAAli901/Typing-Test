@@ -6,6 +6,7 @@ import {
   getStoredConsent,
   setStoredConsent,
   clearStoredConsent,
+  isGlobalPrivacyControlEnabled,
 } from "@/lib/consent";
 
 interface ConsentContextValue {
@@ -24,12 +25,7 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Check Global Privacy Control signal
-    const isGpcActive =
-      typeof navigator !== "undefined" &&
-      // @ts-expect-error - GlobalPrivacyControl property is standard in privacy-preserving browsers
-      Boolean(navigator.globalPrivacyControl);
-
-    if (isGpcActive) {
+    if (isGlobalPrivacyControlEnabled()) {
       setStoredConsent("denied");
       setStatus("denied");
       setIsBannerOpen(false);

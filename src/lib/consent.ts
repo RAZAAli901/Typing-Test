@@ -63,3 +63,13 @@ export function clearStoredConsent(): void {
     console.error("[CONSENT] Failed to clear stored consent:", err);
   }
 }
+
+/**
+ * Checks if the user's browser transmits the Global Privacy Control (GPC) signal.
+ * When enabled, consent is automatically defaulted to 'denied' without banner prompting.
+ */
+export function isGlobalPrivacyControlEnabled(): boolean {
+  if (typeof navigator === "undefined") return false;
+  // @ts-expect-error - navigator.globalPrivacyControl is standard in privacy browsers (Brave, Firefox, etc.)
+  return Boolean(navigator.globalPrivacyControl);
+}
