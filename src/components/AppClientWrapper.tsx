@@ -13,10 +13,12 @@ export default function AppClientWrapper({ children }: AppClientWrapperProps) {
   const { booting, handleBootComplete } = useBootState();
 
   useEffect(() => {
-    // Blinking tab title cursor: "TYPEMASTER_v1 ▮"
+    // Blinking tab title cursor preserving per-page title
     let cursorActive = true;
     const titleInterval = setInterval(() => {
-      document.title = `TYPEMASTER_v1 ${cursorActive ? "▮" : " "}`;
+      if (typeof document === "undefined") return;
+      const cleanTitle = document.title.replace(/\s*[▮]$/, "").trimEnd();
+      document.title = cursorActive ? `${cleanTitle} ▮` : cleanTitle;
       cursorActive = !cursorActive;
     }, 850);
 
