@@ -16,6 +16,10 @@ export const envSchema = z.object({
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().optional(),
   SUPABASE_ANON_KEY: z.string().optional(),
   SUPABASE_SERVICE_ROLE_KEY: z.string().optional(),
+  NEXT_PUBLIC_SITE_URL: z.string().optional(),
+  NEXT_PUBLIC_CONTACT_EMAIL: z.string().optional(),
+  NEXT_PUBLIC_OPERATOR_NAME: z.string().optional(),
+  NEXT_PUBLIC_ADSENSE_CLIENT_ID: z.string().optional(),
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
 });
 
