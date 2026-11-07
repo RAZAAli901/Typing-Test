@@ -12,14 +12,14 @@ export default function Home() {
     <div className="flex flex-col items-center justify-center space-y-16 py-8 md:py-12 font-vt323 text-lg text-crt-dim select-none">
       {/* Hero Section */}
       <section className="text-center max-w-3xl space-y-6">
-        <div className="inline-flex items-center gap-2 text-crt-dim text-xs font-bold tracking-widest uppercase font-mono">
+        <div className="inline-flex items-center gap-2 text-crt-primary text-xs font-bold tracking-widest uppercase font-mono px-3 py-1 border border-crt-primary/40 rounded-full bg-crt-primary/10 shadow-[0_0_8px_rgba(255,176,0,0.15)]">
           <span className="w-2 h-2 rounded-full bg-crt-primary animate-pulse shadow-[0_0_5px_var(--color-crt-primary)]"></span>
           [REBUILT FROM CLI TO NEXT.JS]
         </div>
         <h1 className="text-4xl md:text-6xl font-black tracking-widest text-crt-primary drop-shadow-[0_0_6px_var(--color-crt-primary)] uppercase leading-tight font-vt323">
           Master Your Typing Speed on TypeMaster Web
         </h1>
-        <p className="text-lg md:text-xl text-crt-dim font-bold tracking-wider uppercase font-vt323">
+        <p className="text-lg md:text-xl text-crt-primary/90 font-bold tracking-wider uppercase font-vt323 leading-relaxed">
           Experience real-time keystroke scanning, character color-coding, in-app synthesized audio feedback, and detailed performance curves linked to our global Supabase PostgreSQL leaderboard.
         </p>
 
