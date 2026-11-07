@@ -10,11 +10,11 @@ This checklist tracks the resolution of the 12 audit findings identified for AdS
   - *Closing Commits*: 22, 26 (Phase 2)
 - [ ] **Finding 4**: No privacy policy, terms, contact page, cookie notice or footer links
   - *Closing Commits*: 47–49 (Phase 4), 55–72 (Phase 5)
-- [ ] **Finding 5**: No `ads.txt`, `robots.txt`, `sitemap.xml`, canonical URL, Open Graph tags or `google-adsense-account` meta
+- [x] **Finding 5**: No `ads.txt`, `robots.txt`, `sitemap.xml`, canonical URL, Open Graph tags or `google-adsense-account` meta
   - *Closing Commits*: 24, 27–32, 39–43, 46 (Phases 2 & 3)
 - [ ] **Finding 6**: Home and About are feature blurbs; Leaderboard and Stats are data views ("Low value content")
   - *Closing Commits*: 89–116 (Phase 7 - 18 guides & glossary), 117–127 (Phase 8 - substantive content improvements)
-- [ ] **Finding 7**: Most pages are `"use client"`, so they cannot export metadata
+- [x] **Finding 7**: Most pages are `"use client"`, so they cannot export metadata
   - *Closing Commits*: 33–38, 46 (Phase 3)
 - [ ] **Finding 8**: No rule keeps ads off login, signup, verify, profile, 404, error and play
   - *Closing Commits*: 79–82, 86–88 (Phase 6), 136–137 (Phase 10)
