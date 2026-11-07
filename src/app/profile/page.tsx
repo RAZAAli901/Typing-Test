@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Icon from "@/components/Icon";
@@ -48,6 +48,12 @@ export default function ProfilePage() {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [successNotify, setSuccessNotify] = useState<string | null>(null);
+
+  // Account deletion states
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleteConfirmText, setDeleteConfirmText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   useEffect(() => {
     if (status !== "authenticated" || !session?.user?.name) return;
@@ -184,6 +190,35 @@ export default function ProfilePage() {
     setSelectedFile(null);
     setPreviewUrl(null);
     setUploadError(null);
+  };
+
+  const handleDeleteAccount = async () => {
+    if (deleteConfirmText.trim() !== "DELETE") {
+      setDeleteError("Please type DELETE to confirm permanent account removal.");
+      return;
+    }
+
+    setIsDeleting(true);
+    setDeleteError(null);
+
+    try {
+      const res = await fetch("/api/profile", { method: "DELETE" });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to delete account.");
+      }
+
+      // Clear local browser storage traces
+      localStorage.removeItem("typemaster_username");
+      localStorage.removeItem("typemaster_local_sessions");
+
+      // Sign out and redirect to home
+      await signOut({ callbackUrl: "/" });
+    } catch (err: any) {
+      setDeleteError(err.message || "Failed to delete account.");
+      setIsDeleting(false);
+    }
   };
 
   if (status === "loading" || (status === "authenticated" && isLoading)) {
@@ -409,7 +444,92 @@ export default function ProfilePage() {
             })}
           </div>
         </div>
+
+        {/* Danger Zone: Account Deletion */}
+        <div className="pt-8 border-t border-red-500/30 space-y-4">
+          <div className="flex items-center gap-2 text-red-500">
+            <Icon name="close" size={20} className="text-red-500" />
+            <h3 className="text-xl font-black uppercase tracking-wider">DANGER ZONE</h3>
+          </div>
+
+          <div className="p-5 border border-red-500/40 rounded bg-red-950/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <h4 className="font-bold text-white text-base">Permanently Delete Account</h4>
+              <p className="text-xs text-crt-dim leading-relaxed max-w-xl font-mono">
+                Permanently erase your user profile, all recorded typing sessions, high scores, personal bests, and uploaded avatars. This action cannot be undone.
+              </p>
+            </div>
+            <Button
+              onClick={() => {
+                setDeleteConfirmText("");
+                setDeleteError(null);
+                setIsDeleteModalOpen(true);
+              }}
+              variant="outline"
+              className="border-red-500 text-red-400 hover:bg-red-950/50 hover:text-red-300 flex-shrink-0"
+            >
+              DELETE ACCOUNT
+            </Button>
+          </div>
+        </div>
       </Card>
+
+      {/* Account Deletion Confirmation Modal */}
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs font-mono">
+          <div className="bg-[#0b0b0b] border-2 border-red-500 rounded-lg max-w-md w-full p-6 space-y-5 shadow-[0_0_30px_rgba(239,68,68,0.3)]">
+            <div className="flex items-center gap-3 text-red-500 border-b border-red-500/40 pb-3">
+              <Icon name="close" size={24} className="text-red-500" />
+              <h3 className="text-lg font-black uppercase tracking-wider">Confirm Irreversible Deletion</h3>
+            </div>
+
+            <p className="text-xs text-crt-dim leading-relaxed">
+              Are you absolutely sure? This will immediately wipe your account (<strong className="text-white">{session?.user?.name}</strong>), email records, leaderboard scores, and avatars from our databases.
+            </p>
+
+            <div className="space-y-2">
+              <label className="text-xs text-crt-dim font-bold block">
+                Type <span className="text-red-400 font-black">DELETE</span> below to confirm:
+              </label>
+              <input
+                type="text"
+                value={deleteConfirmText}
+                onChange={(e) => setDeleteConfirmText(e.target.value)}
+                placeholder="DELETE"
+                className="w-full px-3 py-2 bg-black border border-red-500/60 rounded text-red-300 font-mono text-sm focus:outline-hidden focus:border-red-400"
+                autoFocus
+              />
+            </div>
+
+            {deleteError && (
+              <p className="text-xs text-red-400 font-bold bg-red-950/40 border border-red-500/50 p-2 rounded">
+                {deleteError}
+              </p>
+            )}
+
+            <div className="flex justify-end gap-3 pt-3 border-t border-crt-dim/30">
+              <Button
+                onClick={() => {
+                  if (!isDeleting) setIsDeleteModalOpen(false);
+                }}
+                disabled={isDeleting}
+                variant="ghost"
+                size="sm"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleDeleteAccount}
+                disabled={isDeleting || deleteConfirmText.trim() !== "DELETE"}
+                className="bg-red-600 hover:bg-red-700 text-white font-bold"
+                size="sm"
+              >
+                {isDeleting ? "Deleting..." : "Permanently Delete"}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

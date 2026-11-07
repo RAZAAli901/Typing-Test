@@ -6,6 +6,7 @@ All notable changes to **TypeMaster Web** are documented in this file.
 
 ## [Unreleased]
 
+- Added account deletion UI button and two-step confirmation modal in profile view.
 - Added self-serve account deletion endpoint (`DELETE /api/profile`) to allow users to permanently delete accounts and all cascading data.
 - Removed unconditional Google AdSense `<script>` tag from root layout `<head>` to prevent pre-consent tracking and cookie deposition.
 
