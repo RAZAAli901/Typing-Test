@@ -48,6 +48,26 @@ export default function PrivacyPage() {
 
       <section id="account-data" className="space-y-3">
         <h2 className="text-xl font-bold text-crt-primary">2. Account and Authentication Data</h2>
+        <p>
+          When you register an account on TypeMaster, we collect and process specific account credentials necessary to authenticate your sessions and maintain your typing profile:
+        </p>
+        <ul className="list-disc list-inside space-y-2 text-zinc-300">
+          <li>
+            <strong>Username:</strong> Your chosen unique pseudonym. It serves as your public handle on global leaderboards and profile displays. <em>Lawful basis: Contractual necessity (providing requested application services).</em>
+          </li>
+          <li>
+            <strong>Email Address:</strong> Used strictly for account sign-in, account security notifications, password resets, and 6-digit email ownership verification. We never sell, rent, or distribute your email address to marketing third parties. <em>Lawful basis: Contractual necessity.</em>
+          </li>
+          <li>
+            <strong>Password:</strong> Your password is converted immediately on the server using an adaptive salted bcrypt cryptographic hash (work factor 10–12). Plain-text passwords are never written to database tables, logs, or backups. <em>Lawful basis: Security obligation and contractual necessity.</em>
+          </li>
+          <li>
+            <strong>Avatar Image:</strong> If you optionally upload a profile picture, the image is sanitized, resized server-side, and stored securely in an isolated cloud storage bucket. <em>Lawful basis: Voluntary user consent.</em>
+          </li>
+          <li>
+            <strong>Email Verification Codes:</strong> Temporary 6-digit one-time access codes sent during signup are stored as SHA-256 hashes in our database and automatically expire within 10 minutes. <em>Lawful basis: Legitimate interest in preventing automated spam and credential stuffing.</em>
+          </li>
+        </ul>
       </section>
 
       <section id="gameplay-data" className="space-y-3">
