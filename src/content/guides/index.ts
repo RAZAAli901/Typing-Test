@@ -1,5 +1,6 @@
 import { homeRowAndFingerPlacementGuide } from "./home-row-and-finger-placement";
 import { howToImproveTypingSpeedGuide } from "./how-to-improve-typing-speed";
+import { qwertyDvorakColemakGuide } from "./qwerty-dvorak-colemak";
 import { touchTypingForBeginnersGuide } from "./touch-typing-for-beginners";
 import { typingAccuracyVsSpeedGuide } from "./typing-accuracy-vs-speed";
 import { typingPostureAndErgonomicsGuide } from "./typing-posture-and-ergonomics";
@@ -15,6 +16,7 @@ export const GUIDES: Guide[] = [
   whatIsAGoodTypingSpeedGuide,
   homeRowAndFingerPlacementGuide,
   typingPostureAndErgonomicsGuide,
+  qwertyDvorakColemakGuide,
 ];
 
 export function getAllGuides(): Guide[] {
