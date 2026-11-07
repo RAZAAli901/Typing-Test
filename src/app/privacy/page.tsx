@@ -290,6 +290,43 @@ export default function PrivacyPage() {
 
       <section id="your-rights" className="space-y-3">
         <h2 className="text-xl font-bold text-crt-primary">8. Your Privacy Rights & Choices</h2>
+        <p>
+          Depending on your location (including the European Economic Area, United Kingdom, California, and other jurisdictions), you possess statutory privacy rights regarding your personal information:
+        </p>
+        <ul className="list-disc list-inside space-y-2 text-zinc-300">
+          <li>
+            <strong>Right to Access &amp; Data Portability:</strong> You may request a complete export of your personal information, including account attributes and historical typing sessions. You can generate a machine-readable JSON export directly from your{" "}
+            <Link href="/profile" className="text-crt-primary hover:underline">
+              Profile Page (/profile)
+            </Link>{" "}
+            or contact us to receive an archive.
+          </li>
+          <li>
+            <strong>Right to Rectification:</strong> You may update your account details, change your password, or replace your avatar picture directly in account settings at any time.
+          </li>
+          <li>
+            <strong>Right to Erasure (Account Deletion):</strong> You have the right to permanently purge your account, historical test scores, and uploaded avatars from our systems. You can execute immediate self-service account deletion directly on your{" "}
+            <Link href="/profile" className="text-crt-primary hover:underline">
+              Profile Page
+            </Link>{" "}
+            or request manual deletion by contacting us.
+          </li>
+          <li>
+            <strong>Right to Withdraw Consent:</strong> Where data processing relies on voluntary consent (such as digital advertising cookies), you may revoke or adjust your decision at any moment via our footer &ldquo;Cookie Settings&rdquo; button or on our{" "}
+            <Link href="/cookies" className="text-crt-primary hover:underline">
+              Cookies Page
+            </Link>.
+          </li>
+          <li>
+            <strong>Right to Non-Discrimination:</strong> We will never deny services, alter test mechanics, or restrict feature availability because you exercised your statutory privacy rights.
+          </li>
+        </ul>
+        <p className="text-sm pt-2">
+          To submit a formal data subject access request (DSAR) or privacy inquiry, please visit our{" "}
+          <Link href="/contact" className="text-crt-primary hover:underline">
+            Contact Page
+          </Link>. We respond to verified requests within statutory timeframes (30 days or less).
+        </p>
       </section>
 
       <section id="children-and-updates" className="space-y-3">
