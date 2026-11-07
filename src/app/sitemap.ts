@@ -1,10 +1,12 @@
 import type { MetadataRoute } from "next";
+import { getAllGuides } from "@/content/guides";
 import { SITE_URL, LEGAL_LAST_UPDATED } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date(LEGAL_LAST_UPDATED);
+  const guides = getAllGuides();
 
-  return [
+  const coreRoutes: MetadataRoute.Sitemap = [
     {
       url: `${SITE_URL}`,
       lastModified,
@@ -25,6 +27,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${SITE_URL}/about`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${SITE_URL}/learn`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/learn/glossary`,
       lastModified,
       changeFrequency: "monthly",
       priority: 0.7,
@@ -60,4 +74,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.5,
     },
   ];
+
+  const guideRoutes: MetadataRoute.Sitemap = guides.map((guide) => ({
+    url: `${SITE_URL}/learn/${guide.slug}`,
+    lastModified: new Date(guide.updatedDate),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...coreRoutes, ...guideRoutes];
 }
