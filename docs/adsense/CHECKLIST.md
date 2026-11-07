@@ -20,9 +20,9 @@ This checklist tracks the resolution of the 12 audit findings identified for AdS
   - *Closing Commits*: 79–82, 86–88 (Phase 6), 136–137 (Phase 10)
 - [x] **Finding 9**: Data collected is undocumented (email, password hash, avatar, scores, IPs, cookies, Supabase, Resend)
   - *Closing Commits*: 8 (Phase 0), 55–65, 72 (Phase 5)
-- [ ] **Finding 10**: No self-serve account deletion or data export (only admin scripts)
+- [x] **Finding 10**: No self-serve account deletion or data export (only admin scripts)
   - *Closing Commits*: 128–135 (Phase 9)
-- [ ] **Finding 11**: Production domain and contact address are not configured
+- [x] **Finding 11**: Production domain and contact address are not configured
   - *Closing Commits*: 9–16 (Phase 1)
 - [x] **Finding 12**: Copy contradicts itself (layout comment, 7 vs 8 modes, Vercel Postgres vs Supabase)
   - *Closing Commits*: 53–54 (Phase 4), 117–122, 127 (Phase 8)
