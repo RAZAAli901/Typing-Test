@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { SITE_URL, CONTACT_EMAIL } from "../src/lib/site";
 
 const EXPECTED_FILES = [
   "public/ads.txt",
@@ -33,6 +34,25 @@ function checkAdsenseReadiness(): void {
   if (missingCount > 0) {
     console.error(`\nAdSense readiness check failed: ${missingCount} required file(s) are missing.`);
     process.exit(1);
+  }
+
+  // Production environment configuration check
+  if (process.env.NODE_ENV === "production") {
+    if (!SITE_URL || SITE_URL.includes("localhost") || SITE_URL.includes("127.0.0.1")) {
+      console.error(`❌ Production error: SITE_URL cannot be localhost in production (got: ${SITE_URL})`);
+      process.exit(1);
+    }
+    if (!CONTACT_EMAIL || !CONTACT_EMAIL.trim()) {
+      console.error("❌ Production error: CONTACT_EMAIL must be set in production");
+      process.exit(1);
+    }
+  } else {
+    if (!SITE_URL || SITE_URL.includes("localhost")) {
+      console.warn(`⚠️ Warning: SITE_URL is currently using localhost (${SITE_URL}) for non-production.`);
+    }
+    if (!CONTACT_EMAIL) {
+      console.warn("⚠️ Warning: CONTACT_EMAIL is unset.");
+    }
   }
 
   console.log("\n🎉 All AdSense readiness prerequisite files exist!");
