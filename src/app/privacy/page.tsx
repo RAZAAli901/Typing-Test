@@ -150,6 +150,51 @@ export default function PrivacyPage() {
 
       <section id="browser-storage" className="space-y-3">
         <h2 className="text-xl font-bold text-crt-primary">5. Browser Storage, Cookies & Local State</h2>
+        <p>
+          TypeMaster stores limited technical preferences and authentication tokens in your local browser environment to provide core site features:
+        </p>
+        <h3 className="text-base font-bold text-zinc-200">A. Strictly Necessary HTTP Cookies</h3>
+        <ul className="list-disc list-inside space-y-1.5 text-zinc-300">
+          <li>
+            <code>next-auth.session-token</code> / <code>__Secure-next-auth.session-token</code>: Holds an encrypted JSON Web Token (JWT) identifying your signed-in account session. Expiration: 30 days (rolling).
+          </li>
+          <li>
+            <code>next-auth.csrf-token</code> / <code>__Host-next-auth.csrf-token</code>: Protects account forms against cross-site request forgery attacks. Expiration: Browser session.
+          </li>
+          <li>
+            <code>next-auth.callback-url</code> / <code>__Secure-next-auth.callback-url</code>: Remembers intended return destination following successful login. Expiration: Browser session.
+          </li>
+        </ul>
+        <h3 className="text-base font-bold text-zinc-200 pt-2">B. Client LocalStorage &amp; SessionStorage Keys</h3>
+        <ul className="list-disc list-inside space-y-1.5 text-zinc-300">
+          <li>
+            <code>typemaster_username</code> (localStorage): Stores your active username or guest display name locally so forms pre-fill on your device.
+          </li>
+          <li>
+            <code>typemaster_crt_theme</code> (localStorage): Stores your CRT display theme preference (Amber, Green, Cyan, or Classic).
+          </li>
+          <li>
+            <code>typemaster_crt_effects</code> (localStorage): Stores boolean preference for CRT screen curvature and scanline overlays.
+          </li>
+          <li>
+            <code>typemaster_crt_sound</code> (localStorage): Stores boolean preference for typewriter audio synthesis on keystrokes.
+          </li>
+          <li>
+            <code>typemaster_crt_live_flash</code> (localStorage): Stores boolean toggle for leaderboard alert flash animations.
+          </li>
+          <li>
+            <code>typemaster_consent_v1</code> (localStorage): Stores your cookie and advertising consent decision (Granted or Denied) with timestamp. Expiration: 12 months.
+          </li>
+          <li>
+            <code>typemaster_booted</code> (sessionStorage): Cleared when browser tab closes; prevents boot screen re-triggering during internal page transitions.
+          </li>
+        </ul>
+        <p className="text-sm pt-2">
+          For a full breakdown of each cookie duration and purpose, visit our{" "}
+          <Link href="/cookies" className="text-crt-primary hover:underline">
+            Cookie Policy (/cookies)
+          </Link>.
+        </p>
       </section>
 
       <section id="advertising" className="space-y-3">
