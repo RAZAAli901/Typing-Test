@@ -1,3 +1,5 @@
+import { CONSENT_STORAGE_KEY } from "@/lib/consent";
+
 export type StorageCategory = "Necessary" | "Functional" | "Advertising";
 export type StorageType = "cookie" | "localStorage" | "sessionStorage";
 
@@ -36,7 +38,7 @@ export const STORAGE_REGISTRY: StorageEntry[] = [
     purpose: "Stores the redirect destination following successful user authentication.",
   },
   {
-    name: "typemaster_consent_v1",
+    name: CONSENT_STORAGE_KEY,
     type: "localStorage",
     category: "Necessary",
     provider: "TypeMaster",
