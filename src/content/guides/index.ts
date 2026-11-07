@@ -10,6 +10,7 @@ import { typingAccuracyVsSpeedGuide } from "./typing-accuracy-vs-speed";
 import { typingCodeFasterGuide } from "./typing-code-faster";
 import { typingNumbersAndSymbolsGuide } from "./typing-numbers-and-symbols";
 import { typingPostureAndErgonomicsGuide } from "./typing-posture-and-ergonomics";
+import { typingTestsForJobApplicationsGuide } from "./typing-tests-for-job-applications";
 import { whatIsAGoodTypingSpeedGuide } from "./what-is-a-good-typing-speed";
 import { whatIsWpmGuide } from "./what-is-wpm";
 import { Guide } from "./types";
@@ -29,6 +30,7 @@ export const GUIDES: Guide[] = [
   typingCodeFasterGuide,
   stopLookingAtTheKeyboardGuide,
   commonTypingMistakesGuide,
+  typingTestsForJobApplicationsGuide,
 ];
 
 export function getAllGuides(): Guide[] {
