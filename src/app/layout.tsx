@@ -67,6 +67,8 @@ export const metadata: Metadata = {
 import SessionProviderWrapper from "@/components/SessionProviderWrapper";
 import { ADSENSE_CLIENT_ID, SITE_URL } from "@/lib/site";
 import JsonLd from "@/components/JsonLd";
+import { ConsentProvider } from "@/components/ConsentContext";
+import ConsentBanner from "@/components/ConsentBanner";
 
 export default function RootLayout({
   children,
@@ -90,21 +92,24 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col font-sans selection:bg-crt-primary/30 selection:text-crt-primary p-2 sm:p-4 md:p-6 bg-zinc-950">
         <SessionProviderWrapper>
           <CrtSettingsProvider>
-            <AppClientWrapper>
-              <RetroFrame>
-                <a
-                  href="#main"
-                  className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-crt-primary focus:text-black focus:font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-crt-primary"
-                >
-                  Skip to content
-                </a>
-                <Navbar />
-                <main id="main" className="flex-grow flex flex-col w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                  {children}
-                </main>
-                <Footer />
-              </RetroFrame>
-            </AppClientWrapper>
+            <ConsentProvider>
+              <AppClientWrapper>
+                <RetroFrame>
+                  <a
+                    href="#main"
+                    className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-crt-primary focus:text-black focus:font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-crt-primary"
+                  >
+                    Skip to content
+                  </a>
+                  <Navbar />
+                  <main id="main" className="flex-grow flex flex-col w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    {children}
+                  </main>
+                  <Footer />
+                  <ConsentBanner />
+                </RetroFrame>
+              </AppClientWrapper>
+            </ConsentProvider>
           </CrtSettingsProvider>
         </SessionProviderWrapper>
       </body>
