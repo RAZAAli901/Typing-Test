@@ -265,6 +265,27 @@ export default function PrivacyPage() {
 
       <section id="service-providers" className="space-y-3">
         <h2 className="text-xl font-bold text-crt-primary">7. Third-Party Service Providers & Transfers</h2>
+        <p>
+          We rely on vetted third-party service providers (data subprocessors) to facilitate core hosting, storage, and notification infrastructure:
+        </p>
+        <ul className="list-disc list-inside space-y-2 text-zinc-300">
+          <li>
+            <strong>Supabase Inc. (Database &amp; Storage):</strong> Provides managed cloud PostgreSQL infrastructure and avatar image hosting. Supabase stores your account username, email, encrypted password hash, typing scores, and uploaded avatars.
+          </li>
+          <li>
+            <strong>Resend Inc. (Transactional Email):</strong> Dispatches 6-digit email ownership verification codes and password recovery links. Resend receives only your recipient email address and transient message payload.
+          </li>
+          <li>
+            <strong>Vercel Inc. (Cloud Hosting &amp; Edge Runtime):</strong> Provides edge compute, static file CDN delivery, and DNS routing. Vercel processes inbound HTTP connections and ephemeral request routing metadata.
+          </li>
+          <li>
+            <strong>Google LLC (Google AdSense):</strong> If consent is explicitly granted, Google delivers digital advertisements and processes ad measurement cookies.
+          </li>
+        </ul>
+        <h3 className="text-base font-bold text-zinc-200 pt-2">International Data Transfers</h3>
+        <p>
+          Our cloud service providers operate servers primarily in the United States and distributed global edge locations. Consequently, your personal information may be transferred to, stored, or processed in jurisdictions outside of your country of residence where data protection legislation may differ from your local jurisdiction. Where applicable, our subprocessors maintain standard contractual clauses and rigorous enterprise encryption protocols (TLS 1.3 in transit and AES-256 at rest) to safeguard your information across international boundaries.
+        </p>
       </section>
 
       <section id="your-rights" className="space-y-3">
