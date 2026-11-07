@@ -382,6 +382,42 @@ export default function LeaderboardClient() {
           </div>
         )}
       </Card>
+
+      {/* Explanation of Ranking System */}
+      <section aria-labelledby="ranking-system-heading" className="space-y-4 font-mono text-xs md:text-sm">
+        <div className="border-b border-crt-dim/30 pb-2">
+          <h2 id="ranking-system-heading" className="text-xl md:text-2xl font-black text-crt-primary uppercase tracking-widest flex items-center gap-2 drop-shadow-[0_0_4px_var(--color-crt-primary)] font-vt323">
+            <Icon name="target" size={20} className="text-crt-primary" />
+            <span>HOW LEADERBOARD RANKINGS WORK</span>
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="p-4 border border-crt-dim/40 rounded bg-[#070707] space-y-2">
+            <div className="text-[10px] text-crt-primary font-bold tracking-wider uppercase">[01. RANKING ORDER]</div>
+            <h3 className="font-bold text-crt-primary text-sm">Net WPM &amp; Accuracy</h3>
+            <p className="text-crt-dim text-xs leading-relaxed">
+              Ranks are sorted primarily by <strong>Net WPM</strong> (standardized 5-character words minus uncorrected errors). Ties are resolved by higher accuracy percentage, followed by timestamp.
+            </p>
+          </div>
+
+          <div className="p-4 border border-crt-dim/40 rounded bg-[#070707] space-y-2">
+            <div className="text-[10px] text-crt-primary font-bold tracking-wider uppercase">[02. ANTI-CHEAT ENGINE]</div>
+            <h3 className="font-bold text-crt-primary text-sm">Telemetry Verification</h3>
+            <p className="text-crt-dim text-xs leading-relaxed">
+              Every score undergoes server-side keystroke interval analysis. Superhuman burst rates (&gt;250 WPM), automated macro playback, and clipboard injection are rejected.
+            </p>
+          </div>
+
+          <div className="p-4 border border-crt-dim/40 rounded bg-[#070707] space-y-2">
+            <div className="text-[10px] text-crt-primary font-bold tracking-wider uppercase">[03. ELIGIBLE MODES]</div>
+            <h3 className="font-bold text-crt-primary text-sm">Standardized Prompts</h3>
+            <p className="text-crt-dim text-xs leading-relaxed">
+              Leaderboard rankings apply to all 7 built-in test modes. Custom Text practice mode is unranked to maintain competitive fairness across uniform text pools.
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
