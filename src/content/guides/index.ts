@@ -2,6 +2,7 @@ import { homeRowAndFingerPlacementGuide } from "./home-row-and-finger-placement"
 import { howToImproveTypingSpeedGuide } from "./how-to-improve-typing-speed";
 import { touchTypingForBeginnersGuide } from "./touch-typing-for-beginners";
 import { typingAccuracyVsSpeedGuide } from "./typing-accuracy-vs-speed";
+import { typingPostureAndErgonomicsGuide } from "./typing-posture-and-ergonomics";
 import { whatIsAGoodTypingSpeedGuide } from "./what-is-a-good-typing-speed";
 import { whatIsWpmGuide } from "./what-is-wpm";
 import { Guide } from "./types";
@@ -13,6 +14,7 @@ export const GUIDES: Guide[] = [
   typingAccuracyVsSpeedGuide,
   whatIsAGoodTypingSpeedGuide,
   homeRowAndFingerPlacementGuide,
+  typingPostureAndErgonomicsGuide,
 ];
 
 export function getAllGuides(): Guide[] {
