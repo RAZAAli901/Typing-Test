@@ -39,10 +39,12 @@ export const metadata: Metadata = {
   description: "Test, analyze, and master your typing speed and accuracy with global live leaderboards and analytics.",
   icons: {
     icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23060606%22/><text y=%2270%22 font-size=%2280%22 font-family=%22monospace%22 fill=%22%2339ff14%22 font-weight=%22bold%22>▮</text></svg>",
-  }
+  },
+  ...(ADSENSE_CLIENT_ID ? { other: { "google-adsense-account": ADSENSE_CLIENT_ID } } : {}),
 };
 
 import SessionProviderWrapper from "@/components/SessionProviderWrapper";
+import { ADSENSE_CLIENT_ID } from "@/lib/site";
 
 export default function RootLayout({
   children,
