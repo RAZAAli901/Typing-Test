@@ -16,6 +16,7 @@
     "test:security": "tsx scripts/run-all-security-tests.ts",
     "typecheck": "tsc --noEmit",
     "adsense:check": "tsx scripts/check-adsense-readiness.ts",
+    "db:purge-retention": "tsx scripts/purge-expired-records.ts",
     "ci:install": "npm ci"
   },
   "dependencies": {
