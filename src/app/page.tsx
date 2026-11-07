@@ -20,7 +20,7 @@ export default function Home() {
           Master Your Typing Speed on TypeMaster Web
         </h1>
         <p className="text-lg md:text-xl text-crt-dim font-bold tracking-wider uppercase font-vt323">
-          Experience real-time keystroke scanning, character color-coding, in-app synthesized audio feedback, and detailed performance curves linked to our global Vercel Postgres leaderboard.
+          Experience real-time keystroke scanning, character color-coding, in-app synthesized audio feedback, and detailed performance curves linked to our global Supabase PostgreSQL leaderboard.
         </p>
 
         {/* Action Buttons */}
