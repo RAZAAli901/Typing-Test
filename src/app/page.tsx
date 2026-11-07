@@ -239,6 +239,54 @@ export default function Home() {
           </Link>
         </div>
       </section>
+
+      {/* Keyboard Shortcut Legend */}
+      <section className="w-full max-w-6xl space-y-4 font-mono text-xs md:text-sm">
+        <div className="border-b border-crt-border/60 pb-3 flex items-center justify-between">
+          <div>
+            <span className="text-[10px] tracking-widest text-crt-dim uppercase">[HOTKEYS &amp; CONTROLS]</span>
+            <h2 className="text-xl md:text-2xl font-bold text-crt-primary">Keyboard Shortcuts</h2>
+          </div>
+          <span className="text-[11px] text-crt-dim">Hands stay on keyboard</span>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+          <div className="p-3 border border-crt-border/70 rounded bg-crt-black/40 space-y-1">
+            <kbd className="inline-block px-1.5 py-0.5 border border-crt-primary/40 rounded bg-crt-primary/10 text-crt-primary font-bold text-xs">
+              Tab + Enter
+            </kbd>
+            <p className="text-[11px] text-crt-dim">Restart current test</p>
+          </div>
+
+          <div className="p-3 border border-crt-border/70 rounded bg-crt-black/40 space-y-1">
+            <kbd className="inline-block px-1.5 py-0.5 border border-crt-primary/40 rounded bg-crt-primary/10 text-crt-primary font-bold text-xs">
+              Esc
+            </kbd>
+            <p className="text-[11px] text-crt-dim">Pause or resume test</p>
+          </div>
+
+          <div className="p-3 border border-crt-border/70 rounded bg-crt-black/40 space-y-1">
+            <kbd className="inline-block px-1.5 py-0.5 border border-crt-primary/40 rounded bg-crt-primary/10 text-crt-primary font-bold text-xs">
+              Shift + Space
+            </kbd>
+            <p className="text-[11px] text-crt-dim">Quick restart prompt</p>
+          </div>
+
+          <div className="p-3 border border-crt-border/70 rounded bg-crt-black/40 space-y-1">
+            <kbd className="inline-block px-1.5 py-0.5 border border-crt-primary/40 rounded bg-crt-primary/10 text-crt-primary font-bold text-xs">
+              Backspace
+            </kbd>
+            <p className="text-[11px] text-crt-dim">Erase character / error</p>
+          </div>
+
+          <div className="p-3 border border-crt-border/70 rounded bg-crt-black/40 space-y-1">
+            <kbd className="inline-block px-1.5 py-0.5 border border-crt-primary/40 rounded bg-crt-primary/10 text-crt-primary font-bold text-xs">
+              Ctrl + Backspace
+            </kbd>
+            <p className="text-[11px] text-crt-dim">Delete entire word</p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
