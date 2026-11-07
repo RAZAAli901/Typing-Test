@@ -47,6 +47,7 @@ export default function Navbar() {
 
   const navLinks: { href: string; label: string; icon: IconName }[] = [
     { href: "/play", label: "PLAY", icon: "play" },
+    { href: "/learn", label: "LEARN", icon: "standard" },
     { href: "/leaderboard", label: "LEADERBOARD", icon: "trophy" },
     { href: "/stats", label: "STATS", icon: "stats" },
     { href: "/about", label: "ABOUT", icon: "info" },
