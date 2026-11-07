@@ -40,7 +40,9 @@ export const metadata: Metadata = {
     default: "TypeMaster: Free Online Typing Test and WPM Trainer",
     template: "%s | TypeMaster",
   },
-  description: "Test, analyze, and master your typing speed and accuracy with global live leaderboards and analytics.",
+  applicationName: "TypeMaster",
+  description:
+    "Test and improve your typing speed with TypeMaster. Practice custom modes, analyze detailed accuracy metrics, and compete on the global live leaderboard.",
   icons: {
     icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23060606%22/><text y=%2270%22 font-size=%2280%22 font-family=%22monospace%22 fill=%22%2339ff14%22 font-weight=%22bold%22>▮</text></svg>",
   },
