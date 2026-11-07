@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 import LegalPage from "@/components/LegalPage";
 import { STORAGE_REGISTRY } from "@/lib/storageRegistry";
+import ReopenConsentButton from "@/components/ReopenConsentButton";
 
 export const metadata: Metadata = pageMetadata({
   title: "Cookie Policy & Storage Registry - TypeMaster",
@@ -28,13 +29,7 @@ export default function CookiesPage() {
               You can grant, deny, or adjust third-party digital advertising cookie permissions at any time.
             </p>
           </div>
-          <button
-            id="reopen-consent-settings-btn"
-            type="button"
-            className="px-4 py-2 bg-crt-primary/10 hover:bg-crt-primary/20 text-crt-primary border border-crt-primary/40 rounded font-mono text-xs uppercase tracking-wider font-bold transition-colors cursor-pointer"
-          >
-            [ REOPEN COOKIE PREFERENCES ]
-          </button>
+          <ReopenConsentButton />
         </div>
       </section>
 
