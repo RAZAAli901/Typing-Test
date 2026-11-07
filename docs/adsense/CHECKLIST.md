@@ -24,5 +24,5 @@ This checklist tracks the resolution of the 12 audit findings identified for AdS
   - *Closing Commits*: 128–135 (Phase 9)
 - [ ] **Finding 11**: Production domain and contact address are not configured
   - *Closing Commits*: 9–16 (Phase 1)
-- [ ] **Finding 12**: Copy contradicts itself (layout comment, 7 vs 8 modes, Vercel Postgres vs Supabase)
+- [x] **Finding 12**: Copy contradicts itself (layout comment, 7 vs 8 modes, Vercel Postgres vs Supabase)
   - *Closing Commits*: 53–54 (Phase 4), 117–122, 127 (Phase 8)
