@@ -98,7 +98,14 @@ export default function RetroBootScreen({ onComplete }: RetroBootScreenProps) {
   }
 
   return (
-    <div className={`fixed inset-0 bg-[#060606] p-8 font-mono text-xs md:text-sm text-crt-primary z-50 flex flex-col justify-start items-start space-y-3 select-none overflow-hidden ${animClass}`}>
+    <>
+      <noscript>
+        <style>{`#retro-boot-overlay { display: none !important; }`}</style>
+      </noscript>
+      <div
+        id="retro-boot-overlay"
+        className={`fixed inset-0 bg-[#060606] p-8 font-mono text-xs md:text-sm text-crt-primary z-50 flex flex-col justify-start items-start space-y-3 select-none overflow-hidden ${animClass}`}
+      >
       {phase !== "on-anim" && (
         <>
           {lines.map((line, idx) => (
@@ -130,5 +137,6 @@ export default function RetroBootScreen({ onComplete }: RetroBootScreenProps) {
         </>
       )}
     </div>
+    </>
   );
 }
