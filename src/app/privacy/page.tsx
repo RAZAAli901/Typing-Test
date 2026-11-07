@@ -96,6 +96,56 @@ export default function PrivacyPage() {
 
       <section id="technical-data" className="space-y-3">
         <h2 className="text-xl font-bold text-crt-primary">4. Technical Data, Network Logs & Retention</h2>
+        <p>
+          To maintain application reliability, prevent abuse, and mitigate automated attacks, our infrastructure processes certain technical network metadata:
+        </p>
+        <ul className="list-disc list-inside space-y-2 text-zinc-300">
+          <li>
+            <strong>IP Addresses &amp; Rate Limiting:</strong> Client IP addresses are evaluated transiently in server memory to enforce request throttling, block brute-force password guessing, and protect API endpoints. IP addresses are evaluated in sliding windows (ranging from 60 seconds for general requests to 15 minutes for authentication attempts) and are never written to permanent database storage.
+          </li>
+          <li>
+            <strong>Edge Server Logs:</strong> Our cloud hosting infrastructure (Vercel) automatically logs standard HTTP access data (including HTTP status codes, user-agent headers, and request paths) for server telemetry and cyber-attack mitigation. These transient edge logs are automatically purged on standard cloud provider rotation cycles (typically within 30 days).
+          </li>
+        </ul>
+        <h3 className="text-base font-bold text-zinc-200 pt-2">Data Retention Summary</h3>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-xs border border-zinc-800 rounded">
+            <thead className="bg-zinc-900 text-crt-primary uppercase font-mono">
+              <tr>
+                <th className="p-2 border-b border-zinc-800">Data Category</th>
+                <th className="p-2 border-b border-zinc-800">Storage Medium</th>
+                <th className="p-2 border-b border-zinc-800">Retention Period</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-zinc-800">
+              <tr>
+                <td className="p-2 font-medium">Account Profile (User, Password Hash, Email)</td>
+                <td className="p-2">PostgreSQL Database</td>
+                <td className="p-2">Retained until self-serve user account deletion</td>
+              </tr>
+              <tr>
+                <td className="p-2 font-medium">Typing Scores &amp; Accuracy Metrics</td>
+                <td className="p-2">PostgreSQL Database</td>
+                <td className="p-2">Permanent on public leaderboards or until account deletion</td>
+              </tr>
+              <tr>
+                <td className="p-2 font-medium">Anti-Cheat Practice Sessions</td>
+                <td className="p-2">PostgreSQL Database</td>
+                <td className="p-2">15 minutes (ephemeral token expiration)</td>
+              </tr>
+              <tr>
+                <td className="p-2 font-medium">Email Verification Code Hashes</td>
+                <td className="p-2">PostgreSQL Database</td>
+                <td className="p-2">10 minutes (strict cryptographic timeout)</td>
+              </tr>
+              <tr>
+                <td className="p-2 font-medium">Rate Limiting IP Windows</td>
+                <td className="p-2">In-Memory Cache</td>
+                <td className="p-2">60 seconds to 15 minutes (volatile only)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section id="browser-storage" className="space-y-3">
