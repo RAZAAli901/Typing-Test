@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Icon from "@/components/Icon";
 import { TYPING_MODES } from "@/content/modes";
+import { OPERATOR_NAME, CONTACT_EMAIL } from "@/lib/site";
 
 const METRICS = [
   {
@@ -168,6 +169,47 @@ export default function AboutClient() {
         <p className="text-sm text-crt-dim font-medium leading-relaxed max-w-xl mx-auto uppercase">
           TypeMaster Web is a complete Next.js port of the original TypeMaster C++ CLI. While the terminal game had to calculate limits without standard string or time containers, the web version introduces high-precision web APIs, client-side persistence, and a global PostgreSQL-backed leaderboard.
         </p>
+      </div>
+
+      {/* Operator and Transparency Section */}
+      <div className="space-y-4 font-mono text-xs md:text-sm">
+        <div className="border-b border-crt-dim/30 pb-2">
+          <h2 className="text-2xl font-black text-crt-primary uppercase tracking-widest flex items-center gap-2 drop-shadow-[0_0_4px_var(--color-crt-primary)]">
+            <Icon name="user" size={24} className="text-crt-primary" />
+            <span>WHO OPERATES THIS SITE</span>
+          </h2>
+        </div>
+
+        <div className="bg-[#070707] border border-crt-dim/40 p-6 rounded space-y-4">
+          <p className="text-crt-dim leading-relaxed">
+            TypeMaster is operated by <strong className="text-crt-primary">{OPERATOR_NAME}</strong> as an independent web-based typing training and benchmarking platform. Our mission is to deliver free, high-precision typing analytics and educational material to help typists, students, and engineers develop sustainable keyboard fluency.
+          </p>
+          <div className="flex flex-wrap gap-4 text-xs pt-2 border-t border-crt-dim/30">
+            <Link
+              href="/contact"
+              className="text-crt-primary hover:underline font-bold"
+            >
+              Contact Support &rarr;
+            </Link>
+            <Link
+              href="/editorial-policy"
+              className="text-crt-dim hover:text-crt-primary transition-colors"
+            >
+              Editorial Standards
+            </Link>
+            <Link
+              href="/privacy"
+              className="text-crt-dim hover:text-crt-primary transition-colors"
+            >
+              Privacy Policy
+            </Link>
+            {CONTACT_EMAIL && (
+              <span className="text-crt-dim">
+                Email: <span className="text-crt-primary">{CONTACT_EMAIL}</span>
+              </span>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
