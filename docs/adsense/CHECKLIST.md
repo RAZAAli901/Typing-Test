@@ -3,10 +3,10 @@
 This checklist tracks the resolution of the 12 audit findings identified for AdSense readiness.
 
 - [ ] **Finding 1**: AdSense script (`ca-pub-6696399034620004`) loads on every page, before any consent
-  - *Closing Commits*: 23, 26 (Phase 2 - removal), 73–88 (Phase 6 - consent-gated loader)
-- [ ] **Finding 2**: Server render shows the boot screen, not the page (`booting` starts true)
+  - *Closing Commits*: 23, 26 (Phase 2 - removal: STARTED), 73–88 (Phase 6 - consent-gated loader)
+- [x] **Finding 2**: Server render shows the boot screen, not the page (`booting` starts true)
   - *Closing Commits*: 17–21, 25, 26 (Phase 2)
-- [ ] **Finding 3**: A timer rewrites `document.title` to `TYPEMASTER_v1 ▮` every 850 ms
+- [x] **Finding 3**: A timer rewrites `document.title` to `TYPEMASTER_v1 ▮` every 850 ms
   - *Closing Commits*: 22, 26 (Phase 2)
 - [ ] **Finding 4**: No privacy policy, terms, contact page, cookie notice or footer links
   - *Closing Commits*: 47–49 (Phase 4), 55–72 (Phase 5)

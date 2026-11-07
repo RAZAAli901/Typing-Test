@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/8bit/input";
 import { Alert } from "@/components/ui/8bit/alert";
 import { Card } from "@/components/ui/8bit/card";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/play";
@@ -192,5 +192,13 @@ export default function LoginPage() {
         </form>
       </Card>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="text-center py-12 font-vt323 text-crt-dim">LOADING ACCESS PORTAL...</div>}>
+      <LoginForm />
+    </Suspense>
   );
 }
