@@ -331,6 +331,18 @@ export default function PrivacyPage() {
 
       <section id="children-and-updates" className="space-y-3">
         <h2 className="text-xl font-bold text-crt-primary">9. Children's Privacy & Policy Updates</h2>
+        <h3 className="text-base font-bold text-zinc-200">Children&rsquo;s Privacy (COPPA / GDPR Article 8)</h3>
+        <p>
+          TypeMaster is an online speed typing platform designed for general audiences, students, and software professionals. It is not directed toward children under 13 years of age (or under 16 in the European Economic Area). We do not knowingly solicit, collect, or process personal data from children under these age thresholds. If you are a parent or legal guardian and discover that your minor child has registered an account without appropriate authorization, please reach out via our{" "}
+          <Link href="/contact" className="text-crt-primary hover:underline">
+            Contact Portal
+          </Link>{" "}
+          so we can immediately terminate the account and permanently delete all related records.
+        </p>
+        <h3 className="text-base font-bold text-zinc-200 pt-2">Amendments and Policy Revisions</h3>
+        <p>
+          We may update this Privacy Policy from time to time to accommodate new application features, security improvements, or statutory regulatory amendments. The effective date of the current document is displayed in the &ldquo;Last Updated&rdquo; timestamp at the head of this page. Whenever material changes are introduced to how we collect or process personal data, we will post an advance notice on the website or via an on-screen alert banner prior to the modifications becoming operative. Continued usage of TypeMaster following the effective date of an amended policy constitutes acknowledgment and acceptance of the revised practices.
+        </p>
       </section>
     </LegalPage>
   );
