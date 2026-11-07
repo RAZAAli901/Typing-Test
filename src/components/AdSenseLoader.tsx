@@ -2,7 +2,7 @@
 
 import Script from "next/script";
 import { usePathname } from "next/navigation";
-import { ADSENSE_CLIENT_ID } from "@/lib/site";
+import { ADSENSE_CLIENT_ID, ADS_ENABLED } from "@/lib/site";
 import { isRouteEligibleForAds } from "@/lib/adEligibility";
 import { useConsent } from "./ConsentContext";
 
@@ -10,10 +10,9 @@ export default function AdSenseLoader() {
   const pathname = usePathname();
   const { status } = useConsent();
 
-  const isAdsEnabled = process.env.NEXT_PUBLIC_ADS_ENABLED !== "false";
   const isEligible = isRouteEligibleForAds(pathname);
 
-  if (!isAdsEnabled || !ADSENSE_CLIENT_ID || status !== "granted" || !isEligible) {
+  if (!ADS_ENABLED || !ADSENSE_CLIENT_ID || status !== "granted" || !isEligible) {
     return null;
   }
 

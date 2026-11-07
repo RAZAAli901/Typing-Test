@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { ADSENSE_CLIENT_ID } from "@/lib/site";
+import { ADSENSE_CLIENT_ID, ADS_ENABLED } from "@/lib/site";
 import { isRouteEligibleForAds } from "@/lib/adEligibility";
 import { useConsent } from "./ConsentContext";
 
@@ -22,11 +22,10 @@ export default function AdSlot({
   const pathname = usePathname();
   const { status } = useConsent();
 
-  const isAdsEnabled = process.env.NEXT_PUBLIC_ADS_ENABLED !== "false";
   const isEligible = isRouteEligibleForAds(pathname);
 
   useEffect(() => {
-    if (!isAdsEnabled || !ADSENSE_CLIENT_ID || status !== "granted" || !isEligible || !slotId) {
+    if (!ADS_ENABLED || !ADSENSE_CLIENT_ID || status !== "granted" || !isEligible || !slotId) {
       return;
     }
 
@@ -38,9 +37,9 @@ export default function AdSlot({
     } catch (err) {
       console.error("[ADSENSE] Ad initialization push error:", err);
     }
-  }, [isAdsEnabled, status, isEligible, slotId]);
+  }, [ADS_ENABLED, status, isEligible, slotId]);
 
-  if (!isAdsEnabled || !ADSENSE_CLIENT_ID || status !== "granted" || !isEligible || !slotId) {
+  if (!ADS_ENABLED || !ADSENSE_CLIENT_ID || status !== "granted" || !isEligible || !slotId) {
     return null;
   }
 
