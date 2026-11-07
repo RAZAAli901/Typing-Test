@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { pageMetadata } from "@/lib/seo";
 import LegalPage, { LegalSection } from "@/components/LegalPage";
+import { OPERATOR_NAME, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
   title: "Privacy Policy - How TypeMaster Handles Your Data",
@@ -30,6 +32,18 @@ export default function PrivacyPage() {
     >
       <section id="who-we-are" className="space-y-3">
         <h2 className="text-xl font-bold text-crt-primary">1. Who We Are and Operator Details</h2>
+        <p>
+          This website and its associated services are operated by <strong>{OPERATOR_NAME}</strong> (&ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;us&rdquo;), accessible online at{" "}
+          <Link href={SITE_URL} className="text-crt-primary hover:underline">
+            {SITE_URL}
+          </Link>.
+        </p>
+        <p>
+          We are committed to operating transparently and respecting the privacy rights of all visitors, learners, and registered account holders. If you have any inquiries, data protection requests, or security concerns, you can contact us directly through our dedicated{" "}
+          <Link href="/contact" className="text-crt-primary hover:underline">
+            Contact Portal (/contact)
+          </Link>.
+        </p>
       </section>
 
       <section id="account-data" className="space-y-3">
