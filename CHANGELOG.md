@@ -6,6 +6,7 @@ All notable changes to **TypeMaster Web** are documented in this file.
 
 ## [Unreleased]
 
+- Added self-serve account deletion endpoint (`DELETE /api/profile`) to allow users to permanently delete accounts and all cascading data.
 - Removed unconditional Google AdSense `<script>` tag from root layout `<head>` to prevent pre-consent tracking and cookie deposition.
 
 ## [3.1.0-security-hardening] — 2026-08-12
