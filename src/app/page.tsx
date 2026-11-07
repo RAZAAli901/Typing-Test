@@ -40,7 +40,8 @@ export default function Home() {
       </section>
 
       {/* Feature Grid */}
-      <section className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl font-vt323 text-lg">
+      <section className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl font-vt323 text-lg" aria-label="Key Features">
+        <h2 className="sr-only">Key Platform Features</h2>
         <Card>
           <Icon name="mic" className="text-crt-primary" size={32} />
           <CardTitle>Live Feedback HUD</CardTitle>
@@ -126,9 +127,9 @@ export default function Home() {
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
                   <Icon name={m.icon} className="text-crt-primary group-hover:text-white transition-all duration-300" size={24} />
-                  <h4 className="text-lg font-bold text-crt-primary group-hover:text-white transition-colors uppercase">
+                  <h3 className="text-lg font-bold text-crt-primary group-hover:text-white transition-colors uppercase">
                     {m.name}
-                  </h4>
+                  </h3>
                 </div>
                 <p className="text-sm text-crt-dim/75 leading-relaxed uppercase">
                   {m.desc}

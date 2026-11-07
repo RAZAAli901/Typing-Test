@@ -96,13 +96,13 @@ export default function RootLayout({
               <AppClientWrapper>
                 <RetroFrame>
                   <a
-                    href="#main"
+                    href="#main-content"
                     className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-crt-primary focus:text-black focus:font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-crt-primary"
                   >
                     Skip to content
                   </a>
                   <Navbar />
-                  <main id="main" className="flex-grow flex flex-col w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                  <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 outline-none">
                     {children}
                   </main>
                   <Footer />

@@ -94,7 +94,7 @@ export default function AboutClient() {
             >
               <Icon name={mode.icon as any} className="text-crt-dim self-start mt-1.5" size={24} />
               <div className="space-y-1">
-                <h4 className="text-base font-bold text-crt-primary uppercase">{mode.name.toUpperCase()}</h4>
+                <h3 className="text-base font-bold text-crt-primary uppercase">{mode.name.toUpperCase()}</h3>
                 <p className="text-sm text-crt-dim/75 font-medium leading-relaxed uppercase">
                   {mode.desc}
                 </p>
@@ -169,7 +169,7 @@ export default function AboutClient() {
 
       {/* Origin Note Callout */}
       <div className="bg-[#070707] border-2 border-dashed border-crt-dim/40 p-6 rounded text-center space-y-2 shadow-[inset_0_0_10px_rgba(0,0,0,0.95)]">
-        <h4 className="text-lg font-black text-crt-primary uppercase drop-shadow-[0_0_3px_var(--color-crt-primary)]">*** REBUILT FOR THE MODERN WEB ***</h4>
+        <h3 className="text-lg font-black text-crt-primary uppercase drop-shadow-[0_0_3px_var(--color-crt-primary)]">*** REBUILT FOR THE MODERN WEB ***</h3>
         <p className="text-sm text-crt-dim font-medium leading-relaxed max-w-xl mx-auto uppercase">
           TypeMaster Web is a complete Next.js port of the original TypeMaster C++ CLI. While the terminal game had to calculate limits without standard string or time containers, the web version introduces high-precision web APIs, client-side persistence, and a global Supabase PostgreSQL-backed leaderboard.
         </p>
