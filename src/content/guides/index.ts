@@ -3,6 +3,7 @@ import { fifteenMinuteDailyTypingRoutineGuide } from "./15-minute-daily-typing-r
 import { homeRowAndFingerPlacementGuide } from "./home-row-and-finger-placement";
 import { howToImproveTypingSpeedGuide } from "./how-to-improve-typing-speed";
 import { qwertyDvorakColemakGuide } from "./qwerty-dvorak-colemak";
+import { stopLookingAtTheKeyboardGuide } from "./stop-looking-at-the-keyboard";
 import { touchTypingForBeginnersGuide } from "./touch-typing-for-beginners";
 import { typingAccuracyVsSpeedGuide } from "./typing-accuracy-vs-speed";
 import { typingCodeFasterGuide } from "./typing-code-faster";
@@ -25,6 +26,7 @@ export const GUIDES: Guide[] = [
   fifteenMinuteDailyTypingRoutineGuide,
   typingNumbersAndSymbolsGuide,
   typingCodeFasterGuide,
+  stopLookingAtTheKeyboardGuide,
 ];
 
 export function getAllGuides(): Guide[] {
