@@ -14,6 +14,7 @@
     "lint": "eslint",
     "secret-check": "tsx scripts/check-secrets-precommit.ts",
     "test:security": "tsx scripts/run-all-security-tests.ts",
+    "typecheck": "tsc --noEmit",
     "ci:install": "npm ci"
   },
   "dependencies": {
