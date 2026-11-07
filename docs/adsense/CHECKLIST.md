@@ -8,7 +8,7 @@ This checklist tracks the resolution of the 12 audit findings identified for AdS
   - *Closing Commits*: 17–21, 25, 26 (Phase 2)
 - [x] **Finding 3**: A timer rewrites `document.title` to `TYPEMASTER_v1 ▮` every 850 ms
   - *Closing Commits*: 22, 26 (Phase 2)
-- [ ] **Finding 4**: No privacy policy, terms, contact page, cookie notice or footer links
+- [x] **Finding 4**: No privacy policy, terms, contact page, cookie notice or footer links
   - *Closing Commits*: 47–49 (Phase 4), 55–72 (Phase 5)
 - [x] **Finding 5**: No `ads.txt`, `robots.txt`, `sitemap.xml`, canonical URL, Open Graph tags or `google-adsense-account` meta
   - *Closing Commits*: 24, 27–32, 39–43, 46 (Phases 2 & 3)
@@ -18,7 +18,7 @@ This checklist tracks the resolution of the 12 audit findings identified for AdS
   - *Closing Commits*: 33–38, 46 (Phase 3)
 - [ ] **Finding 8**: No rule keeps ads off login, signup, verify, profile, 404, error and play
   - *Closing Commits*: 79–82, 86–88 (Phase 6), 136–137 (Phase 10)
-- [ ] **Finding 9**: Data collected is undocumented (email, password hash, avatar, scores, IPs, cookies, Supabase, Resend)
+- [x] **Finding 9**: Data collected is undocumented (email, password hash, avatar, scores, IPs, cookies, Supabase, Resend)
   - *Closing Commits*: 8 (Phase 0), 55–65, 72 (Phase 5)
 - [ ] **Finding 10**: No self-serve account deletion or data export (only admin scripts)
   - *Closing Commits*: 128–135 (Phase 9)
