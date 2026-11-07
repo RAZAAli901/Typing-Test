@@ -35,6 +35,7 @@ const pressStart2P = Press_Start_2P({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "TYPEMASTER_v1 ▮",
   description: "Test, analyze, and master your typing speed and accuracy with global live leaderboards and analytics.",
   icons: {
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
 };
 
 import SessionProviderWrapper from "@/components/SessionProviderWrapper";
-import { ADSENSE_CLIENT_ID } from "@/lib/site";
+import { ADSENSE_CLIENT_ID, SITE_URL } from "@/lib/site";
 
 export default function RootLayout({
   children,
