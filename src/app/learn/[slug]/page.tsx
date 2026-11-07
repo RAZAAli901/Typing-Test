@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getAllGuides, getGuideBySlug } from "@/content/guides";
 import { pageMetadata } from "@/lib/seo";
+import { OPERATOR_NAME, SITE_URL } from "@/lib/site";
 
 interface GuidePageProps {
   params: Promise<{ slug: string }>;
@@ -45,8 +46,35 @@ export default async function GuidePage({ params }: GuidePageProps) {
     notFound();
   }
 
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: guide.title,
+    description: guide.description,
+    datePublished: guide.updatedDate,
+    dateModified: guide.updatedDate,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${SITE_URL}/learn/${guide.slug}`,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: OPERATOR_NAME,
+      url: SITE_URL,
+    },
+    author: {
+      "@type": "Organization",
+      name: OPERATOR_NAME,
+      url: SITE_URL,
+    },
+  };
+
   return (
     <div className="min-h-screen bg-crt-black text-crt-primary p-4 md:p-8 font-mono">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <div className="max-w-4xl mx-auto space-y-8">
         <Breadcrumbs
           items={[
