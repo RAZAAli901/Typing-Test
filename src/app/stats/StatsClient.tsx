@@ -452,6 +452,60 @@ export default function StatsClient() {
                   })}
                 </div>
               </div>
+
+              {/* Understanding Your Metrics */}
+              <div className="space-y-4 pt-6 border-t border-crt-dim/30 font-mono text-xs md:text-sm">
+                <div className="border-b border-crt-dim/30 pb-2">
+                  <h3 className="text-xl font-black text-crt-primary uppercase tracking-wider flex items-center gap-2 drop-shadow-[0_0_4px_var(--color-crt-primary)] font-vt323">
+                    <Icon name="info" size={20} className="text-crt-primary" />
+                    <span>UNDERSTANDING YOUR PERFORMANCE METRICS</span>
+                  </h3>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="p-4 border border-crt-dim/30 rounded bg-[#070707] space-y-1">
+                    <h4 className="font-bold text-crt-primary text-xs uppercase">Completed Sessions</h4>
+                    <p className="text-crt-dim text-[11px] leading-relaxed">
+                      The total number of full tests completed and verified under your ID. Consistent practice builds reliable neuromuscular muscle memory.
+                    </p>
+                  </div>
+
+                  <div className="p-4 border border-crt-dim/30 rounded bg-[#070707] space-y-1">
+                    <h4 className="font-bold text-crt-primary text-xs uppercase">Average Net WPM</h4>
+                    <p className="text-crt-dim text-[11px] leading-relaxed">
+                      Your cumulative median speed calculated using the standardized 5-character word rule, with uncorrected errors deducted.
+                    </p>
+                  </div>
+
+                  <div className="p-4 border border-crt-dim/30 rounded bg-[#070707] space-y-1">
+                    <h4 className="font-bold text-crt-primary text-xs uppercase">Top Speed Peak</h4>
+                    <p className="text-crt-dim text-[11px] leading-relaxed">
+                      Your single best 60-second verified sprint record. Reflects your peak neuromuscular ceiling under optimal focus.
+                    </p>
+                  </div>
+
+                  <div className="p-4 border border-crt-dim/30 rounded bg-[#070707] space-y-1">
+                    <h4 className="font-bold text-crt-primary text-xs uppercase">Average Accuracy</h4>
+                    <p className="text-crt-dim text-[11px] leading-relaxed">
+                      Percentage of registered keystrokes landing cleanly on target keys. Maintaining 98%+ accuracy is required to minimize backspace lag.
+                    </p>
+                  </div>
+
+                  <div className="p-4 border border-crt-dim/30 rounded bg-[#070707] space-y-1">
+                    <h4 className="font-bold text-crt-primary text-xs uppercase">Active Practice Time</h4>
+                    <p className="text-crt-dim text-[11px] leading-relaxed">
+                      Cumulative time spent actively typing text across all sessions, excluding idle menus and pause screens.
+                    </p>
+                  </div>
+
+                  <div className="p-4 border border-crt-dim/30 rounded bg-[#070707] space-y-1">
+                    <h4 className="font-bold text-crt-primary text-xs uppercase">Personal Bests (PBs)</h4>
+                    <p className="text-crt-dim text-[11px] leading-relaxed">
+                      Your personal benchmark high-score recorded for each of the 8 individual typing challenge modes.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </>
           )}
         </>
