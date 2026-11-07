@@ -8,6 +8,7 @@ import { stopLookingAtTheKeyboardGuide } from "./stop-looking-at-the-keyboard";
 import { touchTypingForBeginnersGuide } from "./touch-typing-for-beginners";
 import { typingAccuracyVsSpeedGuide } from "./typing-accuracy-vs-speed";
 import { typingCodeFasterGuide } from "./typing-code-faster";
+import { typingForStudentsGuide } from "./typing-for-students";
 import { typingNumbersAndSymbolsGuide } from "./typing-numbers-and-symbols";
 import { typingPostureAndErgonomicsGuide } from "./typing-posture-and-ergonomics";
 import { typingTestsForJobApplicationsGuide } from "./typing-tests-for-job-applications";
@@ -31,6 +32,7 @@ export const GUIDES: Guide[] = [
   stopLookingAtTheKeyboardGuide,
   commonTypingMistakesGuide,
   typingTestsForJobApplicationsGuide,
+  typingForStudentsGuide,
 ];
 
 export function getAllGuides(): Guide[] {
