@@ -45,8 +45,11 @@ export default function AdSlot({
 
   return (
     <div
-      className={`ad-slot-wrapper my-8 w-full max-w-4xl mx-auto flex flex-col items-center justify-center p-3 bg-zinc-950 border border-zinc-800/80 rounded text-center overflow-hidden ${className}`}
-      style={{ minHeight: `${minHeight}px` }}
+      className={`ad-slot-wrapper my-2 w-full max-w-4xl mx-auto flex flex-col items-center justify-center p-2 bg-zinc-950 border border-zinc-800/80 rounded text-center overflow-hidden ${className}`}
+      style={{
+        minHeight: `${minHeight}px`,
+        contain: "layout style",
+      }}
       aria-label="Advertisement container"
     >
       <span className="text-[10px] font-mono tracking-widest text-zinc-500 uppercase mb-2 select-none">

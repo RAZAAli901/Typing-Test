@@ -34,7 +34,10 @@ export default function AdContainer({
     <aside
       aria-label="Advertisement"
       className={`ad-container-region my-8 w-full max-w-4xl mx-auto flex flex-col items-center justify-center p-3 bg-zinc-950/60 border border-zinc-800/80 rounded-lg text-center overflow-hidden transition-all ${className}`}
-      style={{ minHeight: `${minHeight}px` }}
+      style={{
+        minHeight: `${minHeight}px`,
+        contain: "layout style",
+      }}
     >
       <div className="text-[10px] uppercase tracking-widest text-crt-dim/60 mb-2 select-none font-mono">
         Advertisement
