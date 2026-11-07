@@ -11,6 +11,7 @@ import { typingCodeFasterGuide } from "./typing-code-faster";
 import { typingForStudentsGuide } from "./typing-for-students";
 import { typingNumbersAndSymbolsGuide } from "./typing-numbers-and-symbols";
 import { typingPostureAndErgonomicsGuide } from "./typing-posture-and-ergonomics";
+import { typingRhythmAndFlowGuide } from "./typing-rhythm-and-flow";
 import { typingTestsForJobApplicationsGuide } from "./typing-tests-for-job-applications";
 import { whatIsAGoodTypingSpeedGuide } from "./what-is-a-good-typing-speed";
 import { whatIsWpmGuide } from "./what-is-wpm";
@@ -33,6 +34,7 @@ export const GUIDES: Guide[] = [
   commonTypingMistakesGuide,
   typingTestsForJobApplicationsGuide,
   typingForStudentsGuide,
+  typingRhythmAndFlowGuide,
 ];
 
 export function getAllGuides(): Guide[] {
