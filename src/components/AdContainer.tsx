@@ -32,6 +32,7 @@ export default function AdContainer({
 
   return (
     <aside
+      role="complementary"
       aria-label="Advertisement"
       className={`ad-container-region my-8 w-full max-w-4xl mx-auto flex flex-col items-center justify-center p-3 bg-zinc-950/60 border border-zinc-800/80 rounded-lg text-center overflow-hidden transition-all ${className}`}
       style={{
