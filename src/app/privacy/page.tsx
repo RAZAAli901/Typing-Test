@@ -199,6 +199,68 @@ export default function PrivacyPage() {
 
       <section id="advertising" className="space-y-3">
         <h2 className="text-xl font-bold text-crt-primary">6. Digital Advertising & Google AdSense</h2>
+        <p>
+          We partner with <strong>Google AdSense</strong> (operated by Google LLC) and authorized third-party ad vendors to serve digital advertisements on eligible editorial content pages of this site.
+        </p>
+        <p>
+          Third-party vendors, including Google, use cookies and similar device identifiers to serve ads based on your prior visits to this website or other sites on the Internet. Google&rsquo;s use of advertising cookies enables it and its partners to serve personalized or contextual advertisements based on your browsing activity.
+        </p>
+        <div className="bg-zinc-900 border-l-4 border-crt-primary p-4 my-3 text-sm text-zinc-300">
+          <strong className="text-crt-primary">Strict Consent-Gated Ad Serving:</strong> No advertising cookies, tracking beacons, or Google AdSense scripts are initialized or loaded when you first visit TypeMaster. Advertising scripts execute <em>only if you voluntarily provide explicit consent</em> via our on-screen consent interface.
+        </div>
+        <p>
+          You have full control over your advertising choices and may opt out of personalized advertising at any time:
+        </p>
+        <ul className="list-disc list-inside space-y-2 text-zinc-300">
+          <li>
+            <strong>Google Ad Settings:</strong> You can manage or opt out of personalized Google advertising by visiting{" "}
+            <a
+              href="https://adssettings.google.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-crt-primary hover:underline"
+            >
+              Google Ad Settings (adssettings.google.com)
+            </a>.
+          </li>
+          <li>
+            <strong>How Google Uses Partner Site Data:</strong> Learn how Google processes information when you use partner sites by reviewing{" "}
+            <a
+              href="https://policies.google.com/technologies/partner-sites"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-crt-primary hover:underline"
+            >
+              How Google uses information from sites or apps that use our services
+            </a>.
+          </li>
+          <li>
+            <strong>Industry Opt-Out Portals:</strong> You can opt out of collection and use of information for ad targeting by third-party ad networks via the Digital Advertising Alliance at{" "}
+            <a
+              href="https://optout.aboutads.info"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-crt-primary hover:underline"
+            >
+              aboutads.info/choices
+            </a>{" "}
+            or via the European Interactive Digital Advertising Alliance at{" "}
+            <a
+              href="https://www.youronlinechoices.eu"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-crt-primary hover:underline"
+            >
+              youronlinechoices.eu
+            </a>.
+          </li>
+          <li>
+            <strong>In-App Consent Withdrawal:</strong> You may modify or withdraw your consent at any time by clicking the &ldquo;Cookie Settings&rdquo; link in our website footer or visiting our{" "}
+            <Link href="/cookies" className="text-crt-primary hover:underline">
+              Cookie Preferences Page
+            </Link>.
+          </li>
+        </ul>
       </section>
 
       <section id="service-providers" className="space-y-3">
