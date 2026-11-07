@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import RelatedGuides from "@/components/RelatedGuides";
+import AdContainer from "@/components/AdContainer";
 import { getAllGuides, getGuideBySlug } from "@/content/guides";
 import { pageMetadata } from "@/lib/seo";
 import { OPERATOR_NAME, SITE_URL } from "@/lib/site";
@@ -139,6 +140,9 @@ export default async function GuidePage({ params }: GuidePageProps) {
             practiceMode={guide.practiceMode}
             practiceModeLabel={guide.practiceModeLabel}
           />
+
+          {/* Content Ad Slot */}
+          <AdContainer slotId="guide-bottom" minHeight={250} />
         </article>
       </div>
     </div>

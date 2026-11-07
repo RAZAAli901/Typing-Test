@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Icon from "@/components/Icon";
+import AdContainer from "@/components/AdContainer";
 import { TYPING_MODES, TOTAL_MODES_COUNT, BUILT_IN_MODES_COUNT } from "@/content/modes";
 import { OPERATOR_NAME, CONTACT_EMAIL } from "@/lib/site";
 
@@ -214,6 +215,9 @@ export default function AboutClient() {
           </div>
         </div>
       </div>
+
+      {/* Content Ad Slot */}
+      <AdContainer slotId="about-bottom" minHeight={250} />
     </div>
   );
 }

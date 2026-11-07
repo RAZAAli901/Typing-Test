@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Icon from "@/components/Icon";
+import AdContainer from "@/components/AdContainer";
 import { Button } from "@/components/ui/8bit/button";
 import { Card, CardTitle, CardDescription, CardFooter } from "@/components/ui/8bit/card";
 import { Badge } from "@/components/ui/8bit/badge";
@@ -287,6 +288,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Content Ad Slot */}
+      <AdContainer slotId="home-bottom" minHeight={250} />
     </div>
   );
 }

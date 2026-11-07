@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import AdContainer from "@/components/AdContainer";
 import { pageMetadata } from "@/lib/seo";
 import { getAllGuides } from "@/content/guides";
 
@@ -200,6 +201,9 @@ export default function LearnPage() {
             ))}
           </div>
         </section>
+
+        {/* Content Ad Slot */}
+        <AdContainer slotId="learn-hub-bottom" minHeight={250} />
       </div>
     </div>
   );
