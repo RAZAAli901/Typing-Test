@@ -66,6 +66,7 @@ export const metadata: Metadata = {
 
 import SessionProviderWrapper from "@/components/SessionProviderWrapper";
 import { ADSENSE_CLIENT_ID, SITE_URL } from "@/lib/site";
+import JsonLd from "@/components/JsonLd";
 
 export default function RootLayout({
   children,
@@ -79,6 +80,7 @@ export default function RootLayout({
       className={`${outfit.variable} ${jetbrainsMono.variable} ${vt323.variable} ${pressStart2P.variable} h-full antialiased`}
     >
       <head>
+        <JsonLd />
         <script
           dangerouslySetInnerHTML={{
             __html: `try{if(sessionStorage.getItem('typemaster_booted')==='true'){document.documentElement.setAttribute('data-booted','true');}}catch(e){}`,
