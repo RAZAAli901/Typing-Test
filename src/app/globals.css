@@ -38,6 +38,11 @@
   color: var(--color-crt-primary);
 }
 
+/* Immediately hide boot overlay for returning visitors with data-booted */
+html[data-booted="true"] #retro-boot-overlay {
+  display: none !important;
+}
+
 .theme-amber {
   --color-crt-primary: #ffb000;
   --color-crt-dim: #8b5e00;
