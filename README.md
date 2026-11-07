@@ -264,3 +264,46 @@ TypeMaster Web v2.0 includes a comprehensive, secure authentication and persiste
 ### 3. CRT Terminal Component Structure
 - **Screen Filter Wrapper:** Next.js global layouts are wrapped in visual viewport scanlines and noise filters to capture CRT aesthetic styles.
 - **Interactable Dial Controls:** Nav bar badges and bezel toggles trigger CRT screen effects, amber/green phosphor phosphor switching, and Web Audio API synthesized audio clicks.
+
+---
+
+## 📢 Google AdSense & Privacy Architecture
+
+TypeMaster Web integrates a privacy-first, consent-gated advertising and content verification architecture conforming strictly with Google AdSense Publisher Policies and international privacy regulations (GDPR, CCPA, ePrivacy):
+
+### 1. Environment & Configuration Settings
+Configure these environment variables in `.env.local` or your hosting provider dashboard:
+* `NEXT_PUBLIC_ADSENSE_CLIENT_ID`: Your AdSense publisher client ID (e.g., `ca-pub-6696399034620004`). When unset or empty, all ad components and meta tags cleanly disable.
+* `NEXT_PUBLIC_ADS_ENABLED`: Global emergency kill switch (`"true"` to enable, `"false"` to globally disengage all ad requests and scripts).
+* `NEXT_PUBLIC_SITE_URL`: Production canonical site URL (e.g., `https://typemaster.example.com`).
+* `NEXT_PUBLIC_CONTACT_EMAIL`: Operator support and privacy inquiry address.
+* `NEXT_PUBLIC_OPERATOR_NAME`: Entity or operator responsible for site publication.
+
+### 2. Verification Files & Crawl Signals
+* **ads.txt**: Hosted statically at [public/ads.txt](file:///c:/Users/tipto/OneDrive/Desktop/New%20folder/Typing-Test/public/ads.txt), declaring direct authorized seller relationship:
+  ```text
+  google.com, pub-6696399034620004, DIRECT, f08c47fec0942fa0
+  ```
+* **google-adsense-account Meta Tag**: Injected dynamically in server `<head>` to prove site ownership without executing client ad code.
+* **Robots & Sitemap**: Dynamic [src/app/robots.ts](file:///c:/Users/tipto/OneDrive/Desktop/New%20folder/Typing-Test/src/app/robots.ts) and [src/app/sitemap.ts](file:///c:/Users/tipto/OneDrive/Desktop/New%20folder/Typing-Test/src/app/sitemap.ts) index all 18 guides, glossary, and public content while disallowing private `/api/` and user utility paths.
+
+### 3. Consent-Gated Ad Loading & GPC Compliance
+* **Zero Pre-Consent Tracking**: The AdSense JavaScript bundle (`pagead2.googlesyndication.com`) is **never** loaded in server HTML or before user interaction.
+* **Granular Consent Modal**: Integrated via [src/components/ConsentBanner.tsx](file:///c:/Users/tipto/OneDrive/Desktop/New%20folder/Typing-Test/src/components/ConsentBanner.tsx) with persistent settings managed via [src/components/ReopenConsentButton.tsx](file:///c:/Users/tipto/OneDrive/Desktop/New%20folder/Typing-Test/src/components/ReopenConsentButton.tsx).
+* **Global Privacy Control (GPC)**: Automatically honors `navigator.globalPrivacyControl`, disabling advertising cookies without displaying intrusive banners.
+
+### 4. Strict Route Eligibility Matrix
+To eliminate policy violations, ads are strictly prohibited from appearing beside game controls, authentication screens, error states, or data entry views:
+* **Eligible Routes**: Home (`/`), About (`/about`), Learn Hub (`/learn`), and Editorial Guides (`/learn/*`).
+* **Blocked Routes**: `/play` (gameplay focus), `/login`, `/signup`, `/verify`, `/profile` (transactional), `/leaderboard`, `/stats` (data tables), `/privacy`, `/terms`, `/cookies` (legal), `/editorial-policy`, and 404 / 500 error pages.
+
+### 5. Automated Readiness Verification
+Run the automated test suite to verify AdSense compliance:
+```bash
+npm run adsense:check                # Verify presence of all required compliance files
+npx tsx scripts/test-ad-eligibility.ts        # Validate route gating rules across 24 routes
+npx tsx scripts/test-no-ads-before-consent.ts # Assert 0 ad scripts on all public routes
+npx tsx scripts/test-guides.ts                # Validate 18 educational guides for length & metadata
+npx tsx scripts/test-profile-data-rights.ts   # Verify 401 security on deletion & export endpoints
+```
+
