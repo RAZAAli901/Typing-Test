@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Icon from "@/components/Icon";
-import { TYPING_MODES } from "@/content/modes";
+import { TYPING_MODES, TOTAL_MODES_COUNT, BUILT_IN_MODES_COUNT } from "@/content/modes";
 import { OPERATOR_NAME, CONTACT_EMAIL } from "@/lib/site";
 
 const METRICS = [
@@ -75,11 +75,14 @@ export default function AboutClient() {
 
       {/* Game Modes Legend Section */}
       <div className="space-y-6">
-        <div className="border-b border-crt-dim/30 pb-2">
+        <div className="border-b border-crt-dim/30 pb-2 space-y-1">
           <h2 className="text-2xl font-black text-crt-primary uppercase tracking-widest flex items-center gap-2 drop-shadow-[0_0_4px_var(--color-crt-primary)]">
             <Icon name="game" size={24} className="text-crt-primary" />
-            <span>TYPING CHALLENGE MODES</span>
+            <span>{TOTAL_MODES_COUNT} TYPING CHALLENGE MODES</span>
           </h2>
+          <p className="text-sm text-crt-dim font-bold tracking-widest uppercase">
+            Choose from {BUILT_IN_MODES_COUNT} built-in benchmark modes plus 1 custom practice mode to refine your keyboard mastery.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
