@@ -1,6 +1,9 @@
+import { howToImproveTypingSpeedGuide } from "./how-to-improve-typing-speed";
 import { Guide } from "./types";
 
-export const GUIDES: Guide[] = [];
+export const GUIDES: Guide[] = [
+  howToImproveTypingSpeedGuide,
+];
 
 export function getAllGuides(): Guide[] {
   return GUIDES;
