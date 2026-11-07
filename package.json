@@ -15,6 +15,7 @@
     "secret-check": "tsx scripts/check-secrets-precommit.ts",
     "test:security": "tsx scripts/run-all-security-tests.ts",
     "typecheck": "tsc --noEmit",
+    "adsense:check": "tsx scripts/check-adsense-readiness.ts",
     "ci:install": "npm ci"
   },
   "dependencies": {
