@@ -1,6 +1,7 @@
 "use client";
 
 import Icon from "@/components/Icon";
+import { TYPING_MODES } from "@/content/modes";
 
 const METRICS = [
   {
@@ -23,48 +24,7 @@ const METRICS = [
   },
 ];
 
-const MODES = [
-  {
-    name: "Standard Mode",
-    desc: "Focuses on clean, fluid English text passages with balanced sentence structures. Great for checking your baseline speed.",
-    icon: "standard",
-  },
-  {
-    name: "Numbers Mode",
-    desc: "Presents batch reports, ambient decimals, serial numbers, and statistics. Essential training for bookkeeping and data entry fields.",
-    icon: "numbers",
-  },
-  {
-    name: "Quotes Mode",
-    desc: "Features famous quotes and philosophy excerpts. Exercises capital letters, basic spacing, and varying prompt structures.",
-    icon: "quotes",
-  },
-  {
-    name: "Code Snippet Mode",
-    desc: "Loads real code snippets (functions, variables, loops) with heavy braces, brackets, logic operators, and indentations. Perfect for developers.",
-    icon: "code",
-  },
-  {
-    name: "Punctuation Mode",
-    desc: "A text prompt saturated with complex symbols, hyphens, dashes, exclamation points, and brackets. Excellent for keyboard layout mastery.",
-    icon: "punctuation",
-  },
-  {
-    name: "Random Words Mode",
-    desc: "Assembles dynamic passages from our local word bank. Prevents memory recall, forcing visual scanning of individual word strings.",
-    icon: "random",
-  },
-  {
-    name: "Daily Challenge Mode",
-    desc: "Uses a deterministic, date-seeded prompt shared by all global visitors. Compete daily on even grounds on the Leaderboard.",
-    icon: "daily",
-  },
-  {
-    name: "Custom Text Mode",
-    desc: "Paste in custom training prompts from your clipboard. Practice specifically on reports, scripts, or passages you type daily.",
-    icon: "custom",
-  },
-];
+const MODES = TYPING_MODES;
 
 export default function AboutClient() {
   return (
