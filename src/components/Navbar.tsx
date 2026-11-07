@@ -7,6 +7,7 @@ import Icon, { IconName } from "@/components/Icon";
 import { useSession, signOut } from "next-auth/react";
 import { formatAvatarUrl } from "@/lib/utils";
 import { useRealtimePresence } from "@/hooks/useRealtimePresence";
+import { PRIMARY_NAV_LINKS } from "@/lib/nav";
 import DefaultAvatar from "@/components/DefaultAvatar";
 import { Button } from "@/components/ui/8bit/button";
 import {
@@ -45,13 +46,7 @@ export default function Navbar() {
     };
   }, []);
 
-  const navLinks: { href: string; label: string; icon: IconName }[] = [
-    { href: "/play", label: "PLAY", icon: "play" },
-    { href: "/learn", label: "LEARN", icon: "standard" },
-    { href: "/leaderboard", label: "LEADERBOARD", icon: "trophy" },
-    { href: "/stats", label: "STATS", icon: "stats" },
-    { href: "/about", label: "ABOUT", icon: "info" },
-  ];
+  const navLinks = PRIMARY_NAV_LINKS;
 
   const formattedAvatarUrl = formatAvatarUrl(session?.user?.image);
 
