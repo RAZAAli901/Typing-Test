@@ -1,10 +1,12 @@
 import { howToImproveTypingSpeedGuide } from "./how-to-improve-typing-speed";
 import { touchTypingForBeginnersGuide } from "./touch-typing-for-beginners";
+import { whatIsWpmGuide } from "./what-is-wpm";
 import { Guide } from "./types";
 
 export const GUIDES: Guide[] = [
   howToImproveTypingSpeedGuide,
   touchTypingForBeginnersGuide,
+  whatIsWpmGuide,
 ];
 
 export function getAllGuides(): Guide[] {
