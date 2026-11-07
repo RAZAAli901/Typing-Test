@@ -206,7 +206,7 @@ export default function PrivacyPage() {
           Third-party vendors, including Google, use cookies and similar device identifiers to serve ads based on your prior visits to this website or other sites on the Internet. Google&rsquo;s use of advertising cookies enables it and its partners to serve personalized or contextual advertisements based on your browsing activity.
         </p>
         <div className="bg-zinc-900 border-l-4 border-crt-primary p-4 my-3 text-sm text-zinc-300">
-          <strong className="text-crt-primary">Strict Consent-Gated Ad Serving:</strong> No advertising cookies, tracking beacons, or Google AdSense scripts are initialized or loaded when you first visit TypeMaster. Advertising scripts execute <em>only if you voluntarily provide explicit consent</em> via our on-screen consent interface.
+          <strong className="text-crt-primary">Strict Consent-Gated Ad Serving:</strong> No advertising cookies, tracking beacons, or Google AdSense scripts are initialized or loaded when you first visit TypeMaster. Advertising scripts execute <em>only if you voluntarily provide explicit consent</em> via our on-screen consent interface. Furthermore, advertisements are strictly excluded from game interfaces (/play), leaderboard data tables (/leaderboard), stats analytics (/stats), authentication flows (/login, /signup, /verify), profile settings (/profile), and all legal policy documents; ads appear exclusively on eligible publisher content routes (/, /about, and /learn guides).
         </div>
         <p>
           You have full control over your advertising choices and may opt out of personalized advertising at any time:

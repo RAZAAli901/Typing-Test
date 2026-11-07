@@ -2,7 +2,7 @@
 
 This checklist tracks the resolution of the 12 audit findings identified for AdSense readiness.
 
-- [ ] **Finding 1**: AdSense script (`ca-pub-6696399034620004`) loads on every page, before any consent
+- [x] **Finding 1**: AdSense script (`ca-pub-6696399034620004`) loads on every page, before any consent
   - *Closing Commits*: 23, 26 (Phase 2 - removal: STARTED), 73–88 (Phase 6 - consent-gated loader)
 - [x] **Finding 2**: Server render shows the boot screen, not the page (`booting` starts true)
   - *Closing Commits*: 17–21, 25, 26 (Phase 2)
@@ -16,7 +16,7 @@ This checklist tracks the resolution of the 12 audit findings identified for AdS
   - *Closing Commits*: 89–116 (Phase 7 - 18 guides & glossary), 117–127 (Phase 8 - substantive content improvements)
 - [x] **Finding 7**: Most pages are `"use client"`, so they cannot export metadata
   - *Closing Commits*: 33–38, 46 (Phase 3)
-- [ ] **Finding 8**: No rule keeps ads off login, signup, verify, profile, 404, error and play
+- [x] **Finding 8**: No rule keeps ads off login, signup, verify, profile, 404, error and play
   - *Closing Commits*: 79–82, 86–88 (Phase 6), 136–137 (Phase 10)
 - [x] **Finding 9**: Data collected is undocumented (email, password hash, avatar, scores, IPs, cookies, Supabase, Resend)
   - *Closing Commits*: 8 (Phase 0), 55–65, 72 (Phase 5)
