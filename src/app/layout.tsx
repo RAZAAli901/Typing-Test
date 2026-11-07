@@ -7,7 +7,7 @@ import { CrtSettingsProvider } from "@/lib/CrtSettingsContext";
 import RetroFrame from "@/components/RetroFrame";
 import AppClientWrapper from "@/components/AppClientWrapper";
 // SECURITY AUDIT: Fonts consume Next.js `next/font/google` self-hosted optimization.
-// Zero un-audited external third-party `<script>` or `<link>` tags exist in layout.
+// External third-party scripts are strictly consent-gated and disabled prior to user opt-in.
 const outfit = Outfit({
   variable: "--font-outfit",
   subsets: ["latin"],
@@ -60,11 +60,6 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `try{if(sessionStorage.getItem('typemaster_booted')==='true'){document.documentElement.setAttribute('data-booted','true');}}catch(e){}`,
           }}
-        />
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6696399034620004"
-          crossOrigin="anonymous"
         />
       </head>
       <body className="min-h-full flex flex-col font-sans selection:bg-crt-primary/30 selection:text-crt-primary p-2 sm:p-4 md:p-6 bg-zinc-950">

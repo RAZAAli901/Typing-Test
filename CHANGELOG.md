@@ -4,6 +4,10 @@ All notable changes to **TypeMaster Web** are documented in this file.
 
 ---
 
+## [Unreleased]
+
+- Removed unconditional Google AdSense `<script>` tag from root layout `<head>` to prevent pre-consent tracking and cookie deposition.
+
 ## [3.1.0-security-hardening] — 2026-08-12
 
 ### 🔒 Comprehensive Security Hardening Pass (130 Incremental Commits)
