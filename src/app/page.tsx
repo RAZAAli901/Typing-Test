@@ -108,6 +108,97 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {/* Featured Training Guides */}
+      <section className="w-full max-w-6xl space-y-6 font-mono text-xs md:text-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-crt-border/60 pb-3">
+          <div>
+            <span className="text-[10px] tracking-widest text-crt-dim uppercase">[KNOWLEDGE BASE]</span>
+            <h2 className="text-xl md:text-2xl font-bold text-crt-primary">Featured Training Guides</h2>
+          </div>
+          <Link
+            href="/learn"
+            className="text-crt-primary hover:underline font-semibold flex items-center gap-1 text-xs"
+          >
+            <span>Explore All 18 Guides &amp; Glossary</span>
+            <span>&rarr;</span>
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Link
+            href="/learn/how-to-improve-typing-speed"
+            className="p-4 border border-crt-border/70 rounded bg-crt-black/40 hover:border-crt-primary transition-all flex flex-col justify-between group"
+          >
+            <div>
+              <div className="text-[10px] text-crt-dim mb-1">TECHNIQUE</div>
+              <h3 className="font-bold text-crt-primary group-hover:text-crt-accent text-sm">
+                How to Improve Typing Speed
+              </h3>
+              <p className="mt-1 text-crt-dim text-xs line-clamp-2">
+                Motor chunking, deliberate practice drills, and rhythm control.
+              </p>
+            </div>
+            <span className="mt-3 text-crt-primary text-xs font-semibold group-hover:underline">
+              Read Guide &rarr;
+            </span>
+          </Link>
+
+          <Link
+            href="/learn/touch-typing-for-beginners"
+            className="p-4 border border-crt-border/70 rounded bg-crt-black/40 hover:border-crt-primary transition-all flex flex-col justify-between group"
+          >
+            <div>
+              <div className="text-[10px] text-crt-dim mb-1">FUNDAMENTALS</div>
+              <h3 className="font-bold text-crt-primary group-hover:text-crt-accent text-sm">
+                Touch Typing for Beginners
+              </h3>
+              <p className="mt-1 text-crt-dim text-xs line-clamp-2">
+                Learn finger assignment, home row anchors, and blind navigation.
+              </p>
+            </div>
+            <span className="mt-3 text-crt-primary text-xs font-semibold group-hover:underline">
+              Read Guide &rarr;
+            </span>
+          </Link>
+
+          <Link
+            href="/learn/typing-accuracy-vs-speed"
+            className="p-4 border border-crt-border/70 rounded bg-crt-black/40 hover:border-crt-primary transition-all flex flex-col justify-between group"
+          >
+            <div>
+              <div className="text-[10px] text-crt-dim mb-1">MOTOR CONTROL</div>
+              <h3 className="font-bold text-crt-primary group-hover:text-crt-accent text-sm">
+                Accuracy vs Speed
+              </h3>
+              <p className="mt-1 text-crt-dim text-xs line-clamp-2">
+                The true cost of typos, backspace recovery, and the 98% rule.
+              </p>
+            </div>
+            <span className="mt-3 text-crt-primary text-xs font-semibold group-hover:underline">
+              Read Guide &rarr;
+            </span>
+          </Link>
+
+          <Link
+            href="/learn/typing-numbers-and-symbols"
+            className="p-4 border border-crt-border/70 rounded bg-crt-black/40 hover:border-crt-primary transition-all flex flex-col justify-between group"
+          >
+            <div>
+              <div className="text-[10px] text-crt-dim mb-1">ADVANCED</div>
+              <h3 className="font-bold text-crt-primary group-hover:text-crt-accent text-sm">
+                Numbers &amp; Symbols
+              </h3>
+              <p className="mt-1 text-crt-dim text-xs line-clamp-2">
+                Master the top number row, shift keys, and programming symbols.
+              </p>
+            </div>
+            <span className="mt-3 text-crt-primary text-xs font-semibold group-hover:underline">
+              Read Guide &rarr;
+            </span>
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }

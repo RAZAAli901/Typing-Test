@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Icon from "@/components/Icon";
 import { TYPING_MODES } from "@/content/modes";
 
@@ -95,6 +96,69 @@ export default function AboutClient() {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Recommended Learning Guides */}
+      <div className="space-y-6">
+        <div className="border-b border-crt-dim/30 pb-2 flex items-center justify-between">
+          <h2 className="text-2xl font-black text-crt-primary uppercase tracking-widest flex items-center gap-2 drop-shadow-[0_0_4px_var(--color-crt-primary)]">
+            <Icon name="standard" size={24} className="text-crt-primary" />
+            <span>LEARNING &amp; TRAINING GUIDES</span>
+          </h2>
+          <Link
+            href="/learn"
+            className="text-xs font-mono text-crt-primary hover:underline font-bold"
+          >
+            All Guides &rarr;
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
+          <Link
+            href="/learn/what-is-wpm"
+            className="bg-[#070707] border border-crt-dim/30 p-4 rounded hover:border-crt-primary/50 transition-colors flex flex-col justify-between group"
+          >
+            <div>
+              <h4 className="font-bold text-crt-primary group-hover:text-crt-accent text-sm mb-1">
+                What Is WPM?
+              </h4>
+              <p className="text-crt-dim text-xs leading-relaxed">
+                The 5-character standardized word rule and how speed is scientifically measured.
+              </p>
+            </div>
+            <span className="text-crt-primary font-bold mt-3 inline-block">Read Guide &rarr;</span>
+          </Link>
+
+          <Link
+            href="/learn/how-typemaster-scores-work"
+            className="bg-[#070707] border border-crt-dim/30 p-4 rounded hover:border-crt-primary/50 transition-colors flex flex-col justify-between group"
+          >
+            <div>
+              <h4 className="font-bold text-crt-primary group-hover:text-crt-accent text-sm mb-1">
+                Scoring Engine
+              </h4>
+              <p className="text-crt-dim text-xs leading-relaxed">
+                How TypeMaster calculates Net WPM, accuracy ratios, and enforces fair play.
+              </p>
+            </div>
+            <span className="text-crt-primary font-bold mt-3 inline-block">Read Guide &rarr;</span>
+          </Link>
+
+          <Link
+            href="/learn/typing-posture-and-ergonomics"
+            className="bg-[#070707] border border-crt-dim/30 p-4 rounded hover:border-crt-primary/50 transition-colors flex flex-col justify-between group"
+          >
+            <div>
+              <h4 className="font-bold text-crt-primary group-hover:text-crt-accent text-sm mb-1">
+                Typing Ergonomics
+              </h4>
+              <p className="text-crt-dim text-xs leading-relaxed">
+                Protect your wrists, prevent RSI, and maintain neutral typing posture.
+              </p>
+            </div>
+            <span className="text-crt-primary font-bold mt-3 inline-block">Read Guide &rarr;</span>
+          </Link>
         </div>
       </div>
 
