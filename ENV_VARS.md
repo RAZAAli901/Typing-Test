@@ -14,6 +14,10 @@
 | `NEXTAUTH_SECRET` | Server Only | Secret Hash | Encryption key for signing NextAuth JWT session cookies. Must NEVER be `NEXT_PUBLIC_` prefixed. |
 | `NEXTAUTH_URL` | Server Only | URL | Canonical deployment URL (`http://localhost:3000` or production domain). |
 | `RESEND_API_KEY` | Server Only | Secret API Key | API key for dispatching transactional emails via Resend. Must NEVER be `NEXT_PUBLIC_` prefixed. |
+| `NEXT_PUBLIC_SITE_URL` | Browser & Server | Public HTTPS URL | Canonical production base URL used for sitemaps, canonical tags, and Open Graph URLs. |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | Browser & Server | Public Email | Contact address displayed for user inquiries, support, and privacy rights requests. |
+| `NEXT_PUBLIC_OPERATOR_NAME` | Browser & Server | Public String | Publisher or brand name displayed across legal terms and copyright disclosures. |
+| `NEXT_PUBLIC_ADSENSE_CLIENT_ID` | Browser & Server | Public String | Google AdSense publisher account client ID (e.g. `ca-pub-6696399034620004`). |
 
 > [!SECURITY]
 > **Server-Only Variable Boundary Enforcement**:
