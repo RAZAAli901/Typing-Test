@@ -99,7 +99,7 @@ export default function Home() {
             </div>
             <h3 className="text-base font-bold text-crt-primary">Analyze &amp; Compete</h3>
             <p className="text-crt-dim text-xs md:text-sm leading-relaxed">
-              Review your Net WPM, accuracy ratios, and SVG velocity curve. Verified scores sync to the PostgreSQL leaderboard to measure your global percentile.
+              Review your Net WPM, accuracy ratios, and SVG velocity curve. Verified scores sync to the Supabase PostgreSQL leaderboard to measure your global percentile.
             </p>
           </div>
         </div>
