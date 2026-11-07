@@ -26,7 +26,11 @@ export default function AppClientWrapper({ children }: AppClientWrapperProps) {
   return (
     <TooltipProvider>
       {booting && <RetroBootScreen onComplete={handleBootComplete} />}
-      <div id="app-content-root">
+      <div
+        id="app-content-root"
+        aria-hidden={booting ? true : undefined}
+        inert={booting ? true : undefined}
+      >
         {children}
       </div>
     </TooltipProvider>
