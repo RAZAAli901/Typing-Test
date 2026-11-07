@@ -17,7 +17,7 @@ This checklist tracks the resolution of the 12 audit findings identified for AdS
 - [x] **Finding 7**: Most pages are `"use client"`, so they cannot export metadata
   - *Closing Commits*: 33–38, 46 (Phase 3)
 - [x] **Finding 8**: No rule keeps ads off login, signup, verify, profile, 404, error and play
-  - *Closing Commits*: 79–82, 86–88 (Phase 6), 136–137 (Phase 10)
+  - *Closing Commits*: 79–82, 86–88 (Phase 6), 136–142 (Phase 10)
 - [x] **Finding 9**: Data collected is undocumented (email, password hash, avatar, scores, IPs, cookies, Supabase, Resend)
   - *Closing Commits*: 8 (Phase 0), 55–65, 72 (Phase 5)
 - [x] **Finding 10**: No self-serve account deletion or data export (only admin scripts)
