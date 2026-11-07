@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState, useCallback } from "react";
 import { ModeType } from "@/content/texts";
 import DefaultAvatar from "@/components/DefaultAvatar";
@@ -290,12 +291,22 @@ export default function LeaderboardClient() {
             [ERROR: {error}]
           </div>
         ) : sessions.length === 0 ? (
-          <div className="text-center py-16 space-y-2">
+          <div className="text-center py-16 px-4 space-y-4 max-w-md mx-auto">
             <div className="text-4xl animate-pulse">🏜️</div>
-            <h4 className="text-lg font-bold text-crt-primary">NO HIGH SCORES RECORDED</h4>
-            <p className="text-xs text-crt-dim uppercase tracking-wider">
-              Be the first to set a score in <span className="text-white font-bold">{activeMode}</span> mode!
-            </p>
+            <div className="space-y-1">
+              <h4 className="text-xl font-bold text-crt-primary">NO HIGH SCORES RECORDED</h4>
+              <p className="text-xs text-crt-dim leading-relaxed uppercase tracking-wider">
+                No verified scores have been logged yet for <span className="text-white font-bold">{activeMode}</span> mode.
+                Be the trailblazer and set the inaugural record!
+              </p>
+            </div>
+            <div className="pt-2">
+              <Button asChild size="lg" className="w-full sm:w-auto">
+                <Link href={`/play?mode=${activeMode}`}>
+                  Start First Test in {activeMode.toUpperCase()} ⚡
+                </Link>
+              </Button>
+            </div>
           </div>
         ) : (
           <div className="overflow-x-auto">
