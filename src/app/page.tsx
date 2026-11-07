@@ -65,6 +65,46 @@ export default function Home() {
         </Card>
       </section>
 
+      {/* How It Works Section */}
+      <section className="w-full max-w-6xl space-y-6 font-mono text-xs md:text-sm">
+        <div className="border-b border-crt-border/60 pb-3 text-center sm:text-left">
+          <span className="text-[10px] tracking-widest text-crt-dim uppercase">[THREE-STEP WORKFLOW]</span>
+          <h2 className="text-xl md:text-2xl font-bold text-crt-primary">How TypeMaster Works</h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="p-5 border border-crt-border/70 rounded-lg bg-crt-black/50 space-y-3 relative">
+            <div className="inline-block px-2 py-0.5 text-xs font-bold border border-crt-primary/40 rounded bg-crt-primary/10 text-crt-primary">
+              STEP 01
+            </div>
+            <h3 className="text-base font-bold text-crt-primary">Choose Your Mode</h3>
+            <p className="text-crt-dim text-xs md:text-sm leading-relaxed">
+              Select from standard prose, numbers, programming code snippets, or custom text. Each mode targets distinct neuromuscular reflexes and vocabulary patterns.
+            </p>
+          </div>
+
+          <div className="p-5 border border-crt-border/70 rounded-lg bg-crt-black/50 space-y-3 relative">
+            <div className="inline-block px-2 py-0.5 text-xs font-bold border border-crt-primary/40 rounded bg-crt-primary/10 text-crt-primary">
+              STEP 02
+            </div>
+            <h3 className="text-base font-bold text-crt-primary">Type With Live Telemetry</h3>
+            <p className="text-crt-dim text-xs md:text-sm leading-relaxed">
+              Your keystrokes are evaluated with millisecond timestamp precision. Real-time character highlighting and synthesized typewriter audio confirm input accuracy.
+            </p>
+          </div>
+
+          <div className="p-5 border border-crt-border/70 rounded-lg bg-crt-black/50 space-y-3 relative">
+            <div className="inline-block px-2 py-0.5 text-xs font-bold border border-crt-primary/40 rounded bg-crt-primary/10 text-crt-primary">
+              STEP 03
+            </div>
+            <h3 className="text-base font-bold text-crt-primary">Analyze &amp; Compete</h3>
+            <p className="text-crt-dim text-xs md:text-sm leading-relaxed">
+              Review your Net WPM, accuracy ratios, and SVG velocity curve. Verified scores sync to the PostgreSQL leaderboard to measure your global percentile.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Typing Modes Showcase */}
       <section className="w-full max-w-6xl space-y-8 font-vt323 text-lg">
         <div className="text-center space-y-2">
