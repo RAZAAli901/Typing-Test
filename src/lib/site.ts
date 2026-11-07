@@ -10,3 +10,5 @@ export const SITE_URL =
 export const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "";
 export const OPERATOR_NAME = process.env.NEXT_PUBLIC_OPERATOR_NAME || "TypeMaster";
 export const ADSENSE_CLIENT_ID = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || "";
+
+export const LEGAL_LAST_UPDATED = "2026-11-07";
