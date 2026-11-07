@@ -5,6 +5,7 @@ import { howToImproveTypingSpeedGuide } from "./how-to-improve-typing-speed";
 import { qwertyDvorakColemakGuide } from "./qwerty-dvorak-colemak";
 import { touchTypingForBeginnersGuide } from "./touch-typing-for-beginners";
 import { typingAccuracyVsSpeedGuide } from "./typing-accuracy-vs-speed";
+import { typingCodeFasterGuide } from "./typing-code-faster";
 import { typingNumbersAndSymbolsGuide } from "./typing-numbers-and-symbols";
 import { typingPostureAndErgonomicsGuide } from "./typing-posture-and-ergonomics";
 import { whatIsAGoodTypingSpeedGuide } from "./what-is-a-good-typing-speed";
@@ -23,6 +24,7 @@ export const GUIDES: Guide[] = [
   choosingAKeyboardForTypingGuide,
   fifteenMinuteDailyTypingRoutineGuide,
   typingNumbersAndSymbolsGuide,
+  typingCodeFasterGuide,
 ];
 
 export function getAllGuides(): Guide[] {
