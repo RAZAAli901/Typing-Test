@@ -1,4 +1,5 @@
 import { choosingAKeyboardForTypingGuide } from "./choosing-a-keyboard-for-typing";
+import { fifteenMinuteDailyTypingRoutineGuide } from "./15-minute-daily-typing-routine";
 import { homeRowAndFingerPlacementGuide } from "./home-row-and-finger-placement";
 import { howToImproveTypingSpeedGuide } from "./how-to-improve-typing-speed";
 import { qwertyDvorakColemakGuide } from "./qwerty-dvorak-colemak";
@@ -19,6 +20,7 @@ export const GUIDES: Guide[] = [
   typingPostureAndErgonomicsGuide,
   qwertyDvorakColemakGuide,
   choosingAKeyboardForTypingGuide,
+  fifteenMinuteDailyTypingRoutineGuide,
 ];
 
 export function getAllGuides(): Guide[] {
