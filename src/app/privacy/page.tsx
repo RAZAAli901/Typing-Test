@@ -72,6 +72,26 @@ export default function PrivacyPage() {
 
       <section id="gameplay-data" className="space-y-3">
         <h2 className="text-xl font-bold text-crt-primary">3. Gameplay and Leaderboard Data</h2>
+        <p>
+          When you complete a typing speed test on TypeMaster, our servers compute and record your performance metrics:
+        </p>
+        <ul className="list-disc list-inside space-y-2 text-zinc-300">
+          <li>
+            <strong>Test Metrics:</strong> Net Words Per Minute (WPM), Gross WPM, accuracy percentage, test duration in seconds, character count, and mistake tallies.
+          </li>
+          <li>
+            <strong>Test Configuration:</strong> The specific practice mode chosen (such as Standard, Numbers, Quotes, Code Snippet, or Daily Challenge) and target text length.
+          </li>
+          <li>
+            <strong>Guest Display Names:</strong> Visitors who choose to test without creating an account may optionally submit an arbitrary guest display name to identify their test on the leaderboard.
+          </li>
+          <li>
+            <strong>Anti-Cheat Tokens:</strong> Temporary practice session tokens cryptographically paired with randomized target texts ensure score validity and prevent simulated or automated score injection.
+          </li>
+        </ul>
+        <div className="bg-zinc-900 border-l-4 border-crt-primary p-4 my-3 text-sm text-zinc-300">
+          <strong className="text-crt-primary">Public Leaderboard Disclosure:</strong> Your username (or guest display name), avatar picture, typing mode, net speed, accuracy, and test submission timestamp are published to the public Global Leaderboard and public user profile pages. Do not use your real legal name or confidential identifiers in your username or guest display name.
+        </div>
       </section>
 
       <section id="technical-data" className="space-y-3">
