@@ -244,11 +244,11 @@ export default function StatsClient() {
     <div className="max-w-4xl mx-auto py-8 px-4 space-y-8 font-vt323 text-lg text-crt-dim select-none">
       {!username ? (
         /* Claim Username Flow Screen */
-        <div className="max-w-md mx-auto py-12 font-vt323 text-lg text-crt-dim">
+        <div className="max-w-lg mx-auto py-8 font-vt323 text-lg text-crt-dim space-y-6">
           <div className="bg-[#080808] border-2 border-crt-dim/40 rounded p-8 space-y-6 shadow-[0_0_20px_rgba(0,0,0,0.9)] text-center">
             <Icon name="user" size={40} className="mx-auto text-crt-primary drop-shadow-[0_0_6px_var(--color-crt-primary)] animate-pulse" />
             <div className="space-y-2">
-              <h2 className="text-2xl font-black text-crt-primary uppercase drop-shadow-[0_0_4px_var(--color-crt-primary)]">CLAIM COMPETITOR ID</h2>
+              <h2 className="text-3xl font-black text-crt-primary uppercase drop-shadow-[0_0_4px_var(--color-crt-primary)]">CLAIM COMPETITOR ID</h2>
               <p className="text-sm text-crt-dim leading-relaxed uppercase">
                 Choose a unique identity to save your scores to the global leaderboard and track your personal statistics.
               </p>
@@ -282,6 +282,48 @@ export default function StatsClient() {
                 <Icon name="play" size={16} />
               </Button>
             </form>
+
+            <div className="pt-4 border-t border-crt-dim/30 space-y-3 font-mono text-xs">
+              <div className="text-crt-dim">
+                Prefer a password-secured account with cloud sync?
+              </div>
+              <div className="flex justify-center gap-3">
+                <Link
+                  href="/login"
+                  className="px-3 py-1.5 border border-crt-dim/50 rounded hover:border-crt-primary text-crt-primary transition-colors uppercase font-bold"
+                >
+                  Log In &rarr;
+                </Link>
+                <Link
+                  href="/signup"
+                  className="px-3 py-1.5 border border-crt-primary/50 bg-crt-primary/10 rounded hover:bg-crt-primary/20 text-crt-primary transition-colors uppercase font-bold"
+                >
+                  Sign Up Free &rarr;
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Guest and Benefits Card */}
+          <div className="bg-[#080808] border border-crt-dim/30 rounded p-5 space-y-3 font-mono text-xs">
+            <h3 className="font-bold text-crt-primary uppercase flex items-center gap-2">
+              <Icon name="info" size={14} className="text-crt-primary" />
+              <span>Why Track Your Typing Statistics?</span>
+            </h3>
+            <ul className="space-y-1.5 text-crt-dim list-disc pl-5">
+              <li>Monitor your Net WPM velocity trajectory across 8 distinct practice modes.</li>
+              <li>Compete on real-time global leaderboards backed by Supabase PostgreSQL.</li>
+              <li>Benchmark accuracy and identify troublesome letter transitions and pauses.</li>
+              <li>Guest test runs in this browser are automatically linked once you claim an ID.</li>
+            </ul>
+            <div className="pt-2 text-center">
+              <Link
+                href="/play"
+                className="text-crt-primary hover:underline font-bold"
+              >
+                Start Typing Immediately as a Guest &rarr;
+              </Link>
+            </div>
           </div>
         </div>
       ) : (
