@@ -23,9 +23,12 @@ export default function AppClientWrapper({ children }: AppClientWrapperProps) {
     return () => clearInterval(titleInterval);
   }, []);
 
-  if (booting) {
-    return <RetroBootScreen onComplete={handleBootComplete} />;
-  }
-
-  return <TooltipProvider>{children}</TooltipProvider>;
+  return (
+    <TooltipProvider>
+      {booting && <RetroBootScreen onComplete={handleBootComplete} />}
+      <div id="app-content-root">
+        {children}
+      </div>
+    </TooltipProvider>
+  );
 }
